@@ -26,7 +26,7 @@
 
         <activity
             android:name="wait4u.littlewing.paxbritan.android.ArchAngelLauncher"
-            android:label="SnowBallFight"
+            android:label="Arch Angel"
             android:configChanges="keyboard|keyboardHidden|orientation"
             android:screenOrientation="portrait" >
             <intent-filter>

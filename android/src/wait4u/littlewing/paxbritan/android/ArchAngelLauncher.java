@@ -11,7 +11,7 @@ public class ArchAngelLauncher extends AndroidApplication {
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 //		initialize(new SbfSplashScreenGame(), config);
-		initialize(new wait4u.littlewing.snowballfight.SnowBallFight(), config);
+		initialize(new wait4u.littlewing.archangel.ArchAngel(), config);
 //		initialize(new AnimationScreen1(), config);
 	}
 }
