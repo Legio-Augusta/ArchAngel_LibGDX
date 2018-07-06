@@ -317,7 +317,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
             screen = 6;
         }
         else if (screen == -2) {
-            game.setScreen(new SamsungFunclubScreen(game));
+            game.setScreen(new NewGameScreen(game));
         }
         else if (screen == 1000) {
             drawAllClear();
