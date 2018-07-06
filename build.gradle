@@ -11,8 +11,6 @@ buildscript {
 
     ext {
         gdxVersion = json.libgdxSnapshot
-        roboVMVersion = json.robovmVersion
-        roboVMGradleVersion = json.robovmPluginVersion
         androidToolsVersion = json.androidBuildtoolsVersion
         androidSDKVersion = json.androidSDKVersion
         androidGradleToolsVersion = json.androidGradleToolVersion
@@ -28,20 +26,19 @@ buildscript {
     }
 
     dependencies {
-        classpath "de.richsource.gradle.plugins:gwt-gradle-plugin:$gwtGradleVersion"
-        classpath 'com.android.tools.build:gradle:3.0.1'
-        classpath "com.mobidevelop.robovm:robovm-gradle-plugin:$roboVMGradleVersion"
+        classpath "de.richsource.gradle.plugins:gwt-gradle-plugin:0.6"
+        classpath 'com.android.tools.build:gradle:3.1.3'
+        classpath 'org.codehaus.groovy:gradle-groovy-android-plugin:0.3.5'
         classpath "com.excelsiorjet:excelsior-jet-gradle-plugin:0.7.0"
     }
 }
 
 allprojects {
-    apply plugin: "eclipse"
     apply plugin: "idea"
 
     version = "1.0"
     ext {
-        appName = "Pax-Britannica"
+        appName = "ArchAngel"
     }
 
     repositories {
@@ -68,13 +65,7 @@ project(":android") {
     dependencies {
         compile project(":core")
         compile "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
-        natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
     }
-}
-
-
-tasks.eclipse.doLast {
-    delete ".project"
 }
