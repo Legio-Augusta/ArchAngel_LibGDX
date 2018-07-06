@@ -16,20 +16,17 @@ import wait4u.littlewing.archangel.OverlapTester;
  * Created by Admin on 11/28/2017.
  */
 
-public class TitleMenuScreen extends DefaultScreen {
+public class GameModeScreen extends DefaultScreen {
     // TODO handle touch event in button like position
-    Texture imgMM;
-    Texture title;
-    Texture imgPl;
-    Texture imgBk;
-    Texture samsung_blue;
+    Texture archangel, steelbar_up, steelbar_down;
+    Texture select_easy, select_hard, select0, select1, select_chose;
     Vector3 touchPoint;
 
     SpriteBatch batch;
     float time = 0;
     public Music music = Gdx.audio.newMusic(Gdx.files.internal("data/audio/Donald_Christmas.mp3"));
 
-    public TitleMenuScreen(Game game) {
+    public GameModeScreen(Game game) {
         super(game);
         touchPoint = new Vector3();
     }
@@ -37,13 +34,17 @@ public class TitleMenuScreen extends DefaultScreen {
     @Override
     public void show() {
         // TODO handle screen ratio
-        imgMM = new Texture("data/samsung-white/mm.png");
-        title = new Texture("data/samsung-white/title.png");
-        imgPl = new Texture("data/samsung-white/play.png");
-        imgBk = new Texture("data/samsung-white/bk.png");
-        samsung_blue = new Texture("data/samsung-white/samsung_blue.png");
+        steelbar_up = new Texture(Gdx.files.internal("data/samsung-white/steelbar_menu_up.png")); // 240x20
+        steelbar_down = new Texture(Gdx.files.internal("data/samsung-white/steelbar_menu_down.png")); // 240x20
+        archangel = new Texture(Gdx.files.internal("data/samsung-white/archangel_text.png")); // 195x30 <-> 877x135
+
+        select0 = new Texture(Gdx.files.internal("data/samsung-white/select0.png")); // 205x42 <-> 922x189
+        select1 = new Texture(Gdx.files.internal("data/samsung-white/select1.png")); // 205x42 <-> 922x189
+        select_chose = new Texture(Gdx.files.internal("data/samsung-white/select_chose.png")); // 160x26 <-> 720x117
+        select_easy = new Texture(Gdx.files.internal("data/samsung-white/select_easy.png")); // 130x17 <-> 585x76
+        select_hard = new Texture(Gdx.files.internal("data/samsung-white/select_hard.png")); // 130x17 <-> 585x76
         batch = new SpriteBatch();
-            }
+    }
 
     @Override
     public void render(float delta) {
@@ -58,13 +59,22 @@ public class TitleMenuScreen extends DefaultScreen {
             }
         }
         batch.begin();
-        batch.draw(samsung_blue, 0, 0, SCREEN_HEIGHT, SCREEN_HEIGHT);
-        batch.draw(imgMM, 0, 480);
-        batch.draw(title, 90, 300+480);
-        batch.draw(imgPl, SCREEN_WIDTH-imgPl.getWidth(), 480);
-        batch.draw(imgBk, 0, 480);
+        batch.draw(steelbar_down, 0, 1420+(90 + 135 + 40*2));
+        // TODO use ratio for multi-screen size
+        batch.draw(archangel, 100, 1420+90+40);
+        batch.draw(steelbar_up, 0, 1420);
+
+        batch.draw(select0, 0, SCREEN_HEIGHT/2);
+        batch.draw(select1, (SCREEN_WIDTH-select1.getWidth()), 510);
+        batch.draw(select_chose, (select0.getWidth()-select_chose.getWidth()-20), SCREEN_HEIGHT/2+60);
+        batch.draw(select_easy, (select0.getWidth()-select_easy.getWidth()-110), SCREEN_HEIGHT/2+80);
+        batch.draw(select_hard, (SCREEN_WIDTH-select1.getWidth()+80), 510+80);
+
+        batch.draw(steelbar_down, 0, 420);
+        batch.draw(steelbar_down, 0, 330);
         batch.end();
 
+        /*
         if (Gdx.input.justTouched()) {
             // TODO use global var ie. screen or just pass value in constructor
             touchPoint.set(Gdx.input.getX(),Gdx.input.getY(), 0);
@@ -79,16 +89,19 @@ public class TitleMenuScreen extends DefaultScreen {
                 // options
                 //game.setScreen(new VillageScreen(game)); // Configurations screen
             }
-        }
+        }*/
     }
 
     @Override
     public void hide() {
         batch.dispose();
-        imgMM.dispose();
-        title.dispose();
-        imgPl.dispose();
-        imgBk.dispose();
-        //music.dispose();
+        steelbar_down.dispose();
+        steelbar_up.dispose();
+        archangel.dispose();
+        select0.dispose();
+        select1.dispose();
+        select_chose.dispose();
+        select_easy.dispose();
+        select_hard.dispose();
     }
 }

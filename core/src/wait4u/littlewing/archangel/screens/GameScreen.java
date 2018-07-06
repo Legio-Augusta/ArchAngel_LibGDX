@@ -326,7 +326,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
             drawManualScreen();
         }
         else if (screen == 1) {
-            game.setScreen(new TitleMenuScreen(game));
+            game.setScreen(new GameModeScreen(game));
         }
 
         run();

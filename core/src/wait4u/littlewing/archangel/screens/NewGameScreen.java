@@ -2,8 +2,6 @@ package wait4u.littlewing.archangel.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -61,7 +59,7 @@ public class NewGameScreen extends DefaultScreen {
         batch.end();
 
         if (Gdx.input.justTouched()) {
-            game.setScreen(new TitleMenuScreen(game));
+            game.setScreen(new GameModeScreen(game));
         }
     }
 
