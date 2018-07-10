@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -13,36 +14,38 @@ import com.badlogic.gdx.math.Vector3;
 import wait4u.littlewing.archangel.OverlapTester;
 
 /**
- * Created by Admin on 11/28/2017.
+ * Created by Nick Farrow on 07/10/2018.
  */
 
-public class GameModeScreen extends DefaultScreen {
+public class MissionOneScreen extends DefaultScreen {
     // TODO handle touch event in button like position
     Texture archangel, steelbar_up, steelbar_down;
-    Texture select_easy, select_hard, select0, select1, select_chose;
+    Texture menu_highlight, menu_mission;
     Vector3 touchPoint;
+    BitmapFont font;
 
     SpriteBatch batch;
     float time = 0;
-    public Music music = Gdx.audio.newMusic(Gdx.files.internal("data/audio/m_briefing.mp3"));
+    public Music music = Gdx.audio.newMusic(Gdx.files.internal("data/audio/FF_done_sound.wav"));
 
-    public GameModeScreen(Game game) {
+    public MissionOneScreen(Game game) {
         super(game);
         touchPoint = new Vector3();
     }
 
     @Override
     public void show() {
+        font = new BitmapFont();
+        font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        font.getData().setScale(6);
+
         // TODO handle screen ratio
         steelbar_up = new Texture(Gdx.files.internal("data/samsung-white/steelbar_menu_up.png")); // 240x20
         steelbar_down = new Texture(Gdx.files.internal("data/samsung-white/steelbar_menu_down.png")); // 240x20
         archangel = new Texture(Gdx.files.internal("data/samsung-white/archangel_text.png")); // 195x30 <-> 877x135
+        menu_mission = new Texture(Gdx.files.internal("data/samsung-white/menu_mission.png")); // 206x24 <-> 827x108
+        menu_highlight = new Texture(Gdx.files.internal("data/samsung-white/menu_highlight.png")); // 158x20 <-> 711x90
 
-        select0 = new Texture(Gdx.files.internal("data/samsung-white/select0.png")); // 205x42 <-> 922x189
-        select1 = new Texture(Gdx.files.internal("data/samsung-white/select1.png")); // 205x42 <-> 922x189
-        select_chose = new Texture(Gdx.files.internal("data/samsung-white/select_chose.png")); // 160x26 <-> 720x117
-        select_easy = new Texture(Gdx.files.internal("data/samsung-white/select_easy.png")); // 130x17 <-> 585x76
-        select_hard = new Texture(Gdx.files.internal("data/samsung-white/select_hard.png")); // 130x17 <-> 585x76
         batch = new SpriteBatch();
     }
 
@@ -64,11 +67,9 @@ public class GameModeScreen extends DefaultScreen {
         batch.draw(archangel, 100, 1420+90+40);
         batch.draw(steelbar_up, 0, 1420);
 
-        batch.draw(select0, 0, SCREEN_HEIGHT/2);
-        batch.draw(select1, (SCREEN_WIDTH-select1.getWidth()), 510);
-        batch.draw(select_chose, (select0.getWidth()-select_chose.getWidth()-20), SCREEN_HEIGHT/2+60);
-        batch.draw(select_easy, (select0.getWidth()-select_easy.getWidth()-110), SCREEN_HEIGHT/2+80);
-        batch.draw(select_hard, (SCREEN_WIDTH-select1.getWidth()+80), 510+80);
+        batch.draw(menu_mission, 184, 1420); // TODO scale ratio 1080/240 or SCREEN_WIDTH/240
+        batch.draw(menu_highlight, 75, 1220);
+        font.draw(batch, "Mission start", 321, 1320);
 
         batch.draw(steelbar_down, 0, 420);
         batch.draw(steelbar_down, 0, 330);
@@ -91,7 +92,7 @@ public class GameModeScreen extends DefaultScreen {
             }
         }*/
         if (Gdx.input.justTouched()) {
-            game.setScreen(new BriefOneScreen(game));
+            game.setScreen(new MissionOneBriefing(game));
         }
     }
 
@@ -101,10 +102,5 @@ public class GameModeScreen extends DefaultScreen {
         steelbar_down.dispose();
         steelbar_up.dispose();
         archangel.dispose();
-        select0.dispose();
-        select1.dispose();
-        select_chose.dispose();
-        select_easy.dispose();
-        select_hard.dispose();
     }
 }
