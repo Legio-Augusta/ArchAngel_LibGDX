@@ -2,14 +2,11 @@ package wait4u.littlewing.archangel.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
-import wait4u.littlewing.archangel.OverlapTester;
 
 /**
  * Created by Nick Farrow on 07/10/2018.
@@ -81,7 +78,7 @@ public class MissionOneBriefing extends DefaultScreen {
         batch.end();
 
         if (Gdx.input.justTouched()) {
-            game.setScreen(new GameScreen(game, 6, 1));
+            game.setScreen(new SBFGameScreen(game, 6, 1));
         }
     }
 

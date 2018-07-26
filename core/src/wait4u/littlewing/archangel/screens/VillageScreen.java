@@ -2,7 +2,6 @@ package wait4u.littlewing.archangel.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -74,29 +73,29 @@ public class VillageScreen extends DefaultScreen {
 
             if(OverlapTester.pointInRectangle(easternBoy, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) )) {
                 Gdx.input.vibrate(5);
-                game.setScreen(new GameScreen(game, 6, 1));
+                game.setScreen(new SBFGameScreen(game, 6, 1));
             }
             if(OverlapTester.pointInRectangle(southernBoy, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) )) {
                 Gdx.input.vibrate(5);
-                game.setScreen(new GameScreen(game, 6, 2));
+                game.setScreen(new SBFGameScreen(game, 6, 2));
             }
             if(OverlapTester.pointInRectangle(westernBoy, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) )) {
                 Gdx.input.vibrate(5);
-                game.setScreen(new GameScreen(game, 6, 3));
+                game.setScreen(new SBFGameScreen(game, 6, 3));
             }
             if(OverlapTester.pointInRectangle(northernBoy, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) )) {
                 Gdx.input.vibrate(5);
-                game.setScreen(new GameScreen(game, 6, 4));
+                game.setScreen(new SBFGameScreen(game, 6, 4));
             }
 
 
             Rectangle selectButtonBound = new Rectangle(10, 480, SCREEN_WIDTH/2-32, 100);
             Rectangle optionsButtonBound = new Rectangle(SCREEN_WIDTH/2+12, 480, SCREEN_WIDTH/2-12, 100);
             if(OverlapTester.pointInRectangle(selectButtonBound, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) )) {
-                game.setScreen(new GameScreen(game, 6, 1));
+                game.setScreen(new SBFGameScreen(game, 6, 1));
             } else if(OverlapTester.pointInRectangle(optionsButtonBound, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) )) {
                 Gdx.input.vibrate(5);
-                game.setScreen(new GameScreen(game, 6, 1));
+                game.setScreen(new SBFGameScreen(game, 6, 1));
             }
         }
     }
