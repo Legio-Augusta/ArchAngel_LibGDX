@@ -52,7 +52,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
     public int ae;
     public int af;
     public int ag;
-    public boolean bool_ah;
+    public boolean gameOff;
     public final ArchAngelME archAngel;
 
     public GameHelper helper = new GameHelper();
@@ -109,8 +109,21 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
     BitmapFont font;
     private Music music;
 
-    public void keyPressed(int paramInt)
+    /*
+     *    https://docs.oracle.com/javame/config/cldc/ref-impl/midp2.0/jsr118/constant-values.html#javax.microedition.lcdui.Canvas.UP
+     *    key code = -5 game action = 8 OK
+     *    key code = 35 game action = 0 #
+     *    key code = -2 game action = 6 DOWN
+     *    key code = -4 game action = 5 LEFT
+     *    key code = -1 game action = 1 UP ~ OK
+     *    key code = 35 game action = 0 #
+     *    key code = 49 game action = 9 KEY_2 = UP ?
+     *    key code = 51 game action = 10 KEY_3 (use item)
+     *    key code = -7 game action = 0 RIGHT_MENU
+     */
+    public void keyPressed()
     {
+        int paramInt = 0;
         int i1 = getGameAction(paramInt);
         if (this.archAngel.bool_h) {
             return;
@@ -616,93 +629,8 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         }
     }
 
-    public void paint(SpriteBatch paramGraphics)
+    public void paint(SpriteBatch paramGraphics) // J2ME
     {
-        if (this.bool_ah) { // like GameOff, true then stop paint
-//      System.out.println(">>>>> paint stop <<<<<");
-            // Paint done ? can it just remove return to debug
-            return;
-        }
-        this.bool_ah = true;
-        this.archAngel.x += 1;
-        if (this.archAngel.screen != this.archAngel.y)
-        {
-            this.archAngel.x = 0;
-            this.archAngel.z = 0;
-            this.archAngel.aa = 0;
-            this.archAngel.p = -1;
-            this.bool_b = true;
-            this.archAngel.y = this.archAngel.screen;
-            this.archAngel.bool_i = false;
-        }
-        else if (this.archAngel.z != this.archAngel.aa)
-        {
-            this.archAngel.x = 0;
-            this.archAngel.aa = this.archAngel.z;
-        }
-        switch (this.archAngel.screen)
-        {
-            case 25:
-                this.secondHelper.draw_game_play_screen(paramGraphics, this.aa, this.ab, this.ac, this.ad, this.ae, this.af, this.ag, this.l,
-                        this.bool_b, this.bool_z, this.archAngel);
-                break;
-            case 0:
-                this.secondHelper.draw_intro(paramGraphics, this.archAngel);
-                break;
-            case 3:
-                this.helper.loadSavedGame(paramGraphics, this.l, this.archAngel);
-                break;
-            case 1:
-                this.secondHelper.load_system_txt(paramGraphics, this.l, this.o, this.p, this.q, this.t, this.x, this.y, this.str_arr_w, this.archAngel, this.readText, this.helper);
-                break;
-            case 5:
-                this.secondHelper.draw_warning_etc_menu(paramGraphics, this.l, this.archAngel);
-                break;
-            case 13:
-                this.secondHelper.goto_menu(paramGraphics, this.o, this.p, this.q, this.t, this.x, this.str_arr_w, this.archAngel, this.readText, this.helper);
-                break;
-            case 14:
-                draw_resume(paramGraphics);
-                break;
-            case 9:
-                if (this.archAngel.gameSetting.c != this.archAngel.gameSetting.b) {
-                    this.secondHelper.draw_start_option(paramGraphics, this.o, this.p, this.archAngel);
-                } else {
-                    this.archAngel.screen = 25;
-                }
-                break;
-            case 8:
-                this.secondHelper.draw_start_option(paramGraphics, this.o, this.p, this.archAngel);
-                break;
-            case 10:
-                this.helper.draw_system_setin(paramGraphics, this.l, this.o, this.p, this.q, this.t, this.x, this.y, this.str_arr_w, this.archAngel, this.readText);
-                break;
-            case 11:
-                draw_shop_info_arm(paramGraphics);
-                break;
-            case 12:
-                draw_shop_arm2(paramGraphics);
-                break;
-            case 4:
-                this.helper.briefAbout(paramGraphics, this.o, this.p, this.l, this.archAngel);
-                break;
-            case 26:
-                this.helper.briefOpen(paramGraphics, this.o, this.p, this.archAngel);
-                break;
-            case 2:
-                simple_read_helper(paramGraphics);
-                break;
-            case 7:
-                this.helper.displayGameOver(paramGraphics, this.archAngel);
-                break;
-            case 6:
-                this.secondHelper.draw_font_result(paramGraphics, this.archAngel, this.helper);
-                break;
-            case 27:
-                this.helper.loadBrief1(paramGraphics, this.o, this.p, this.archAngel);
-                break;
-        }
-        this.bool_ah = false;
     }
 
     public GameScreen(ArchAngelME paramArchAngel, Game game)
@@ -736,7 +664,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         this.ae = 0;
         this.af = 0;
         this.ag = 0;
-        this.bool_ah = false;
+        this.gameOff = false;
 
         Gdx.input.setCatchBackKey( true );
         Gdx.input.setInputProcessor(this);
@@ -1000,6 +928,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
 
     public void run()
     {
+        /*
         for (;;)
         {
             try
@@ -1016,7 +945,92 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
             catch (Exception localException) {
                 System.out.println(">>>>> run exception <<<<<");
             }
+        }*/
+        if (this.gameOff) { // like GameOff, true then stop paint
+//      System.out.println(">>>>> paint stop <<<<<");
+            // Paint done ? can it just remove return to debug
+            return;
         }
+        this.gameOff = true;
+        this.archAngel.x += 1;
+        if (this.archAngel.screen != this.archAngel.y)
+        {
+            this.archAngel.x = 0;
+            this.archAngel.z = 0;
+            this.archAngel.aa = 0;
+            this.archAngel.p = -1;
+            this.bool_b = true;
+            this.archAngel.y = this.archAngel.screen;
+            this.archAngel.bool_i = false;
+        }
+        else if (this.archAngel.z != this.archAngel.aa)
+        {
+            this.archAngel.x = 0;
+            this.archAngel.aa = this.archAngel.z;
+        }
+        switch (this.archAngel.screen)
+        {
+            case 25:
+                this.secondHelper.draw_game_play_screen(batch, this.aa, this.ab, this.ac, this.ad, this.ae, this.af, this.ag, this.l,
+                        this.bool_b, this.bool_z, this.archAngel);
+                break;
+            case 0:
+                this.secondHelper.draw_intro(batch, this.archAngel);
+                break;
+            case 3:
+                this.helper.loadSavedGame(batch, this.l, this.archAngel);
+                break;
+            case 1:
+                this.secondHelper.load_system_txt(batch, this.l, this.o, this.p, this.q, this.t, this.x, this.y, this.str_arr_w, this.archAngel, this.readText, this.helper);
+                break;
+            case 5:
+                this.secondHelper.draw_warning_etc_menu(batch, this.l, this.archAngel);
+                break;
+            case 13:
+                this.secondHelper.goto_menu(batch, this.o, this.p, this.q, this.t, this.x, this.str_arr_w, this.archAngel, this.readText, this.helper);
+                break;
+            case 14:
+                draw_resume(batch);
+                break;
+            case 9:
+                if (this.archAngel.gameSetting.c != this.archAngel.gameSetting.b) {
+                    this.secondHelper.draw_start_option(batch, this.o, this.p, this.archAngel);
+                } else {
+                    this.archAngel.screen = 25;
+                }
+                break;
+            case 8:
+                this.secondHelper.draw_start_option(batch, this.o, this.p, this.archAngel);
+                break;
+            case 10:
+                this.helper.draw_system_setin(batch, this.l, this.o, this.p, this.q, this.t, this.x, this.y, this.str_arr_w, this.archAngel, this.readText);
+                break;
+            case 11:
+                draw_shop_info_arm(batch);
+                break;
+            case 12:
+                draw_shop_arm2(batch);
+                break;
+            case 4:
+                this.helper.briefAbout(batch, this.o, this.p, this.l, this.archAngel);
+                break;
+            case 26:
+                this.helper.briefOpen(batch, this.o, this.p, this.archAngel);
+                break;
+            case 2:
+                simple_read_helper(batch);
+                break;
+            case 7:
+                this.helper.displayGameOver(batch, this.archAngel);
+                break;
+            case 6:
+                this.secondHelper.draw_font_result(batch, this.archAngel, this.helper);
+                break;
+            case 27:
+                this.helper.loadBrief1(batch, this.o, this.p, this.archAngel);
+                break;
+        }
+        this.gameOff = false;
     }
 
     public void draw_lack_of(SpriteBatch paramGraphics, int paramInt)
@@ -1048,6 +1062,27 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        batch.begin();
+        // TODO use boundingBox and touchAreas
+        // TODO find where touch event (dragged) call, can it be overrided ?
+        // BoundingBox can be use Rectangle as alternative ?
+        // convert touch event to key event (getGameAction)
+        touchPoint.set(Gdx.input.getX(),Gdx.input.getY(), 0);
+
+        Gdx.app.log("INFO", "touch " + touchPoint.x + " y "+ (SCREEN_HEIGHT-touchPoint.y) + " bound x "+ upBtnRect.toString() + " saved "+ downBtnRect.toString());
+        game_action = getGameAction();
+
+        // Fire button touched
+        Rectangle textureBounds = new Rectangle(SCREEN_WIDTH-fireBtnTexture.getWidth()-50, SCREEN_HEIGHT-50-fireBtnTexture.getHeight(), fireBtnTexture.getWidth(),fireBtnTexture.getHeight());
+        if(textureBounds.contains(touchPoint.x, touchPoint.y)) {
+            game_action = GAME_ACTION_OK;
+        }
+
+        // Use rectangle instead of collisionRay. TODO fix collisionRay null and multiplex many Gdx.input
+        // TODO May be use OverlapTester Class for these task
+        keyPressed();
+        batch.end();
+
         return false;
     }
 
@@ -1163,8 +1198,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
 
         Gdx.input.setInputProcessor(this);
 
-//        loadTextures();
-//        initHeroTexture();
+        loadTextures();
         //initEnemy();
 
         font = new BitmapFont();
@@ -1186,5 +1220,25 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
 //        state = 2;
         // startThread();
 //        gameOn = true;
+    }
+
+    private void loadTextures() {
+        fireBtnTexture = new Texture("samsung-white/fire.png");
+
+        /**
+         * #0 for red
+         * #1 for light blue, #3 light blue 2 6DCFF6
+         * #2 for light yellow, #4 gray 93959A #5 for white
+         */
+        imgColor = new Texture[6];
+        for (int i = 0; i < 6; i++) {
+            imgColor[i] = new Texture("samsung-white/color-" + i + ".png");
+        }
+
+        imgKeyNum3 = new Texture("samsung-white/use_item_btn.png");
+        imgSpeedUp = new Texture("samsung-white/speed_up.png");
+        imgSpeedDown = new Texture("samsung-white/speed_down.png");
+        touch_pad = new Texture("gui/touchBackground.png");
+        touch_pad_knob = new Texture("gui/touchKnob.png");
     }
 }

@@ -13,11 +13,11 @@
     
     <application
         android:icon="@drawable/ic_launcher"
-        android:label="SnowBallFight"
+        android:label="Arch Angel"
         android:theme="@style/AppTheme" >
 
         <activity
-            android:name="wait4u.littlewing.paxbritan.android.ArchAngelLauncher"
+            android:name="wait4u.littlewing.android.ArchAngelLauncher"
             android:label="Arch Angel"
             android:configChanges="keyboard|keyboardHidden|orientation"
             android:screenOrientation="portrait" >

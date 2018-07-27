@@ -122,6 +122,9 @@ public class ReadMedia
         mySetClip(paramGraphics);
     }
 
+    // TODO debug to figure out how to load image to array[120] and clean
+    // The order of load is important because of index in array depend on how many item has been loaded already.
+    // For example plasma has 24 sprite image, enermy has 9 ...
     public void reloadImageArr(int paramInt1, int paramInt2)
     {
         this.img_arr_a[paramInt2] = null;
@@ -173,8 +176,9 @@ public class ReadMedia
     public void drawStringImage(String paramString, int paramInt1, SpriteBatch paramGraphics, int paramInt2, int paramInt3)
     {
         readMediaStream(paramString);
-        paramGraphics.draw(loadImage(paramInt1), paramInt2, paramInt3); //20
-        closeInputStream();
+//        paramGraphics.draw(loadImage(paramInt1), paramInt2, paramInt3); //20
+        paramGraphics.draw(this.img_arr_a[paramInt1], paramInt2, paramInt3); //20
+//        closeInputStream();
     }
 
     public void drawLoadImage(int paramInt1, SpriteBatch paramGraphics, int paramInt2, int paramInt3)
@@ -194,42 +198,27 @@ public class ReadMedia
     }
 
     /**
-     *
      * @param paramString
      *  aa.msr => 00 - 18
-    background0.msr  10
-    background1.msr 10
-    background2.msr 10
-    boss0.msr 8
-    boss1.msr 8
-    boss2.msr 8
-    boss3.msr 8
-    boss4.msr 8
-    boss5.msr 8
-    boss6.msr 8
-    boss7.msr 8
-    brief.msr 0-3
-    effect.msr 12
-    end.msr 01
-    enermy0.msr 8
-    enermy1.msr 8
-    enermy2.msr 8
-    enermy3.msr 8
-    etc.msr 3
-    fence0.msr 8
-    fence1.msr 8
-    fence2.msr 8
-    font.msr 5
-    intro.msr 00
-    logo.msr 2
-    menu.msr 3
-    open.msr 00
-    plasma.msr 23
-    result.msr 2
-    select.msr 6
-    shop.msr 2
-    shot.msr 8
-    ui.msr 2
+        background0.msr  10
+        boss0.msr 8
+        brief.msr 0-3
+        effect.msr 12
+        end.msr 01
+        enermy0.msr 8
+        etc.msr 3
+        fence0.msr 8
+        font.msr 5
+        intro.msr 00
+        logo.msr 2
+        menu.msr 3
+        open.msr 00
+        plasma.msr 23
+        result.msr 2
+        select.msr 6
+        shop.msr 2
+        shot.msr 8
+        ui.msr 2
      */
     public void readMediaStream(String paramString)
     {

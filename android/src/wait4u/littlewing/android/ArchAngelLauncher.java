@@ -1,4 +1,4 @@
-package wait4u.littlewing.paxbritan.android;
+package wait4u.littlewing.android;
 
 import android.os.Bundle;
 
