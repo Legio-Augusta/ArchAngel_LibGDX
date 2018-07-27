@@ -24,7 +24,7 @@ public class GameModeScreen extends DefaultScreen {
 
     SpriteBatch batch;
     float time = 0;
-    public Music music = Gdx.audio.newMusic(Gdx.files.internal("data/audio/m_briefing.mp3"));
+    public Music music = Gdx.audio.newMusic(Gdx.files.internal("audio/m_briefing.mp3"));
 
     public GameModeScreen(Game game) {
         super(game);
@@ -34,15 +34,15 @@ public class GameModeScreen extends DefaultScreen {
     @Override
     public void show() {
         // TODO handle screen ratio
-        steelbar_up = new Texture(Gdx.files.internal("data/samsung-white/steelbar_menu_up.png")); // 240x20
-        steelbar_down = new Texture(Gdx.files.internal("data/samsung-white/steelbar_menu_down.png")); // 240x20
-        archangel = new Texture(Gdx.files.internal("data/samsung-white/archangel_text.png")); // 195x30 <-> 877x135
+        steelbar_up = new Texture(Gdx.files.internal("samsung-white/steelbar_menu_up.png")); // 240x20
+        steelbar_down = new Texture(Gdx.files.internal("samsung-white/steelbar_menu_down.png")); // 240x20
+        archangel = new Texture(Gdx.files.internal("samsung-white/archangel_text.png")); // 195x30 <-> 877x135
 
-        select0 = new Texture(Gdx.files.internal("data/samsung-white/select0.png")); // 205x42 <-> 922x189
-        select1 = new Texture(Gdx.files.internal("data/samsung-white/select1.png")); // 205x42 <-> 922x189
-        select_chose = new Texture(Gdx.files.internal("data/samsung-white/select_chose.png")); // 160x26 <-> 720x117
-        select_easy = new Texture(Gdx.files.internal("data/samsung-white/select_easy.png")); // 130x17 <-> 585x76
-        select_hard = new Texture(Gdx.files.internal("data/samsung-white/select_hard.png")); // 130x17 <-> 585x76
+        select0 = new Texture(Gdx.files.internal("samsung-white/select0.png")); // 205x42 <-> 922x189
+        select1 = new Texture(Gdx.files.internal("samsung-white/select1.png")); // 205x42 <-> 922x189
+        select_chose = new Texture(Gdx.files.internal("samsung-white/select_chose.png")); // 160x26 <-> 720x117
+        select_easy = new Texture(Gdx.files.internal("samsung-white/select_easy.png")); // 130x17 <-> 585x76
+        select_hard = new Texture(Gdx.files.internal("samsung-white/select_hard.png")); // 130x17 <-> 585x76
         batch = new SpriteBatch();
     }
 

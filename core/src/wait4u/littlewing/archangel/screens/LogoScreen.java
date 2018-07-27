@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import wait4u.littlewing.archangel.ArchAngelME;
+
 /**
  * Created by Admin on 11/28/2017.
  */
@@ -19,7 +21,7 @@ public class LogoScreen extends DefaultScreen {
     Texture logo, archangel, withmobile_n_wait4u, steelbar_up, steelbar_down;
     SpriteBatch batch;
     float time = 0;
-    public Music music = Gdx.audio.newMusic(Gdx.files.internal("data/audio/9.mid"));
+    public Music music = Gdx.audio.newMusic(Gdx.files.internal("audio/9.mid"));
 
     public LogoScreen(Game game) {
         super(game);
@@ -31,11 +33,11 @@ public class LogoScreen extends DefaultScreen {
         // logo = new TextureRegion(new Texture(Gdx.files.internal("data/samsung-white/logo.png")), 0, 0, 1080, 1122);
         batch = new SpriteBatch();
         // batch.getProjectionMatrix().setToOrtho2D(0, 0, 1080, 1122);
-        steelbar_up = new Texture(Gdx.files.internal("data/samsung-white/steelbar_menu_up.png")); // 240x20
-        steelbar_down = new Texture(Gdx.files.internal("data/samsung-white/steelbar_menu_down.png")); // 240x20
-        archangel = new Texture(Gdx.files.internal("data/samsung-white/archangel_text.png")); // 195x30 <-> 877x135
-        logo = new Texture(Gdx.files.internal("data/samsung-white/logo.png")); // 240x202 <-> 1080x909
-        withmobile_n_wait4u = new Texture(Gdx.files.internal("data/samsung-white/withmobile_wait4u.png")); // 240x20 <-> 1080x90
+        steelbar_up = new Texture(Gdx.files.internal("samsung-white/steelbar_menu_up.png")); // 240x20
+        steelbar_down = new Texture(Gdx.files.internal("samsung-white/steelbar_menu_down.png")); // 240x20
+        archangel = new Texture(Gdx.files.internal("samsung-white/archangel_text.png")); // 195x30 <-> 877x135
+        logo = new Texture(Gdx.files.internal("samsung-white/logo.png")); // 240x202 <-> 1080x909
+        withmobile_n_wait4u = new Texture(Gdx.files.internal("samsung-white/withmobile_wait4u.png")); // 240x20 <-> 1080x90
     }
 
     @Override
@@ -61,7 +63,9 @@ public class LogoScreen extends DefaultScreen {
 
         // TODO Click to start region blink
         if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY) || Gdx.input.justTouched()) {
-            game.setScreen(new NewGameScreen(game));
+//            game.setScreen(new NewGameScreen(game));
+            ArchAngelME archAngel = new ArchAngelME();
+            game.setScreen(new GameScreen(archAngel, game));
         }
     }
 

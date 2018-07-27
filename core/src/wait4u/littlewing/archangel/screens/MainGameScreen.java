@@ -17,7 +17,7 @@ public class MainGameScreen extends DefaultScreen implements Screen {
     public MainGameScreen(Game game) {
         super(game);
         batch = new SpriteBatch();
-        ttrSplash = new Texture("data/samsung-white/background.png");
+        ttrSplash = new Texture("samsung-white/background.png");
     }
 
     public void render(float delta) {

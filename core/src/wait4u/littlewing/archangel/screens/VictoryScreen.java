@@ -30,18 +30,18 @@ public class VictoryScreen extends DefaultScreen {
     // This require more complex constructor and Screen class data.
     public VictoryScreen(Game game) {
         super(game);
-        music = Gdx.audio.newMusic(Gdx.files.internal("data/audio/victory.mp3"));
+        music = Gdx.audio.newMusic(Gdx.files.internal("audio/victory.mp3"));
     }
 
     @Override
     public void show() {
-        imgVictory = new Texture("data/samsung-white/victory.png");
-        imgV = new Texture("data/samsung-white/v.png");
-        imgHero_v = new Texture("data/samsung-white/hero-vic.png");
+        imgVictory = new Texture("samsung-white/victory.png");
+        imgV = new Texture("samsung-white/v.png");
+        imgHero_v = new Texture("samsung-white/hero-vic.png");
 
-        imgBack = new Texture("data/samsung-white/back1.png");
-        snowWhiteBg = new Texture("data/samsung-white/white_bg.png");
-        ui = new Texture("data/samsung-white/ui.png");
+        imgBack = new Texture("samsung-white/back1.png");
+        snowWhiteBg = new Texture("samsung-white/white_bg.png");
+        ui = new Texture("samsung-white/ui.png");
 
         batch = new SpriteBatch();
     }
@@ -55,7 +55,7 @@ public class VictoryScreen extends DefaultScreen {
         int snowBoardHeight = VIEW_PORT_HEIGHT - ui.getHeight();
 
         if(music == null) {
-            music = Gdx.audio.newMusic(Gdx.files.internal("data/audio/victory.mp3"));
+            music = Gdx.audio.newMusic(Gdx.files.internal("audio/victory.mp3"));
         }
         music.setVolume(0.5f);
         if(!music.isPlaying()) {

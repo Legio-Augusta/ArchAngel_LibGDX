@@ -38,11 +38,11 @@ public class NewGameMenuScreen extends  DefaultScreen {
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         font.getData().setScale(6);
 
-        imgMM = new Texture("data/samsung-white/mm.png");
-        title = new Texture("data/samsung-white/title.png");
-        imgSl = new Texture("data/samsung-white/sl.png");
-        imgBk = new Texture("data/samsung-white/bk.png");
-        imgCh = new Texture("data/samsung-white/check.png");
+        imgMM = new Texture("samsung-white/mm.png");
+        title = new Texture("samsung-white/title.png");
+        imgSl = new Texture("samsung-white/sl.png");
+        imgBk = new Texture("samsung-white/bk.png");
+        imgCh = new Texture("samsung-white/check.png");
         samsung_blue = new Texture("data/samsung-white/samsung_blue.png");
         batch = new SpriteBatch();
     }

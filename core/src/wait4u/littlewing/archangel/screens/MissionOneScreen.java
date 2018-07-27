@@ -26,7 +26,7 @@ public class MissionOneScreen extends DefaultScreen {
 
     SpriteBatch batch;
     float time = 0;
-    public Music music = Gdx.audio.newMusic(Gdx.files.internal("data/audio/FF_done_sound.wav"));
+    public Music music = Gdx.audio.newMusic(Gdx.files.internal("audio/FF_done_sound.wav"));
 
     public MissionOneScreen(Game game) {
         super(game);
@@ -40,11 +40,11 @@ public class MissionOneScreen extends DefaultScreen {
         font.getData().setScale(6);
 
         // TODO handle screen ratio
-        steelbar_up = new Texture(Gdx.files.internal("data/samsung-white/steelbar_menu_up.png")); // 240x20
-        steelbar_down = new Texture(Gdx.files.internal("data/samsung-white/steelbar_menu_down.png")); // 240x20
-        archangel = new Texture(Gdx.files.internal("data/samsung-white/archangel_text.png")); // 195x30 <-> 877x135
-        menu_mission = new Texture(Gdx.files.internal("data/samsung-white/menu_mission.png")); // 206x24 <-> 827x108
-        menu_highlight = new Texture(Gdx.files.internal("data/samsung-white/menu_highlight.png")); // 158x20 <-> 711x90
+        steelbar_up = new Texture(Gdx.files.internal("samsung-white/steelbar_menu_up.png")); // 240x20
+        steelbar_down = new Texture(Gdx.files.internal("samsung-white/steelbar_menu_down.png")); // 240x20
+        archangel = new Texture(Gdx.files.internal("samsung-white/archangel_text.png")); // 195x30 <-> 877x135
+        menu_mission = new Texture(Gdx.files.internal("samsung-white/menu_mission.png")); // 206x24 <-> 827x108
+        menu_highlight = new Texture(Gdx.files.internal("samsung-white/menu_highlight.png")); // 158x20 <-> 711x90
 
         batch = new SpriteBatch();
     }
