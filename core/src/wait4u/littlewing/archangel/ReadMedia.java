@@ -20,6 +20,8 @@ public class ReadMedia
     public int int_bound_e = 0;
     public String msr_media;
 
+    private static int MOBI_SCL = (int)Gdx.graphics.getWidth()/120; // 120 or 128px from original J2ME resolution.
+
     public void destroyImage(int paramInt)
     {
         this.img_arr_a[paramInt] = null;
@@ -41,7 +43,10 @@ public class ReadMedia
 
     public void drawImageAnchor20(SpriteBatch paramGraphics, int paramInt1, int paramInt2, int paramInt3)
     {
-        paramGraphics.draw(this.img_arr_a[paramInt1], paramInt2, paramInt3); // 20 anchor
+        if (this.img_arr_a[paramInt1] == null) {
+            Gdx.app.log("ERROR", "load Media: " + this.msr_media + " int 1 "+ paramInt1 + " int 2 " + paramInt2);
+        }
+        paramGraphics.draw(this.img_arr_a[paramInt1], paramInt2*MOBI_SCL, paramInt3*MOBI_SCL); // 20 anchor
     }
 
     public ReadMedia()
@@ -67,7 +72,7 @@ public class ReadMedia
     // These null value lead to NullPointer exception
     public void drawImageAnchor36(SpriteBatch paramGraphics, int paramInt1, int paramInt2, int paramInt3)
     {
-        paramGraphics.draw(this.img_arr_a[paramInt1], paramInt2, paramInt3); // 36
+        paramGraphics.draw(this.img_arr_a[paramInt1], paramInt2*MOBI_SCL, paramInt3*MOBI_SCL); // 36
     }
 
     public void drawStringGraphic(SpriteBatch paramGraphics, int paramInt1, int paramInt2, String paramString, int paramInt3)
@@ -127,8 +132,8 @@ public class ReadMedia
     // For example plasma has 24 sprite image, enermy has 9 ...
     public void reloadImageArr(int paramInt1, int paramInt2)
     {
-        this.img_arr_a[paramInt2] = null;
-        this.img_arr_a[paramInt2] = loadImage(paramInt1);
+//        this.img_arr_a[paramInt2] = null;
+//        this.img_arr_a[paramInt2] = loadImage(paramInt1);
     }
 
     public Texture loadImage(int paramInt)
@@ -157,7 +162,7 @@ public class ReadMedia
 
     public void drawImageInArr(SpriteBatch paramGraphics, int paramInt1, int paramInt2, int paramInt3)
     {
-        paramGraphics.draw(this.img_arr_a[paramInt1], paramInt2, paramInt3); // 3
+        paramGraphics.draw(this.img_arr_a[paramInt1], paramInt2*MOBI_SCL, paramInt3*MOBI_SCL); // 3
     }
 
     public int readBinaryData()
@@ -177,13 +182,13 @@ public class ReadMedia
     {
         readMediaStream(paramString);
 //        paramGraphics.draw(loadImage(paramInt1), paramInt2, paramInt3); //20
-        paramGraphics.draw(this.img_arr_a[paramInt1], paramInt2, paramInt3); //20
+        paramGraphics.draw(this.img_arr_a[paramInt1], paramInt2*MOBI_SCL, paramInt3*MOBI_SCL); //20
 //        closeInputStream();
     }
 
     public void drawLoadImage(int paramInt1, SpriteBatch paramGraphics, int paramInt2, int paramInt3)
     {
-        paramGraphics.draw(loadImage(paramInt1), paramInt2, paramInt3); // 20
+        paramGraphics.draw(loadImage(paramInt1), paramInt2*MOBI_SCL, paramInt3*MOBI_SCL); // 20
     }
 
     public void closeInputStream()
@@ -240,175 +245,142 @@ public class ReadMedia
         System.gc();
         */
 
-        if (paramString == "font") {
-            this.img_arr_a = new Texture[6];
+        if (paramString == "font") { // 0->5
             for (int i = 0; i < 6; i++) {
                 this.img_arr_a[i] = new Texture("archangel/font_" + i + ".png");
             }
-        } else if(paramString == "aa") {
-            this.img_arr_a = new Texture[19];
-            for (int i = 0; i < this.img_arr_a.length; i++) {
-                this.img_arr_a[i] = new Texture("archangel/aa_" + i + ".png");
+        } else if(paramString == "aa") { // 0-24 9-33 10-34
+            // 24 -> 34
+            for (int i = 24; i <= 42; i++) {
+                this.img_arr_a[i] = new Texture("archangel/aa_" + (i-24) +".png");
             }
-        } else if(paramString == "background0") {
-            this.img_arr_a = new Texture[11];
-            for (int i = 0; i < this.img_arr_a.length; i++) {
-                this.img_arr_a[i] = new Texture("archangel/background0_" + i + ".png");
+        } else if(paramString == "background0") { // 7 -> 17
+            for (int i = 7; i <= 17; i++) {
+                this.img_arr_a[i] = new Texture("archangel/background0_" + (i-7) + ".png");
             }
         } else if(paramString == "background1") {
-            this.img_arr_a = new Texture[11];
-            for (int i = 0; i < this.img_arr_a.length; i++) {
-                this.img_arr_a[i] = new Texture("archangel/background1_" + i + ".png");
-            }
+//            for (int i = 0; i < this.img_arr_a.length; i++) {
+//                this.img_arr_a[i] = new Texture("archangel/background1_" + i + ".png");
+//            }
         } else if(paramString == "background2") {
-            this.img_arr_a = new Texture[11];
-            for (int i = 0; i < this.img_arr_a.length; i++) {
-                this.img_arr_a[i] = new Texture("archangel/background2_" + i + ".png");
-            }
+//            for (int i = 0; i < this.img_arr_a.length; i++) {
+//                this.img_arr_a[i] = new Texture("archangel/background2_" + i + ".png");
+//            }
         } else if(paramString == "boss0") {
-            this.img_arr_a = new Texture[9];
-            for (int i = 0; i < this.img_arr_a.length; i++) {
-                this.img_arr_a[i] = new Texture("archangel/boss0_" + i + ".png");
+//            this.img_arr_a[21] = new Texture("archangel/boss0_8.png");
+            for (int i = 62; i <= 68; i++) {
+                this.img_arr_a[i] = new Texture("archangel/boss0_" + (i-62) + ".png");
             }
         } else if(paramString == "boss1") {
-            this.img_arr_a = new Texture[9];
-            for (int i = 0; i < this.img_arr_a.length; i++) {
-                this.img_arr_a[i] = new Texture("archangel/boss1_" + i + ".png");
-            }
+            this.img_arr_a[21] = new Texture("archangel/boss1_8.png");
         } else if(paramString == "boss2") {
-            this.img_arr_a = new Texture[9];
-            for (int i = 0; i < this.img_arr_a.length; i++) {
-                this.img_arr_a[i] = new Texture("archangel/boss2_" + i + ".png");
-            }
+//            for (int i = 0; i < this.img_arr_a.length; i++) {
+//                this.img_arr_a[i] = new Texture("archangel/boss2_" + i + ".png");
+//            }
         } else if(paramString == "boss3") {
-            this.img_arr_a = new Texture[9];
-            for (int i = 0; i < this.img_arr_a.length; i++) {
-                this.img_arr_a[i] = new Texture("archangel/boss3_" + i + ".png");
-            }
+//            for (int i = 0; i < this.img_arr_a.length; i++) {
+//                this.img_arr_a[i] = new Texture("archangel/boss3_" + i + ".png");
+//            }
         } else if(paramString == "boss4") {
-            this.img_arr_a = new Texture[9];
-            for (int i = 0; i < this.img_arr_a.length; i++) {
-                this.img_arr_a[i] = new Texture("archangel/boss4_" + i + ".png");
-            }
+//            for (int i = 0; i < this.img_arr_a.length; i++) {
+//                this.img_arr_a[i] = new Texture("archangel/boss4_" + i + ".png");
+//            }
         } else if(paramString == "boss5") {
-            this.img_arr_a = new Texture[9];
-            for (int i = 0; i < this.img_arr_a.length; i++) {
-                this.img_arr_a[i] = new Texture("archangel/boss5_" + i + ".png");
-            }
+//            for (int i = 0; i < this.img_arr_a.length; i++) {
+//                this.img_arr_a[i] = new Texture("archangel/boss5_" + i + ".png");
+//            }
         } else if(paramString == "boss6") {
-            this.img_arr_a = new Texture[9];
-            for (int i = 0; i < this.img_arr_a.length; i++) {
-                this.img_arr_a[i] = new Texture("archangel/boss6_" + i + ".png");
-            }
+//            for (int i = 0; i < this.img_arr_a.length; i++) {
+//                this.img_arr_a[i] = new Texture("archangel/boss6_" + i + ".png");
+//            }
         } else if(paramString == "boss7") {
-            this.img_arr_a = new Texture[9];
-            for (int i = 0; i < this.img_arr_a.length; i++) {
-                this.img_arr_a[i] = new Texture("archangel/boss7_" + i + ".png");
+//            for (int i = 0; i < this.img_arr_a.length; i++) {
+//                this.img_arr_a[i] = new Texture("archangel/boss7_" + i + ".png");
+//            }
+        } else if(paramString == "brief") { // 17->20
+            for (int i = 17; i <= 20; i++) {
+                this.img_arr_a[i] = new Texture("archangel/brief_" + (i-17) + ".png");
             }
-        } else if(paramString == "brief") {
-            this.img_arr_a = new Texture[4];
-            for (int i = 0; i < this.img_arr_a.length; i++) {
-                this.img_arr_a[i] = new Texture("archangel/brief_" + i + ".png");
-            }
-        } else if(paramString == "effect") {
-            this.img_arr_a = new Texture[13];
-            for (int i = 0; i < this.img_arr_a.length; i++) {
-                this.img_arr_a[i] = new Texture("archangel/effect_" + i + ".png");
+        } else if(paramString == "effect") { // 71 -> 83
+            for (int i = 71; i < 83; i++) {
+                this.img_arr_a[i] = new Texture("archangel/effect_" + (i-71) + ".png");
             }
         } else if(paramString == "end") {
-            this.img_arr_a = new Texture[2];
-            for (int i = 0; i < this.img_arr_a.length; i++) {
-                this.img_arr_a[i] = new Texture("archangel/end_" + i + ".png");
+//            for (int i = 0; i < this.img_arr_a.length; i++) {
+//                this.img_arr_a[i] = new Texture("archangel/end_" + i + ".png");
+//            }
+        } else if(paramString == "enermy0") { // 53 -> 60
+            for (int i = 53; i <= 60; i++) {
+                this.img_arr_a[i] = new Texture("archangel/enermy0_" + (i-53) + ".png");
             }
-        } else if(paramString == "enermy0") {
-            this.img_arr_a = new Texture[9];
-            for (int i = 0; i < this.img_arr_a.length; i++) {
-                this.img_arr_a[i] = new Texture("archangel/enermy0_" + i + ".png");
-            }
-        } else if(paramString == "enermy1") {
-            this.img_arr_a = new Texture[9];
-            for (int i = 0; i < this.img_arr_a.length; i++) {
-                this.img_arr_a[i] = new Texture("archangel/enermy1_" + i + ".png");
+            this.img_arr_a[22] = new Texture("archangel/enermy0_8.png");
+        } else if(paramString == "enermy1") { // 53 -> 60
+            this.img_arr_a[22] = new Texture("archangel/enermy1_8.png");
+            for (int i = 53; i <= 60; i++) {
+                this.img_arr_a[i] = new Texture("archangel/enermy1_" + (i-53) + ".png");
             }
         } else if(paramString == "enermy2") {
-            this.img_arr_a = new Texture[9];
-            for (int i = 0; i < this.img_arr_a.length; i++) {
-                this.img_arr_a[i] = new Texture("archangel/enermy2_" + i + ".png");
-            }
+//            for (int i = 0; i < this.img_arr_a.length; i++) {
+//                this.img_arr_a[i] = new Texture("archangel/enermy2_" + i + ".png");
+//            }
         } else if(paramString == "enermy3") {
-            this.img_arr_a = new Texture[9];
-            for (int i = 0; i < this.img_arr_a.length; i++) {
-                this.img_arr_a[i] = new Texture("archangel/enermy3_" + i + ".png");
-            }
-        } else if(paramString == "etc") {
-            this.img_arr_a = new Texture[4];
-            for (int i = 0; i < this.img_arr_a.length; i++) {
-                this.img_arr_a[i] = new Texture("archangel/etc_" + i + ".png");
-            }
-        } else if(paramString == "fence0") {
-            this.img_arr_a = new Texture[9];
-            for (int i = 0; i < this.img_arr_a.length; i++) {
-                this.img_arr_a[i] = new Texture("archangel/fence0_" + i + ".png");
+//            for (int i = 0; i < this.img_arr_a.length; i++) {
+//                this.img_arr_a[i] = new Texture("archangel/enermy3_" + i + ".png");
+//            }
+        } else if(paramString == "etc") { // 3_114 0_111
+            this.img_arr_a[114] = new Texture("archangel/etc_3.png");
+            this.img_arr_a[111] = new Texture("archangel/etc_0.png");
+            this.img_arr_a[112] = new Texture("archangel/etc_1.png");
+        } else if(paramString == "fence0") { // 44 -> 51
+            for (int i = 44; i <= 51; i++) {
+                this.img_arr_a[i] = new Texture("archangel/fence0_" + (i-44) + ".png");
             }
         } else if(paramString == "fence1") {
-            this.img_arr_a = new Texture[9];
-            for (int i = 0; i < this.img_arr_a.length; i++) {
-                this.img_arr_a[i] = new Texture("archangel/fence1_" + i + ".png");
-            }
+//            for (int i = 0; i < this.img_arr_a.length; i++) {
+//                this.img_arr_a[i] = new Texture("archangel/fence1_" + i + ".png");
+//            }
         } else if(paramString == "fence2") {
-            this.img_arr_a = new Texture[9];
-            for (int i = 0; i < this.img_arr_a.length; i++) {
-                this.img_arr_a[i] = new Texture("archangel/fence2_" + i + ".png");
-            }
-        } else if(paramString == "intro") {
-            this.img_arr_a = new Texture[1];
-            for (int i = 0; i < this.img_arr_a.length; i++) {
-                this.img_arr_a[i] = new Texture("archangel/intro_" + i + ".png");
-            }
+//            for (int i = 0; i < this.img_arr_a.length; i++) {
+//                this.img_arr_a[i] = new Texture("archangel/fence2_" + i + ".png");
+//            }
+        } else if(paramString == "intro") { // 30
+            this.img_arr_a[30] = new Texture("archangel/intro_0.png");
         } else if(paramString == "logo") {
-            this.img_arr_a = new Texture[3];
-            for (int i = 0; i < this.img_arr_a.length; i++) {
-                this.img_arr_a[i] = new Texture("archangel/logo_" + i + ".png");
+//            for (int i = 0; i < this.img_arr_a.length; i++) {
+//                this.img_arr_a[i] = new Texture("archangel/logo_" + i + ".png");
+//            }
+        } else if(paramString == "menu") { // 13 -> 16
+            for (int i = 13; i <= 16; i++) {
+                this.img_arr_a[i] = new Texture("archangel/menu_" + (i-13) + ".png");
             }
-        } else if(paramString == "menu") {
-            this.img_arr_a = new Texture[4];
-            for (int i = 0; i < this.img_arr_a.length; i++) {
-                this.img_arr_a[i] = new Texture("archangel/menu_" + i + ".png");
+        } else if(paramString == "open") { // 29
+                this.img_arr_a[29] = new Texture("archangel/open_0.png");
+        } else if(paramString == "plasma") { // 102 -> 107
+            for (int i = 102; i <= 107; i++) {
+                this.img_arr_a[i] = new Texture("archangel/plasma_" + (i-102) + ".png");
             }
-        } else if(paramString == "open") {
-            this.img_arr_a = new Texture[1];
-            for (int i = 0; i < this.img_arr_a.length; i++) {
-                this.img_arr_a[i] = new Texture("archangel/open_" + i + ".png");
+            for (int i = 84; i <= 101; i++) {
+                this.img_arr_a[i] = new Texture("archangel/plasma_" + (i-84) + ".png");
             }
-        } else if(paramString == "plasma") {
-            this.img_arr_a = new Texture[24];
-            for (int i = 0; i < this.img_arr_a.length; i++) {
-                this.img_arr_a[i] = new Texture("archangel/plasma_" + i + ".png");
-            }
-        } else if(paramString == "result") {
-            this.img_arr_a = new Texture[3];
-            for (int i = 0; i < this.img_arr_a.length; i++) {
-                this.img_arr_a[i] = new Texture("archangel/result_" + i + ".png");
+        } else if(paramString == "result") { // 6->12
+            for (int i = 6; i <= 12; i++) {
+                this.img_arr_a[i] = new Texture("archangel/result_" + (i-6) + ".png");
             }
         } else if(paramString == "select") {
-            this.img_arr_a = new Texture[7];
-            for (int i = 0; i < this.img_arr_a.length; i++) {
-                this.img_arr_a[i] = new Texture("archangel/select_" + i + ".png");
+            for (int i = 6; i <= 12; i++) {
+                this.img_arr_a[i] = new Texture("archangel/select_" + (i-6) + ".png");
             }
         } else if(paramString == "shop") {
-            this.img_arr_a = new Texture[3];
-            for (int i = 0; i < this.img_arr_a.length; i++) {
-                this.img_arr_a[i] = new Texture("archangel/shop_" + i + ".png");
-            }
+//            for (int i = 0; i < this.img_arr_a.length; i++) {
+//                this.img_arr_a[i] = new Texture("archangel/shop_" + i + ".png");
+//            }
         } else if(paramString == "shot") {
-            this.img_arr_a = new Texture[10];
-            for (int i = 0; i < this.img_arr_a.length; i++) {
-                this.img_arr_a[i] = new Texture("archangel/shot_" + i + ".png");
-            }
-        } else if(paramString == "ui") {
-            this.img_arr_a = new Texture[4];
-            for (int i = 0; i < this.img_arr_a.length; i++) {
-                this.img_arr_a[i] = new Texture("archangel/ui_" + i + ".png");
+//            for (int i = 0; i < this.img_arr_a.length; i++) {
+//                this.img_arr_a[i] = new Texture("archangel/shot_" + i + ".png");
+//            }
+        } else if(paramString == "ui") { // 21-23
+            for (int i = 21; i <= 23; i++) {
+                this.img_arr_a[i] = new Texture("archangel/ui_" + (i-21) + ".png");
             }
         } else {
             return;
