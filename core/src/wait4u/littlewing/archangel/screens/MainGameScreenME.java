@@ -575,7 +575,7 @@ public class MainGameScreenME {
                     this.bb = 93;
                     this.bc = 144;
                     System.gc();
-                    this.readMedia.readMediaStream("boss" + this.AA.ac);
+                    this.readMedia.readMediaStream("boss" + this.AA.boss_sprite_level);
                     for (int i3 = 0; i3 < 7; i3++) {
                         this.readMedia.reloadImageArr(i3, 62 + i3);
                     }
@@ -960,7 +960,7 @@ public class MainGameScreenME {
     {
         int i3 = 8;
         int i5;
-        if (this.AA.ac < 4) {
+        if (this.AA.boss_sprite_level < 4) {
             i5 = 1;
         } else {
             i5 = 2;

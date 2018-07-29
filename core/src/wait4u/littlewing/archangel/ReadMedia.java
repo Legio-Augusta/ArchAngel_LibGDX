@@ -31,6 +31,13 @@ public class ReadMedia
     public void mySetClip(SpriteBatch paramGraphics)
     {
 //        paramGraphics.setClip(0, 0, 240, 320);
+//        Rectangle scissors = new Rectangle();
+//        Rectangle clipBounds = new Rectangle(x,y,w,h);
+//        ScissorStack.calculateScissors(camera, spriteBatch.getTransformMatrix(), clipBounds, scissors);
+//        ScissorStack.pushScissors(scissors);
+//        spriteBatch.draw(...);
+//        spriteBatch.flush();
+//        ScissorStack.popScissors();
     }
 
     public void destroyImage53_115()
@@ -162,6 +169,13 @@ public class ReadMedia
 
     public void drawImageInArr(SpriteBatch paramGraphics, int paramInt1, int paramInt2, int paramInt3)
     {
+        if (this.img_arr_a[paramInt1] == null) {
+            Gdx.app.log("ERROR", "load Media Arr: " + this.msr_media + " int 1 "+ paramInt1 + " int 2 " + paramInt2);
+            if(this.msr_media.matches("enermy.")) {
+                readMediaStream("enermy0");
+            }
+            this.img_arr_a[paramInt1] = new Texture("archangel/boss7_7.png");
+        }
         paramGraphics.draw(this.img_arr_a[paramInt1], paramInt2*MOBI_SCL, paramInt3*MOBI_SCL); // 3
     }
 
@@ -227,10 +241,9 @@ public class ReadMedia
      */
     public void readMediaStream(String paramString)
     {
-        // TODO try read file from path
+        this.msr_media = paramString;
         /*
         paramString = "android/assets/msr/" + paramString + ".msr";
-        this.msr_media = paramString;
         try
         {
             this.inputStream = getClass().getResourceAsStream(paramString);
@@ -240,10 +253,9 @@ public class ReadMedia
                 this.int_arr_d[j] = readBinaryData();
             }
         }
-        catch (Exception localException) {}
         this.int_bound_e = this.int_arr_d[0];
-        System.gc();
         */
+        // TODO try read file from path
 
         if (paramString == "font") { // 0->5
             for (int i = 0; i < 6; i++) {
@@ -267,7 +279,7 @@ public class ReadMedia
 //                this.img_arr_a[i] = new Texture("archangel/background2_" + i + ".png");
 //            }
         } else if(paramString == "boss0") {
-//            this.img_arr_a[21] = new Texture("archangel/boss0_8.png");
+            this.img_arr_a[21] = new Texture("archangel/boss0_8.png");
             for (int i = 62; i <= 68; i++) {
                 this.img_arr_a[i] = new Texture("archangel/boss0_" + (i-62) + ".png");
             }

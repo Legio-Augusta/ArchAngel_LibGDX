@@ -463,7 +463,7 @@ public class MainGameHelper {
                     bb = 93;
                     bc = 144;
                     System.gc();
-                    readMedia.readMediaStream("boss" + AA.ac);
+                    readMedia.readMediaStream("boss" + AA.boss_sprite_level);
                     for (int i3 = 0; i3 < 7; i3++) {
                         readMedia.reloadImageArr(i3, 62 + i3);
                     }

@@ -3,12 +3,10 @@ package wait4u.littlewing.archangel;
 //import com.samsung.util.AudioClip;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import java.io.PrintStream;
 import java.util.Random;
 
 import wait4u.littlewing.archangel.screens.GameScreen;
 import wait4u.littlewing.archangel.screens.MainGameScreenME;
-import wait4u.littlewing.archangel.ReadMedia;
 
 public class ArchAngelME
 {
@@ -40,7 +38,7 @@ public class ArchAngelME
     public int z = 0;
     public int aa = -1;
     public int ab;
-    public int ac;
+    public int boss_sprite_level;
     public int ad;
     public int ae = 40;
     public int af = 1;
@@ -218,7 +216,7 @@ public class ArchAngelME
 //            Display.getDisplay(this).setCurrent(this.game_scrn);
 //            this.thread = new Thread(this.game_scrn);
             this.thread.start();
-            this.ac = 0;
+            this.boss_sprite_level = 0;
             this.bool_as = false;
         }
     }

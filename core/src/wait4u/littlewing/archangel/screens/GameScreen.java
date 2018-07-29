@@ -3,6 +3,7 @@ package wait4u.littlewing.archangel.screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -82,8 +83,8 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
     Rectangle leftBtnRect = new Rectangle(20, 20+(200/6), 70, 140);
     Rectangle rightBtnRect = new Rectangle(20+(400/3), 20+(200/6), 2*70, 140);
     Rectangle optionBtnRect = new Rectangle(SCREEN_WIDTH/2+150, SCREEN_HEIGHT/8, SCREEN_WIDTH/2-180, 70);
-    Rectangle speedUpBtnRect = new Rectangle(SCREEN_WIDTH-275-200, 20, 200, 100);
-    Rectangle speedDownBtnRect = new Rectangle(SCREEN_WIDTH-275-400, 20, 200, 100);
+    Rectangle leftMenuBtn = new Rectangle(SCREEN_WIDTH-275-400, 20, 200, 100);
+    Rectangle rightMenuBtn = new Rectangle(SCREEN_WIDTH-275-200, 20, 200, 100);
 
     private int game_action = 0;
     private int key_code = 0;
@@ -92,12 +93,22 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
     private static final int GAME_ACTION_RIGHT = 5;
     private static final int GAME_ACTION_UP = 8;
     private static final int GAME_ACTION_DOWN = 6;
-    private static final int KEY_RIGHT_MENU = 35;
+    private static final int KEY_RIGHT_MENU = -7; // action = 0
+    private static final int KEY_LEFT_MENU = -6;  // action = 0
     private static final int KEY_STAR = 0;
     private static final int KEY_NUM_3 = 0; // for item mode
     private static final int KEY_SHARP = 0;
 
     Vector3 touchPoint;
+    Preferences prefs = Gdx.app.getPreferences("gamestate");
+    private static final String PREF_VIBRATION = "vibration";
+    private static final String PREF_SOUND_ENABLED = "soundenabled";
+    private static final String PREF_SPEED = "gamespeed";
+    private static final String PREF_LEVEL = "level";
+    private static final String PREF_SAVEDGOLD = "saved_gold";
+    private static final String PREF_MANA= "mana";
+    private static final String PREF_GAME_STAGE= "game_stage";
+    private static final String PREF_LAST_GAME_STAGE= "last_game_stage";
     private int item_mode;
 
     private Texture [] imgColor; // For fillRect with color
@@ -123,7 +134,8 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
      */
     public void keyPressed()
     {
-        int paramInt = 0;
+//        int paramInt = 0;
+        int paramInt = this.key_code;
         int i1 = getGameAction(paramInt);
         if (this.archAngel.bool_h) {
             return;
@@ -155,7 +167,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                             }
                             this.archAngel.playSound("s_menu_move", 1);
                             break;
-                        case -7: // GAME_B RIGHT_UP
+                        case -7: // GAME_B RIGHT_UP, TODO clear key_code (key_released)
                         case -5:
                             if (this.l == 0)
                             {
@@ -682,6 +694,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
 
     public void keyReleased(int paramInt)
     {
+        this.key_code = 0;
         switch (this.archAngel.screen)
         {
             case 25:
@@ -993,7 +1006,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                 draw_resume(batch);
                 break;
             case 9:
-                if (this.archAngel.gameSetting.c != this.archAngel.gameSetting.b) {
+                if (this.archAngel.gameSetting.c != this.archAngel.gameSetting.boss_level) {
                     this.secondHelper.draw_start_option(batch, this.o, this.p, this.archAngel);
                 } else {
                     this.archAngel.screen = 25;
@@ -1069,12 +1082,22 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         // convert touch event to key event (getGameAction)
         touchPoint.set(Gdx.input.getX(),Gdx.input.getY(), 0);
 
-        Gdx.app.log("INFO", "touch " + touchPoint.x + " y "+ (SCREEN_HEIGHT-touchPoint.y) + " bound x "+ upBtnRect.toString() + " saved "+ downBtnRect.toString());
+        Gdx.app.log("DEBUG", "touch " + touchPoint.x + " y "+ (SCREEN_HEIGHT-touchPoint.y) + " key_code "+ this.key_code);
         game_action = getGameAction();
+
+        if(isTouchedMenuLeft()) { // smaller value, shorter sleep
+            Gdx.input.vibrate(5);
+            this.key_code = -6;
+        }
+        if(isTouchedMenuRight()) {
+            Gdx.input.vibrate(5);
+            this.key_code = -7;
+        }
 
         // Fire button touched
         Rectangle textureBounds = new Rectangle(SCREEN_WIDTH-fireBtnTexture.getWidth()-50, SCREEN_HEIGHT-50-fireBtnTexture.getHeight(), fireBtnTexture.getWidth(),fireBtnTexture.getHeight());
         if(textureBounds.contains(touchPoint.x, touchPoint.y)) {
+            this.key_code = -5;
             game_action = GAME_ACTION_OK;
         }
 
@@ -1088,6 +1111,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        this.key_code = 0;
         return false;
     }
 
@@ -1143,7 +1167,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         return game_action;
     }
     public int getGameAction() {
-        // Gdx.app.log("INFO", "touch " + touchPoint.x + " y "+ (SCREEN_HEIGHT-touchPoint.y) + " bound x "+ upBtnRect.toString() + " down btn "+ downBtnRect.toString());
+        // TODO handle key_code and key released, multi touch
         if(OverlapTester.pointInRectangle(upBtnRect, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) )) {
             return GAME_ACTION_UP;
         }
@@ -1161,6 +1185,12 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
             return GAME_ACTION_RIGHT;
         }
         if(OverlapTester.pointInRectangle(optionBtnRect, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) )) {
+            return KEY_RIGHT_MENU; // FIXME remove
+        }
+        if(OverlapTester.pointInRectangle(leftMenuBtn, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) )) {
+            return KEY_LEFT_MENU;
+        }
+        if(OverlapTester.pointInRectangle(rightMenuBtn, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) )) {
             return KEY_RIGHT_MENU;
         }
 
@@ -1240,5 +1270,118 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         imgSpeedDown = new Texture("samsung-white/speed_down.png");
         touch_pad = new Texture("gui/touchBackground.png");
         touch_pad_knob = new Texture("gui/touchKnob.png");
+    }
+
+    protected boolean isTouchedUp() {
+        this.key_code = -1;
+        return OverlapTester.pointInRectangle(upBtnRect, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) );
+    }
+    protected boolean isTouchedDown() {
+        this.key_code = -2;
+        return OverlapTester.pointInRectangle(downBtnRect, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) );
+    }
+    protected boolean isTouchedLeft() {
+        this.key_code = -4;
+        return OverlapTester.pointInRectangle(leftBtnRect, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) );
+    }
+    protected boolean isTouchedRight() {
+        return OverlapTester.pointInRectangle(rightBtnRect, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) );
+    }
+    protected boolean isTouchedOption() {
+        return OverlapTester.pointInRectangle(optionBtnRect, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) );
+    }
+    protected boolean isTouchedOK() {
+        this.key_code = -5;
+        Rectangle textureBounds=new Rectangle(SCREEN_WIDTH-fireBtnTexture.getWidth()-50, SCREEN_HEIGHT-50-fireBtnTexture.getHeight(), fireBtnTexture.getWidth(),fireBtnTexture.getHeight());
+        return textureBounds.contains(touchPoint.x, touchPoint.y);
+    }
+    protected boolean isTouchedNum3() {
+        Rectangle textureBounds=new Rectangle(SCREEN_WIDTH-fireBtnTexture.getWidth()-50-imgKeyNum3.getWidth()-(int)fireBtnTexture.getWidth()/2, SCREEN_HEIGHT-BOTTOM_SPACE, imgKeyNum3.getWidth(),imgKeyNum3.getHeight());
+        return textureBounds.contains(touchPoint.x, touchPoint.y);
+    }
+    protected boolean isTouchedMenuLeft() {
+        this.key_code = -6;
+        return OverlapTester.pointInRectangle(leftMenuBtn, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) );
+    }
+    protected boolean isTouchedMenuRight() {
+        this.key_code = -7;
+        return OverlapTester.pointInRectangle(rightMenuBtn, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) );
+    }
+
+    protected Preferences getPrefs() {
+        if(prefs==null){
+            prefs = Gdx.app.getPreferences("gamestate");
+        }
+        return prefs;
+    }
+
+    public boolean isSoundEffectsEnabled() {
+        return getPrefs().getBoolean(PREF_SOUND_ENABLED, true);
+    }
+
+    public void setSoundEffectsEnabled(boolean soundEffectsEnabled) {
+        getPrefs().putBoolean(PREF_SOUND_ENABLED, soundEffectsEnabled);
+        getPrefs().flush();
+    }
+
+    public boolean getVibraEnabled() {
+        return getPrefs().getBoolean(PREF_VIBRATION, true);
+    }
+
+    public void setVibraEnabled(boolean vibra) {
+        getPrefs().putBoolean(PREF_VIBRATION, vibra);
+        getPrefs().flush();
+    }
+
+    public int getLevel() {
+        return getPrefs().getInteger(PREF_LEVEL, 11);
+    }
+
+    public void setLevel(int level) {
+        getPrefs().putInteger(PREF_LEVEL, level);
+        getPrefs().flush();
+
+    }
+    public int getSavedgold() {
+        return getPrefs().getInteger(PREF_SAVEDGOLD, 64);
+    }
+
+    public void setSavedGold(int saved_gold) {
+        getPrefs().putInteger(PREF_SAVEDGOLD, saved_gold);
+        getPrefs().flush();
+    }
+
+    public int getSavedMana() {
+        return getPrefs().getInteger(PREF_MANA, 64);
+    }
+
+    public void setSavedMana(int saved_gold) {
+        getPrefs().putInteger(PREF_MANA, saved_gold);
+        getPrefs().flush();
+    }
+
+    public int getGameSpeed() {
+        return getPrefs().getInteger(PREF_SPEED, 24);
+    }
+
+    public void setGameSpeed(int saved_gold) {
+        getPrefs().putInteger(PREF_SPEED, saved_gold);
+        getPrefs().flush();
+    }
+    public int getGameStage() {
+        return getPrefs().getInteger(PREF_GAME_STAGE, 11);
+    }
+
+    public void setGameStage(int game_stage) {
+        getPrefs().putInteger(PREF_GAME_STAGE, game_stage);
+        getPrefs().flush();
+    }
+    public int getLastGameStage() {
+        return getPrefs().getInteger(PREF_LAST_GAME_STAGE, 11);
+    }
+
+    public void setLastGameStage(int last_game_stage) {
+        getPrefs().putInteger(PREF_LAST_GAME_STAGE, last_game_stage);
+        getPrefs().flush();
     }
 }

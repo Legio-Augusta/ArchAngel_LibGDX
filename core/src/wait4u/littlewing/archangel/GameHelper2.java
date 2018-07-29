@@ -77,7 +77,7 @@ public class GameHelper2 {
                 if (archAngel.x == 4)
                 {
                     archAngel.readMedia.closeInputStream();
-                    archAngel.readMedia.readMediaStream("boss" + archAngel.gameSetting.b);
+                    archAngel.readMedia.readMediaStream("boss" + archAngel.gameSetting.boss_level);
                     archAngel.readMedia.reloadImageArr(8, 21);
                     archAngel.readMedia.closeInputStream();
                     if (archAngel.bool_k)
@@ -91,16 +91,16 @@ public class GameHelper2 {
 //                        paramGraphics.fillRect(0, 80, 240, 220);
                         archAngel.readMedia.drawImageAnchor20(paramGraphics, 15, 33, 60);
 //                        paramGraphics.setClip(198, 60, 18, 20);
-                        archAngel.readMedia.drawImageAnchor20(paramGraphics, 16, 198, 60 - archAngel.gameSetting.b * 20);
+                        archAngel.readMedia.drawImageAnchor20(paramGraphics, 16, 198, 60 - archAngel.gameSetting.boss_level * 20);
 //                        paramGraphics.setClip(0, 0, 240, 320);
                     }
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 14, 17, 89);
 //                    paramGraphics.setClip(17, 89, 223, 25);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 13, 60, 90);
-                    if (archAngel.gameSetting.b < 4) {
-                        archAngel.readMedia.readMediaStream("enermy" + archAngel.gameSetting.b);
+                    if (archAngel.gameSetting.boss_level < 4) {
+                        archAngel.readMedia.readMediaStream("enermy" + archAngel.gameSetting.boss_level);
                     } else {
-                        archAngel.readMedia.readMediaStream("boss" + (archAngel.gameSetting.b - 4));
+                        archAngel.readMedia.readMediaStream("boss" + (archAngel.gameSetting.boss_level - 4));
                     }
                     archAngel.readMedia.reloadImageArr(8, 22);
                     archAngel.readMedia.closeInputStream();
@@ -116,7 +116,7 @@ public class GameHelper2 {
                 return;
             case 1:
                 archAngel.z = 11;
-                archAngel.a(archAngel.gameSetting.b + 1);
+                archAngel.a(archAngel.gameSetting.boss_level + 1);
                 paramGraphics.setColor(65280);
                 break;
             case 999:
@@ -125,7 +125,7 @@ public class GameHelper2 {
                 } else {
                     archAngel.screen = 5;
                 }
-                archAngel.gameSetting.c = archAngel.gameSetting.b;
+                archAngel.gameSetting.c = archAngel.gameSetting.boss_level;
                 for (i1 = 0; i1 < 6; i1++) {
                     archAngel.readMedia.destroyImage(17 + i1);
                 }
@@ -219,13 +219,13 @@ public class GameHelper2 {
     public void draw_game_play_screen(SpriteBatch paramGraphics, int aa, int ab, int ac, int ad, int ae, int af,
                                       int ag, int l, boolean bool_b, boolean bool_z, ArchAngelME archAngel)
     {
-        archAngel.ac = archAngel.gameSetting.b;
+        archAngel.boss_sprite_level = archAngel.gameSetting.boss_level;
         archAngel.mainGameScreen.z = 0;
-        if (archAngel.ac < 3) {
+        if (archAngel.boss_sprite_level < 3) {
             archAngel.ad = 0;
-        } else if ((archAngel.ac == 3) || (archAngel.ac == 4)) {
+        } else if ((archAngel.boss_sprite_level == 3) || (archAngel.boss_sprite_level == 4)) {
             archAngel.ad = 1;
-        } else if (archAngel.ac > 4) {
+        } else if (archAngel.boss_sprite_level > 4) {
             archAngel.ad = 2;
         }
         archAngel.mainGameScreen.bj = 16749568;
@@ -243,7 +243,7 @@ public class GameHelper2 {
                 archAngel.readMedia.destroyImage(2);
                 archAngel.readMedia.destroyImage(5);
                 archAngel.gameSetting.initGame1();
-                archAngel.a(archAngel.gameSetting.b + 1);
+                archAngel.a(archAngel.gameSetting.boss_level + 1);
                 archAngel.mainGameScreen.init_game2();
                 archAngel.readMedia.readMediaStream("etc");
                 archAngel.readMedia.reloadImageArr(0, 111);
@@ -316,10 +316,10 @@ public class GameHelper2 {
                         archAngel.readMedia.closeInputStream();
                         break;
                     case 1:
-                        if (archAngel.ac < 4) {
-                            archAngel.readMedia.readMediaStream("enermy" + archAngel.ac);
+                        if (archAngel.boss_sprite_level < 4) {
+                            archAngel.readMedia.readMediaStream("enermy" + archAngel.boss_sprite_level);
                         } else {
-                            archAngel.readMedia.readMediaStream("boss" + (archAngel.ac - 4));
+                            archAngel.readMedia.readMediaStream("boss" + (archAngel.boss_sprite_level - 4));
                         }
                         for (i1 = 0; i1 < 8; i1++) {
                             archAngel.readMedia.reloadImageArr(i1, 53 + i1);
@@ -419,7 +419,7 @@ public class GameHelper2 {
         switch (archAngel.mainGameScreen.aa)
         {
             case 0:
-                if (archAngel.ac < 4) {
+                if (archAngel.boss_sprite_level < 4) {
                     archAngel.readMedia.drawStringGraphic(paramGraphics, 75, 10, "ENERMY:" + archAngel.mainGameScreen.str_m, 0);
                 } else {
                     archAngel.readMedia.drawStringGraphic(paramGraphics, 75, 10, archAngel.mainGameScreen.str_m, 0);
@@ -455,7 +455,7 @@ public class GameHelper2 {
                 }
                 break;
             case 2:
-                if (archAngel.ac < 7)
+                if (archAngel.boss_sprite_level < 7)
                 {
                     archAngel.readMedia.drawStringGraphic(paramGraphics, 87, 8, archAngel.mainGameScreen.str_q, 0);
                 }
@@ -780,7 +780,7 @@ public class GameHelper2 {
             case 3:
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 15, 33, 60);
 //                paramGraphics.setClip(198, 60, 18, 20);
-                archAngel.readMedia.drawImageAnchor20(paramGraphics, 16, 198, 60 - archAngel.gameSetting.b * 20);
+                archAngel.readMedia.drawImageAnchor20(paramGraphics, 16, 198, 60 - archAngel.gameSetting.boss_level * 20);
 //                paramGraphics.setClip(0, 0, 240, 280);
                 paramGraphics.setColor(0);
 //                paramGraphics.fillRect(0, 80, 240, 200);
@@ -827,7 +827,7 @@ public class GameHelper2 {
                 archAngel.readMedia.closeInputStream();
                 paramGraphics.setColor(16777215);
 //                paramGraphics.fillRect(45, 126, 150, 107);
-                if (archAngel.gameSetting.b == 7)
+                if (archAngel.gameSetting.boss_level == 7)
                 {
                     paramGraphics.setColor(0);
 //                    paramGraphics.fillRect(0, 0, 240, 300);
@@ -856,7 +856,7 @@ public class GameHelper2 {
                 {
                     archAngel.readMedia.destroyImage53_115();
                     System.gc();
-                    archAngel.gameSetting.b += 1;
+                    archAngel.gameSetting.boss_level += 1;
                     archAngel.addScore();
                     archAngel.screen = 5;
                 }

@@ -3,7 +3,7 @@ package wait4u.littlewing.archangel;
 public class GameSettings
 {
     public int a;
-    public int b;
+    public int boss_level;
     public int c;
     public int d;
     public int e;
@@ -35,7 +35,7 @@ public class GameSettings
     public void readRSSetting(AARecordStore recordStore)
     {
         this.a = recordStore.returnByteCalc();
-        this.b = recordStore.returnByteCalc();
+        this.boss_level = recordStore.returnByteCalc();
         this.d = recordStore.returnByteCalc();
         this.e = recordStore.returnByteCalc();
         this.f = recordStore.returnByteCalc();
@@ -88,14 +88,14 @@ public class GameSettings
     {
         this.a = 0;
         this.c = -1;
-        this.b = 0;
+        this.boss_level = 0;
         this.d = (this.e = this.f = 1);
     }
 
     public void calcFromRecord(AARecordStore recordStore)
     {
         recordStore.byteCalculate(this.a);
-        recordStore.byteCalculate(this.b);
+        recordStore.byteCalculate(this.boss_level);
         recordStore.byteCalculate(this.d);
         recordStore.byteCalculate(this.e);
         recordStore.byteCalculate(this.f);
