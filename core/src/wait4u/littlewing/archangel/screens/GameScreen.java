@@ -95,20 +95,20 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
     private static final int GAME_ACTION_DOWN = 6;
     private static final int KEY_RIGHT_MENU = -7; // action = 0
     private static final int KEY_LEFT_MENU = -6;  // action = 0
-    private static final int KEY_STAR = 0;
+    private static final int KEY_OK = -5;
     private static final int KEY_NUM_3 = 0; // for item mode
     private static final int KEY_SHARP = 0;
 
     Vector3 touchPoint;
     Preferences prefs = Gdx.app.getPreferences("gamestate");
-    private static final String PREF_VIBRATION = "vibration";
-    private static final String PREF_SOUND_ENABLED = "soundenabled";
-    private static final String PREF_SPEED = "gamespeed";
-    private static final String PREF_LEVEL = "level";
-    private static final String PREF_SAVEDGOLD = "saved_gold";
-    private static final String PREF_MANA= "mana";
-    private static final String PREF_GAME_STAGE= "game_stage";
-    private static final String PREF_LAST_GAME_STAGE= "last_game_stage";
+    private static final String PREF_VIBRATION      = "vibration";
+    private static final String PREF_SOUND_ENABLED  = "soundenabled";
+    private static final String PREF_SPEED          = "gamespeed";
+    private static final String PREF_LEVEL          = "level";
+    private static final String PREF_SAVEDGOLD      = "saved_gold";
+    private static final String PREF_MANA           = "mana";
+    private static final String PREF_GAME_STAGE     = "game_stage";
+    private static final String PREF_LAST_GAME_STAGE = "last_game_stage";
     private int item_mode;
 
     private Texture [] imgColor; // For fillRect with color
@@ -134,7 +134,6 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
      */
     public void keyPressed()
     {
-//        int paramInt = 0;
         int paramInt = this.key_code;
         int i1 = getGameAction(paramInt);
         if (this.archAngel.bool_h) {
@@ -694,7 +693,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
 
     public void keyReleased(int paramInt)
     {
-        this.key_code = 0;
+//        this.key_code = 0;
         switch (this.archAngel.screen)
         {
             case 25:
@@ -941,26 +940,13 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
 
     public void run()
     {
-        /*
-        for (;;)
+        if ((this.archAngel.screen == 25) && (this.archAngel.z == 4))
         {
-            try
-            {
-//                repaint();
-                if ((this.archAngel.screen == 25) && (this.archAngel.z == 4))
-                {
-                    this.archAngel.mainGameScreen.complex_helper();
-                    this.archAngel.mainGameScreen.config2();
-                }
-//                serviceRepaints();
-                Thread.sleep((this.archAngel.screen == 25) || (this.archAngel.screen == 1) ? 30 : 30);
-            }
-            catch (Exception localException) {
-                System.out.println(">>>>> run exception <<<<<");
-            }
-        }*/
+            this.archAngel.mainGameScreen.complex_helper();
+            this.archAngel.mainGameScreen.config2();
+        }
+
         if (this.gameOff) { // like GameOff, true then stop paint
-//      System.out.println(">>>>> paint stop <<<<<");
             // Paint done ? can it just remove return to debug
             return;
         }
@@ -1000,6 +986,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                 this.secondHelper.draw_warning_etc_menu(batch, this.l, this.archAngel);
                 break;
             case 13:
+                this.archAngel.screen = 25; // Debug
                 this.secondHelper.goto_menu(batch, this.o, this.p, this.q, this.t, this.x, this.str_arr_w, this.archAngel, this.readText, this.helper);
                 break;
             case 14:
@@ -1013,6 +1000,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                 }
                 break;
             case 8:
+                this.archAngel.screen = 25; // Debug
                 this.secondHelper.draw_start_option(batch, this.o, this.p, this.archAngel);
                 break;
             case 10:
@@ -1077,7 +1065,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         batch.begin();
         // TODO use boundingBox and touchAreas
-        // TODO find where touch event (dragged) call, can it be overrided ?
+        // TODO pass touchPoint instead of global
         // BoundingBox can be use Rectangle as alternative ?
         // convert touch event to key event (getGameAction)
         touchPoint.set(Gdx.input.getX(),Gdx.input.getY(), 0);
@@ -1087,18 +1075,11 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
 
         if(isTouchedMenuLeft()) { // smaller value, shorter sleep
             Gdx.input.vibrate(5);
-            this.key_code = -6;
-        }
-        if(isTouchedMenuRight()) {
+        } else if(isTouchedMenuRight()) {
             Gdx.input.vibrate(5);
-            this.key_code = -7;
-        }
-
-        // Fire button touched
-        Rectangle textureBounds = new Rectangle(SCREEN_WIDTH-fireBtnTexture.getWidth()-50, SCREEN_HEIGHT-50-fireBtnTexture.getHeight(), fireBtnTexture.getWidth(),fireBtnTexture.getHeight());
-        if(textureBounds.contains(touchPoint.x, touchPoint.y)) {
-            this.key_code = -5;
-            game_action = GAME_ACTION_OK;
+        } else if(isTouchedOK()) {
+        } else {
+            this.key_code = 0;
         }
 
         // Use rectangle instead of collisionRay. TODO fix collisionRay null and multiplex many Gdx.input
@@ -1111,7 +1092,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        this.key_code = 0;
+//        this.key_code = 0;
         return false;
     }
 
@@ -1291,8 +1272,8 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         return OverlapTester.pointInRectangle(optionBtnRect, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) );
     }
     protected boolean isTouchedOK() {
-        this.key_code = -5;
-        Rectangle textureBounds=new Rectangle(SCREEN_WIDTH-fireBtnTexture.getWidth()-50, SCREEN_HEIGHT-50-fireBtnTexture.getHeight(), fireBtnTexture.getWidth(),fireBtnTexture.getHeight());
+        this.key_code = KEY_OK;
+        Rectangle textureBounds = new Rectangle(SCREEN_WIDTH-fireBtnTexture.getWidth()-50, SCREEN_HEIGHT-50-fireBtnTexture.getHeight(), fireBtnTexture.getWidth(),fireBtnTexture.getHeight());
         return textureBounds.contains(touchPoint.x, touchPoint.y);
     }
     protected boolean isTouchedNum3() {
@@ -1300,11 +1281,11 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         return textureBounds.contains(touchPoint.x, touchPoint.y);
     }
     protected boolean isTouchedMenuLeft() {
-        this.key_code = -6;
+        this.key_code = KEY_LEFT_MENU;
         return OverlapTester.pointInRectangle(leftMenuBtn, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) );
     }
     protected boolean isTouchedMenuRight() {
-        this.key_code = -7;
+        this.key_code = KEY_RIGHT_MENU;
         return OverlapTester.pointInRectangle(rightMenuBtn, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) );
     }
 
