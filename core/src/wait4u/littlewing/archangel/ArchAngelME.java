@@ -69,13 +69,13 @@ public class ArchAngelME
 
     public void addScore()
     {
-        AARecordStore localh = new AARecordStore();
-        if (localh.readRecordStore("Angel", true))
-        {
-            this.gameSetting.calcFromRecord(localh);
-            localh.byteCalculate(this.ah);
-            localh.addScore();
-        }
+//        AARecordStore localh = new AARecordStore();
+//        if (localh.readRecordStore("Angel", true))
+//        {
+//            this.gameSetting.calcFromRecord(localh);
+//            localh.byteCalculate(this.ah);
+//            localh.addScore();
+//        }
     }
 
     public ArchAngelME()

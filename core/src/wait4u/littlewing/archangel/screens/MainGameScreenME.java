@@ -259,7 +259,9 @@ public class MainGameScreenME {
                     paramGameCnf.c = 4;
                     paramGameCnf.l = 2;
                     gameConfigArr[i1].m -= this.gameSetting.s;
-                    this.AA.ae = (40 * gameConfigArr[i1].m / this.n);
+                    if(this.n != 0) {
+                        this.AA.ae = (40 * gameConfigArr[i1].m / this.n);
+                    }
                     if (gameConfigArr[i1].m <= 0)
                     {
                         gameConfigArr[i1].c = 7;

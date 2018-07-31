@@ -51,7 +51,8 @@ public class ReadMedia
     public void drawImageAnchor20(SpriteBatch paramGraphics, int paramInt1, int paramInt2, int paramInt3)
     {
         if (this.img_arr_a[paramInt1] == null) {
-            Gdx.app.log("ERROR", "load Media: " + this.msr_media + " int 1 "+ paramInt1 + " int 2 " + paramInt2);
+            Gdx.app.log("ERROR", "load Media: " + this.msr_media + " int1= "+ paramInt1 + " int2= " + paramInt2);
+            this.img_arr_a[paramInt1] = new Texture(Gdx.files.internal("archangel/shop_0.png"));
         }
         paramGraphics.draw(this.img_arr_a[paramInt1], paramInt2*MOBI_SCL, paramInt3*MOBI_SCL); // 20 anchor
     }

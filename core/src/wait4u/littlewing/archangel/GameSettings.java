@@ -34,11 +34,11 @@ public class GameSettings
 
     public void readRSSetting(AARecordStore recordStore)
     {
-        this.a = recordStore.returnByteCalc();
-        this.boss_level = recordStore.returnByteCalc();
-        this.d = recordStore.returnByteCalc();
-        this.e = recordStore.returnByteCalc();
-        this.f = recordStore.returnByteCalc();
+//        this.a = recordStore.returnByteCalc();
+//        this.boss_level = recordStore.returnByteCalc();
+//        this.d = recordStore.returnByteCalc();
+//        this.e = recordStore.returnByteCalc();
+//        this.f = recordStore.returnByteCalc();
     }
 
     public void loadDataFromReadTxt(ReadText readText)
@@ -94,10 +94,10 @@ public class GameSettings
 
     public void calcFromRecord(AARecordStore recordStore)
     {
-        recordStore.byteCalculate(this.a);
-        recordStore.byteCalculate(this.boss_level);
-        recordStore.byteCalculate(this.d);
-        recordStore.byteCalculate(this.e);
-        recordStore.byteCalculate(this.f);
+//        recordStore.byteCalculate(this.a);
+//        recordStore.byteCalculate(this.boss_level);
+//        recordStore.byteCalculate(this.d);
+//        recordStore.byteCalculate(this.e);
+//        recordStore.byteCalculate(this.f);
     }
 }
