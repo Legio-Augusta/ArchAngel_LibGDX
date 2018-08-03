@@ -5,12 +5,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 import wait4u.littlewing.archangel.ArchAngelME;
@@ -967,6 +971,8 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
             this.archAngel.x = 0;
             this.archAngel.aa = this.archAngel.z;
         }
+//        DrawDebugLine(new Vector2(0,0), new Vector2(100,100), camera.combined);
+
         switch (this.archAngel.screen)
         {
             case 25:
@@ -986,7 +992,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                 this.secondHelper.draw_warning_etc_menu(batch, this.l, this.archAngel);
                 break;
             case 13:
-                this.archAngel.screen = 25; // Debug
+//                this.archAngel.screen = 25; // Debug FIXME
                 this.secondHelper.goto_menu(batch, this.o, this.p, this.q, this.t, this.x, this.str_arr_w, this.archAngel, this.readText, this.helper);
                 break;
             case 14:
@@ -1000,7 +1006,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                 }
                 break;
             case 8:
-                this.archAngel.screen = 25; // Debug
+//                this.archAngel.screen = 25; // Debug FIXME
                 this.secondHelper.draw_start_option(batch, this.o, this.p, this.archAngel);
                 break;
             case 10:
@@ -1078,6 +1084,8 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         } else if(isTouchedMenuRight()) {
             Gdx.input.vibrate(5);
         } else if(isTouchedOK()) {
+        } else if(isTouchedUp()) {
+        } else if(isTouchedDown()){
         } else {
             this.key_code = 0;
         }
@@ -1147,15 +1155,18 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
     public int getGameAction(int keyCode) {
         return game_action;
     }
+
     public int getGameAction() {
         // TODO handle key_code and key released, multi touch
         if(OverlapTester.pointInRectangle(upBtnRect, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) )) {
+            this.key_code = -1;
             return GAME_ACTION_UP;
         }
         if(OverlapTester.pointInRectangle(downBtnRect, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) )) {
-            if(item_mode == 0) {
-                return GAME_ACTION_DOWN;
+            if(item_mode == 0) { // FIXME remove this, it only in SBF
             }
+            this.key_code = -2;
+            return GAME_ACTION_DOWN;
         }
         if(OverlapTester.pointInRectangle(leftBtnRect, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) )) {
             Gdx.input.vibrate(5);
@@ -1364,5 +1375,29 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
     public void setLastGameStage(int last_game_stage) {
         getPrefs().putInteger(PREF_LAST_GAME_STAGE, last_game_stage);
         getPrefs().flush();
+    }
+
+    private static ShapeRenderer debugRenderer = new ShapeRenderer();
+
+    public static void DrawDebugLine(Vector2 start, Vector2 end, int lineWidth, Color color, Matrix4 projectionMatrix)
+    {
+        Gdx.gl.glLineWidth(lineWidth);
+        debugRenderer.setProjectionMatrix(projectionMatrix);
+        debugRenderer.begin(ShapeRenderer.ShapeType.Line);
+        debugRenderer.setColor(color);
+        debugRenderer.line(start, end);
+        debugRenderer.end();
+        Gdx.gl.glLineWidth(1);
+    }
+
+    public static void DrawDebugLine(Vector2 start, Vector2 end, Matrix4 projectionMatrix)
+    {
+        Gdx.gl.glLineWidth(2);
+        debugRenderer.setProjectionMatrix(projectionMatrix);
+        debugRenderer.begin(ShapeRenderer.ShapeType.Line);
+        debugRenderer.setColor(Color.WHITE);
+        debugRenderer.line(start, end);
+        debugRenderer.end();
+        Gdx.gl.glLineWidth(1);
     }
 }

@@ -1,9 +1,16 @@
 package wait4u.littlewing.archangel;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class GameHelper2 {
+    private Texture[] imgColor; // For fillRect with color
     public GameHelper2() {
+        imgColor = new Texture[6];
+        for (int i = 0; i < 6; i++) {
+            imgColor[i] = new Texture("samsung-white/color-" + i + ".png");
+        }
     }
 
     public void save_equipment(SpriteBatch paramGraphics, ArchAngelME archAngel)
@@ -688,7 +695,7 @@ public class GameHelper2 {
         int i1 = 133;
         int i2 = 0;
         int i3 = 0;
-        paramGraphics.setColor(0);
+//        paramGraphics.setColor(0);
         if (archAngel.mainGameScreen.str_m != null)
         {
             i3 = archAngel.mainGameScreen.h * archAngel.mainGameScreen.u;
@@ -825,12 +832,12 @@ public class GameHelper2 {
                 archAngel.readMedia.drawLoadImage(2, paramGraphics, 45, 93);
                 archAngel.readMedia.drawLoadImage(1, paramGraphics, 62, 98);
                 archAngel.readMedia.closeInputStream();
-                paramGraphics.setColor(16777215);
-//                paramGraphics.fillRect(45, 126, 150, 107);
+                paramGraphics.setColor(new Color(Color.WHITE)); // 16777215); #FFFFFF
+                fillRect( paramGraphics, 45, 126, 150, 107, 0);
                 if (archAngel.gameSetting.boss_level == 7)
                 {
-                    paramGraphics.setColor(0);
-//                    paramGraphics.fillRect(0, 0, 240, 300);
+//                    paramGraphics.setColor(0);
+                    fillRect(paramGraphics, 0, 0, 240, 300, 1);
                     archAngel.screen = 27;
                 }
                 else
@@ -957,14 +964,15 @@ public class GameHelper2 {
                     archAngel.playSound("m_front", 0);
                     paramGraphics.setColor(0);
 //                    paramGraphics.fillRect(0, 0, 240, 320);
+                    fillRect(paramGraphics, 0, 0, 240, 320, 0);
                     paramGraphics.setColor(4802901);
 //                    paramGraphics.fillRect(0, 0, 240, 40);
 //                    paramGraphics.drawLine(0, 42, 240, 42);
 //                    paramGraphics.drawLine(0, 45, 240, 45);
 //                    paramGraphics.fillRect(0, 50, 240, 6);
-//                    paramGraphics.fillRect(0, 119, 240, 30);
-//                    paramGraphics.fillRect(0, 171, 240, 10);
-//                    paramGraphics.fillRect(0, 205, 240, 30);
+                    fillRect(paramGraphics, 0, 119, 240, 30, 0);
+                    fillRect(paramGraphics, 0, 171, 240, 10, 0);
+                    fillRect(paramGraphics, 0, 205, 240, 30, 0);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 3, 0, 0);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 3, 0, 280);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 4, 0, 60);
@@ -983,10 +991,11 @@ public class GameHelper2 {
                 {
                     paramGraphics.setColor(0);
 //                    paramGraphics.fillRect(0, 60, 240, 240);
+                    fillRect( paramGraphics,0, 60, 240, 240, 0);
                     paramGraphics.setColor(4802901);
-//                    paramGraphics.fillRect(0, 119, 240, 30);
-//                    paramGraphics.fillRect(0, 171, 240, 10);
-//                    paramGraphics.fillRect(0, 205, 240, 30);
+                    fillRect( paramGraphics, 0, 119, 240, 30, 0);
+                    fillRect( paramGraphics, 0, 171, 240, 10, 0);
+                    fillRect( paramGraphics, 0, 205, 240, 30, 0);
 //                    paramGraphics.setClip(0, 80 + 5 * archAngel.x, 240, 200 - 10 * archAngel.x);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 30, 0, 80);
 //                    paramGraphics.setClip(0, 0, 240, 320);
@@ -1000,6 +1009,19 @@ public class GameHelper2 {
                 }
                 break;
         }
+    }
+
+    /**
+     * #0 for red
+     * #1 for light blue, #3 light blue 2 6DCFF6
+     * #2 for light yellow, #4 gray 93959A #5 for white
+     */
+    public void fillRect(SpriteBatch batch, int x, int y, int width, int height, int color) {
+        // Hard code default width x height of color img: 12x12 px
+        int scaleY = height / 12;
+        int scaleX = width / 12;
+        // (Texture, float x, float y, float originX, float originY, float width, float height, float scaleX, float scaleY, float rotation, int srcX, int srcY, int srcWidth, int srcHeight, boolean flipX, boolean flipY)
+        batch.draw(imgColor[color], x, y, 0, 0, imgColor[color].getWidth(), imgColor[color].getHeight(), scaleX, scaleY, 0, 0, 0, imgColor[color].getWidth()*scaleX, imgColor[color].getHeight()*scaleY, false, false);
     }
 
 }
