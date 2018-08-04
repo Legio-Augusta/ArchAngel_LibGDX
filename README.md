@@ -3,8 +3,8 @@ ArchAngel - LibGDX (migrate from J2ME)
 
   ArchAngel - Samsung Funclub
 
-![snowballfight](https://github.com/Legio-Augusta/ArchAngel_LibGDX/blob/master/android/assets/intro_0.png)
-![snowball-fight](https://github.com/Legio-Augusta/ArchAngel_LibGDX/blob/master/android/assets/screen_3.png)
+![archangel](https://github.com/Legio-Augusta/ArchAngel_LibGDX/blob/master/android/assets/intro_00.png)
+![arch-angel](https://github.com/Legio-Augusta/ArchAngel_LibGDX/blob/master/android/assets/screen_2.png)
 
 SnowBallFight is a Samsung J2ME [arcade game by MCookie n Wait4U, NeoMnT](http://www.samsung.com/be/funclub/), which was ported to libgdx by [Dzung Ng](http://cheatortrick.blogspot.com/).
 
