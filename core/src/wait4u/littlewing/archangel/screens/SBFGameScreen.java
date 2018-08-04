@@ -340,42 +340,42 @@ public class SBFGameScreen extends DefaultScreen implements InputProcessor {
         if(school <= 0) {
             school = 1;
         }
-        imgBack = new Texture("data/samsung-white/back"+school+".png");
-        imgAl = new Texture("data/samsung-white/al.png");
-        imgShadow = new Texture("data/samsung-white/shadow0.png");
-        imgPok = new Texture("data/samsung-white/pok.png");
-        imgPPang = new Texture("data/samsung-white/bbang0.png");
-        imgPPang1 = new Texture("data/samsung-white/bbang1.png");
-        imgH_ppang = new Texture("data/samsung-white/h_bbang.png");
-        imgSnow_g = new Texture("data/samsung-white/snow_gauge.png");
-        imgPwd = new Texture("data/samsung-white/power.png");
+        imgBack = new Texture("samsung-white/back"+school+".png");
+        imgAl = new Texture("samsung-white/al.png");
+        imgShadow = new Texture("samsung-white/shadow0.png");
+        imgPok = new Texture("samsung-white/pok.png");
+        imgPPang = new Texture("samsung-white/bbang0.png");
+        imgPPang1 = new Texture("samsung-white/bbang1.png");
+        imgH_ppang = new Texture("samsung-white/h_bbang.png");
+        imgSnow_g = new Texture("samsung-white/snow_gauge.png");
+        imgPwd = new Texture("samsung-white/power.png");
 
         // TODO init Item object item value, not just Texture
         imgItem = new Texture[9];
         for (int m = 0; m < 9; m++) {
-            imgItem[m] = new Texture("data/samsung-white/item" + m + ".png");
+            imgItem[m] = new Texture("samsung-white/item" + m + ".png");
         }
         imgItem_hyo = new Texture[2];
-        imgItem_hyo[0] = new Texture("data/samsung-white/hyo0.png");
-        imgItem_hyo[1] = new Texture("data/samsung-white/hyo1.png");
+        imgItem_hyo[0] = new Texture("samsung-white/hyo0.png");
+        imgItem_hyo[1] = new Texture("samsung-white/hyo1.png");
 
         imgSpecial = new Texture[3];
         for (int i = 0; i < 3; i++) {
-            imgSpecial[i] = new Texture("data/samsung-white/special" + i + ".png");
+            imgSpecial[i] = new Texture("samsung-white/special" + i + ".png");
         }
         // TODO use texture region
         imgEffect = new Texture[2];
-        imgEffect[0] = new Texture("data/samsung-white/effect0.png");
-        imgEffect[1] = new Texture("data/samsung-white/effect1.png");
+        imgEffect[0] = new Texture("samsung-white/effect0.png");
+        imgEffect[1] = new Texture("samsung-white/effect1.png");
 
         if(tmp_stage <= 8) {
             tmp_stage = 1;
         }
-        imgStage_num = new Texture("data/samsung-white/stage"+ tmp_stage + ".png"); // tmp_stage +
-        ui = new Texture("data/samsung-white/ui.png");  // h:160p (1080p)
+        imgStage_num = new Texture("samsung-white/stage"+ tmp_stage + ".png"); // tmp_stage +
+        ui = new Texture("samsung-white/ui.png");  // h:160p (1080p)
         imgStage = new Texture[5];
         for (int i = 0; i < 5; i++) {
-            imgStage[i] = new Texture("data/samsung-white/word-" + i + ".png");
+            imgStage[i] = new Texture("samsung-white/word-" + i + ".png");
         }
 
         /**
@@ -385,14 +385,14 @@ public class SBFGameScreen extends DefaultScreen implements InputProcessor {
          */
         imgColor = new Texture[6];
         for (int i = 0; i < 6; i++) {
-            imgColor[i] = new Texture("data/samsung-white/color-" + i + ".png");
+            imgColor[i] = new Texture("samsung-white/color-" + i + ".png");
         }
 
-        imgKeyNum3 = new Texture("data/samsung-white/use_item_btn.png");
-        imgSpeedUp = new Texture("data/samsung-white/speed_up.png");
-        imgSpeedDown = new Texture("data/samsung-white/speed_down.png");
-        touch_pad = new Texture("data/gui/touchBackground.png");
-        touch_pad_knob = new Texture("data/gui/touchKnob.png");
+        imgKeyNum3 = new Texture("samsung-white/use_item_btn.png");
+        imgSpeedUp = new Texture("samsung-white/speed_up.png");
+        imgSpeedDown = new Texture("samsung-white/speed_down.png");
+        touch_pad = new Texture("gui/touchBackground.png");
+        touch_pad_knob = new Texture("gui/touchKnob.png");
     }
 
     public void monitorEnemyPosition() {
@@ -491,10 +491,10 @@ public class SBFGameScreen extends DefaultScreen implements InputProcessor {
     }
 
     protected void initHeroTexture () {
-        snowWhiteBg = new Texture("data/samsung-white/white_bg.png");
+        snowWhiteBg = new Texture("samsung-white/white_bg.png");
         hero = new Hero(new Vector2(SCREEN_WIDTH/2/CELL_WIDTH, (BOTTOM_SPACE+ui.getHeight()+SMALL_GAP)/CELL_WIDTH));
 
-        fireBtnTexture = new Texture("data/samsung-white/fire.png");
+        fireBtnTexture = new Texture("samsung-white/fire.png");
     }
 
     public void draw_sp_hyo() {
@@ -2109,7 +2109,7 @@ public class SBFGameScreen extends DefaultScreen implements InputProcessor {
         {
             if (ani_step <= 45) {
                 if(special > 0) {
-                    imgSp = new Texture("data/samsung-white/sp" + special + ".png");
+                    imgSp = new Texture("samsung-white/sp" + special + ".png");
                 }
                 batch.draw(imgSp, (158 - ani_step * 3)*SGH_SCALE_RATIO, 160*SGH_SCALE_RATIO-imgSp.getHeight());
             }
@@ -2118,14 +2118,14 @@ public class SBFGameScreen extends DefaultScreen implements InputProcessor {
         {
             if (ani_step <= 45) {
                 if(special > 0) {
-                    imgSp = new Texture("data/samsung-white/sp" + special + ".png");
+                    imgSp = new Texture("samsung-white/sp" + special + ".png");
                 }
                 batch.draw(imgSp, (158 - ani_step * 3)*SGH_SCALE_RATIO, 160*SGH_SCALE_RATIO-imgSp.getHeight());
             }
         }
         else if ((special == 3) && (ani_step <= 45)) {
             if(imgSp == null) {
-                imgSp = new Texture("data/samsung-white/sp" + special + ".png");
+                imgSp = new Texture("samsung-white/sp" + special + ".png");
             }
             batch.draw(imgSp, (168 - ani_step * 3)*SGH_SCALE_RATIO, 160*SGH_SCALE_RATIO-imgSp.getHeight());
         }

@@ -38,11 +38,11 @@ public class BriefOneScreen extends DefaultScreen {
         font.getData().setScale(3);
 
         // TODO handle screen ratio
-        steelbar_up = new Texture(Gdx.files.internal("data/samsung-white/steelbar_menu_up.png")); // 240x20
-        steelbar_down = new Texture(Gdx.files.internal("data/samsung-white/steelbar_menu_down.png")); // 240x20
-        archangel = new Texture(Gdx.files.internal("data/samsung-white/archangel_text.png")); // 195x30 <-> 877x135
+        steelbar_up = new Texture(Gdx.files.internal("samsung-white/steelbar_menu_up.png")); // 240x20
+        steelbar_down = new Texture(Gdx.files.internal("samsung-white/steelbar_menu_down.png")); // 240x20
+        archangel = new Texture(Gdx.files.internal("samsung-white/archangel_text.png")); // 195x30 <-> 877x135
 
-        open0 = new Texture(Gdx.files.internal("data/samsung-white/open0.png")); // 240x146 <-> 1080x657
+        open0 = new Texture(Gdx.files.internal("samsung-white/open0.png")); // 240x146 <-> 1080x657
         batch = new SpriteBatch();
     }
 

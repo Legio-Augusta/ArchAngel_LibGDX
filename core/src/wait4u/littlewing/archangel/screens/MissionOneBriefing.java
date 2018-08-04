@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
+import wait4u.littlewing.archangel.ArchAngelME;
 
 /**
  * Created by Nick Farrow on 07/10/2018.
@@ -34,12 +35,12 @@ public class MissionOneBriefing extends DefaultScreen {
         font.getData().setScale(3);
 
         // TODO handle screen ratio
-        steelbar_up = new Texture(Gdx.files.internal("data/samsung-white/steelbar_menu_up.png")); // 240x20
-        steelbar_down = new Texture(Gdx.files.internal("data/samsung-white/steelbar_menu_down.png")); // 240x20
-        archangel = new Texture(Gdx.files.internal("data/samsung-white/archangel_text.png")); // 195x30 <-> 877x135
+        steelbar_up = new Texture(Gdx.files.internal("samsung-white/steelbar_menu_up.png")); // 240x20
+        steelbar_down = new Texture(Gdx.files.internal("samsung-white/steelbar_menu_down.png")); // 240x20
+        archangel = new Texture(Gdx.files.internal("samsung-white/archangel_text.png")); // 195x30 <-> 877x135
 
-        brief0_map = new Texture(Gdx.files.internal("data/samsung-white/brief0_map.png")); // 167x79 <-> 751x356
-        brief_pilot = new Texture(Gdx.files.internal("data/samsung-white/brief_pilot.png")); // 52x63 <-> 234x284
+        brief0_map = new Texture(Gdx.files.internal("samsung-white/brief0_map.png")); // 167x79 <-> 751x356
+        brief_pilot = new Texture(Gdx.files.internal("samsung-white/brief_pilot.png")); // 52x63 <-> 234x284
         batch = new SpriteBatch();
     }
 
@@ -78,7 +79,9 @@ public class MissionOneBriefing extends DefaultScreen {
         batch.end();
 
         if (Gdx.input.justTouched()) {
-            game.setScreen(new SBFGameScreen(game, 6, 1));
+//            game.setScreen(new SBFGameScreen(game, 6, 1));
+            ArchAngelME archAngel = new ArchAngelME();
+            game.setScreen(new GameScreen(archAngel, game));
         }
     }
 

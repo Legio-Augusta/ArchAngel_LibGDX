@@ -22,12 +22,12 @@ public class AllClearScreen extends DefaultScreen {
     // This require more complex constructor and Screen class data.
     public AllClearScreen(Game game) {
         super(game);
-        music = Gdx.audio.newMusic(Gdx.files.internal("data/audio/victory.mp3"));
+        music = Gdx.audio.newMusic(Gdx.files.internal("audio/victory.mp3"));
     }
 
     @Override
     public void show() {
-        imgAllClear = new Texture("data/samsung-white/allClear2.jpg");
+        imgAllClear = new Texture("samsung-white/allClear2.jpg");
 
         batch = new SpriteBatch();
     }
@@ -40,7 +40,7 @@ public class AllClearScreen extends DefaultScreen {
         int BOTTOM_SPACE = (int)SCREEN_HEIGHT/8;
 
         if(music == null) {
-            music = Gdx.audio.newMusic(Gdx.files.internal("data/audio/victory.mp3"));
+            music = Gdx.audio.newMusic(Gdx.files.internal("audio/victory.mp3"));
         }
         music.setVolume(0.5f);
         if(!music.isPlaying()) {

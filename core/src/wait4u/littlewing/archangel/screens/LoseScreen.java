@@ -15,7 +15,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class LoseScreen extends DefaultScreen {
     public LoseScreen(Game game) {
         super(game);
-        music = Gdx.audio.newMusic(Gdx.files.internal("data/audio/lose.mp3"));
+        music = Gdx.audio.newMusic(Gdx.files.internal("audio/lose.mp3"));
     }
 
     Texture imgLose;
@@ -25,8 +25,8 @@ public class LoseScreen extends DefaultScreen {
 
     @Override
     public void show() {
-        imgLose = new Texture("data/samsung-white/lose.png");
-        imgHero_l = new Texture("data/samsung-white/hero-lose.png");
+        imgLose = new Texture("samsung-white/lose.png");
+        imgHero_l = new Texture("samsung-white/hero-lose.png");
         batch = new SpriteBatch();
         if(music != null) {
             if(!music.isPlaying()) {

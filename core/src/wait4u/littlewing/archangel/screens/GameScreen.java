@@ -1,9 +1,29 @@
 package wait4u.littlewing.archangel.screens;
 
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
-public class GameScreen {
-        /*extends DefaultScreen implements InputProcessor {
+import wait4u.littlewing.archangel.ArchAngelME;
+import wait4u.littlewing.archangel.OverlapTester;
+import wait4u.littlewing.archangel.ReadText;
+import wait4u.littlewing.archangel.GameHelper;
+import wait4u.littlewing.archangel.GameHelper2;
+
+public class GameScreen extends DefaultScreen implements InputProcessor {
     public int a;
     public boolean bool_b;
     public final byte byte_c;
@@ -37,19 +57,93 @@ public class GameScreen {
     public int ae;
     public int af;
     public int ag;
-    public boolean bool_ah;
-    public final ArchAngel archAngel;
+    public boolean gameOff;
+    public final ArchAngelME archAngel;
 
     public GameHelper helper = new GameHelper();
     public GameHelper2 secondHelper = new GameHelper2();
 
-    public void keyPressed(int paramInt)
+    private static int SMALL_GAP = 32; // 32px for gap
+
+    OrthographicCamera camera;
+    SpriteBatch batch;
+    Texture fireBtnTexture;
+
+    // Ratio 3:4 ~ 9:12 So with ratio 9:16 we lost (not use) 4/16 = 1/4 of height.
+    // Ie. 1920 we will cut 1/4 = 480px to keep ratio 3:4 1080:1440.
+    // Bottom space used for fireBtn, so top should space only 240px
+    private static int SCREEN_WIDTH = Gdx.graphics.getWidth();
+    private static int SCREEN_HEIGHT = Gdx.graphics.getHeight();
+    private static int SGH_120_CELL = 5; // 5 pixel per cell in original 120px SGH
+    private static int SGH_SCALE_RATIO = (int)Gdx.graphics.getWidth()/120; // 120 or 128px from original J2ME resolution.
+    private static int CELL_WIDTH = SGH_120_CELL*SGH_SCALE_RATIO;
+    private static int VIEW_PORT_HEIGHT = (int)SCREEN_HEIGHT*3/4;
+    private static int TOP_BOUND = VIEW_PORT_HEIGHT + (int)SCREEN_HEIGHT/8;
+    private static int BOTTOM_SPACE = (int)SCREEN_HEIGHT/8; // May be change for fit touch button
+
+    // Use rectangle until figure out how to work with BoundingBox multi input.
+    Rectangle upBtnRect = new Rectangle(20+(200/3), 20+(400/3), 72, 70);
+    Rectangle downBtnRect = new Rectangle(20+(200/3), 20, 72, 70);
+    Rectangle leftBtnRect = new Rectangle(20, 20+(200/6), 70, 140);
+    Rectangle rightBtnRect = new Rectangle(20+(400/3), 20+(200/6), 2*70, 140);
+    Rectangle optionBtnRect = new Rectangle(SCREEN_WIDTH/2+150, SCREEN_HEIGHT/8, SCREEN_WIDTH/2-180, 70);
+    Rectangle leftMenuBtn = new Rectangle(SCREEN_WIDTH-275-400, 20, 200, 100);
+    Rectangle rightMenuBtn = new Rectangle(SCREEN_WIDTH-275-200, 20, 200, 100);
+
+    private int game_action = 0;
+    private int key_code = 0;
+    private static final int GAME_ACTION_OK = 8; // simulate KEY, gameAction in J2ME
+    private static final int GAME_ACTION_LEFT = 2;
+    private static final int GAME_ACTION_RIGHT = 5;
+    private static final int GAME_ACTION_UP = 8;
+    private static final int GAME_ACTION_DOWN = 6;
+    private static final int KEY_RIGHT_MENU = -7; // action = 0
+    private static final int KEY_LEFT_MENU = -6;  // action = 0
+    private static final int KEY_OK = -5;
+    private static final int KEY_NUM_3 = 0; // for item mode
+    private static final int KEY_SHARP = 0;
+
+    Vector3 touchPoint;
+    Preferences prefs = Gdx.app.getPreferences("gamestate");
+    private static final String PREF_VIBRATION      = "vibration";
+    private static final String PREF_SOUND_ENABLED  = "soundenabled";
+    private static final String PREF_SPEED          = "gamespeed";
+    private static final String PREF_LEVEL          = "level";
+    private static final String PREF_SAVEDGOLD      = "saved_gold";
+    private static final String PREF_MANA           = "mana";
+    private static final String PREF_GAME_STAGE     = "game_stage";
+    private static final String PREF_LAST_GAME_STAGE = "last_game_stage";
+    private int item_mode;
+
+    private Texture [] imgColor; // For fillRect with color
+    private Texture imgKeyNum3;
+    private Texture imgSpeedUp;
+    private Texture imgSpeedDown;
+    private Texture touch_pad;
+    private Texture touch_pad_knob;
+    BitmapFont font;
+    private Music music;
+
+    /*
+     *    https://docs.oracle.com/javame/config/cldc/ref-impl/midp2.0/jsr118/constant-values.html#javax.microedition.lcdui.Canvas.UP
+     *    key code = -5 game action = 8 OK
+     *    key code = 35 game action = 0 #
+     *    key code = -2 game action = 6 DOWN
+     *    key code = -4 game action = 5 LEFT
+     *    key code = -1 game action = 1 UP ~ OK
+     *    key code = 35 game action = 0 #
+     *    key code = 49 game action = 9 KEY_2 = UP ?
+     *    key code = 51 game action = 10 KEY_3 (use item)
+     *    key code = -7 game action = 0 RIGHT_MENU
+     */
+    public void keyPressed()
     {
+        int paramInt = this.key_code;
         int i1 = getGameAction(paramInt);
         if (this.archAngel.bool_h) {
             return;
         }
-        switch (this.archAngel.b)
+        switch (this.archAngel.screen)
         {
             case 0:
                 if (this.archAngel.z == 1) {
@@ -76,7 +170,7 @@ public class GameScreen {
                             }
                             this.archAngel.playSound("s_menu_move", 1);
                             break;
-                        case -7: // GAME_B RIGHT_UP
+                        case -7: // GAME_B RIGHT_UP, TODO clear key_code (key_released)
                         case -5:
                             if (this.l == 0)
                             {
@@ -152,14 +246,14 @@ public class GameScreen {
                             this.archAngel.bool_e = true;
                             break;
                         case -6:
-                            this.archAngel.b = 9;
+                            this.archAngel.screen = 9;
                             break;
                         case -7:
                         case -5:
                             if (this.l == 5) {
-                                this.archAngel.b = 4;
+                                this.archAngel.screen = 4;
                             } else {
-                                this.archAngel.b = ((byte)(8 + this.l));
+                                this.archAngel.screen = ((byte)(8 + this.l));
                             }
                     }
                 }
@@ -279,12 +373,12 @@ public class GameScreen {
                                     break;
                                 case -7:
                                     if (this.archAngel.bool_l) {
-                                        this.archAngel.b = 13;
+                                        this.archAngel.screen = 13;
                                     }
                                     break;
                                 case -6:
                                     if (this.archAngel.bool_l) {
-                                        this.archAngel.b = 14;
+                                        this.archAngel.screen = 14;
                                     }
                                     break;
                                 case -5:
@@ -434,7 +528,7 @@ public class GameScreen {
                 break;
             case 4:
                 if ((this.archAngel.z == 1) && (paramInt == -6)) {
-                    this.archAngel.b = 5;
+                    this.archAngel.screen = 5;
                 }
                 break;
             case 1:
@@ -444,7 +538,7 @@ public class GameScreen {
                 }
                 if (paramInt == -6)
                 {
-                    if (this.archAngel.b == 1)
+                    if (this.archAngel.screen == 1)
                     {
                         this.archAngel.z = 10;
                     }
@@ -521,14 +615,14 @@ public class GameScreen {
 
     public void empty_func() {}
 
-    public void draw_data_helper(Graphics paramGraphics, int paramInt1, int paramInt2)
+    public void draw_data_helper(SpriteBatch paramGraphics, int paramInt1, int paramInt2)
     {
         this.o = paramInt2;
         this.p = paramInt1;
         this.helper.drawDataInTxt(paramGraphics, paramInt1, paramInt2, this.t, this.x, this.str_arr_w, this.archAngel, this.readText);
     }
 
-    public void draw_resume(Graphics paramGraphics)
+    public void draw_resume(SpriteBatch paramGraphics)
     {
         if (this.archAngel.x > 0) {
             return;
@@ -538,109 +632,25 @@ public class GameScreen {
             case 0:
                 this.archAngel.stopSound();
                 paramGraphics.setColor(0);
-                paramGraphics.fillRect(0, 150, 240, 15);
+//                paramGraphics.fillRect(0, 150, 240, 15);
                 this.archAngel.readMedia.drawGraphicStr40_122(paramGraphics, 98, 152, "PAUSE");
                 this.archAngel.drawImage(paramGraphics);
                 this.archAngel.a(paramGraphics, "RESUME", false);
                 break;
             case 1:
-                this.archAngel.y = (this.archAngel.b = 25);
+                this.archAngel.y = (this.archAngel.screen = 25);
                 this.archAngel.z = 4;
                 return;
         }
     }
 
-    public void paint(Graphics paramGraphics)
+    public void paint(SpriteBatch paramGraphics) // J2ME
     {
-        if (this.bool_ah) { // like GameOff, true then stop paint
-//      System.out.println(">>>>> paint stop <<<<<");
-            // Paint done ? can it just remove return to debug
-            return;
-        }
-        this.bool_ah = true;
-        this.archAngel.x += 1;
-        if (this.archAngel.b != this.archAngel.y)
-        {
-            this.archAngel.x = 0;
-            this.archAngel.z = 0;
-            this.archAngel.aa = 0;
-            this.archAngel.p = -1;
-            this.bool_b = true;
-            this.archAngel.y = this.archAngel.b;
-            this.archAngel.bool_i = false;
-        }
-        else if (this.archAngel.z != this.archAngel.aa)
-        {
-            this.archAngel.x = 0;
-            this.archAngel.aa = this.archAngel.z;
-        }
-        switch (this.archAngel.b)
-        {
-            case 25:
-                this.secondHelper.draw_game_play_screen(paramGraphics, this.aa, this.ab, this.ac, this.ad, this.ae, this.af, this.ag, this.l,
-                        this.bool_b, this.bool_z, this.archAngel);
-                break;
-            case 0:
-                this.secondHelper.draw_intro(paramGraphics, this.archAngel);
-                break;
-            case 3:
-                this.helper.loadSavedGame(paramGraphics, this.l, this.archAngel);
-                break;
-            case 1:
-                this.secondHelper.load_system_txt(paramGraphics, this.l, this.o, this.p, this.q, this.t, this.x, this.y, this.str_arr_w, this.archAngel, this.readText, this.helper);
-                break;
-            case 5:
-                this.secondHelper.draw_warning_etc_menu(paramGraphics, this.l, this.archAngel);
-                break;
-            case 13:
-                this.secondHelper.goto_menu(paramGraphics, this.o, this.p, this.q, this.t, this.x, this.str_arr_w, this.archAngel, this.readText, this.helper);
-                break;
-            case 14:
-                draw_resume(paramGraphics);
-                break;
-            case 9:
-                if (this.archAngel.gameSetting.c != this.archAngel.gameSetting.b) {
-                    this.secondHelper.draw_start_option(paramGraphics, this.o, this.p, this.archAngel);
-                } else {
-                    this.archAngel.b = 25;
-                }
-                break;
-            case 8:
-                this.secondHelper.draw_start_option(paramGraphics, this.o, this.p, this.archAngel);
-                break;
-            case 10:
-                this.helper.draw_system_setin(paramGraphics, this.l, this.o, this.p, this.q, this.t, this.x, this.y, this.str_arr_w, this.archAngel, this.readText);
-                break;
-            case 11:
-                draw_shop_info_arm(paramGraphics);
-                break;
-            case 12:
-                draw_shop_arm2(paramGraphics);
-                break;
-            case 4:
-                this.helper.briefAbout(paramGraphics, this.o, this.p, this.l, this.archAngel);
-                break;
-            case 26:
-                this.helper.briefOpen(paramGraphics, this.o, this.p, this.archAngel);
-                break;
-            case 2:
-                simple_read_helper(paramGraphics);
-                break;
-            case 7:
-                this.helper.displayGameOver(paramGraphics, this.archAngel);
-                break;
-            case 6:
-                this.secondHelper.draw_font_result(paramGraphics, this.archAngel, this.helper);
-                break;
-            case 27:
-                this.helper.loadBrief1(paramGraphics, this.o, this.p, this.archAngel);
-                break;
-        }
-        this.bool_ah = false;
     }
 
-    public GameScreen(ArchAngel paramArchAngel)
+    public GameScreen(ArchAngelME paramArchAngel, Game game)
     {
+        super(game);
         (this.archAngel = paramArchAngel).getClass();
         this.a = 0;
         this.bool_b = true;
@@ -669,14 +679,26 @@ public class GameScreen {
         this.ae = 0;
         this.af = 0;
         this.ag = 0;
-        this.bool_ah = false;
+        this.gameOff = false;
+
+        Gdx.input.setCatchBackKey( true );
+        Gdx.input.setInputProcessor(this);
+
+        // Calculate global var width/height, view port ...
+        create();
+//        this.screen = param_screen;
+
+        touchPoint = new Vector3();
+//        game_speed = getGameSpeed();
+//        init_game(stage);
     }
 
     public void void_empty() {}
 
     public void keyReleased(int paramInt)
     {
-        switch (this.archAngel.b)
+//        this.key_code = 0;
+        switch (this.archAngel.screen)
         {
             case 25:
                 if (this.archAngel.mainGameScreen.bi == 1)
@@ -707,7 +729,7 @@ public class GameScreen {
     {
         this.archAngel.bool_t = true;
         this.archAngel.x = -1;
-        if (this.archAngel.b == 25)
+        if (this.archAngel.screen == 25)
         {
             this.archAngel.mainGameScreen.setup3();
             this.archAngel.mainGameScreen.ba = 0;
@@ -716,7 +738,7 @@ public class GameScreen {
         }
     }
 
-    public void draw_shop_info_arm(Graphics paramGraphics)
+    public void draw_shop_info_arm(SpriteBatch paramGraphics)
     {
         if ((this.archAngel.z > 0) && (this.archAngel.x > 0)) {
             return;
@@ -737,9 +759,9 @@ public class GameScreen {
                     }
                     this.archAngel.readMedia.closeInputStream();
                     this.archAngel.readMedia.drawImageAnchor20(paramGraphics, 14, 17, 89);
-                    paramGraphics.setClip(17, 89, 223, 25);
+//                    paramGraphics.setClip(17, 89, 223, 25);
                     this.archAngel.readMedia.drawImageAnchor20(paramGraphics, 13, 60, 90 - this.l * 33);
-                    paramGraphics.setClip(0, 0, 240, 320);
+//                    paramGraphics.setClip(0, 0, 240, 320);
                 }
                 this.helper.simple_helper(paramGraphics, this.archAngel);
                 return;
@@ -772,13 +794,13 @@ public class GameScreen {
                 this.archAngel.readText.g = 3;
                 break;
             case 999:
-                this.archAngel.b = 5;
+                this.archAngel.screen = 5;
                 this.readText = null;
                 return;
         }
     }
 
-    public void draw_shop_arm2(Graphics paramGraphics)
+    public void draw_shop_arm2(SpriteBatch paramGraphics)
     {
         if ((this.archAngel.z > 0) && (this.archAngel.x > 0)) {
             return;
@@ -797,9 +819,9 @@ public class GameScreen {
                     }
                     this.archAngel.readMedia.closeInputStream();
                     this.archAngel.readMedia.drawImageAnchor20(paramGraphics, 14, 17, 89);
-                    paramGraphics.setClip(17, 89, 223, 25);
+//                    paramGraphics.setClip(17, 89, 223, 25);
                     this.archAngel.readMedia.drawImageAnchor20(paramGraphics, 13, 60, 90 - this.l * 33);
-                    paramGraphics.setClip(0, 0, 240, 320);
+//                    paramGraphics.setClip(0, 0, 240, 320);
                     this.archAngel.drawImage(paramGraphics);
                     this.archAngel.a(paramGraphics, "BACK", true);
                     this.archAngel.a(paramGraphics, "OK", false);
@@ -862,7 +884,7 @@ public class GameScreen {
                 this.bool_v = true;
                 return;
             case 999:
-                this.archAngel.b = 5;
+                this.archAngel.screen = 5;
                 this.readText = null;
                 return;
             default:
@@ -872,7 +894,7 @@ public class GameScreen {
                     this.archAngel.drawImage(paramGraphics);
                     this.archAngel.a(paramGraphics, "BACK", true);
                     this.archAngel.a(paramGraphics, "OK", false);
-                    paramGraphics.setClip(0, 0, 178, 75);
+//                    paramGraphics.setClip(0, 0, 178, 75);
                     this.helper.draw_ammunation_buy(paramGraphics, this.archAngel.z, true, this.archAngel.d, this.x, this.t, this.str_arr_w, this.archAngel, this.readText);
                     this.s = this.archAngel.z;
                     switch (this.archAngel.d)
@@ -922,35 +944,460 @@ public class GameScreen {
 
     public void run()
     {
-        for (;;)
+        if ((this.archAngel.screen == 25) && (this.archAngel.z == 4))
         {
-            try
-            {
-                repaint();
-                if ((this.archAngel.b == 25) && (this.archAngel.z == 4))
-                {
-                    this.archAngel.mainGameScreen.complex_helper();
-                    this.archAngel.mainGameScreen.config2();
-                }
-                serviceRepaints();
-                Thread.sleep((this.archAngel.b == 25) || (this.archAngel.b == 1) ? 30 : 30);
-            }
-            catch (Exception localException) {
-                System.out.println(">>>>> run exception <<<<<");
-            }
+            this.archAngel.mainGameScreen.complex_helper();
+            this.archAngel.mainGameScreen.config2();
         }
+
+        if (this.gameOff) { // like GameOff, true then stop paint
+            // Paint done ? can it just remove return to debug
+            return;
+        }
+        this.gameOff = true;
+        this.archAngel.x += 1;
+        if (this.archAngel.screen != this.archAngel.y)
+        {
+            this.archAngel.x = 0;
+            this.archAngel.z = 0;
+            this.archAngel.aa = 0;
+            this.archAngel.p = -1;
+            this.bool_b = true;
+            this.archAngel.y = this.archAngel.screen;
+            this.archAngel.bool_i = false;
+        }
+        else if (this.archAngel.z != this.archAngel.aa)
+        {
+            this.archAngel.x = 0;
+            this.archAngel.aa = this.archAngel.z;
+        }
+//        DrawDebugLine(new Vector2(0,0), new Vector2(100,100), camera.combined);
+
+        switch (this.archAngel.screen)
+        {
+            case 25:
+                this.secondHelper.draw_game_play_screen(batch, this.aa, this.ab, this.ac, this.ad, this.ae, this.af, this.ag, this.l,
+                        this.bool_b, this.bool_z, this.archAngel);
+                break;
+            case 0:
+                this.secondHelper.draw_intro(batch, this.archAngel);
+                break;
+            case 3:
+                this.helper.loadSavedGame(batch, this.l, this.archAngel);
+                break;
+            case 1:
+                this.secondHelper.load_system_txt(batch, this.l, this.o, this.p, this.q, this.t, this.x, this.y, this.str_arr_w, this.archAngel, this.readText, this.helper);
+                break;
+            case 5:
+                this.secondHelper.draw_warning_etc_menu(batch, this.l, this.archAngel);
+                break;
+            case 13:
+//                this.archAngel.screen = 25; // Debug FIXME
+                this.secondHelper.goto_menu(batch, this.o, this.p, this.q, this.t, this.x, this.str_arr_w, this.archAngel, this.readText, this.helper);
+                break;
+            case 14:
+                draw_resume(batch);
+                break;
+            case 9:
+                if (this.archAngel.gameSetting.c != this.archAngel.gameSetting.boss_level) {
+                    this.secondHelper.draw_start_option(batch, this.o, this.p, this.archAngel);
+                } else {
+                    this.archAngel.screen = 25;
+                }
+                break;
+            case 8:
+//                this.archAngel.screen = 25; // Debug FIXME
+                this.secondHelper.draw_start_option(batch, this.o, this.p, this.archAngel);
+                break;
+            case 10:
+                this.helper.draw_system_setin(batch, this.l, this.o, this.p, this.q, this.t, this.x, this.y, this.str_arr_w, this.archAngel, this.readText);
+                break;
+            case 11:
+                draw_shop_info_arm(batch);
+                break;
+            case 12:
+                draw_shop_arm2(batch);
+                break;
+            case 4:
+                this.helper.briefAbout(batch, this.o, this.p, this.l, this.archAngel);
+                break;
+            case 26:
+                this.helper.briefOpen(batch, this.o, this.p, this.archAngel);
+                break;
+            case 2:
+                simple_read_helper(batch);
+                break;
+            case 7:
+                this.helper.displayGameOver(batch, this.archAngel);
+                break;
+            case 6:
+                this.secondHelper.draw_font_result(batch, this.archAngel, this.helper);
+                break;
+            case 27:
+                this.helper.loadBrief1(batch, this.o, this.p, this.archAngel);
+                break;
+        }
+        this.gameOff = false;
     }
 
-    public void draw_lack_of(Graphics paramGraphics, int paramInt)
+    public void draw_lack_of(SpriteBatch paramGraphics, int paramInt)
     {
         this.archAngel.readMedia.drawGraphicStr40_122(paramGraphics, 12, 145, "Lack of " + (paramInt - this.t));
     }
 
-    public void simple_read_helper(Graphics paramGraphics)
+    public void simple_read_helper(SpriteBatch paramGraphics)
     {
         this.archAngel.gameSetting.initSetting();
         this.archAngel.gameSetting.readArmPlasmaMissile(this.archAngel.readText);
-        this.archAngel.b = 5;
+        this.archAngel.screen = 5;
     }
-    */
+
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        batch.begin();
+        // TODO use boundingBox and touchAreas
+        // TODO pass touchPoint instead of global
+        // BoundingBox can be use Rectangle as alternative ?
+        // convert touch event to key event (getGameAction)
+        touchPoint.set(Gdx.input.getX(),Gdx.input.getY(), 0);
+
+        Gdx.app.log("DEBUG", "touch " + touchPoint.x + " y "+ (SCREEN_HEIGHT-touchPoint.y) + " key_code "+ this.key_code);
+        game_action = getGameAction();
+
+        if(isTouchedMenuLeft()) { // smaller value, shorter sleep
+            Gdx.input.vibrate(5);
+        } else if(isTouchedMenuRight()) {
+            Gdx.input.vibrate(5);
+        } else if(isTouchedOK()) {
+        } else if(isTouchedUp()) {
+        } else if(isTouchedDown()){
+        } else {
+            this.key_code = 0;
+        }
+
+        // Use rectangle instead of collisionRay. TODO fix collisionRay null and multiplex many Gdx.input
+        // TODO May be use OverlapTester Class for these task
+        keyPressed();
+        batch.end();
+
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+//        this.key_code = 0;
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
+    }
+
+    @Override
+    public void show() {
+
+    }
+
+    @Override
+    public void render(float delta) {
+        Gdx.gl20.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        camera.position.x = SCREEN_WIDTH/2;
+        camera.position.y = SCREEN_HEIGHT/2;
+        camera.update();
+
+        batch.enableBlending();
+        batch.begin();
+
+//        paint(this.batch);
+        run();
+
+        // drawTouchPad();
+        drawUI();
+        batch.end();
+    }
+
+    @Override
+    public void hide() {
+
+    }
+
+    /*
+     * Simulate J2ME keyCode
+     * https://docs.oracle.com/javame/config/cldc/ref-impl/midp2.0/jsr118/constant-values.html#javax.microedition.lcdui.Canvas.UP
+     * */
+    public int getGameAction(int keyCode) {
+        return game_action;
+    }
+
+    public int getGameAction() {
+        // TODO handle key_code and key released, multi touch
+        if(OverlapTester.pointInRectangle(upBtnRect, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) )) {
+            this.key_code = -1;
+            return GAME_ACTION_UP;
+        }
+        if(OverlapTester.pointInRectangle(downBtnRect, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) )) {
+            if(item_mode == 0) { // FIXME remove this, it only in SBF
+            }
+            this.key_code = -2;
+            return GAME_ACTION_DOWN;
+        }
+        if(OverlapTester.pointInRectangle(leftBtnRect, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) )) {
+            Gdx.input.vibrate(5);
+            return GAME_ACTION_LEFT;
+        }
+        if(OverlapTester.pointInRectangle(rightBtnRect, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) )) {
+            Gdx.input.vibrate(5);
+            return GAME_ACTION_RIGHT;
+        }
+        if(OverlapTester.pointInRectangle(optionBtnRect, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) )) {
+            return KEY_RIGHT_MENU; // FIXME remove
+        }
+        if(OverlapTester.pointInRectangle(leftMenuBtn, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) )) {
+            return KEY_LEFT_MENU;
+        }
+        if(OverlapTester.pointInRectangle(rightMenuBtn, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) )) {
+            return KEY_RIGHT_MENU;
+        }
+
+        return 0;
+    }
+
+    public void fillRect(int x, int y, int width, int height, int color) {
+        // Hard code default width x height of color img: 12x12 px
+        int scaleY = height / 12;
+        int scaleX = width / 12;
+        // (Texture, float x, float y, float originX, float originY, float width, float height, float scaleX, float scaleY, float rotation, int srcX, int srcY, int srcWidth, int srcHeight, boolean flipX, boolean flipY)
+        batch.draw(imgColor[color], x, y, 0, 0, imgColor[color].getWidth(), imgColor[color].getHeight(), scaleX, scaleY, 0, 0, 0, imgColor[color].getWidth()*scaleX, imgColor[color].getHeight()*scaleY, false, false);
+    }
+
+    protected void drawUI() {
+        batch.draw(fireBtnTexture, SCREEN_WIDTH-50-fireBtnTexture.getWidth(), 50, fireBtnTexture.getWidth(), fireBtnTexture.getHeight());
+        batch.draw(imgKeyNum3, SCREEN_WIDTH-50-fireBtnTexture.getWidth()-fireBtnTexture.getWidth()/2 - imgKeyNum3.getWidth(), BOTTOM_SPACE-imgKeyNum3.getHeight(), imgKeyNum3.getWidth(), imgKeyNum3.getHeight());
+        batch.draw(imgSpeedUp, SCREEN_WIDTH-50-fireBtnTexture.getWidth()-fireBtnTexture.getWidth()/2 - imgSpeedUp.getWidth(), 20, imgSpeedUp.getWidth(), imgSpeedUp.getHeight());
+        batch.draw(imgSpeedDown, SCREEN_WIDTH-50-fireBtnTexture.getWidth()-fireBtnTexture.getWidth()/2 - 2*imgSpeedDown.getWidth(), 20, imgSpeedDown.getWidth(), imgSpeedDown.getHeight());
+        batch.draw(touch_pad, 20, 20);
+        batch.draw(touch_pad_knob, 20+touch_pad.getWidth()/2-touch_pad_knob.getWidth()/2, 20+touch_pad.getHeight()/2-touch_pad_knob.getHeight()/2);
+
+//        fillRect(40, BOTTOM_SPACE+ui.getHeight()-(12 - 12 * hero.hp / hero.max_hp)*SGH_SCALE_RATIO-24, 81+5, (12 - 12 * hero.hp / hero.max_hp)*SGH_SCALE_RATIO, 4);
+    }
+
+    public void create () {
+        batch = new SpriteBatch();
+
+        //Create camera
+        float aspectRatio = (float) SCREEN_WIDTH / (float) SCREEN_HEIGHT;
+        camera = new OrthographicCamera();
+        camera.position.x = SCREEN_WIDTH/2;
+        camera.position.y = SCREEN_HEIGHT/2;
+        camera.update();
+
+        Gdx.input.setInputProcessor(this);
+
+        loadTextures();
+        //initEnemy();
+
+        font = new BitmapFont();
+        font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        font.getData().setScale(6);
+    }
+
+    public void init_game(int paramInt)
+    {
+//        initHeroTexture();
+        //initEnemy();
+
+        // repaint(); // TODO find gdx equivalent method or handle this function. May be multi Screen help ? Does global vars remain ?
+//        game_state = 0;
+
+        // screen = 6;
+        item_mode = 0;
+
+//        state = 2;
+        // startThread();
+//        gameOn = true;
+    }
+
+    private void loadTextures() {
+        fireBtnTexture = new Texture("samsung-white/fire.png");
+
+        /**
+         * #0 for red
+         * #1 for light blue, #3 light blue 2 6DCFF6
+         * #2 for light yellow, #4 gray 93959A #5 for white
+         */
+        imgColor = new Texture[6];
+        for (int i = 0; i < 6; i++) {
+            imgColor[i] = new Texture("samsung-white/color-" + i + ".png");
+        }
+
+        imgKeyNum3 = new Texture("samsung-white/use_item_btn.png");
+        imgSpeedUp = new Texture("samsung-white/speed_up.png");
+        imgSpeedDown = new Texture("samsung-white/speed_down.png");
+        touch_pad = new Texture("gui/touchBackground.png");
+        touch_pad_knob = new Texture("gui/touchKnob.png");
+    }
+
+    protected boolean isTouchedUp() {
+        this.key_code = -1;
+        return OverlapTester.pointInRectangle(upBtnRect, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) );
+    }
+    protected boolean isTouchedDown() {
+        this.key_code = -2;
+        return OverlapTester.pointInRectangle(downBtnRect, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) );
+    }
+    protected boolean isTouchedLeft() {
+        this.key_code = -4;
+        return OverlapTester.pointInRectangle(leftBtnRect, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) );
+    }
+    protected boolean isTouchedRight() {
+        return OverlapTester.pointInRectangle(rightBtnRect, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) );
+    }
+    protected boolean isTouchedOption() {
+        return OverlapTester.pointInRectangle(optionBtnRect, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) );
+    }
+    protected boolean isTouchedOK() {
+        this.key_code = KEY_OK;
+        Rectangle textureBounds = new Rectangle(SCREEN_WIDTH-fireBtnTexture.getWidth()-50, SCREEN_HEIGHT-50-fireBtnTexture.getHeight(), fireBtnTexture.getWidth(),fireBtnTexture.getHeight());
+        return textureBounds.contains(touchPoint.x, touchPoint.y);
+    }
+    protected boolean isTouchedNum3() {
+        Rectangle textureBounds=new Rectangle(SCREEN_WIDTH-fireBtnTexture.getWidth()-50-imgKeyNum3.getWidth()-(int)fireBtnTexture.getWidth()/2, SCREEN_HEIGHT-BOTTOM_SPACE, imgKeyNum3.getWidth(),imgKeyNum3.getHeight());
+        return textureBounds.contains(touchPoint.x, touchPoint.y);
+    }
+    protected boolean isTouchedMenuLeft() {
+        this.key_code = KEY_LEFT_MENU;
+        return OverlapTester.pointInRectangle(leftMenuBtn, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) );
+    }
+    protected boolean isTouchedMenuRight() {
+        this.key_code = KEY_RIGHT_MENU;
+        return OverlapTester.pointInRectangle(rightMenuBtn, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) );
+    }
+
+    protected Preferences getPrefs() {
+        if(prefs==null){
+            prefs = Gdx.app.getPreferences("gamestate");
+        }
+        return prefs;
+    }
+
+    public boolean isSoundEffectsEnabled() {
+        return getPrefs().getBoolean(PREF_SOUND_ENABLED, true);
+    }
+
+    public void setSoundEffectsEnabled(boolean soundEffectsEnabled) {
+        getPrefs().putBoolean(PREF_SOUND_ENABLED, soundEffectsEnabled);
+        getPrefs().flush();
+    }
+
+    public boolean getVibraEnabled() {
+        return getPrefs().getBoolean(PREF_VIBRATION, true);
+    }
+
+    public void setVibraEnabled(boolean vibra) {
+        getPrefs().putBoolean(PREF_VIBRATION, vibra);
+        getPrefs().flush();
+    }
+
+    public int getLevel() {
+        return getPrefs().getInteger(PREF_LEVEL, 11);
+    }
+
+    public void setLevel(int level) {
+        getPrefs().putInteger(PREF_LEVEL, level);
+        getPrefs().flush();
+
+    }
+    public int getSavedgold() {
+        return getPrefs().getInteger(PREF_SAVEDGOLD, 64);
+    }
+
+    public void setSavedGold(int saved_gold) {
+        getPrefs().putInteger(PREF_SAVEDGOLD, saved_gold);
+        getPrefs().flush();
+    }
+
+    public int getSavedMana() {
+        return getPrefs().getInteger(PREF_MANA, 64);
+    }
+
+    public void setSavedMana(int saved_gold) {
+        getPrefs().putInteger(PREF_MANA, saved_gold);
+        getPrefs().flush();
+    }
+
+    public int getGameSpeed() {
+        return getPrefs().getInteger(PREF_SPEED, 24);
+    }
+
+    public void setGameSpeed(int saved_gold) {
+        getPrefs().putInteger(PREF_SPEED, saved_gold);
+        getPrefs().flush();
+    }
+    public int getGameStage() {
+        return getPrefs().getInteger(PREF_GAME_STAGE, 11);
+    }
+
+    public void setGameStage(int game_stage) {
+        getPrefs().putInteger(PREF_GAME_STAGE, game_stage);
+        getPrefs().flush();
+    }
+    public int getLastGameStage() {
+        return getPrefs().getInteger(PREF_LAST_GAME_STAGE, 11);
+    }
+
+    public void setLastGameStage(int last_game_stage) {
+        getPrefs().putInteger(PREF_LAST_GAME_STAGE, last_game_stage);
+        getPrefs().flush();
+    }
+
+    private static ShapeRenderer debugRenderer = new ShapeRenderer();
+
+    public static void DrawDebugLine(Vector2 start, Vector2 end, int lineWidth, Color color, Matrix4 projectionMatrix)
+    {
+        Gdx.gl.glLineWidth(lineWidth);
+        debugRenderer.setProjectionMatrix(projectionMatrix);
+        debugRenderer.begin(ShapeRenderer.ShapeType.Line);
+        debugRenderer.setColor(color);
+        debugRenderer.line(start, end);
+        debugRenderer.end();
+        Gdx.gl.glLineWidth(1);
+    }
+
+    public static void DrawDebugLine(Vector2 start, Vector2 end, Matrix4 projectionMatrix)
+    {
+        Gdx.gl.glLineWidth(2);
+        debugRenderer.setProjectionMatrix(projectionMatrix);
+        debugRenderer.begin(ShapeRenderer.ShapeType.Line);
+        debugRenderer.setColor(Color.WHITE);
+        debugRenderer.line(start, end);
+        debugRenderer.end();
+        Gdx.gl.glLineWidth(1);
+    }
 }
