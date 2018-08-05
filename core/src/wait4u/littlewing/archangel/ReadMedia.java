@@ -20,7 +20,15 @@ public class ReadMedia
     public int int_bound_e = 0;
     public String msr_media;
 
-    private static int MOBI_SCL = (int)Gdx.graphics.getWidth()/120; // 120 or 128px from original J2ME resolution.
+    private static int SCREEN_HEIGHT = Gdx.graphics.getHeight();
+
+    // 120x160 or 128x128px from original J2ME resolution (in some game). This case screen_width is 240px
+    private static int MOBI_SCL = (int)Gdx.graphics.getWidth()/240; // FIXME 4.5 is not integer
+    private static int MOBI_H = 320;  // JavaME height = 320px
+
+    private static int VIEW_PORT_HEIGHT = (int)SCREEN_HEIGHT*3/4;
+    private static int TOP_BOUND = VIEW_PORT_HEIGHT + (int)SCREEN_HEIGHT/8;
+    private static int BOTTOM_SPACE = (int)SCREEN_HEIGHT/8; // May be change for fit touch button
 
     public void destroyImage(int paramInt)
     {
@@ -54,7 +62,9 @@ public class ReadMedia
             Gdx.app.log("ERROR", "load Media: " + this.msr_media + " int1= "+ paramInt1 + " int2= " + paramInt2);
             this.img_arr_a[paramInt1] = new Texture(Gdx.files.internal("archangel/shop_0.png"));
         }
-        paramGraphics.draw(this.img_arr_a[paramInt1], paramInt2*MOBI_SCL, paramInt3*MOBI_SCL); // 20 anchor
+
+        // 53 as BOTTOM_SPACE (~ 240 = 480/2) 240/4.5 ~= 53 (tile cell)
+        paramGraphics.draw(this.img_arr_a[paramInt1], paramInt2*MOBI_SCL, (MOBI_H - paramInt3 + 53)*MOBI_SCL); // 20 anchor
     }
 
     public ReadMedia()
@@ -71,7 +81,7 @@ public class ReadMedia
     public void destroyImage7_53()
     {
         for (int i = 7; i <= 53; i++) {
-            this.img_arr_a[i] = null;
+//            this.img_arr_a[i] = null;
         }
         System.gc();
     }
@@ -80,12 +90,12 @@ public class ReadMedia
     // These null value lead to NullPointer exception
     public void drawImageAnchor36(SpriteBatch paramGraphics, int paramInt1, int paramInt2, int paramInt3)
     {
-        paramGraphics.draw(this.img_arr_a[paramInt1], paramInt2*MOBI_SCL, paramInt3*MOBI_SCL); // 36
+        paramGraphics.draw(this.img_arr_a[paramInt1], paramInt2*MOBI_SCL, (MOBI_H-paramInt3+53)*MOBI_SCL); // 36
     }
 
     public void drawStringGraphic(SpriteBatch paramGraphics, int paramInt1, int paramInt2, String paramString, int paramInt3)
     {
-        if(paramString == null) { // dungnv
+        if(paramString == null) { // dungnv FIXME
             byte[] test = {-47, 1, 16, 84, 2, 101, 110, 83, 111, 109, 101, 32, 78, 70, 67, 32, 68, 97, 116, 97};
             paramString = new String(test, 0, 20);
         }
@@ -180,7 +190,7 @@ public class ReadMedia
             // this.img_arr_a[21] = new Texture("archangel/boss0_8.png");
             return new Texture("archangel/boss0_" + paramInt + ".png");
         } else if(this.msr_media == "boss1") {
-            this.img_arr_a[21] = new Texture("archangel/boss1_8.png");
+            return new Texture("archangel/boss1_8.png");
         } else if(this.msr_media == "boss2") {
         } else if(this.msr_media == "boss3") {
         } else if(this.msr_media == "boss4") {
@@ -215,7 +225,7 @@ public class ReadMedia
         } else if(this.msr_media == "plasma") { // 102 -> 107
             return new Texture("archangel/plasma_" + paramInt + ".png");
         } else if(this.msr_media == "result") { // 6->12
-            // return new Texture("archangel/result_" + (i) + ".png");
+             return new Texture("archangel/result_" + (paramInt) + ".png");
         } else if(this.msr_media == "select") {
             return new Texture("archangel/select_" + paramInt + ".png"); // It seem index is flexible, not constant
         } else if(this.msr_media == "shop") {
@@ -236,7 +246,7 @@ public class ReadMedia
             }
             this.img_arr_a[paramInt1] = new Texture("archangel/boss7_7.png");
         }
-        paramGraphics.draw(this.img_arr_a[paramInt1], paramInt2*MOBI_SCL, paramInt3*MOBI_SCL); // 3
+        paramGraphics.draw(this.img_arr_a[paramInt1], paramInt2*MOBI_SCL, (MOBI_H-paramInt3+53)*MOBI_SCL); // 3
     }
 
     public int readBinaryData()
@@ -256,12 +266,12 @@ public class ReadMedia
     {
         readMediaStream(paramString);
         // paramGraphics.draw(loadImage(paramInt1), paramInt2, paramInt3); //20
-        paramGraphics.draw(this.img_arr_a[paramInt1], paramInt2*MOBI_SCL, paramInt3*MOBI_SCL); //20
+        paramGraphics.draw(this.img_arr_a[paramInt1], paramInt2*MOBI_SCL, (MOBI_H - paramInt3 + 53)*MOBI_SCL); //20
     }
 
     public void drawLoadImage(int paramInt1, SpriteBatch paramGraphics, int paramInt2, int paramInt3)
     {
-        paramGraphics.draw(loadImage(paramInt1), paramInt2*MOBI_SCL, paramInt3*MOBI_SCL); // 20
+        paramGraphics.draw(loadImage(paramInt1), paramInt2*MOBI_SCL, (MOBI_H - paramInt3 + 53)*MOBI_SCL); // 20
     }
 
     public void closeInputStream()

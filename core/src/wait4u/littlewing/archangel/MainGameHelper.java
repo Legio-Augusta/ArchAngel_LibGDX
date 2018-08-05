@@ -181,7 +181,7 @@ public class MainGameHelper {
             i3 = i1 >> 8;
             i4 = i2 >> 8;
             if( (i5 - 11) < arrayOfInt.length) {
-                paramGraphics.setColor(arrayOfInt[(i5 - 11)]);
+//                paramGraphics.setColor(arrayOfInt[(i5 - 11)]);
             }
             //System.out.println("-::_:_:_:_:_:__" + i5 + " _______________");
 //            paramGraphics.fillRect(28 + i3, 21 - i4, 3, 3);
@@ -913,14 +913,14 @@ public class MainGameHelper {
     // TODO remove this method in MainGameScreen
     public void fillRect_helper(SpriteBatch paramGraphics, int paramInt1, int paramInt2, int paramInt3, int paramInt4, int paramInt5)
     {
-        paramGraphics.setColor(paramInt5);
+//        paramGraphics.setColor(paramInt5);
         int i1 = paramInt1 - paramInt3;
         int i2 = paramInt2 - (paramInt3 >> 1);
 //        paramGraphics.fillRect(i1, i2, paramInt3 << 1, paramInt3);
         i1 = paramInt1 - (paramInt3 >> 1);
         i2 = paramInt2 - paramInt3;
 //        paramGraphics.fillRect(i1, i2, paramInt3, paramInt3 << 1);
-        paramGraphics.setColor(paramInt4);
+//        paramGraphics.setColor(paramInt4);
         i1 = paramInt1 - (paramInt3 >> 1);
         i2 = paramInt2 - (paramInt3 >> 1);
 //        paramGraphics.fillRect(i1, i2, paramInt3, paramInt3);
@@ -950,7 +950,7 @@ public class MainGameHelper {
     public void draw_anchor_helper2(SpriteBatch paramGraphics, GameConfig gameConfig, ReadMedia readMedia, int ai, int aj, int ak, int as, int bi, int bw, int bx)
     {
         int i6 = 0;
-        paramGraphics.setColor(65280);
+//        paramGraphics.setColor(65280);
         ai = (85 + as * 7);
         if ((aj >= 0) && (gameConfig.c == 0)) {
             aj = -1;
@@ -1021,7 +1021,7 @@ public class MainGameHelper {
     //	public void graphic_helper(SpriteBatch paramGraphics, int paramInt1, int paramInt2, int paramInt3, int paramInt4)
     public void graphic_helper(SpriteBatch paramGraphics, int paramInt1, int paramInt2, int paramInt3, int paramInt4, int bj, int bk)
     {
-        paramGraphics.setColor(bj);
+//        paramGraphics.setColor(bj);
         switch (paramInt4 & 0x3)
         {
             case 0:
@@ -1041,7 +1041,7 @@ public class MainGameHelper {
 //                paramGraphics.fillRect(paramInt1, paramInt2 - (paramInt3 >> 1), paramInt3, paramInt3);
                 break;
         }
-        paramGraphics.setColor(bk);
+//        paramGraphics.setColor(bk);
 //        paramGraphics.fillRect(paramInt1 - (paramInt3 >> 1), paramInt2 - (paramInt3 >> 1), paramInt3, paramInt3);
     }
 

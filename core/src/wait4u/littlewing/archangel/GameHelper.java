@@ -26,9 +26,9 @@ public class GameHelper {
             case 1:
                 if (archAngel.x == 0)
                 {
-                    paramGraphics.setColor(0);
+//                    paramGraphics.setColor(0);
 //                    paramGraphics.fillRect(0, 0, 240, 320);
-                    paramGraphics.setColor(4802901);
+//                    paramGraphics.setColor(4802901);
 //                    paramGraphics.fillRect(0, 0, 240, 40);
 //                    paramGraphics.drawLine(0, 42, 240, 42);
 //                    paramGraphics.drawLine(0, 45, 240, 45);
@@ -52,9 +52,9 @@ public class GameHelper {
             case 15:
                 if (archAngel.x < 21)
                 {
-                    paramGraphics.setColor(0);
+//                    paramGraphics.setColor(0);
 //                    paramGraphics.fillRect(0, 60, 240, 240);
-                    paramGraphics.setColor(4802901);
+//                    paramGraphics.setColor(4802901);
 //                    paramGraphics.fillRect(0, 119, 240, 30);
 //                    paramGraphics.fillRect(0, 171, 240, 10);
 //                    paramGraphics.fillRect(0, 205, 240, 30);
@@ -80,9 +80,9 @@ public class GameHelper {
         }
         if (archAngel.z < 15)
         {
-            paramGraphics.setColor(0);
+//            paramGraphics.setColor(0);
 //            paramGraphics.fillRect(0, 227, 240, 53);
-            paramGraphics.setColor(16777130);
+//            paramGraphics.setColor(16777130);
 //            paramGraphics.drawRect(0, 227, 239, 53);
             simple_arm_helper(paramGraphics, archAngel.z, 228, o, p, archAngel);
         }
@@ -109,9 +109,9 @@ public class GameHelper {
         while ((str = archAngel.readText.buildString()) != null)
         {
             if ((archAngel.screen == 26) || (archAngel.screen == 27)) {
-                paramGraphics.setColor(16777215);
+//                paramGraphics.setColor(16777215);
             } else {
-                paramGraphics.setColor(0);
+//                paramGraphics.setColor(0);
             }
             int i4 = str.indexOf(".");
             if (i4 == 1)
@@ -129,7 +129,7 @@ public class GameHelper {
                     archAngel.readText.b = i3;
                 }
                 if (i3 == archAngel.readText.a) {
-                    paramGraphics.setColor(14361600);
+//                    paramGraphics.setColor(14361600);
                 }
             }
             if (archAngel.screen == 13)
@@ -142,15 +142,15 @@ public class GameHelper {
 //                    paramGraphics.drawString(str, i2, i1, 20);
                 }
                 if ((archAngel.screen == 10) && (paramInt1 == 51) && ((archAngel.readText.a <= 2) || (archAngel.readText.a == 4))) {
-                    paramGraphics.setColor(0);
+//                    paramGraphics.setColor(0);
                 }
             }
             if (archAngel.screen == 13)
             {
                 if (archAngel.readText.a == 2) {
-                    paramGraphics.setColor(0);
+//                    paramGraphics.setColor(0);
                 } else {
-                    paramGraphics.setColor(40960);
+//                    paramGraphics.setColor(40960);
                 }
 //                paramGraphics.drawString(archAngel.on_off[(1 - archAngel.af)], 83, 119, 20);
             }
@@ -158,7 +158,7 @@ public class GameHelper {
         }
         if (archAngel.bool_s)
         {
-            paramGraphics.setColor(0);
+//            paramGraphics.setColor(0);
 //            paramGraphics.drawString("1.YES   2.NO", 88, 105, 17);
         }
         archAngel.bool_g = false;
@@ -189,13 +189,13 @@ public class GameHelper {
 //                paramGraphics.setColor(107, 222, 255);
 //                paramGraphics.fillRect(45, 93, 150, 33);
                 archAngel.readMedia.drawGraphicStr40_122(paramGraphics, 62, 103, "YOU ARE DEAD");
-                paramGraphics.setColor(16777215);
+//                paramGraphics.setColor(16777215);
 //                paramGraphics.fillRect(45, 126, 150, 107);
-                paramGraphics.setColor(16777215);
+//                paramGraphics.setColor(16777215);
 //                paramGraphics.fillRect(45, 126, 150, 107);
                 archAngel.readMedia.drawGraphicStr40_122(paramGraphics, 50, 129, "You have been");
                 archAngel.readMedia.drawGraphicStr40_122(paramGraphics, 50, 144, "hit deadly.");
-                paramGraphics.setColor(0);
+//                paramGraphics.setColor(0);
 //                paramGraphics.fillRect(49, 172 + archAngel.c * 15, 75, 15);
                 archAngel.readMedia.drawGraphicStr40_122(paramGraphics, 50, 174, "1. Retry");
                 archAngel.readMedia.drawGraphicStr40_122(paramGraphics, 50, 189, "2. Back");
@@ -219,7 +219,7 @@ public class GameHelper {
                         archAngel.readMedia.destroyImage7_53();
                         archAngel.readMedia.destroyImage53_115();
                     }
-                    paramGraphics.setColor(0);
+//                    paramGraphics.setColor(0);
 //                    paramGraphics.fillRect(0, 0, 240, archAngel.x * 10);
 //                    paramGraphics.fillRect(0, 300 - archAngel.x * 10, 240, archAngel.x * 10);
                 }
@@ -238,9 +238,9 @@ public class GameHelper {
             case 0:
                 if (archAngel.x < 21)
                 {
-                    paramGraphics.setColor(0);
+//                    paramGraphics.setColor(0);
 //                    paramGraphics.fillRect(0, 60, 240, 240);
-                    paramGraphics.setColor(4802901);
+//                    paramGraphics.setColor(4802901);
 //                    paramGraphics.fillRect(0, 119, 240, 30);
 //                    paramGraphics.fillRect(0, 171, 240, 10);
 //                    paramGraphics.fillRect(0, 205, 240, 30);
@@ -256,9 +256,9 @@ public class GameHelper {
             case 1:
                 if (archAngel.x < 22)
                 {
-                    paramGraphics.setColor(0);
+//                    paramGraphics.setColor(0);
 //                    paramGraphics.fillRect(0, 80, 240, 200);
-                    paramGraphics.setColor(4802901);
+//                    paramGraphics.setColor(4802901);
 //                    paramGraphics.fillRect(0, 119, 240, 30);
 //                    paramGraphics.fillRect(0, 171, 240, 10);
 //                    paramGraphics.fillRect(0, 205, 240, 30);
@@ -283,9 +283,9 @@ public class GameHelper {
                 archAngel.bool_w = true;
                 break;
             case 3:
-                paramGraphics.setColor(0);
+//                paramGraphics.setColor(0);
 //                paramGraphics.fillRect(0, 80, 240, 200);
-                paramGraphics.setColor(4802901);
+//                paramGraphics.setColor(4802901);
 //                paramGraphics.fillRect(0, 119, 240, 30);
 //                paramGraphics.fillRect(0, 171, 240, 10);
 //                paramGraphics.fillRect(0, 205, 240, 30);
@@ -320,9 +320,9 @@ public class GameHelper {
             case 5:
                 if (archAngel.x < 21)
                 {
-                    paramGraphics.setColor(0);
+//                    paramGraphics.setColor(0);
 //                    paramGraphics.fillRect(0, 60, 240, 240);
-                    paramGraphics.setColor(4802901);
+//                    paramGraphics.setColor(4802901);
 //                    paramGraphics.fillRect(0, 119, 240, 30);
 //                    paramGraphics.fillRect(0, 171, 240, 10);
 //                    paramGraphics.fillRect(0, 205, 240, 30);
@@ -348,7 +348,7 @@ public class GameHelper {
                 if (archAngel.x < 20)
                 {
                     archAngel.bool_w = false;
-                    paramGraphics.setColor(0);
+//                    paramGraphics.setColor(0);
 //                    paramGraphics.fillRect(41, 208, 160, 26);
                     archAngel.readMedia.drawStringGraphic(paramGraphics, 47, 218, "A SAVED GAME IS NOT FOUND.", 0);
                 }
@@ -376,9 +376,9 @@ public class GameHelper {
             case 0:
                 if (archAngel.x < 21)
                 {
-                    paramGraphics.setColor(0);
+//                    paramGraphics.setColor(0);
 //                    paramGraphics.fillRect(0, 60, 240, 240);
-                    paramGraphics.setColor(4802901);
+//                    paramGraphics.setColor(4802901);
 //                    paramGraphics.fillRect(0, 119, 240, 30);
 //                    paramGraphics.fillRect(0, 171, 240, 10);
 //                    paramGraphics.fillRect(0, 205, 240, 30);
@@ -400,9 +400,9 @@ public class GameHelper {
             case 18:
                 if (archAngel.x < 21)
                 {
-                    paramGraphics.setColor(0);
+//                    paramGraphics.setColor(0);
 //                    paramGraphics.fillRect(0, 60, 240, 240);
-                    paramGraphics.setColor(4802901);
+//                    paramGraphics.setColor(4802901);
 //                    paramGraphics.fillRect(0, 119, 240, 30);
 //                    paramGraphics.fillRect(0, 171, 240, 10);
 //                    paramGraphics.fillRect(0, 205, 240, 30);
@@ -421,9 +421,9 @@ public class GameHelper {
         }
         if (archAngel.z < 18)
         {
-            paramGraphics.setColor(0);
+//            paramGraphics.setColor(0);
 //            paramGraphics.fillRect(0, 227, 240, 53);
-            paramGraphics.setColor(16777130);
+//            paramGraphics.setColor(16777130);
 //            paramGraphics.drawRect(0, 227, 239, 53);
             simple_arm_helper(paramGraphics, archAngel.z, 228, o, p, archAngel);
             archAngel.readMedia.drawImageAnchor20(paramGraphics, 3, 0, 280);
@@ -446,9 +446,9 @@ public class GameHelper {
 //                paramGraphics.setClip(17, 89, 223, 25);
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 13, 60, 90 - l * 33);
 //                paramGraphics.setClip(0, 0, 240, 320);
-                paramGraphics.setColor(7171414);
+//                paramGraphics.setColor(7171414);
 //                paramGraphics.fillRect(2, 119, 238, 181);
-                paramGraphics.setColor(9605802);
+//                paramGraphics.setColor(9605802);
 //                paramGraphics.drawRect(2, 119, 237, 180);
                 simple_helper2(paramGraphics, archAngel.z, 130, o, p, archAngel);
                 archAngel.drawImage(paramGraphics);
@@ -473,7 +473,7 @@ public class GameHelper {
         while ((str = archAngel.readText.buildString()) != null)
         {
             //return; // Avoid draw string error outOfBound
-            paramGraphics.setColor(16777215);
+//            paramGraphics.setColor(16777215);
             if (archAngel.screen == 4) {
 //                paramGraphics.drawString(str, 120, i1, 17);
             }
@@ -671,9 +671,9 @@ public class GameHelper {
                 if (archAngel.screen == 13)
                 {
                     i4 = 5;
-                    paramGraphics.setColor(4343106);
+//                    paramGraphics.setColor(4343106);
 //                    paramGraphics.fillRect(0, 217, 140, 83);
-                    paramGraphics.setColor(14605311);
+//                    paramGraphics.setColor(14605311);
 //                    paramGraphics.drawRect(0, 217, 139, 82);
                     q = paramInt1;
                 }
@@ -685,21 +685,21 @@ public class GameHelper {
             else if (archAngel.screen == 7)
             {
                 i4 = 18;
-                paramGraphics.setColor(16777215);
+//                paramGraphics.setColor(16777215);
 //                paramGraphics.fillRect(13, 76, 150, 107);
             }
             else
             {
                 i4 = 30;
             }
-            paramGraphics.setColor(40960);
+//            paramGraphics.setColor(40960);
             archAngel.readText.processTxt(paramInt1);
             archAngel.readText.b = 0;
             archAngel.p = archAngel.readText.o;
             String str;
             while ((str = archAngel.readText.buildString()) != null)
             {
-                paramGraphics.setColor(0);
+//                paramGraphics.setColor(0);
                 int i3 = str.indexOf(".");
                 if (i3 == 1)
                 {
@@ -718,12 +718,12 @@ public class GameHelper {
                     if (i2 == archAngel.readText.a) {
                         if (archAngel.screen == 13)
                         {
-                            paramGraphics.setColor(83967);
+//                            paramGraphics.setColor(83967);
 //                            paramGraphics.fillRect(i4 + 15, i1 + 6, str.length() * 5 + 3, 9);
                         }
                         else
                         {
-                            paramGraphics.setColor(0);
+//                            paramGraphics.setColor(0);
 //                            paramGraphics.fillRect(i4 - 2, i1 - 2, str.length() * 9 + 3, 15);
                         }
                     }
@@ -731,10 +731,10 @@ public class GameHelper {
                 if (archAngel.screen == 13)
                 {
                     archAngel.readMedia.drawStringGraphic(paramGraphics, i4, i1 + 8, str, 0);
-                    paramGraphics.setColor(0);
+//                    paramGraphics.setColor(0);
                     if (archAngel.bool_s)
                     {
-                        paramGraphics.setColor(0);
+//                        paramGraphics.setColor(0);
                         archAngel.readMedia.drawStringGraphic(paramGraphics, i4 + 66, 236, archAngel.on_off[(1 - archAngel.af)], 0);
                         archAngel.readMedia.drawStringGraphic(paramGraphics, i4 + 72, 247, archAngel.auto_manual[(1 - archAngel.ag)], 0);
                     }
@@ -743,7 +743,7 @@ public class GameHelper {
                 {
                     archAngel.readMedia.drawGraphicStr40_122(paramGraphics, i4, i1, str);
                     if ((archAngel.screen == 10) && (paramInt1 == 51) && ((archAngel.readText.a <= 2) || (archAngel.readText.a == 4))) {
-                        paramGraphics.setColor(0);
+//                        paramGraphics.setColor(0);
                     }
                 }
                 if (archAngel.screen == 13) {
@@ -754,10 +754,10 @@ public class GameHelper {
             }
             if (archAngel.screen == 11)
             {
-                paramGraphics.setColor(9540180);
+//                paramGraphics.setColor(9540180);
 //                paramGraphics.fillRect(10, 135, 70, 42);
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 114, 10, 135);
-                paramGraphics.setColor(0);
+//                paramGraphics.setColor(0);
                 archAngel.readMedia.drawGraphicStr40_122(paramGraphics, 12, 180, "My money:" + archAngel.gameSetting.a);
                 archAngel.readMedia.drawGraphicStr40_122(paramGraphics, 10, 210, "1.Missile");
                 archAngel.readMedia.drawGraphicStr40_122(paramGraphics, 10, 225, "2.Plasma Canon");
@@ -784,13 +784,13 @@ public class GameHelper {
         switch (x)
         {
             case 0:
-                paramGraphics.setColor(430330);
+//                paramGraphics.setColor(430330);
                 break;
             case 1:
-                paramGraphics.setColor(65280);
+//                paramGraphics.setColor(65280);
                 break;
             case 2:
-                paramGraphics.setColor(16776960);
+//                paramGraphics.setColor(16776960);
                 break;
         }
         String str;
@@ -815,7 +815,7 @@ public class GameHelper {
                 }
                 if (i2 == archAngel.readText.a)
                 {
-                    paramGraphics.setColor(0);
+//                    paramGraphics.setColor(0);
 //                    paramGraphics.fillRect(7, i1 - 2, str.length() * 6 + 6, 9);
                     archAngel.readMedia.drawStringGraphic(paramGraphics, 10, i1, str, 3);
                 }
@@ -829,13 +829,13 @@ public class GameHelper {
     {
         if (archAngel.bool_q)
         {
-            paramGraphics.setColor(7171414);
+//            paramGraphics.setColor(7171414);
 //            paramGraphics.fillRect(6, 127, 226, 147);
-            paramGraphics.setColor(9605802);
+//            paramGraphics.setColor(9605802);
 //            paramGraphics.drawRect(6, 127, 225, 146);
-            paramGraphics.setColor(9605717);
+//            paramGraphics.setColor(9605717);
 //            paramGraphics.fillRect(10, 130, 72, 42);
-            paramGraphics.setColor(16777130);
+//            paramGraphics.setColor(16777130);
 //            paramGraphics.drawRect(10, 129, 72, 43);
             if (archAngel.bool_r)
             {
@@ -867,13 +867,13 @@ public class GameHelper {
         switch (paramInt2)
         {
             case 0:
-                paramGraphics.setColor(430330);
+//                paramGraphics.setColor(430330);
                 break;
             case 1:
-                paramGraphics.setColor(65280);
+//                paramGraphics.setColor(65280);
                 break;
             case 2:
-                paramGraphics.setColor(16776960);
+//                paramGraphics.setColor(16776960);
                 break;
         }
 //        paramGraphics.setClip(0, 0, 240, 320);
