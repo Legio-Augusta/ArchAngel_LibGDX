@@ -21,7 +21,7 @@ public class LogoScreen extends DefaultScreen {
     Texture logo, archangel, withmobile_n_wait4u, steelbar_up, steelbar_down;
     SpriteBatch batch;
     float time = 0;
-    public Music music = Gdx.audio.newMusic(Gdx.files.internal("audio/9.mid"));
+    public Music music = Gdx.audio.newMusic(Gdx.files.internal("audio/m_briefing.wav"));
 
     public LogoScreen(Game game) {
         super(game);
@@ -33,10 +33,10 @@ public class LogoScreen extends DefaultScreen {
         // logo = new TextureRegion(new Texture(Gdx.files.internal("data/samsung-white/logo.png")), 0, 0, 1080, 1122);
         batch = new SpriteBatch();
         // batch.getProjectionMatrix().setToOrtho2D(0, 0, 1080, 1122);
-        steelbar_up = new Texture(Gdx.files.internal("samsung-white/steelbar_menu_up.png")); // 240x20
-        steelbar_down = new Texture(Gdx.files.internal("samsung-white/steelbar_menu_down.png")); // 240x20
-        archangel = new Texture(Gdx.files.internal("samsung-white/archangel_text.png")); // 195x30 <-> 877x135
-        logo = new Texture(Gdx.files.internal("samsung-white/logo.png")); // 240x202 <-> 1080x909
+        steelbar_up = new Texture(Gdx.files.internal("archangel/font_4.png")); // 240x20
+        steelbar_down = new Texture(Gdx.files.internal("archangel/font_3.png")); // 240x20
+        archangel = new Texture(Gdx.files.internal("archangel/font_5.png")); // 195x30 <-> 877x135
+        logo = new Texture(Gdx.files.internal("archangel/intro_0.png")); // 240x202 <-> 1080x909
         withmobile_n_wait4u = new Texture(Gdx.files.internal("samsung-white/withmobile_wait4u.png")); // 240x20 <-> 1080x90
     }
 

@@ -94,17 +94,17 @@ public class GameHelper2 {
                 }
                 if (archAngel.x == 4)
                 {
-                    archAngel.readMedia.closeInputStream();
+//                    archAngel.readMedia.closeInputStream();
                     archAngel.readMedia.readMediaStream("boss" + archAngel.gameSetting.boss_level);
                     archAngel.readMedia.reloadImageArr(8, 21);
-                    archAngel.readMedia.closeInputStream();
+//                    archAngel.readMedia.closeInputStream();
                     if (archAngel.bool_k)
                     {
                         archAngel.readMedia.readMediaStream("menu");
                         for (i1 = 0; i1 < 4; i1++) {
                             archAngel.readMedia.reloadImageArr(i1, 13 + i1);
                         }
-                        archAngel.readMedia.closeInputStream();
+//                        archAngel.readMedia.closeInputStream();
 //                        paramGraphics.setColor(0);
 //                        paramGraphics.fillRect(0, 80, 240, 220);
                         archAngel.readMedia.drawImageAnchor20(paramGraphics, 15, 33, 60);
@@ -121,7 +121,7 @@ public class GameHelper2 {
                         archAngel.readMedia.readMediaStream("boss" + (archAngel.gameSetting.boss_level - 4));
                     }
                     archAngel.readMedia.reloadImageArr(8, 22);
-                    archAngel.readMedia.closeInputStream();
+//                    archAngel.readMedia.closeInputStream();
                     archAngel.drawImage(paramGraphics);
                     if (archAngel.screen == 9) {
                         archAngel.a(paramGraphics, "SKIP", true);
@@ -984,14 +984,14 @@ public class GameHelper2 {
                     fillRect(paramGraphics, 0, 119, 240, 30, 0);
                     fillRect(paramGraphics, 0, 171, 240, 10, 0);
                     fillRect(paramGraphics, 0, 205, 240, 30, 0);
-                    archAngel.readMedia.drawImageAnchor20(paramGraphics, 3, 0, 0+BOTTOM_SPACE);
-                    archAngel.readMedia.drawImageAnchor20(paramGraphics, 3, 0, (MOBI_H - 200 + 53)*MOBI_SCL);
-                    archAngel.readMedia.drawImageAnchor20(paramGraphics, 4, 0, (MOBI_H - 60 + 53)*MOBI_SCL);
-                    archAngel.readMedia.drawImageAnchor20(paramGraphics, 5, 27, (MOBI_H - 25 + 53)*MOBI_SCL);
+                    archAngel.readMedia.drawImageAnchor20(paramGraphics, 3, 0, 0);
+                    archAngel.readMedia.drawImageAnchor20(paramGraphics, 3, 0, 200);
+                    archAngel.readMedia.drawImageAnchor20(paramGraphics, 4, 0, 60);
+                    archAngel.readMedia.drawImageAnchor20(paramGraphics, 5, 27, 25);
                     archAngel.readMedia.drawStringImage("logo", 2, paramGraphics, 0, 300);
                 }
                 if (archAngel.x % 10 < 5) {
-                    archAngel.readMedia.drawImageAnchor20(paramGraphics, 30, 0, (MOBI_H - 80 + 53)*MOBI_SCL);
+                    archAngel.readMedia.drawImageAnchor20(paramGraphics, 30, 0, 80);
                 } else {
                     archAngel.readMedia.drawGraphicStr40_122(paramGraphics, 62, 264, "Press Any Key");
                 }
@@ -1008,10 +1008,10 @@ public class GameHelper2 {
                     fillRect( paramGraphics, 0, 171, 240, 10, 0);
                     fillRect( paramGraphics, 0, 205, 240, 30, 0);
 //                    paramGraphics.setClip(0, 80 + 5 * archAngel.x, 240, 200 - 10 * archAngel.x);
-                    archAngel.readMedia.drawImageAnchor20(paramGraphics, 30, 0, (MOBI_H - 80 + 53)*MOBI_SCL);
+                    archAngel.readMedia.drawImageAnchor20(paramGraphics, 30, 0, 80);
 //                    paramGraphics.setClip(0, 0, 240, 320);
-                    archAngel.readMedia.drawImageAnchor20(paramGraphics, 4, 0, (MOBI_H - (60 + 5 * archAngel.x) + 53)*MOBI_SCL);
-                    archAngel.readMedia.drawImageAnchor20(paramGraphics, 3, 0, (MOBI_H - (280 - 5 * archAngel.x) + 53)*MOBI_SCL);
+                    archAngel.readMedia.drawImageAnchor20(paramGraphics, 4, 0, 60 + 5 * archAngel.x);
+                    archAngel.readMedia.drawImageAnchor20(paramGraphics, 3, 0, 280 - 5 * archAngel.x);
                 }
                 if (archAngel.x == 20)
                 {
@@ -1032,7 +1032,7 @@ public class GameHelper2 {
         int scaleY = height / 12;
         int scaleX = width / 12;
         // (Texture, float x, float y, float originX, float originY, float width, float height, float scaleX, float scaleY, float rotation, int srcX, int srcY, int srcWidth, int srcHeight, boolean flipX, boolean flipY)
-        batch.draw(imgColor[color], x, y, 0, 0, imgColor[color].getWidth(), imgColor[color].getHeight(), scaleX, scaleY, 0, 0, 0, imgColor[color].getWidth()*scaleX, imgColor[color].getHeight()*scaleY, false, false);
+//        batch.draw(imgColor[color], x, y, 0, 0, imgColor[color].getWidth(), imgColor[color].getHeight(), scaleX, scaleY, 0, 0, 0, imgColor[color].getWidth()*scaleX, imgColor[color].getHeight()*scaleY, false, false);
     }
 
 }
