@@ -23,7 +23,7 @@ public class ReadMedia
     private static int SCREEN_HEIGHT = Gdx.graphics.getHeight();
 
     // 120x160 or 128x128px from original J2ME resolution (in some game). This case screen_width is 240px
-    private static int MOBI_SCL = (int)Gdx.graphics.getWidth()/240; // FIXME 4.5 is not integer
+    private static double MOBI_SCL = Gdx.graphics.getWidth()/240; // FIXME 4.5 is not integer
     private static int MOBI_H = 360;  // JavaME height = 320px FIXME
 
     private static int VIEW_PORT_HEIGHT = (int)SCREEN_HEIGHT*3/4;
@@ -68,7 +68,8 @@ public class ReadMedia
         if(this.msr_media.equals("ui")) {
             Gdx.app.log("ERROR", "draw UI: " + this.msr_media);
         }
-        paramGraphics.draw(this.img_arr_a[paramInt1], paramInt2*MOBI_SCL, (MOBI_H - paramInt3 + 53)*MOBI_SCL-img_height); // 20 anchor
+        int position_y = (int) ((MOBI_H - paramInt3 + 53)*MOBI_SCL-img_height);
+        paramGraphics.draw(this.img_arr_a[paramInt1], (int)(paramInt2*MOBI_SCL), position_y); // 20 anchor
     }
 
     public ReadMedia()
@@ -95,7 +96,8 @@ public class ReadMedia
     public void drawImageAnchor36(SpriteBatch paramGraphics, int paramInt1, int paramInt2, int paramInt3)
     {
         int img_height = this.img_arr_a[paramInt1].getHeight();
-        paramGraphics.draw(this.img_arr_a[paramInt1], paramInt2*MOBI_SCL, (MOBI_H-paramInt3+53)*MOBI_SCL-img_height); // 36
+        int position_y = (int) ((MOBI_H-paramInt3+53)*MOBI_SCL-img_height);
+        paramGraphics.draw(this.img_arr_a[paramInt1], (int)(paramInt2*MOBI_SCL), position_y); // 36
     }
 
     public void drawStringGraphic(SpriteBatch paramGraphics, int paramInt1, int paramInt2, String paramString, int paramInt3)
@@ -264,7 +266,8 @@ public class ReadMedia
             this.img_arr_a[paramInt1] = new Texture("archangel/boss7_7.png");
         }
         int img_height = this.img_arr_a[paramInt1].getHeight();
-        paramGraphics.draw(this.img_arr_a[paramInt1], paramInt2*MOBI_SCL, (MOBI_H-paramInt3+53)*MOBI_SCL-img_height); // 3
+        int position_y = (int) ((MOBI_H-paramInt3+53)*MOBI_SCL-img_height);
+        paramGraphics.draw(this.img_arr_a[paramInt1], (int)(paramInt2*MOBI_SCL), position_y); // 3
     }
 
     public int readBinaryData()
@@ -285,13 +288,15 @@ public class ReadMedia
         readMediaStream(paramString);
         // paramGraphics.draw(loadImage(paramInt1), paramInt2, paramInt3); //20
         int img_height = this.img_arr_a[paramInt1].getHeight();
-        paramGraphics.draw(this.img_arr_a[paramInt1], paramInt2*MOBI_SCL, (MOBI_H - paramInt3 + 53)*MOBI_SCL-img_height); //20
+        int position_y = (int) ((MOBI_H - paramInt3 + 53)*MOBI_SCL-img_height);
+        paramGraphics.draw(this.img_arr_a[paramInt1], (int)(paramInt2*MOBI_SCL), position_y); //20
     }
 
     public void drawLoadImage(int paramInt1, SpriteBatch paramGraphics, int paramInt2, int paramInt3)
     {
         Texture temp = loadImage(paramInt1);
-        paramGraphics.draw(temp, paramInt2*MOBI_SCL, (MOBI_H - paramInt3 + 53)*MOBI_SCL-temp.getHeight()); // 20
+        int position_y = (int) ((MOBI_H - paramInt3 + 53)*MOBI_SCL-temp.getHeight());
+        paramGraphics.draw(temp, (int)(paramInt2*MOBI_SCL), position_y); // 20
     }
 
     public void closeInputStream()
