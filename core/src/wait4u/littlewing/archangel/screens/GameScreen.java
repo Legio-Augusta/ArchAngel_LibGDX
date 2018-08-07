@@ -129,7 +129,8 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
      *    key code = -5 game action = 8 OK
      *    key code = 35 game action = 0 #
      *    key code = -2 game action = 6 DOWN
-     *    key code = -4 game action = 5 LEFT
+     *    key code = -3 game action = 5 LEFT ?
+     *    key code = -3 game action = ? RIGHT
      *    key code = -1 game action = 1 UP ~ OK
      *    key code = 35 game action = 0 #
      *    key code = 49 game action = 9 KEY_2 = UP ?
@@ -1086,6 +1087,8 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         } else if(isTouchedOK()) {
         } else if(isTouchedUp()) {
         } else if(isTouchedDown()){
+        } else if(isTouchedLeft()){
+        } else if(isTouchedRight()){
         } else {
             this.key_code = 0;
         }
@@ -1273,10 +1276,11 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         return OverlapTester.pointInRectangle(downBtnRect, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) );
     }
     protected boolean isTouchedLeft() {
-        this.key_code = -4;
+        this.key_code = -3;
         return OverlapTester.pointInRectangle(leftBtnRect, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) );
     }
     protected boolean isTouchedRight() {
+        this.key_code = -4;
         return OverlapTester.pointInRectangle(rightBtnRect, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) );
     }
     protected boolean isTouchedOption() {

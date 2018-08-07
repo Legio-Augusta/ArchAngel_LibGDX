@@ -246,8 +246,8 @@ public class GameHelper2 {
         } else if (archAngel.boss_sprite_level > 4) {
             archAngel.ad = 2;
         }
-        archAngel.mainGameScreen.bj = 16749568;
-        archAngel.mainGameScreen.bk = 16768512;
+//        archAngel.mainGameScreen.bj = 16749568;
+//        archAngel.mainGameScreen.bk = 16768512;
         int i1;
         switch (archAngel.z)
         {

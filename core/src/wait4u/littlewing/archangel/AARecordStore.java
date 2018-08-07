@@ -62,13 +62,14 @@ public class AARecordStore
 
     public int returnByteCalc()
     {
-        int i = 0;
-        i = this.byte_arr_d[this.int_b] & 0xFF;
-        i += ((this.byte_arr_d[(this.int_b + 1)] & 0xFF) << 8);
-        i += ((this.byte_arr_d[(this.int_b + 2)] & 0xFF) << 16);
-        i += ((this.byte_arr_d[(this.int_b + 3)] & 0xFF) << 24);
-        this.int_b += 4;
-        return i;
+        return 0;
+//        int i = 0;
+//        i = this.byte_arr_d[this.int_b] & 0xFF;
+//        i += ((this.byte_arr_d[(this.int_b + 1)] & 0xFF) << 8);
+//        i += ((this.byte_arr_d[(this.int_b + 2)] & 0xFF) << 16);
+//        i += ((this.byte_arr_d[(this.int_b + 3)] & 0xFF) << 24);
+//        this.int_b += 4;
+//        return i;
     }
 
     public void byteCalculate(int paramInt)

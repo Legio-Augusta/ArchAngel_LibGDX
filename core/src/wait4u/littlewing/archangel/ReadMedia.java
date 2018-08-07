@@ -24,7 +24,7 @@ public class ReadMedia
 
     // 120x160 or 128x128px from original J2ME resolution (in some game). This case screen_width is 240px
     private static int MOBI_SCL = (int)Gdx.graphics.getWidth()/240; // FIXME 4.5 is not integer
-    private static int MOBI_H = 320;  // JavaME height = 320px
+    private static int MOBI_H = 360;  // JavaME height = 320px FIXME
 
     private static int VIEW_PORT_HEIGHT = (int)SCREEN_HEIGHT*3/4;
     private static int TOP_BOUND = VIEW_PORT_HEIGHT + (int)SCREEN_HEIGHT/8;
@@ -65,6 +65,9 @@ public class ReadMedia
 
         // 53 as BOTTOM_SPACE (~ 240 = 480/2) 240/4.5 ~= 53 (tile cell)
         int img_height = this.img_arr_a[paramInt1].getHeight();
+        if(this.msr_media.equals("ui")) {
+            Gdx.app.log("ERROR", "draw UI: " + this.msr_media);
+        }
         paramGraphics.draw(this.img_arr_a[paramInt1], paramInt2*MOBI_SCL, (MOBI_H - paramInt3 + 53)*MOBI_SCL-img_height); // 20 anchor
     }
 
@@ -226,7 +229,9 @@ public class ReadMedia
         } else if(this.msr_media.equals("fence0")) { // 44 -> 51
             return new Texture("archangel/fence0_" + paramInt + ".png");
         } else if(this.msr_media.equals("fence1")) {
+            return new Texture("archangel/fence1_" + paramInt + ".png");
         } else if(this.msr_media.equals("fence2")) {
+            return new Texture("archangel/fence2_" + paramInt + ".png");
         } else if(this.msr_media.equals("intro")) { // 30
             return new Texture("archangel/intro_0.png");
         } else if(this.msr_media.equals("logo")) { // 3 img
@@ -294,7 +299,7 @@ public class ReadMedia
         this.int_arr_d = null;
         try
         {
-            this.inputStream.close();
+//            this.inputStream.close();
         }
         catch (Exception localException) {}
         System.gc();

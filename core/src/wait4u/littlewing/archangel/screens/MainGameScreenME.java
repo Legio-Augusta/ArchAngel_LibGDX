@@ -407,7 +407,7 @@ public class MainGameScreenME {
     public void draw_anchor_helper2(SpriteBatch paramGraphics)
     {
         int i6 = 0;
-        paramGraphics.setColor(65280);
+//        paramGraphics.setColor(65280); // F**K U
         this.ai = (85 + this.as * 7);
         if ((this.aj >= 0) && (gameConfigArr[this.aj].c == 0)) {
             this.aj = -1;
