@@ -972,7 +972,6 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
             this.archAngel.x = 0;
             this.archAngel.aa = this.archAngel.z;
         }
-//        DrawDebugLine(new Vector2(0,0), new Vector2(100,100), camera.combined);
 
         switch (this.archAngel.screen)
         {
@@ -993,7 +992,6 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                 this.secondHelper.draw_warning_etc_menu(batch, this.l, this.archAngel);
                 break;
             case 13:
-//                this.archAngel.screen = 25; // Debug FIXME
                 this.secondHelper.goto_menu(batch, this.o, this.p, this.q, this.t, this.x, this.str_arr_w, this.archAngel, this.readText, this.helper);
                 break;
             case 14:
@@ -1007,7 +1005,6 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                 }
                 break;
             case 8:
-//                this.archAngel.screen = 25; // Debug FIXME
                 this.secondHelper.draw_start_option(batch, this.o, this.p, this.archAngel);
                 break;
             case 10:
@@ -1104,6 +1101,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 //        this.key_code = 0;
+        // TODO handle key released, touch and hold
         return false;
     }
 
