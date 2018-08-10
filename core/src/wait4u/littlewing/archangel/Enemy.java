@@ -474,7 +474,7 @@ public class Enemy {
                 if ((int)enemies[i].e_snow_y == 5) { // orig: 13
                     hero.check_hero((int)enemies[i].e_snow_x, i, enemies[i], boss);
                 } else if (enemies[i].e_snow_y <= 5) { // Reserved geometry y-axis => y <= 16 (orig: >= 16)
-                    // May be BOTTOM_BOUND or addition added on draw Snow (in drawRunningScreen) so top_snow_y need update.
+                    // May be BOTTOM_BOUND or addition added on draw ReturnHelper (in drawRunningScreen) so top_snow_y need update.
                     enemies[i].e_behv = 100;
                 }
             }

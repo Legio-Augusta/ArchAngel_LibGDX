@@ -69,18 +69,18 @@ public class GameHelper2 {
         }
         if ((i1 > 0) && (archAngel.readText.int_arr_m[(i1 - 1)] > 0))
         {
-            archAngel.z = archAngel.readText.int_arr_m[(i1 - 1)];
+            archAngel.game_state = archAngel.readText.int_arr_m[(i1 - 1)];
             archAngel.x = 0;
         }
     }
 
     public void draw_start_option(SpriteBatch paramGraphics, int o, int p, ArchAngelME archAngel)
     {
-        if ((archAngel.z > 0) && (archAngel.x > 0)) {
+        if ((archAngel.game_state > 0) && (archAngel.x > 0)) {
             return;
         }
         int i1;
-        switch (archAngel.z)
+        switch (archAngel.game_state)
         {
             case 0:
                 if (archAngel.x < 4)
@@ -127,13 +127,13 @@ public class GameHelper2 {
                         archAngel.a(paramGraphics, "SKIP", true);
                     }
                     archAngel.a(paramGraphics, "NEXT", false);
-                    archAngel.z += 1;
+                    archAngel.game_state += 1;
                     archAngel.p = -1;
                     archAngel.bool_h = false;
                 }
                 return;
             case 1:
-                archAngel.z = 11;
+                archAngel.game_state = 11;
                 archAngel.a(archAngel.gameSetting.boss_level + 1);
 //                paramGraphics.setColor(65280);
                 break;
@@ -149,10 +149,10 @@ public class GameHelper2 {
                 }
                 return;
         }
-        if (archAngel.z >= 11) {
-            draw_arm(paramGraphics, archAngel.z, 242, o, p, archAngel);
+        if (archAngel.game_state >= 11) {
+            draw_arm(paramGraphics, archAngel.game_state, 242, o, p, archAngel);
         }
-        if (!archAngel.readText.processTxt(archAngel.z + 1))
+        if (!archAngel.readText.processTxt(archAngel.game_state + 1))
         {
             if (archAngel.screen == 9)
             {
@@ -164,7 +164,7 @@ public class GameHelper2 {
                 archAngel.drawImage(paramGraphics);
                 archAngel.a(paramGraphics, "OPTIONS", false);
             }
-            archAngel.aa = (archAngel.z = '?');
+            archAngel.aa = (archAngel.game_state = '?');
         }
     }
 
@@ -234,9 +234,11 @@ public class GameHelper2 {
         archAngel.bool_g = false;
     }
 
-    public void draw_game_play_screen(SpriteBatch paramGraphics, int aa, int ab, int ac, int ad, int ae, int af,
-                                      int ag, int l, boolean bool_b, boolean bool_z, ArchAngelME archAngel)
+    // Orig void int aa, int ab, int ac, int ad, int ae, int af, int ag, boolean bool_z
+    public ReturnHelper draw_game_play_screen(SpriteBatch paramGraphics, ArchAngelME archAngel)
     {
+        ReturnHelper myReturn = new ReturnHelper();
+
         archAngel.boss_sprite_level = archAngel.gameSetting.boss_level;
         archAngel.mainGameScreen.z = 0;
         if (archAngel.boss_sprite_level < 3) {
@@ -249,13 +251,14 @@ public class GameHelper2 {
 //        archAngel.mainGameScreen.bj = 16749568;
 //        archAngel.mainGameScreen.bk = 16768512;
         int i1;
-        switch (archAngel.z)
+        switch (archAngel.game_state)
         {
             case 0:
                 archAngel.bool_m = false;
                 archAngel.bool_n = false;
                 archAngel.bool_l = false;
-                l = 1;
+                int l = 1; // Careful with scope variable
+                myReturn.one = l;
                 archAngel.readMedia.destroyImage7_53();
                 archAngel.readMedia.destroyImage53_115();
                 archAngel.readMedia.destroyImage(2);
@@ -271,7 +274,7 @@ public class GameHelper2 {
                 archAngel.readMedia.reloadImageArr(9, 33);
                 archAngel.readMedia.reloadImageArr(10, 34);
                 archAngel.readMedia.closeInputStream();
-                archAngel.z += 1;
+                archAngel.game_state += 1;
                 break;
             case 1:
                 switch (archAngel.x)
@@ -295,7 +298,7 @@ public class GameHelper2 {
                         break;
                     case 2:
                         System.gc();
-                        archAngel.z += 1;
+                        archAngel.game_state += 1;
                         break;
                 }
                 draw_rect_clip_helper(paramGraphics, archAngel.x, archAngel);
@@ -317,7 +320,7 @@ public class GameHelper2 {
                         break;
                     case 1:
                         System.gc();
-                        archAngel.z += 1;
+                        archAngel.game_state += 1;
                         break;
                 }
                 draw_rect_clip_helper(paramGraphics, archAngel.x + 3, archAngel);
@@ -358,15 +361,20 @@ public class GameHelper2 {
                     case 3:
                         archAngel.stopSound();
                         System.gc();
-                        archAngel.z += 1;
+                        archAngel.game_state += 1;
                 }
                 break;
             case 4:
                 if (archAngel.x == 0)
                 {
                     archAngel.readMedia.destroyImage(111);
-                    bool_b = false;
-                    setting2(paramGraphics, aa, ab, ac, ad, ae, af, ag, bool_z, archAngel);
+                    int bool_b = 0; // false;
+                    myReturn.bool_one = bool_b;
+
+                    ReturnHelper settingReturn = new ReturnHelper();
+                    settingReturn = setting2(paramGraphics, archAngel);
+                    myReturn = mergeReturnValue(myReturn, settingReturn);
+
                     archAngel.bool_j = false;
                 }
 //                paramGraphics.setClip(0, 0, 240, 320);
@@ -382,8 +390,9 @@ public class GameHelper2 {
                 if (archAngel.ab != 25)
                 {
                     archAngel.mainGameScreen.bool_bl = true;
-                    bool_b = true;
-                    archAngel.z = 5;
+                    int bool_b = 1; // boolean true;
+                    myReturn.bool_one = bool_b;
+                    archAngel.game_state = 5;
                 }
                 archAngel.drawImage(paramGraphics);
                 archAngel.a(paramGraphics, "OPTIONS", false);
@@ -393,7 +402,7 @@ public class GameHelper2 {
 //                paramGraphics.setClip(0, 0, 240, 300);
                 archAngel.mainGameScreen.main_paint(paramGraphics);
                 archAngel.mainGameScreen.config2();
-                archAngel.z = 6;
+                archAngel.game_state = 6;
                 break;
             case 6:
                 archAngel.readMedia.destroyImage7_53();
@@ -401,6 +410,37 @@ public class GameHelper2 {
                 archAngel.screen = archAngel.ab;
                 break;
         }
+
+        return myReturn;
+    }
+
+    public ReturnHelper mergeReturnValue(ReturnHelper paramReturn1, ReturnHelper paramReturn2) {
+        if(paramReturn2.one > paramReturn2.MIN_INT) {
+            paramReturn1.yi = paramReturn2.one;
+        }
+        if(paramReturn2.two > paramReturn2.MIN_INT) {
+            paramReturn1.er = paramReturn2.two;
+        }
+        if(paramReturn2.three > paramReturn2.MIN_INT) {
+            paramReturn1.san = paramReturn2.three;
+        }
+        if(paramReturn2.four > paramReturn2.MIN_INT) {
+            paramReturn1.si = paramReturn2.four;
+        }
+        if(paramReturn2.five > paramReturn2.MIN_INT) {
+            paramReturn1.wu = paramReturn2.five;
+        }
+        if(paramReturn2.six > paramReturn2.MIN_INT) {
+            paramReturn1.liu = paramReturn2.six;
+        }
+        if(paramReturn2.seven > paramReturn2.MIN_INT) {
+            paramReturn1.qi = paramReturn2.seven;
+        }
+        if(paramReturn2.bool_one > 0) {
+            paramReturn1.bool_yi = paramReturn2.bool_one;
+        }
+
+        return paramReturn1;
     }
 
     public void draw_rect_clip_helper(SpriteBatch paramGraphics, int paramInt, ArchAngelME archAngel)
@@ -418,17 +458,20 @@ public class GameHelper2 {
         archAngel.readMedia.drawImageAnchor20(paramGraphics, 111, 87, 200);
     }
 
-    public void setting2(SpriteBatch paramGraphics, int aa, int ab, int ac, int ad, int ae, int af, int ag, boolean bool_z, ArchAngelME archAngel)
+    // void int aa, int ab, int ac, int ad, int ae, int af, int ag, boolean bool_z
+    public ReturnHelper setting2(SpriteBatch paramGraphics, ArchAngelME archAngel)
     {
-        bool_z = false;
-        aa = 0;
-        ab = 0;
-        ac = 0;
-        ad = 0;
-        ae = 0;
-        af = -1;
-        ag = -1;
+        boolean bool_z = false;
+        int aa = 0;
+        int ab = 0;
+        int ac = 0;
+        int ad = 0;
+        int ae = 0;
+        int af = -1;
+        int ag = -1;
         archAngel.readMedia.drawImageAnchor20(paramGraphics, 21, 0, 0);
+
+        return new ReturnHelper(aa, ab, ac, ad, ae, af, ag, 0); // bool_z false as 0
     }
 
     public void draw_fighting(SpriteBatch paramGraphics, ArchAngelME archAngel)
@@ -604,14 +647,14 @@ public class GameHelper2 {
         if (archAngel.x > 0) {
             return;
         }
-        switch (archAngel.z)
+        switch (archAngel.game_state)
         {
             case 0:
                 archAngel.stopSound();
                 //ai.aq = null;
                 archAngel.drawImage(paramGraphics);
                 archAngel.readText.readTextFromStream("subm");
-                archAngel.z = 1;
+                archAngel.game_state = 1;
                 archAngel.readText.bool_c = false;
                 break;
             case 1:
@@ -631,21 +674,21 @@ public class GameHelper2 {
             case 10:
                 archAngel.addScore12();
                 archAngel.y = (archAngel.screen = 25);
-                archAngel.z = 4;
+                archAngel.game_state = 4;
                 return;
             case 20:
                 archAngel.af = (1 - archAngel.af);
                 if (archAngel.af == 0) {
                     archAngel.stopSound();
                 }
-                archAngel.z = 1;
+                archAngel.game_state = 1;
                 return;
             case 30:
                 archAngel.ag = (1 - archAngel.ag);
                 if (archAngel.ag == 0) {
                     archAngel.mainGameScreen.play_s_plasma(false);
                 }
-                archAngel.z = 1;
+                archAngel.game_state = 1;
                 return;
             case 999:
                 archAngel.stopSound();
@@ -661,7 +704,7 @@ public class GameHelper2 {
             draw_fighting(paramGraphics, archAngel);
             archAngel.bool_t = false;
         }
-        setup2(paramGraphics, archAngel.z, 217, o, p, q, t, x, str_arr_w, archAngel, readText, helper);
+        setup2(paramGraphics, archAngel.game_state, 217, o, p, q, t, x, str_arr_w, archAngel, readText, helper);
         archAngel.drawImage(paramGraphics);
         archAngel.a(paramGraphics, "OK", false);
     }
@@ -677,10 +720,10 @@ public class GameHelper2 {
 
     public void load_system_txt(SpriteBatch paramGraphics, int l, int o, int p, int q, int t, int x, int y, String[][] str_arr_w, ArchAngelME archAngel, ReadText readText, GameHelper helper)
     {
-        if ((archAngel.z > 0) && (archAngel.x > 0)) {
+        if ((archAngel.game_state > 0) && (archAngel.x > 0)) {
             return;
         }
-        switch (archAngel.z)
+        switch (archAngel.game_state)
         {
             case 0:
                 if (archAngel.x == 0) {
@@ -692,7 +735,7 @@ public class GameHelper2 {
                 helper.simple_helper(paramGraphics, archAngel);
                 return;
             case 1:
-                archAngel.z = 2;
+                archAngel.game_state = 2;
                 break;
             case 10:
                 archAngel.screen = 2;
@@ -733,7 +776,7 @@ public class GameHelper2 {
 
     public void draw_warning_etc_menu(SpriteBatch paramGraphics, int l, ArchAngelME archAngel)
     {
-        switch (archAngel.z)
+        switch (archAngel.game_state)
         {
             case 0:
                 archAngel.bool_k = false;
@@ -753,7 +796,7 @@ public class GameHelper2 {
                 archAngel.bool_w = true;
                 archAngel.readText.bool_c = false;
                 archAngel.readText.bool_d = false;
-                archAngel.z += 1;
+                archAngel.game_state += 1;
                 break;
             case 1:
 //                paramGraphics.setColor(0);
@@ -770,7 +813,7 @@ public class GameHelper2 {
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 5, 27, 25);
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 4, 0, 160);
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 3, 0, 180);
-                archAngel.z += 1;
+                archAngel.game_state += 1;
                 break;
             case 2:
                 if (archAngel.x < 21)
@@ -792,7 +835,7 @@ public class GameHelper2 {
                     archAngel.readMedia.closeInputStream();
                     archAngel.readMedia.readMediaStream("etc");
                     archAngel.readMedia.reloadImageArr(3, 114);
-                    archAngel.z += 1;
+                    archAngel.game_state += 1;
                 }
                 break;
             case 3:
@@ -818,7 +861,7 @@ public class GameHelper2 {
 
     public void draw_font_result(SpriteBatch paramGraphics, ArchAngelME archAngel, GameHelper helper)
     {
-        switch (archAngel.z)
+        switch (archAngel.game_state)
         {
             case 0:
                 if (archAngel.x == 0)
@@ -853,7 +896,7 @@ public class GameHelper2 {
                 }
                 else
                 {
-                    archAngel.z = 4;
+                    archAngel.game_state = 4;
                 }
                 break;
             case 4:
@@ -873,7 +916,7 @@ public class GameHelper2 {
                 if (archAngel.x == 16)
                 {
                     archAngel.readMedia.destroyImage53_115();
-                    System.gc();
+//                    System.gc();
                     archAngel.gameSetting.boss_level += 1;
                     archAngel.addScore();
                     archAngel.screen = 5;
@@ -947,7 +990,7 @@ public class GameHelper2 {
 
     public void draw_intro(SpriteBatch paramGraphics, ArchAngelME archAngel)
     {
-        switch (archAngel.z)
+        switch (archAngel.game_state)
         {
             case 0:
                 if (archAngel.x == 0)
@@ -966,7 +1009,7 @@ public class GameHelper2 {
                     archAngel.readMedia.closeInputStream();
                 }
                 if (archAngel.x == 8) {
-                    archAngel.z += 1;
+                    archAngel.game_state += 1;
                 }
                 break;
             case 1:

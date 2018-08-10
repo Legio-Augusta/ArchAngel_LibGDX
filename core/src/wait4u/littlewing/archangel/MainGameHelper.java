@@ -415,11 +415,11 @@ public class MainGameHelper {
                 if ((bool_ay == true) && (ap % 2 == 0)) {
                     readMedia.drawImageInArr(paramGraphics, 80, 120, 165);
                 }
-                if (AA.z != 3)
+                if (AA.game_state != 3)
                 {
-//                    paramGraphics.setClip(bb + 10 + arrayOfByte2[z][0], bc + 11 + arrayOfByte2[z][1], 12, 11);
+//                    paramGraphics.setClip(bb + 10 + arrayOfByte2[game_state][0], bc + 11 + arrayOfByte2[game_state][1], 12, 11);
                     readMedia.drawImageAnchor20(paramGraphics, 33, bb + 10 + arrayOfByte2[z][0], bc + 11 + arrayOfByte2[z][1] - 11 * (ap % 2));
-//                    paramGraphics.setClip(bb + 38 - arrayOfByte2[z][0], bc + 11 - arrayOfByte2[z][1], 12, 11);
+//                    paramGraphics.setClip(bb + 38 - arrayOfByte2[game_state][0], bc + 11 - arrayOfByte2[game_state][1], 12, 11);
                     readMedia.drawImageAnchor20(paramGraphics, 34, bb + 38 - arrayOfByte2[z][0], bc + 11 - arrayOfByte2[z][1] - 11 * (ap % 2));
 //                    paramGraphics.setClip(0, 0, 240, 300);
                 }

@@ -22,6 +22,7 @@ import wait4u.littlewing.archangel.OverlapTester;
 import wait4u.littlewing.archangel.ReadText;
 import wait4u.littlewing.archangel.GameHelper;
 import wait4u.littlewing.archangel.GameHelper2;
+import wait4u.littlewing.archangel.ReturnHelper;
 
 public class GameScreen extends DefaultScreen implements InputProcessor {
     public int a;
@@ -147,12 +148,12 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         switch (this.archAngel.screen)
         {
             case 0:
-                if (this.archAngel.z == 1) {
-                    this.archAngel.z += 1;
+                if (this.archAngel.game_state == 1) {
+                    this.archAngel.game_state += 1;
                 }
                 break;
             case 3:
-                if (this.archAngel.z == 2) {
+                if (this.archAngel.game_state == 2) {
                     switch (paramInt)
                     {
                         case -4:
@@ -175,20 +176,20 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                         case -5:
                             if (this.l == 0)
                             {
-                                this.archAngel.z += 1;
+                                this.archAngel.game_state += 1;
                                 this.l = 0;
                             }
                             else if (this.archAngel.bool_w == true)
                             {
                                 if (this.archAngel.e()) {
-                                    this.archAngel.z = 7;
+                                    this.archAngel.game_state = 7;
                                 } else {
-                                    this.archAngel.z = 6;
+                                    this.archAngel.game_state = 6;
                                 }
                             }
                             break;
                     }
-                } else if (this.archAngel.z == 4) {
+                } else if (this.archAngel.game_state == 4) {
                     switch (paramInt)
                     {
                         case -4:
@@ -203,27 +204,27 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                             this.archAngel.readMedia.readMediaStream("open");
                             this.archAngel.readMedia.reloadImageArr(0, 29);
                             this.archAngel.readMedia.closeInputStream();
-                            this.archAngel.z += 1;
+                            this.archAngel.game_state += 1;
                             break;
                     }
                 }
                 this.archAngel.bool_q = true;
                 break;
             case 26:
-                if ((this.archAngel.z > 1) && (this.archAngel.z < 18)) {
+                if ((this.archAngel.game_state > 1) && (this.archAngel.game_state < 18)) {
                     switch (paramInt)
                     {
                         case -7:
                         case -5:
-                            this.archAngel.z += 1;
+                            this.archAngel.game_state += 1;
                             break;
                         case -6:
-                            this.archAngel.z = 18;
+                            this.archAngel.game_state = 18;
                     }
                 }
                 break;
             case 5:
-                if (this.archAngel.z == 3) {
+                if (this.archAngel.game_state == 3) {
                     switch (paramInt)
                     {
                         case -4:
@@ -262,25 +263,25 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
             case 2:
                 break;
             case 8:
-                if (((paramInt == -7) || (paramInt == -5)) && (this.archAngel.z > 0)) {
-                    this.archAngel.z += 1;
+                if (((paramInt == -7) || (paramInt == -5)) && (this.archAngel.game_state > 0)) {
+                    this.archAngel.game_state += 1;
                 }
                 break;
             case 9:
-                if (this.archAngel.z >= 11) {
+                if (this.archAngel.game_state >= 11) {
                     if ((paramInt == -7) || (paramInt == -5))
                     {
-                        if (this.archAngel.z > 0) {
-                            this.archAngel.z += 1;
+                        if (this.archAngel.game_state > 0) {
+                            this.archAngel.game_state += 1;
                         }
                     }
                     else if (paramInt == -6) {
-                        this.archAngel.z = 999;
+                        this.archAngel.game_state = 999;
                     }
                 }
                 break;
             case 25:
-                if ((this.archAngel.z == 4) && (this.archAngel.bool_m == true))
+                if ((this.archAngel.game_state == 4) && (this.archAngel.bool_m == true))
                 {
                     if ((this.archAngel.mainGameScreen.bi == 1) && (paramInt != 53) && (paramInt != -5))
                     {
@@ -399,8 +400,8 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
             case 11:
                 if (paramInt == -6)
                 {
-                    if (this.archAngel.z < 10) {
-                        this.archAngel.z = this.archAngel.p;
+                    if (this.archAngel.game_state < 10) {
+                        this.archAngel.game_state = this.archAngel.p;
                     }
                 }
                 else
@@ -408,7 +409,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                     int i2 = -1;
                     if ((paramInt >= 49) && (paramInt <= 51))
                     {
-                        if (this.archAngel.z < 10) {
+                        if (this.archAngel.game_state < 10) {
                             i2 = paramInt - 49 + 1;
                         }
                     }
@@ -418,7 +419,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                         {
                             case -3:
                             case -2:
-                                if (this.archAngel.z < 10)
+                                if (this.archAngel.game_state < 10)
                                 {
                                     this.archAngel.readText.a += 1;
                                     this.archAngel.x = -1;
@@ -427,7 +428,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                                 break;
                             case -4:
                             case -1:
-                                if (this.archAngel.z < 10)
+                                if (this.archAngel.game_state < 10)
                                 {
                                     this.archAngel.readText.a += -1;
                                     this.archAngel.x = -1;
@@ -436,7 +437,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                                 break;
                             case -7:
                             case -5:
-                                if (this.archAngel.z == 5) {
+                                if (this.archAngel.game_state == 5) {
                                     i2 = this.archAngel.readText.a;
                                 } else {
                                     i2 = 1;
@@ -452,7 +453,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                     }
                     if ((i2 > 0) && (this.archAngel.readText.int_arr_m[(i2 - 1)] > 0))
                     {
-                        this.archAngel.z = this.archAngel.readText.int_arr_m[(i2 - 1)];
+                        this.archAngel.game_state = this.archAngel.readText.int_arr_m[(i2 - 1)];
                         this.archAngel.x = 0;
                     }
                 }
@@ -468,7 +469,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                     if (((paramInt == 50) || (paramInt == 49) || (paramInt == -5) || (paramInt == -7) || (paramInt == -6)) && (this.archAngel.bool_s)) {
                         this.archAngel.bool_s = false;
                     }
-                    if ((this.archAngel.z == 100) || (this.archAngel.z == 200) || (this.archAngel.z == 300)) {
+                    if ((this.archAngel.game_state == 100) || (this.archAngel.game_state == 200) || (this.archAngel.game_state == 300)) {
                         switch (paramInt)
                         {
                             case -1:
@@ -492,11 +493,11 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                                 break;
                         }
                     }
-                    if (((this.archAngel.z == 111) || (this.archAngel.z == 211) || (this.archAngel.z == 311)) && ((paramInt == -7) || (paramInt == -5)))
+                    if (((this.archAngel.game_state == 111) || (this.archAngel.game_state == 211) || (this.archAngel.game_state == 311)) && ((paramInt == -7) || (paramInt == -5)))
                     {
                         this.archAngel.a = 1;
                         if (this.archAngel.p > 0) {
-                            this.archAngel.z = this.archAngel.p;
+                            this.archAngel.game_state = this.archAngel.p;
                         }
                     }
                     this.archAngel.bool_q = true;
@@ -506,10 +507,10 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                     {
                         this.archAngel.a = 1;
                         if (this.archAngel.p > 0) {
-                            this.archAngel.z = this.archAngel.p;
+                            this.archAngel.game_state = this.archAngel.p;
                         }
                     }
-                    else if ((this.archAngel.z != 111) && (this.archAngel.z != 211) && (this.archAngel.z != 311))
+                    else if ((this.archAngel.game_state != 111) && (this.archAngel.game_state != 211) && (this.archAngel.game_state != 311))
                     {
                         this.secondHelper.read_text_helper(paramInt, i1, this.archAngel);
                     }
@@ -521,42 +522,42 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                 }
                 if ((paramInt == -7) || (paramInt == -5)) {
                     if (this.archAngel.c == 0) {
-                        this.archAngel.z = 2;
+                        this.archAngel.game_state = 2;
                     } else {
-                        this.archAngel.z = 3;
+                        this.archAngel.game_state = 3;
                     }
                 }
                 break;
             case 4:
-                if ((this.archAngel.z == 1) && (paramInt == -6)) {
+                if ((this.archAngel.game_state == 1) && (paramInt == -6)) {
                     this.archAngel.screen = 5;
                 }
                 break;
             case 1:
             case 10:
-                if (this.archAngel.z == 1) {
+                if (this.archAngel.game_state == 1) {
                     this.archAngel.readText.bool_e = false;
                 }
                 if (paramInt == -6)
                 {
                     if (this.archAngel.screen == 1)
                     {
-                        this.archAngel.z = 10;
+                        this.archAngel.game_state = 10;
                     }
-                    else if ((this.archAngel.z == 100) || (this.archAngel.z == 200) || (this.archAngel.z == 300))
+                    else if ((this.archAngel.game_state == 100) || (this.archAngel.game_state == 200) || (this.archAngel.game_state == 300))
                     {
-                        this.archAngel.z = 50;
+                        this.archAngel.game_state = 50;
                     }
-                    else if (((this.archAngel.z >= 101) && (this.archAngel.z <= 104)) || ((this.archAngel.z >= 201) && (this.archAngel.z <= 205)) || ((this.archAngel.z >= 301) && (this.archAngel.z <= 304)))
+                    else if (((this.archAngel.game_state >= 101) && (this.archAngel.game_state <= 104)) || ((this.archAngel.game_state >= 201) && (this.archAngel.game_state <= 205)) || ((this.archAngel.game_state >= 301) && (this.archAngel.game_state <= 304)))
                     {
-                        this.archAngel.z += -1;
+                        this.archAngel.game_state += -1;
                     }
                     else if (this.archAngel.p > 0)
                     {
-                        if (this.archAngel.z == 61) {
+                        if (this.archAngel.game_state == 61) {
                             this.archAngel.readText.bool_e = true;
                         }
-                        this.archAngel.z = this.archAngel.p;
+                        this.archAngel.game_state = this.archAngel.p;
                     }
                 }
                 else if (this.archAngel.bool_v) {
@@ -581,14 +582,14 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                 }
                 break;
             case 6:
-                if ((paramInt == -7) && ((this.archAngel.z == 2) || (this.archAngel.z == 4))) {
-                    this.archAngel.z += 1;
+                if ((paramInt == -7) && ((this.archAngel.game_state == 2) || (this.archAngel.game_state == 4))) {
+                    this.archAngel.game_state += 1;
                 }
                 break;
             case 14:
                 if ((paramInt == -7) || (paramInt == -5) || (paramInt == 35))
                 {
-                    this.archAngel.z += 1;
+                    this.archAngel.game_state += 1;
                     if (this.archAngel.mainGameScreen.bool_az == true) {
                         this.archAngel.playSound("s_plasma", 0);
                     }
@@ -599,15 +600,15 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                 }
                 break;
             case 27:
-                if ((this.archAngel.z > 1) && (this.archAngel.z < 15)) {
+                if ((this.archAngel.game_state > 1) && (this.archAngel.game_state < 15)) {
                     switch (paramInt)
                     {
                         case -7:
                         case -5:
-                            this.archAngel.z += 1;
+                            this.archAngel.game_state += 1;
                             break;
                         case -6:
-                            this.archAngel.z = 15;
+                            this.archAngel.game_state = 15;
                     }
                 }
                 break;
@@ -628,7 +629,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         if (this.archAngel.x > 0) {
             return;
         }
-        switch (this.archAngel.z)
+        switch (this.archAngel.game_state)
         {
             case 0:
                 this.archAngel.stopSound();
@@ -640,7 +641,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                 break;
             case 1:
                 this.archAngel.y = (this.archAngel.screen = 25);
-                this.archAngel.z = 4;
+                this.archAngel.game_state = 4;
                 return;
         }
     }
@@ -741,11 +742,11 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
 
     public void draw_shop_info_arm(SpriteBatch paramGraphics)
     {
-        if ((this.archAngel.z > 0) && (this.archAngel.x > 0)) {
+        if ((this.archAngel.game_state > 0) && (this.archAngel.x > 0)) {
             return;
         }
-        this.secondHelper.setup2(paramGraphics, this.archAngel.z, 210, this.o, this.p, this.q, this.t, this.x, this.str_arr_w, this.archAngel, this.readText, this.helper);
-        switch (this.archAngel.z)
+        this.secondHelper.setup2(paramGraphics, this.archAngel.game_state, 210, this.o, this.p, this.q, this.t, this.x, this.str_arr_w, this.archAngel, this.readText, this.helper);
+        switch (this.archAngel.game_state)
         {
             case 0:
                 if (this.archAngel.x == 0)
@@ -771,7 +772,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                 this.archAngel.a(paramGraphics, "BACK", true);
                 this.archAngel.a(paramGraphics, "OK", false);
                 this.archAngel.d = 2;
-                this.archAngel.z = 5;
+                this.archAngel.game_state = 5;
                 break;
             case 10:
                 this.readText.readTextFromStream("missile");
@@ -803,11 +804,11 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
 
     public void draw_shop_arm2(SpriteBatch paramGraphics)
     {
-        if ((this.archAngel.z > 0) && (this.archAngel.x > 0)) {
+        if ((this.archAngel.game_state > 0) && (this.archAngel.x > 0)) {
             return;
         }
         this.bool_v = false;
-        switch (this.archAngel.z)
+        switch (this.archAngel.game_state)
         {
             case 0:
                 if (this.archAngel.x == 0)
@@ -836,7 +837,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                 this.archAngel.drawImage(paramGraphics);
                 this.archAngel.a(paramGraphics, "BACK", true);
                 this.archAngel.a(paramGraphics, "OK", false);
-                this.archAngel.z = 1;
+                this.archAngel.game_state = 1;
                 break;
             case 1:
                 this.archAngel.drawImage(paramGraphics);
@@ -846,7 +847,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                 this.bool_v = true;
                 break;
             case 99:
-                this.archAngel.z += 1;
+                this.archAngel.game_state += 1;
                 this.readText.readTextFromStream("missile");
                 this.archAngel.d = 0;
                 this.archAngel.readText.g = 1;
@@ -854,7 +855,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
             case 111:
             case 211:
                 this.archAngel.a = 1;
-                this.secondHelper.setup2(paramGraphics, this.archAngel.z, 230, this.o, this.p, this.q, this.t, this.x, this.str_arr_w, this.archAngel, this.readText, this.helper);
+                this.secondHelper.setup2(paramGraphics, this.archAngel.game_state, 230, this.o, this.p, this.q, this.t, this.x, this.str_arr_w, this.archAngel, this.readText, this.helper);
                 if (this.t >= this.readText.int_arr_m[2]) {
                     this.secondHelper.draw_buy(paramGraphics, this.s, this.readText.int_arr_m[2], this.x, this.archAngel, this.readText);
                 } else {
@@ -863,20 +864,20 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                 this.bool_v = true;
                 return;
             case 199:
-                this.archAngel.z += 1;
+                this.archAngel.game_state += 1;
                 this.readText.readTextFromStream("plasma");
                 this.archAngel.d = 1;
                 this.archAngel.readText.g = 2;
                 break;
             case 299:
-                this.archAngel.z += 1;
+                this.archAngel.game_state += 1;
                 this.readText.readTextFromStream("arm");
                 this.archAngel.d = 2;
                 this.archAngel.readText.g = 3;
                 break;
             case 311:
                 this.archAngel.a = 1;
-                this.secondHelper.setup2(paramGraphics, this.archAngel.z, 230, this.o, this.p, this.q, this.t, this.x, this.str_arr_w, this.archAngel, this.readText, this.helper);
+                this.secondHelper.setup2(paramGraphics, this.archAngel.game_state, 230, this.o, this.p, this.q, this.t, this.x, this.str_arr_w, this.archAngel, this.readText, this.helper);
                 if (this.t >= this.readText.int_arr_m[2]) {
                     this.secondHelper.draw_buy(paramGraphics, this.s, this.readText.int_arr_m[2], this.x, this.archAngel, this.readText);
                 } else {
@@ -889,25 +890,25 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                 this.readText = null;
                 return;
             default:
-                if ((this.archAngel.z % 100 > 0) && (this.archAngel.z % 100 < 8) && (this.archAngel.z > 100))
+                if ((this.archAngel.game_state % 100 > 0) && (this.archAngel.game_state % 100 < 8) && (this.archAngel.game_state > 100))
                 {
-                    this.helper.b(paramGraphics, this.archAngel.z, this.x, this.t, this.str_arr_w, this.archAngel, this.readText);
+                    this.helper.b(paramGraphics, this.archAngel.game_state, this.x, this.t, this.str_arr_w, this.archAngel, this.readText);
                     this.archAngel.drawImage(paramGraphics);
                     this.archAngel.a(paramGraphics, "BACK", true);
                     this.archAngel.a(paramGraphics, "OK", false);
 //                    paramGraphics.setClip(0, 0, 178, 75);
-                    this.helper.draw_ammunation_buy(paramGraphics, this.archAngel.z, true, this.archAngel.d, this.x, this.t, this.str_arr_w, this.archAngel, this.readText);
-                    this.s = this.archAngel.z;
+                    this.helper.draw_ammunation_buy(paramGraphics, this.archAngel.game_state, true, this.archAngel.d, this.x, this.t, this.str_arr_w, this.archAngel, this.readText);
+                    this.s = this.archAngel.game_state;
                     switch (this.archAngel.d)
                     {
                         case 0:
-                            this.archAngel.z = 110;
+                            this.archAngel.game_state = 110;
                             break;
                         case 1:
-                            this.archAngel.z = 210;
+                            this.archAngel.game_state = 210;
                             break;
                         case 2:
-                            this.archAngel.z = 310;
+                            this.archAngel.game_state = 310;
                             break;
                     }
                     paramGraphics.setColor(0);
@@ -925,27 +926,27 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                 }
                 this.bool_v = true;
         }
-        if ((this.archAngel.z == 100) || (this.archAngel.z == 200) || (this.archAngel.z == 300))
+        if ((this.archAngel.game_state == 100) || (this.archAngel.game_state == 200) || (this.archAngel.game_state == 300))
         {
             if (this.archAngel.x == 0) {
                 this.archAngel.bool_q = true;
             }
             this.archAngel.readText.bool_c = false;
-            this.helper.b(paramGraphics, this.archAngel.z, this.x, this.t, this.str_arr_w, this.archAngel, this.readText);
-            draw_data_helper(paramGraphics, this.archAngel.z, 190);
+            this.helper.b(paramGraphics, this.archAngel.game_state, this.x, this.t, this.str_arr_w, this.archAngel, this.readText);
+            draw_data_helper(paramGraphics, this.archAngel.game_state, 190);
             this.archAngel.drawImage(paramGraphics);
             this.archAngel.a(paramGraphics, "BACK", true);
             this.archAngel.a(paramGraphics, "OK", false);
         }
         else
         {
-            this.secondHelper.setup2(paramGraphics, this.archAngel.z, 150, this.o, this.p, this.q, this.t, this.x, this.str_arr_w, this.archAngel, this.readText, this.helper);
+            this.secondHelper.setup2(paramGraphics, this.archAngel.game_state, 150, this.o, this.p, this.q, this.t, this.x, this.str_arr_w, this.archAngel, this.readText, this.helper);
         }
     }
 
     public void run()
     {
-        if ((this.archAngel.screen == 25) && (this.archAngel.z == 4))
+        if ((this.archAngel.screen == 25) && (this.archAngel.game_state == 4))
         {
             this.archAngel.mainGameScreen.complex_helper();
             this.archAngel.mainGameScreen.config2();
@@ -960,24 +961,54 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         if (this.archAngel.screen != this.archAngel.y)
         {
             this.archAngel.x = 0;
-            this.archAngel.z = 0;
+            this.archAngel.game_state = 0;
             this.archAngel.aa = 0;
             this.archAngel.p = -1;
             this.bool_b = true;
             this.archAngel.y = this.archAngel.screen;
             this.archAngel.bool_i = false;
         }
-        else if (this.archAngel.z != this.archAngel.aa)
+        else if (this.archAngel.game_state != this.archAngel.aa)
         {
             this.archAngel.x = 0;
-            this.archAngel.aa = this.archAngel.z;
+            this.archAngel.aa = this.archAngel.game_state;
         }
 
         switch (this.archAngel.screen)
         {
             case 25:
-                this.secondHelper.draw_game_play_screen(batch, this.aa, this.ab, this.ac, this.ad, this.ae, this.af, this.ag, this.l,
-                        this.bool_b, this.bool_z, this.archAngel);
+                ReturnHelper returnHelper2 = this.secondHelper.draw_game_play_screen(batch, this.archAngel);
+                if(returnHelper2.one > returnHelper2.MIN_INT) { // If this.l value has changed
+                    this.l = returnHelper2.one;
+                }
+                if(returnHelper2.bool_one >= 0) {
+                    this.bool_b = (returnHelper2.bool_one != 0) ? true : false;
+                }
+                if(returnHelper2.yi > returnHelper2.MIN_INT) {
+                    this.aa = returnHelper2.yi;
+                }
+                if(returnHelper2.er > returnHelper2.MIN_INT) {
+                    this.ab = returnHelper2.er;
+                }
+                if(returnHelper2.san > returnHelper2.MIN_INT) {
+                    this.ac = returnHelper2.san;
+                }
+                if(returnHelper2.si > returnHelper2.MIN_INT) {
+                    this.ad = returnHelper2.si;
+                }
+                if(returnHelper2.wu > returnHelper2.MIN_INT) {
+                    this.ae = returnHelper2.wu;
+                }
+                if(returnHelper2.liu > returnHelper2.MIN_INT) {
+                    this.af = returnHelper2.liu;
+                }
+                if(returnHelper2.qi > returnHelper2.MIN_INT) {
+                    this.ag = returnHelper2.qi;
+                }
+                if(returnHelper2.bool_yi > 0) {
+                    this.bool_z = (returnHelper2.bool_yi != 0) ? true : false;
+                }
+
                 break;
             case 0:
                 this.secondHelper.draw_intro(batch, this.archAngel);
@@ -1222,7 +1253,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         Gdx.input.setInputProcessor(this);
 
         loadTextures();
-        //initEnemy();
+        this.archAngel.startApp();
 
         font = new BitmapFont();
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);

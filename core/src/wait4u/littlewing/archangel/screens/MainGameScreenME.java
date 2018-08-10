@@ -529,11 +529,11 @@ public class MainGameScreenME {
                 if ((this.bool_ay == true) && (this.ap % 2 == 0)) {
                     this.readMedia.drawImageInArr(paramGraphics, 80, 120, 165);
                 }
-                if (this.AA.z != 3)
+                if (this.AA.game_state != 3)
                 {
-//                    paramGraphics.setClip(this.bb + 10 + arrayOfByte2[this.z][0], this.bc + 11 + arrayOfByte2[this.z][1], 12, 11);
+//                    paramGraphics.setClip(this.bb + 10 + arrayOfByte2[this.game_state][0], this.bc + 11 + arrayOfByte2[this.game_state][1], 12, 11);
                     this.readMedia.drawImageAnchor20(paramGraphics, 33, this.bb + 10 + arrayOfByte2[this.z][0], this.bc + 11 + arrayOfByte2[this.z][1] - 11 * (this.ap % 2));
-//                    paramGraphics.setClip(this.bb + 38 - arrayOfByte2[this.z][0], this.bc + 11 - arrayOfByte2[this.z][1], 12, 11);
+//                    paramGraphics.setClip(this.bb + 38 - arrayOfByte2[this.game_state][0], this.bc + 11 - arrayOfByte2[this.game_state][1], 12, 11);
                     this.readMedia.drawImageAnchor20(paramGraphics, 34, this.bb + 38 - arrayOfByte2[this.z][0], this.bc + 11 - arrayOfByte2[this.z][1] - 11 * (this.ap % 2));
 //                    paramGraphics.setClip(0, 0, 240, 300);
                 }

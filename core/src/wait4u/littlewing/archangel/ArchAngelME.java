@@ -1,6 +1,7 @@
 package wait4u.littlewing.archangel;
 
 //import com.samsung.util.AudioClip;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.Random;
@@ -35,7 +36,7 @@ public class ArchAngelME
     public boolean bool_w = true;
     public int x = 0;
     public int y = -1;
-    public int z = 0;
+    public int game_state = 0;
     public int aa = -1;
     public int ab;
     public int boss_sprite_level;
@@ -149,12 +150,11 @@ public class ArchAngelME
     {
         this.readText.readTextFromStream("ms" + paramInt); // e.a()
         this.readText.processTxt(1);
-        System.out.println(" AA.a(int) al.a(1) ");
+        Gdx.app.log("DEBUG", "AA.a void " + paramInt);
         this.mainGameScreen.r = this.readText.int_arr_m[0]; // f.r =
         this.mainGameScreen.s = this.readText.int_arr_m[1];
         this.mainGameScreen.y = this.readText.int_arr_m[2];
         this.readText.processTxt(2);
-        System.out.println(" AA.a(int) al.a(2) ");
 
         this.mainGameScreen.str_m = this.readText.buildString();
         if (this.ah == 0) {
@@ -166,7 +166,6 @@ public class ArchAngelME
         this.mainGameScreen.l = this.readText.int_arr_m[2];
         this.mainGameScreen.h = this.readText.int_arr_m[3];
         this.readText.processTxt(3);
-        System.out.println(" AA.a(int) al.a(3) ");
 
         this.mainGameScreen.str_q = this.readText.buildString();
         if (this.ah == 0) {
@@ -178,11 +177,10 @@ public class ArchAngelME
         this.mainGameScreen.p = this.readText.int_arr_m[2];
         this.mainGameScreen.i = this.readText.int_arr_m[3];
         this.readText.processTxt(10);
-        System.out.println(" AA.a(int) al.a(10) ");
 
         this.mainGameScreen.str_e = this.readText.buildString();
         this.readText.processTxt(4);
-        System.out.println(" AA.a(int) al.a(4) ");
+        Gdx.app.log("DEBUG", "AA.a void str_m: " + this.mainGameScreen.str_m);
     }
 
     public boolean e()
@@ -215,7 +213,7 @@ public class ArchAngelME
 //            this.game_scrn.setFullScreenMode(true);
 //            Display.getDisplay(this).setCurrent(this.game_scrn);
 //            this.thread = new Thread(this.game_scrn);
-            this.thread.start();
+//            this.thread.start();
             this.boss_sprite_level = 0;
             this.bool_as = false;
         }
