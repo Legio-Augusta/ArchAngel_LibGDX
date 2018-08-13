@@ -1290,8 +1290,8 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         }
 
         imgKeyNum3 = new Texture("samsung-white/use_item_btn.png");
-        imgSpeedUp = new Texture("samsung-white/speed_up.png");
-        imgSpeedDown = new Texture("samsung-white/speed_down.png");
+        imgSpeedUp = new Texture("samsung-white/right_btn.png");
+        imgSpeedDown = new Texture("samsung-white/left_btn.png");
         touch_pad = new Texture("gui/touchBackground.png");
         touch_pad_knob = new Texture("gui/touchKnob.png");
     }
