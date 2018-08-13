@@ -24,7 +24,7 @@ public class ReadMedia
 
     // 120x160 or 128x128px from original J2ME resolution (in some game). This case screen_width is 240px
     private static double MOBI_SCL = Gdx.graphics.getWidth()/240; // FIXME 4.5 is not integer
-    private static int MOBI_H = 360;  // JavaME height = 320px FIXME
+    private static int MOBI_H = 320;  // JavaME height = 320px FIXME
 
     private static int VIEW_PORT_HEIGHT = (int)SCREEN_HEIGHT*3/4;
     private static int TOP_BOUND = VIEW_PORT_HEIGHT + (int)SCREEN_HEIGHT/8;
@@ -68,7 +68,10 @@ public class ReadMedia
         if(this.msr_media.equals("ui")) {
             Gdx.app.log("ERROR", "draw UI: " + this.msr_media);
         }
-        int position_y = (int) ((MOBI_H - paramInt3 + 53)*MOBI_SCL-img_height);
+        int position_y = (int) ((MOBI_H - paramInt3+20)*MOBI_SCL - img_height + BOTTOM_SPACE); // anchor 20
+        if(this.msr_media.equals("background0")) {
+            Gdx.app.log("DEBUG", "IMG: " + this.msr_media + "_" + paramInt1 + " JME y= "+paramInt3 + " position y="+position_y + " height="+img_height + " top bound="+(position_y+img_height));
+        }
         paramGraphics.draw(this.img_arr_a[paramInt1], (int)(paramInt2*MOBI_SCL), position_y); // 20 anchor
     }
 
@@ -96,7 +99,10 @@ public class ReadMedia
     public void drawImageAnchor36(SpriteBatch paramGraphics, int paramInt1, int paramInt2, int paramInt3)
     {
         int img_height = this.img_arr_a[paramInt1].getHeight();
-        int position_y = (int) ((MOBI_H-paramInt3+53)*MOBI_SCL-img_height);
+        int position_y = (int) ((MOBI_H-paramInt3+36)*MOBI_SCL-img_height + BOTTOM_SPACE);
+//        if(this.msr_media.equals("background0")) {
+            Gdx.app.log("DEBUG Anchor 36", "IMG: " + this.msr_media + "_" + paramInt1 + " JME y= "+paramInt3 + " position y="+position_y + " height="+img_height + " top bound="+(position_y+img_height));
+//        }
         paramGraphics.draw(this.img_arr_a[paramInt1], (int)(paramInt2*MOBI_SCL), position_y); // 36
     }
 
@@ -187,7 +193,7 @@ public class ReadMedia
         if ( this.msr_media.equals("font") ) { // 0->5
            return new Texture("archangel/font_" + paramInt + ".png");
         } else if( this.msr_media.equals("aa") ) { // 0-24 9-33 10-34
-            // 24 -> 34
+            // 24 -> 34; 13 to 16 is Hecman transform
             return new Texture("archangel/aa_" + paramInt +".png");
         } else if( this.msr_media.equals("background0") ) { // 7 -> 17
             return new Texture("archangel/background0_" + paramInt + ".png");
@@ -214,7 +220,7 @@ public class ReadMedia
             return new Texture("archangel/boss7_" + paramInt + ".png");
         } else if(this.msr_media.equals("brief")) { // 17->20
             return new Texture("archangel/brief_" + paramInt + ".png");
-        } else if(this.msr_media.equals("effect")) { // 71 -> 83
+        } else if(this.msr_media.equals("effect")) { // 71 -> 83; effect_12 is aim; 10, 11 is target lock
             return new Texture("archangel/effect_" + paramInt + ".png");
         } else if(this.msr_media.equals("end")) {
         } else if(this.msr_media.equals("enermy0")) { // 53 -> 60
@@ -266,7 +272,10 @@ public class ReadMedia
             this.img_arr_a[paramInt1] = new Texture("archangel/boss7_7.png");
         }
         int img_height = this.img_arr_a[paramInt1].getHeight();
-        int position_y = (int) ((MOBI_H-paramInt3+53)*MOBI_SCL-img_height);
+        int position_y = (int) ((MOBI_H-paramInt3+3)*MOBI_SCL-img_height + BOTTOM_SPACE);
+//        if(this.msr_media.equals("background0")) {
+            Gdx.app.log("DEBUG INARR", "IMG: " + this.msr_media + "_" + paramInt1 + " JME y= "+paramInt3 + " position y="+position_y + " height="+img_height + " top bound="+(position_y+img_height));
+//        }
         paramGraphics.draw(this.img_arr_a[paramInt1], (int)(paramInt2*MOBI_SCL), position_y); // 3
     }
 
@@ -288,14 +297,20 @@ public class ReadMedia
         readMediaStream(paramString);
         // paramGraphics.draw(loadImage(paramInt1), paramInt2, paramInt3); //20
         int img_height = this.img_arr_a[paramInt1].getHeight();
-        int position_y = (int) ((MOBI_H - paramInt3 + 53)*MOBI_SCL-img_height);
+        int position_y = (int) ((MOBI_H - paramInt3 +20)*MOBI_SCL-img_height + BOTTOM_SPACE); // anchor 20
+//        if(this.msr_media.equals("background0")) {
+            Gdx.app.log("DEBUG STRING IMAGE", "IMG: " + this.msr_media + "_" + paramInt1 + " JME y= "+paramInt3 + " position y="+position_y + " height="+img_height + " top bound="+(position_y+img_height));
+//        }
         paramGraphics.draw(this.img_arr_a[paramInt1], (int)(paramInt2*MOBI_SCL), position_y); //20
     }
 
     public void drawLoadImage(int paramInt1, SpriteBatch paramGraphics, int paramInt2, int paramInt3)
     {
         Texture temp = loadImage(paramInt1);
-        int position_y = (int) ((MOBI_H - paramInt3 + 53)*MOBI_SCL-temp.getHeight());
+        int position_y = (int) ((MOBI_H - paramInt3 + 20)*MOBI_SCL-temp.getHeight() + BOTTOM_SPACE); // anchor 20
+//        if(this.msr_media.equals("background0")) {
+            Gdx.app.log("DEBUG Load IMG", "IMG: " + this.msr_media + "_" + paramInt1 + " JME y= "+paramInt3 + " position y="+position_y + " height="+temp.getHeight() + " top bound="+(position_y+temp.getHeight()));
+//        }
         paramGraphics.draw(temp, (int)(paramInt2*MOBI_SCL), position_y); // 20
     }
 
