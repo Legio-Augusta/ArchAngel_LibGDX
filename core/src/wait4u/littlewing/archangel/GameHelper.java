@@ -863,7 +863,7 @@ public class GameHelper {
         int i1 = paramInt1 % 100;
         readText.processTxt(i1);
         String str1 = readText.buildString();
-//        paramGraphics.setClip(0, 0, 176, 80);
+        // paramGraphics.setClip(0, 0, 176, 80);
         switch (paramInt2)
         {
             case 0:
@@ -911,5 +911,6 @@ public class GameHelper {
             archAngel.readMedia.drawStringGraphic(paramGraphics, 130, 245, "" + archAngel.gameSetting.a, x);
         }
     }
+
 
 }

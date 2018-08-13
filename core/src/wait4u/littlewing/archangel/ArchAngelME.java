@@ -2,6 +2,7 @@ package wait4u.littlewing.archangel;
 
 //import com.samsung.util.AudioClip;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.Random;
@@ -53,9 +54,10 @@ public class ArchAngelME
     public String[] on_off = { "ON", "OFF" };
     public String[] auto_manual = { "AUTOMATIC", "MANUAL" };
     public String[] easy_hard = { "Easy", "Hard" };
-    //public AudioClip aq = null;
-    public Thread thread = null;
     private boolean bool_as = true;
+    public Thread thread = null;
+    //public AudioClip aq = null;
+    private Music music = null; // aq
 
     public void addScore1()
     {
@@ -91,11 +93,11 @@ public class ArchAngelME
 
     public void stopSound()
     {
-    /*if (this.aq != null)
-    {
-      this.aq.stop();
-      this.aq = null;
-    }*/
+        if (this.music != null)
+        {
+          this.music.stop();
+          this.music = null;
+        }
     }
 
     public void a(SpriteBatch paramGraphics, String paramString, boolean paramBoolean)
@@ -122,23 +124,32 @@ public class ArchAngelME
         return false;
     }
 
+    // TODO make plasma, missile sound louder use tool like Audacity. But low volume my be a good effect simulate explosion far away
     public void playSound(String paramString, int paramInt)
     {
         if (this.af == 0) {
             return;
         }
-    /*if (this.aq != null)
-    {
-      this.aq.stop();
-      this.aq = null;
-    }*/
+        if (this.music != null)
+        {
+            this.music.stop();
+            this.music = null;
+        }
         try
         {
-      /*String str = new String("/mmf/" + paramString + ".mid");
-      this.aq = null;
-      this.aq = new AudioClip(3, str);
-      this.aq.play(paramInt, 3);
-      System.out.println("play--->" + paramString);*/
+            /*String str = new String("/mmf/" + paramString + ".mid");
+            this.aq = null;
+            this.aq = new AudioClip(3, str);
+            this.aq.play(paramInt, 3);*/
+            this.music = null;
+            this.music = Gdx.audio.newMusic(Gdx.files.internal("audio/"+ paramString + ".wav"));
+            // this.music.setVolume(0.5f);
+            if(this.music != null) {
+                if (! this.music.isPlaying()) {
+                    this.music.play();
+                    this.music.setLooping(false);
+                }
+            }
         }
         catch (Exception localException)
         {

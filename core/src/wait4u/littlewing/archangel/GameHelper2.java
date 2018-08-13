@@ -995,8 +995,8 @@ public class GameHelper2 {
             case 0:
                 if (archAngel.x == 0)
                 {
-//                    paramGraphics.setColor(16777215);
-//                    paramGraphics.fillRect(0, 0, 240, 320);
+                    // paramGraphics.setColor( intToFloatColor(16777215) );
+                    // paramGraphics.fillRect(0, 0, 240, 320);
                     archAngel.readMedia.drawStringImage("logo", 0, paramGraphics, 48, 80); // Int3 80
                     archAngel.readMedia.drawStringImage("logo", 1, paramGraphics, 46, 161);
                     archAngel.readMedia.readMediaStream("intro");
@@ -1050,9 +1050,10 @@ public class GameHelper2 {
                     fillRect( paramGraphics, 0, 119, 240, 30, 0);
                     fillRect( paramGraphics, 0, 171, 240, 10, 0);
                     fillRect( paramGraphics, 0, 205, 240, 30, 0);
-//                    paramGraphics.setClip(0, 80 + 5 * archAngel.x, 240, 200 - 10 * archAngel.x);
+                    // TODO 3 drawClip in a row
+                    // paramGraphics.setClip(0, 80 + 5 * archAngel.x, 240, 200 - 10 * archAngel.x);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 30, 0, 80);
-//                    paramGraphics.setClip(0, 0, 240, 320);
+                    // paramGraphics.setClip(0, 0, 240, 320);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 4, 0, 60 + 5 * archAngel.x);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 3, 0, 280 - 5 * archAngel.x);
                 }
@@ -1069,13 +1070,30 @@ public class GameHelper2 {
      * #0 for red
      * #1 for light blue, #3 light blue 2 6DCFF6
      * #2 for light yellow, #4 gray 93959A #5 for white
+     * Fills the specified rectangle with the current color. => Need reset or manage color
+     * TODO draw filled rectangle with float color instead of color image. Fix ratio.
      */
     public void fillRect(SpriteBatch batch, int x, int y, int width, int height, int color) {
         // Hard code default width x height of color img: 12x12 px
-        int scaleY = height / 12;
-        int scaleX = width / 12;
+        int scaleY = height*MOBI_SCL / 12;
+        int scaleX = width*MOBI_SCL / 12;
         // (Texture, float x, float y, float originX, float originY, float width, float height, float scaleX, float scaleY, float rotation, int srcX, int srcY, int srcWidth, int srcHeight, boolean flipX, boolean flipY)
-//        batch.draw(imgColor[color], x, y, 0, 0, imgColor[color].getWidth(), imgColor[color].getHeight(), scaleX, scaleY, 0, 0, 0, imgColor[color].getWidth()*scaleX, imgColor[color].getHeight()*scaleY, false, false);
+        batch.draw(imgColor[color], x, y, 0, 0, imgColor[color].getWidth(), imgColor[color].getHeight(), scaleX, scaleY, 0, 0, 0, imgColor[color].getWidth()*scaleX, imgColor[color].getHeight()*scaleY, false, false);
     }
 
+    /*
+        Color.WHITE // 16777215 #FFFFFF
+        20361 // #004F89 darkblue
+        9342606 // 8E8E8E gray
+        16775065 //FFF799 lightyellow
+        16711680 // FF0000
+        4960985 //4BB2D9 lightblue
+     */
+    public Color intToFloatColor(int color) {
+        int red = color/(256^2);
+        int green = (color/256) % 256;
+        int blue = color%256;
+
+        return new Color(red/255f, green/255f, blue/255f, 1.0f);
+    }
 }
