@@ -37,7 +37,7 @@ public class LogoScreen extends DefaultScreen {
         steelbar_down = new Texture(Gdx.files.internal("archangel/font_3.png")); // 240x20
         archangel = new Texture(Gdx.files.internal("archangel/font_5.png")); // 195x30 <-> 877x135
         logo = new Texture(Gdx.files.internal("archangel/intro_0.png")); // 240x202 <-> 1080x909
-        withmobile_n_wait4u = new Texture(Gdx.files.internal("samsung-white/withmobile_wait4u.png")); // 240x20 <-> 1080x90
+        withmobile_n_wait4u = new Texture(Gdx.files.internal("archangel/withmobile_wait4u.png")); // 240x20 <-> 1080x90
     }
 
     @Override

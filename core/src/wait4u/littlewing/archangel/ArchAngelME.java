@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.util.Random;
 
 import wait4u.littlewing.archangel.screens.GameScreen;
-import wait4u.littlewing.archangel.screens.MainGameScreenME;
+import wait4u.littlewing.archangel.screens.MainGameScreen;
 
 public class ArchAngelME
 {
@@ -50,7 +50,7 @@ public class ArchAngelME
     public GameSettings gameSetting = new GameSettings();
     public ReadMedia readMedia = new ReadMedia();
     public ReadText readText = new ReadText();
-    public MainGameScreenME mainGameScreen = new MainGameScreenME(this, this.readMedia);
+    public MainGameScreen mainGameScreen = new MainGameScreen(this, this.readMedia);
     public String[] on_off = { "ON", "OFF" };
     public String[] auto_manual = { "AUTOMATIC", "MANUAL" };
     public String[] easy_hard = { "Easy", "Hard" };
