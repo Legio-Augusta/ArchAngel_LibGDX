@@ -113,7 +113,7 @@ public class MainGameHelper {
         int i1;
         if (paramg.e > 4000)
         {
-//	      i4 = angle_helper(-paramg.a, -paramg.screen);
+	        // i4 = angle_helper(-paramg.a, -paramg.screen);
             i4 = angle_helper(-paramg.a, -paramg.b, stt_byte_arr_bt);
             i1 = 20;
         }
@@ -144,25 +144,6 @@ public class MainGameHelper {
         return i1;
     }
 
-    public void setup2(GameSettings gameSetting, ArchAngelME AA, int an, int ao, int aq, int ar, int au, boolean bool_ay, boolean bool_az, boolean bool_a0)
-    {
-        au = 1000;
-        gameSetting.j = 0;
-        bool_ay = false;
-        bool_az = false;
-        bool_a0 = false;
-        AA.ab = 7;
-        setup3(an, ao, aq, ar);
-        ar = -20;
-    }
-
-    public void setup3(int an, int ao, int aq, int ar)
-    {
-        aq = 0;
-        ar = 0;
-        an = (ao = 0);
-    }
-
     public int shift_byte_6(int paramInt1, int paramInt2, int paramInt3, int bo, int bp, int bq, int br, byte[] stt_byte_arr_bs)
     {
         return turn_helper(paramInt1, bo, bp, stt_byte_arr_bs) * paramInt2 - turn_helper2(paramInt1, bq, br, stt_byte_arr_bs) * paramInt3 >> 6;
@@ -183,7 +164,6 @@ public class MainGameHelper {
             if( (i5 - 11) < arrayOfInt.length) {
 //                paramGraphics.setColor(arrayOfInt[(i5 - 11)]);
             }
-            //System.out.println("-::_:_:_:_:_:__" + i5 + " _______________");
 //            paramGraphics.fillRect(28 + i3, 21 - i4, 3, 3);
         }
         i2 += 300;
@@ -731,103 +711,20 @@ public class MainGameHelper {
         return true;
     }
 
-    //	public void complex_helper()
-    public void complex_helper(GameSettings gameSetting, ArchAngelME AA, int a3, int a4, int a8, int a9, int ag, int aj, int ak, int al, int am, int an,
-                               int ao, int ap, int aq, int ar, int as, int at, int av, int aw, int ba, int bb, int bd, int bn, int bo, int bp, int bq, int br, int db,
-                               int x, boolean bool_a0, boolean bool_ay, boolean bool_az, boolean bool_bg, int[] int_arr_a5, boolean[] bool_arr_a7, byte[] stt_byte_arr_bs)
-    {
-        simple_helper2(a9, a8, bool_bg);
-        if ((x <= 10) && (x >= -10)) {
-            follow_boss(ba, bool_bg, bd, bb, x, int_arr_a5, bool_arr_a7);
-        }
-        as += aq;
-        if (aq == 0)
-        {
-            if (as > 0) {
-                as += -1;
-            }
-            if (as < 0) {
-                as += 1;
-            }
-        }
-        if (as > 4) {
-            as = 4;
-        }
-        if (as < -4) {
-            as = -4;
-        }
-        av -= as;
-        if (av < 0) {
-            av += 360;
-        }
-        if (av >= 360) {
-            av -= 360;
-        }
-        al = ((turn_helper(av, bo, bp, stt_byte_arr_bs) * aw >> 6) + an);
-        am = ((turn_helper2(av, bq, br, stt_byte_arr_bs) * aw >> 6) + ao);
-        at -= am;
-        aw += ar;
-        if (aw > 140) {
-            aw = 140;
-        }
-        if (aw < 20) {
-            aw = 20;
-        }
-        a3 += -1;
-        a4 += -1;
-        if ((bool_ay) && (a4 <= 0) && (setup_18_item(6, 0)) && (bn <= 0)) {
-            bn = 12;
-        }
-        int i1;
-        if ((bool_az) && (AA.x % 5 == 0) && (AA.bool_n == true) && (gameSetting.t > 0))
-        {
-            i1 = aj;
-            if ((aj < 0) || (ak > 0)) {
-                i1 = -1;
-            }
-            if (setup_18_item(11, i1))
-            {
-                gameSetting.t += -1;
-                if (gameSetting.t <= 0)
-                {
-                    AA.stopSound();
-                    bool_az = false;
-                }
-            }
-        }
-        if (bool_a0)
-        {
-            if (gameSetting.o > 0)
-            {
-                i1 = aj;
-                if ((aj < 0) || (ak > 0)) {
-                    i1 = -1;
-                }
-                if (setup_18_item(1, i1))
-                {
-                    gameSetting.o += -1;
-                    if (gameSetting.o <= 0) {
-                        bool_a0 = false;
-                    }
-                    a3 = 20;
-                }
-            }
-            bool_a0 = false;
-        }
-    }
-
-    //public void complex_draw_helper(SpriteBatch paramGraphics, GameConfig paramg)
+    // public void complex_draw_helper(SpriteBatch paramGraphics, GameConfig paramg)
     // These int params is original from this (MainGameScreen)
     // Be careful with param pass by reference ie. aa_bool_n here is not change value, only used for condition
-    public void complex_draw_helper(SpriteBatch paramGraphics, GameConfig paramg, ReadMedia readMedia, int af,
-                                    int b0, int b1, int b2, int b3, int b4, int b5, int b6, int b7, int bb, int bc, int be, int bf,
+    public ReturnHelper complex_draw_helper(SpriteBatch paramGraphics, GameConfig paramg, ReadMedia readMedia, int af,
+                                    int b0, int b1, int b2, int b3, int bb, int bc, int be, int bf,
                                     int bi, int bj, int bk, int by, int bz, boolean aa_bool_n, Random rnd)
     {
+        ReturnHelper complexReturn = new ReturnHelper();
+
         int i1 = paramg.c;
         int i2 = paramg.f;
         int i3 = paramg.g;
         int i4 = paramg.d;
-//        paramGraphics.setClip(0, 50, 240, 250);
+        // paramGraphics.setClip(0, 50, 240, 250);
         switch (i1)
         {
             case 9:
@@ -858,9 +755,9 @@ public class MainGameHelper {
                     }
                     else
                     {
-                        b6 = (b0 + paramg.d * ((b2 - b0) / 10));
-                        b7 = (b1 + paramg.d * ((b3 - b1) / 10));
-                        draw_anchor_helper(paramGraphics, readMedia, b6, b7, i3 >> 2, paramg.d, true, be, bf);
+                        complexReturn.eight = (b0 + paramg.d * ((b2 - b0) / 10)); // b6
+                        complexReturn.night = (b1 + paramg.d * ((b3 - b1) / 10)); // b7
+                        draw_anchor_helper(paramGraphics, readMedia, complexReturn.eight, complexReturn.night, i3 >> 2, paramg.d, true, be, bf); // b6 b7
                     }
                     if (paramg.d == 8) {
                         if ((bb - be > -50) && (bb - be < 27) && (bc - bf > -50) && (bc - bf < 30))
@@ -887,9 +784,9 @@ public class MainGameHelper {
                         by = (93 - bb);
                         bz = (144 - bc);
                     }
-                    b4 = (i2 + 88 + 32 - by + (7 - paramg.d) * (by / 10));
-                    b5 = (i3 + 100 + 50 - bz + (7 - paramg.d) * (bz / 10));
-                    draw_anchor_helper(paramGraphics, readMedia, b4, b5, i3 >> 1, paramg.l, false, be, bf);
+                    complexReturn.six = (i2 + 88 + 32 - by + (7 - paramg.d) * (by / 10)); // b4
+                    complexReturn.seven = (i3 + 100 + 50 - bz + (7 - paramg.d) * (bz / 10)); // b5
+                    draw_anchor_helper(paramGraphics, readMedia, complexReturn.six, complexReturn.seven, i3 >> 1, paramg.l, false, be, bf); // b4 b5
                 }
                 break;
             case 1:
@@ -907,23 +804,39 @@ public class MainGameHelper {
                 shift_1(paramGraphics, true, i2 + 88 + 32, 158 - i3, i4 * 4 + 2, i4 + 1, i4 + 1, readMedia, rnd);
                 break;
         }
+        complexReturn.one  = af;
+        complexReturn.two  = b0;
+        complexReturn.three = b1;
+        complexReturn.four = b2;
+        complexReturn.five = b3;
+        complexReturn.bool_one = (aa_bool_n) ? 1 : 0;
+        complexReturn.yi   = bb;
+        complexReturn.er   = bc;
+        complexReturn.san  = be;
+        complexReturn.si   = bf;
+        complexReturn.wu   = bi;
+        complexReturn.liu  = bj;
+        complexReturn.qi   = bk;
+        complexReturn.ba   = by;
+        complexReturn.jiu  = bz;
 
+        return complexReturn;
     }
 
     // TODO remove this method in MainGameScreen
     public void fillRect_helper(SpriteBatch paramGraphics, int paramInt1, int paramInt2, int paramInt3, int paramInt4, int paramInt5)
     {
-//        paramGraphics.setColor(paramInt5);
+        // paramGraphics.setColor(paramInt5);
         int i1 = paramInt1 - paramInt3;
         int i2 = paramInt2 - (paramInt3 >> 1);
-//        paramGraphics.fillRect(i1, i2, paramInt3 << 1, paramInt3);
+        // paramGraphics.fillRect(i1, i2, paramInt3 << 1, paramInt3);
         i1 = paramInt1 - (paramInt3 >> 1);
         i2 = paramInt2 - paramInt3;
-//        paramGraphics.fillRect(i1, i2, paramInt3, paramInt3 << 1);
-//        paramGraphics.setColor(paramInt4);
+        // paramGraphics.fillRect(i1, i2, paramInt3, paramInt3 << 1);
+        // paramGraphics.setColor(paramInt4);
         i1 = paramInt1 - (paramInt3 >> 1);
         i2 = paramInt2 - (paramInt3 >> 1);
-//        paramGraphics.fillRect(i1, i2, paramInt3, paramInt3);
+        // paramGraphics.fillRect(i1, i2, paramInt3, paramInt3);
     }
 
     //	public void draw_anchor_helper(SpriteBatch paramGraphics, int paramInt1, int paramInt2, int paramInt3, int paramInt4, boolean paramBoolean)

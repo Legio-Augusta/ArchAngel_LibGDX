@@ -414,6 +414,7 @@ public class GameHelper2 {
         return myReturn;
     }
 
+    // Append return value as dual variable series
     public ReturnHelper mergeReturnValue(ReturnHelper paramReturn1, ReturnHelper paramReturn2) {
         if(paramReturn2.one > paramReturn2.MIN_INT) {
             paramReturn1.yi = paramReturn2.one;

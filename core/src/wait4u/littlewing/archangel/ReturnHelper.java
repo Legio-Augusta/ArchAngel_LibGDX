@@ -5,26 +5,20 @@ package wait4u.littlewing.archangel;
  */
 
 public class ReturnHelper {
-    public int one;
-    public int two;
-    public int three;
-    public int four;
-    public int five;
-    public int six;
-    public int seven;
-    public int yi, er, san, si, wu, liu, qi;
+    public int one, two, three, four, five, six, seven, eight, night;
+    public int yi, er, san, si, wu, liu, qi, ba, jiu;
 
-    public int bool_yi;
     public int bool_one;
+    public int bool_yi;
 
     public static int MIN_INT = -2147483648;
 
     public ReturnHelper() {
         // Init a special value as a flag for check if variable's value changed or not.
-        this.one = this.two = this.three = this.four = this.five = this.six = this.seven = this.MIN_INT;
+        this.one = this.two = this.three = this.four = this.five = this.six = this.seven = this.eight = this.night = this.MIN_INT;
         this.bool_one = -1;
 
-        this.yi = this.er = this.san = this.si = this.wu = this.liu = this.qi = this.MIN_INT;
+        this.yi = this.er = this.san = this.si = this.wu = this.liu = this.qi = this.ba = this.jiu = this.MIN_INT;
         this.bool_yi = -1;
     }
     public ReturnHelper(int one, int two, int bool_one) {

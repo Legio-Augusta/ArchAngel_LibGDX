@@ -8,6 +8,7 @@ import wait4u.littlewing.archangel.GameConfig;
 import wait4u.littlewing.archangel.GameSettings;
 import wait4u.littlewing.archangel.MainGameHelper;
 import wait4u.littlewing.archangel.ReadMedia;
+import wait4u.littlewing.archangel.ReturnHelper;
 
 public class MainGameScreen {
     public ArchAngelME AA;
@@ -144,7 +145,7 @@ public class MainGameScreen {
                         paramGameCnf.i = 0;
                         this.bool_a1 = false;
                     }
-//        this.f = turn_calc(angle_helper(paramGameCnf.a, paramGameCnf.screen), this.av);
+                    // this.f = turn_calc(angle_helper(paramGameCnf.a, paramGameCnf.screen), this.av);
                     this.f = this.gameHelper.turn_calc(this.gameHelper.angle_helper(paramGameCnf.a, paramGameCnf.b, stt_byte_arr_bt), this.av);
                     this.ca = (Math.abs(paramGameCnf.a) + Math.abs(paramGameCnf.b) - 200);
                 }
@@ -196,7 +197,7 @@ public class MainGameScreen {
                 break;
             case 13:
                 if (paramGameCnf.l <= 0) {
-//        paramGameCnf.l = random_helper(paramGameCnf, paramInt);
+                    // paramGameCnf.l = random_helper(paramGameCnf, paramInt);
                     paramGameCnf.l = this.gameHelper.random_helper(paramGameCnf, paramInt, this.rnd, this.af, this.al, this.am, this.an, this.ao, this.bo, this.bp,
                             this.bq, this.br, stt_byte_arr_bt, stt_byte_arr_bs);
                 }
@@ -807,10 +808,68 @@ public class MainGameScreen {
         for (int i1 = 0; i1 < 9; i1++) {
             for (int i2 = 0; i2 < 18; i2++) {
                 if ((gameConfigArr[i2].c != 0) && (gameConfigArr[i2].d == i1)) {
-//          complex_draw_helper(paramGraphics, gameConfigArr[i2]);
-                    this.gameHelper.complex_draw_helper(paramGraphics, gameConfigArr[i2], this.readMedia,
-                            this.af, this.b0, this.b1, this.b2, this.b3, this.b4, this.b5, this.b6, this.b7,
-                            this.bb, this.bc, this.be, this.bf, this.bi, this.bj, this.bk, this.by, this.bz, this.AA.bool_n, this.rnd);
+                    // complex_draw_helper(paramGraphics, gameConfigArr[i2]);
+                    ReturnHelper returnComplexDrawHelper =
+                            this.gameHelper.complex_draw_helper(paramGraphics, gameConfigArr[i2], this.readMedia, this.af, this.b0, this.b1, this.b2,
+                                    this.b3, this.bb, this.bc, this.be, this.bf, this.bi, this.bj, this.bk, this.by, this.bz, this.AA.bool_n, this.rnd);
+
+                    if(returnComplexDrawHelper.one > returnComplexDrawHelper.MIN_INT) { // If this.l value has changed
+                        this.af = returnComplexDrawHelper.one;
+                    }
+                    if(returnComplexDrawHelper.two >= returnComplexDrawHelper.MIN_INT) {
+                        this.b0 = returnComplexDrawHelper.two;
+                    }
+                    if(returnComplexDrawHelper.three >= returnComplexDrawHelper.MIN_INT) {
+                        this.b1 = returnComplexDrawHelper.three;
+                    }
+                    if(returnComplexDrawHelper.four >= returnComplexDrawHelper.MIN_INT) {
+                        this.b2 = returnComplexDrawHelper.four;
+                    }
+                    if(returnComplexDrawHelper.five >= returnComplexDrawHelper.MIN_INT) {
+                        this.b3 = returnComplexDrawHelper.five;
+                    }
+                    if(returnComplexDrawHelper.six >= returnComplexDrawHelper.MIN_INT) {
+                        this.b4 = returnComplexDrawHelper.six;
+                    }
+                    if(returnComplexDrawHelper.seven >= returnComplexDrawHelper.MIN_INT) {
+                        this.b5 = returnComplexDrawHelper.seven;
+                    }
+                    if(returnComplexDrawHelper.eight >= returnComplexDrawHelper.MIN_INT) {
+                        this.b6 = returnComplexDrawHelper.eight;
+                    }
+                    if(returnComplexDrawHelper.night >= returnComplexDrawHelper.MIN_INT) {
+                        this.b7 = returnComplexDrawHelper.night;
+                    }
+                    if(returnComplexDrawHelper.bool_one > 0) {
+                        this.AA.bool_n = (returnComplexDrawHelper.bool_one != 0) ? true : false;
+                    }
+                    if(returnComplexDrawHelper.yi > returnComplexDrawHelper.MIN_INT) {
+                        this.bb = returnComplexDrawHelper.yi;
+                    }
+                    if(returnComplexDrawHelper.er > returnComplexDrawHelper.MIN_INT) {
+                        this.bc = returnComplexDrawHelper.er;
+                    }
+                    if(returnComplexDrawHelper.san > returnComplexDrawHelper.MIN_INT) {
+                        this.be = returnComplexDrawHelper.san;
+                    }
+                    if(returnComplexDrawHelper.si > returnComplexDrawHelper.MIN_INT) {
+                        this.bf = returnComplexDrawHelper.si;
+                    }
+                    if(returnComplexDrawHelper.wu > returnComplexDrawHelper.MIN_INT) {
+                        this.bi = returnComplexDrawHelper.wu;
+                    }
+                    if(returnComplexDrawHelper.liu > returnComplexDrawHelper.MIN_INT) {
+                        this.bj = returnComplexDrawHelper.liu;
+                    }
+                    if(returnComplexDrawHelper.qi > returnComplexDrawHelper.MIN_INT) {
+                        this.bk = returnComplexDrawHelper.qi;
+                    }
+                    if(returnComplexDrawHelper.ba > returnComplexDrawHelper.MIN_INT) {
+                        this.by = returnComplexDrawHelper.ba;
+                    }
+                    if(returnComplexDrawHelper.jiu > returnComplexDrawHelper.MIN_INT) {
+                        this.bz = returnComplexDrawHelper.jiu;
+                    }
                 }
             }
         }
@@ -862,7 +921,7 @@ public class MainGameScreen {
     {
         simple_helper2(this.a9);
         if ((this.x <= 10) && (this.x >= -10)) {
-//      follow_boss(this.ba);
+            // follow_boss(this.ba);
             this.gameHelper.follow_boss(this.ba, this.bool_bg, this.bd, this.bb, this.x, this.int_arr_a5, this.bool_arr_a7);
         }
         this.as += this.aq;
