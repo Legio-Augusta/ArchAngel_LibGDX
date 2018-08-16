@@ -16,4 +16,9 @@ public class GameConfig
     public int l;
     public int m;
     public boolean bool_n = false;
+
+    public String debug() {
+        return " a = " + a + " b= "+b + " c = " + c + " d= " +d + " e =" + e + " f = " + f + " g = " +g + " h = "+ h +" i = "+ i + " j= " +j
+                + " k = "+ k + " l= "+ l + " m= " + m + " bool_n= "+ bool_n;
+    }
 }

@@ -1,6 +1,7 @@
 package wait4u.littlewing.archangel.screens;
 import java.util.Random;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import wait4u.littlewing.archangel.ArchAngelME;
@@ -117,6 +118,24 @@ public class MainGameScreen {
 
     public void init_game(GameConfig paramGameCnf, int paramInt)
     {
+        Gdx.app.log("DEBUG", "Game Cnf 0: " + gameConfigArr[0].debug());
+        Gdx.app.log("DEBUG", "Game Cnf 1: " + gameConfigArr[1].debug());
+        Gdx.app.log("DEBUG", "Game Cnf 2: " + gameConfigArr[2].debug());
+        Gdx.app.log("DEBUG", "Game Cnf 3: " + gameConfigArr[3].debug());
+        Gdx.app.log("DEBUG", "Game Cnf 4: " + gameConfigArr[4].debug());
+        Gdx.app.log("DEBUG", "Game Cnf 5: " + gameConfigArr[5].debug());
+        Gdx.app.log("DEBUG", "Game Cnf 6: " + gameConfigArr[6].debug());
+        Gdx.app.log("DEBUG", "Game Cnf 7: " + gameConfigArr[7].debug());
+        Gdx.app.log("DEBUG", "Game Cnf 8: " + gameConfigArr[8].debug());
+        Gdx.app.log("DEBUG", "Game Cnf 9: " + gameConfigArr[9].debug());
+        Gdx.app.log("DEBUG", "Game Cnf 10: " + gameConfigArr[10].debug());
+        Gdx.app.log("DEBUG", "Game Cnf 11: " + gameConfigArr[11].debug());
+        Gdx.app.log("DEBUG", "Game Cnf 12: " + gameConfigArr[12].debug());
+        Gdx.app.log("DEBUG", "Game Cnf 13: " + gameConfigArr[13].debug());
+        Gdx.app.log("DEBUG", "Game Cnf 14: " + gameConfigArr[14].debug());
+        Gdx.app.log("DEBUG", "Game Cnf 15: " + gameConfigArr[15].debug());
+        Gdx.app.log("DEBUG", "Game Cnf 16: " + gameConfigArr[16].debug());
+        Gdx.app.log("DEBUG", "Game Cnf 17: " + gameConfigArr[17].debug());
         int i2;
         if ((i2 = paramGameCnf.c) == 0) {
             return;
@@ -178,7 +197,7 @@ public class MainGameScreen {
                     this.au += 2;
                     paramGameCnf.c = 0;
                     this.ah += -1;
-                    this.gameSetting.j -= 50;
+                    this.gameSetting.j -= 50; // ammunition reduce ? 1000 round available
                     play_s_gun(false);
                     if (this.gameSetting.j <= 0) {
                         setup2();
@@ -222,7 +241,7 @@ public class MainGameScreen {
                         paramGameCnf.c = 0;
                         this.af += -1;
                         this.au += 3;
-                        this.gameSetting.loseHP(paramGameCnf.m);
+                        this.gameSetting.loseHP(paramGameCnf.m); // This seem to be reduce ammo round instead of hp
                         if (this.gameSetting.j <= 0) {
                             setup2();
                         }
@@ -235,7 +254,7 @@ public class MainGameScreen {
                     this.au += 3;
                     this.gameSetting.loseHP(paramGameCnf.m);
                     play_s_gun(false);
-                    if (this.gameSetting.j <= 0) {
+                    if (this.gameSetting.j <= 0) { // ammo round reduce ?
                         setup2();
                     }
                 }
@@ -249,7 +268,6 @@ public class MainGameScreen {
                 if ((i1 = paramGameCnf.k) == -1) {
                     return;
                 }
-                System.out.println("i1i1i1i1i11i1 " + i1 + " " + gameConfigArr.length + " ii11i1i11i11");
                 if (gameConfigArr[i1].c == 0)
                 {
                     paramGameCnf.c = 0;
@@ -259,7 +277,7 @@ public class MainGameScreen {
                 {
                     paramGameCnf.c = 4;
                     paramGameCnf.l = 2;
-                    gameConfigArr[i1].m -= this.gameSetting.s;
+                    gameConfigArr[i1].m -= this.gameSetting.s; // decs_e_hp ? similar SBF decrease hp
                     if(this.n != 0) {
                         this.AA.ae = (40 * gameConfigArr[i1].m / this.n);
                     }
@@ -365,7 +383,6 @@ public class MainGameScreen {
         this.bool_bl = false;
         this.bm = -1;
         this.bn = 0;
-        System.out.println("aeaoeaeeaeaee " + gameConfigArr.length + " aeaeoeoaoe");
         for (int i1 = 0; i1 < 18; i1++) {
             gameConfigArr[i1].c = 0;
         }
@@ -386,29 +403,10 @@ public class MainGameScreen {
         sound_explode(paramGraphics);
     }
 
-    public void draw_anchor_helper(SpriteBatch paramGraphics, int paramInt1, int paramInt2, int paramInt3, int paramInt4, boolean paramBoolean)
-    {
-        if (paramInt3 > 20) {
-            paramInt3 = 20;
-        }
-        int i1 = paramInt1 - (paramInt3 >> 1);
-        int i2 = paramInt2 - (paramInt3 >> 1);
-        if (paramBoolean)
-        {
-            this.readMedia.drawImageAnchor20(paramGraphics, 93 + paramInt4, i1, i2);
-            this.be = i1;
-            this.bf = i2;
-        }
-        else
-        {
-            this.readMedia.drawImageAnchor20(paramGraphics, 84 + (29 - paramInt4), i1, i2);
-        }
-    }
-
     public void draw_anchor_helper2(SpriteBatch paramGraphics)
     {
         int i6 = 0;
-//        paramGraphics.setColor(65280); // F**K U
+        // setColor(65280); // F**K U
         this.ai = (85 + this.as * 7);
         if ((this.aj >= 0) && (gameConfigArr[this.aj].c == 0)) {
             this.aj = -1;
@@ -492,15 +490,6 @@ public class MainGameScreen {
         }
         if ((this.AA.ad == 2) || (this.AA.screen == 0)) {
             this.readMedia.drawImageAnchor20(paramGraphics, 18 + i2, 0, 166);
-        }
-    }
-
-    public void draw_img_helper(SpriteBatch paramGraphics, int paramInt1, int paramInt2, int paramInt3, int paramInt4)
-    {
-        int i1 = paramInt1 - (paramInt3 >> 1);
-        int i2 = paramInt2 - (paramInt3 >> 1);
-        if (paramInt4 < 6) {
-            this.readMedia.drawImageInArr(paramGraphics, 102 + paramInt4, i1 - 5, i2);
         }
     }
 
@@ -656,33 +645,17 @@ public class MainGameScreen {
         return this.bp = this.gameHelper.turnAngleCalc(paramInt, stt_byte_arr_bs);
     }
 
-    public void fillRect_helper(SpriteBatch paramGraphics, int paramInt1, int paramInt2, int paramInt3, int paramInt4, int paramInt5)
-    {
-        paramGraphics.setColor(paramInt5);
-        int i1 = paramInt1 - paramInt3;
-        int i2 = paramInt2 - (paramInt3 >> 1);
-//        paramGraphics.fillRect(i1, i2, paramInt3 << 1, paramInt3);
-        i1 = paramInt1 - (paramInt3 >> 1);
-        i2 = paramInt2 - paramInt3;
-//        paramGraphics.fillRect(i1, i2, paramInt3, paramInt3 << 1);
-        paramGraphics.setColor(paramInt4);
-        i1 = paramInt1 - (paramInt3 >> 1);
-        i2 = paramInt2 - (paramInt3 >> 1);
-//        paramGraphics.fillRect(i1, i2, paramInt3, paramInt3);
-    }
-
     public void sound_explode(SpriteBatch paramGraphics)
     {
         draw_arr_byte_plasma_boss(paramGraphics);
-//    this.gameHelper.draw_arr_byte_plasma_boss(paramGraphics, this.readMedia, this.AA, this.a8, this.a9,
-//    		this.ap, this.aw, this.ba, this.bb, this.bc, this.bd, this.bi, this.bz, this.bool_ay, this.bool_bg);
+
         if (this.au > 0)
         {
             this.b8 = (61 - this.bb);
             this.b9 = (94 - this.bc);
 
             this.gameHelper.shift_1(paramGraphics, false, 88 - this.b8, 133 - this.b9, 30, 8, 4, readMedia, rnd);
-//      shift_1(paramGraphics, false, 88 - this.b8, 133 - this.b9, 30, 8, 4);
+            // shift_1(paramGraphics, false, 88 - this.b8, 133 - this.b9, 30, 8, 4);
             if ((this.bi == 1) && (!this.bool_ay)) {
                 this.AA.playSound("s_explo", 1);
             }
@@ -784,6 +757,7 @@ public class MainGameScreen {
         paramg.j = i5;
     }
 
+    // This seem to ammunation machine gun round available (1000 ?)
     public void setup2()
     {
         this.au = 1000;
@@ -801,7 +775,12 @@ public class MainGameScreen {
         this.readMedia.drawImageAnchor20(paramGraphics, 21, 0, 0);
         for (int i1 = 0; i1 < 18; i1++) {
             if (gameConfigArr[i1].c != 0) {
-                this.gameHelper.set_color_arr(paramGraphics, gameConfigArr[i1], this.al, this.am, this.av, this.bo, this.bq, this.bq, this.br, stt_byte_arr_bs);
+                ReturnHelper arrReturn =
+                this.gameHelper.set_color_arr(paramGraphics, gameConfigArr[i1], this.al, this.am, this.av, this.bo, this.bp, this.bq, this.br, stt_byte_arr_bs);
+                this.bo = arrReturn.one;
+                this.bp = arrReturn.two;
+                this.bq = arrReturn.three;
+                this.br = arrReturn.four;
             }
         }
 //        paramGraphics.setClip(0, 50, 240, 250);
@@ -922,7 +901,10 @@ public class MainGameScreen {
         simple_helper2(this.a9);
         if ((this.x <= 10) && (this.x >= -10)) {
             // follow_boss(this.ba);
-            this.gameHelper.follow_boss(this.ba, this.bool_bg, this.bd, this.bb, this.x, this.int_arr_a5, this.bool_arr_a7);
+            ReturnHelper bossReturn =
+            this.gameHelper.follow_boss(this.ba, this.bb, this.bd, this.x, this.bool_bg, this.int_arr_a5, this.bool_arr_a7);
+            this.bd = bossReturn.one;
+            this.x = bossReturn.two;
         }
         this.as += this.aq;
         if (this.aq == 0)
@@ -1030,7 +1012,6 @@ public class MainGameScreen {
         int i1;
         if (paramg.e > 4000)
         {
-//      i4 = angle_helper(-paramg.a, -paramg.screen);
             i4 = this.gameHelper.angle_helper(-paramg.a, -paramg.b, stt_byte_arr_bt);
             i1 = 20;
         }
@@ -1073,9 +1054,6 @@ public class MainGameScreen {
             return false;
         }
         turn_helper2(gameConfigArr[i1], paramInt1, paramInt2);
-//    this.gameHelper.turn_helper2(gameConfigArr[i1], gameConfigArr[paramInt2], this.gameSetting, paramInt1, paramInt2, this.rnd,
-//	    this.AA, this.af, this.ah, this.ag, this.al, this.am, this.an, this.av, this.bo, this.bp,
-//	    this.bq, this.br, this.cc, this.j, this.n, this.o, this.k, this.r, this.s, this.v, this.w, stt_byte_arr_bs, stt_byte_arr_bt);
 
         return true;
     }
@@ -1133,7 +1111,7 @@ public class MainGameScreen {
                 paramg.a = gameConfigArr[paramInt2].a;
                 paramg.b = gameConfigArr[paramInt2].b;
                 paramg.e = this.gameHelper.shift_3(paramg.a, paramg.b);
-//      i1 = paramg.j = angle_helper(-paramg.a + this.al, -paramg.screen + this.am);
+                // i1 = paramg.j = angle_helper(-paramg.a + this.al, -paramg.screen + this.am);
                 i1 = paramg.j = this.gameHelper.angle_helper(-paramg.a + this.al, -paramg.b + this.am, stt_byte_arr_bt);
                 paramg.h = (3 * turn_helper(i1) + this.al);
                 paramg.i = (3 * turn_helper2(i1) + this.am);

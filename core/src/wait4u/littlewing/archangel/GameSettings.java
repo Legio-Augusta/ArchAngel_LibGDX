@@ -1,5 +1,8 @@
 package wait4u.littlewing.archangel;
 
+/*
+ * TODO investigate move to Character class separate fighter, enermy, boss etc.
+ */
 public class GameSettings
 {
     public int a;

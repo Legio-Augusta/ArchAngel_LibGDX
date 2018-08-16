@@ -1167,7 +1167,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         batch.enableBlending();
         batch.begin();
 
-//        paint(this.batch);
+        // paint(this.batch);
         run();
 
         // drawTouchPad();

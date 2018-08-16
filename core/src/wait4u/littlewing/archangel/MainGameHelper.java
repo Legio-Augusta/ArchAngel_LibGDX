@@ -138,25 +138,64 @@ public class MainGameHelper {
                 i4 -= 360;
             }
         }
-        paramg.h = (al - an + turn_helper(i4, bo, bp, stt_byte_arr_bs));
-        paramg.i = (am - ao + turn_helper2(i4, bq, br, stt_byte_arr_bs));
+        ReturnHelper returnHelper = turn_helper(i4, bo, bp, stt_byte_arr_bs);
+        bo = returnHelper.one;
+        bp = returnHelper.two;
+
+        paramg.h = (al - an + returnHelper.two);
+        // paramg.i = (am - ao + turn_helper2(i4, bq, br, stt_byte_arr_bs));
+        ReturnHelper turnReturn = turn_helper2(i4, bq, br, stt_byte_arr_bs);
+        bq = turnReturn.one;
+        br = turnReturn.two;
+        paramg.i = (am - ao + turnReturn.two);
         paramg.j = i4;
         return i1;
     }
 
-    public int shift_byte_6(int paramInt1, int paramInt2, int paramInt3, int bo, int bp, int bq, int br, byte[] stt_byte_arr_bs)
+    // int
+    public ReturnHelper shift_byte_6(int paramInt1, int paramInt2, int paramInt3, int bo, int bp, int bq, int br, byte[] stt_byte_arr_bs)
     {
-        return turn_helper(paramInt1, bo, bp, stt_byte_arr_bs) * paramInt2 - turn_helper2(paramInt1, bq, br, stt_byte_arr_bs) * paramInt3 >> 6;
+        ReturnHelper byteReturn = new ReturnHelper();
+
+        ReturnHelper turnReturn = turn_helper2(paramInt1, bq, br, stt_byte_arr_bs);
+        byteReturn.three = turnReturn.one;
+        byteReturn.four = turnReturn.two;
+
+        ReturnHelper returnHelper2 = turn_helper(paramInt1, bo, bp, stt_byte_arr_bs);
+        byteReturn.one = returnHelper2.one;
+        byteReturn.two = returnHelper2.two;
+
+        byteReturn.five =
+         returnHelper2.two * paramInt2 - turnReturn.two * paramInt3 >> 6; // return
+
+        return byteReturn;
     }
 
-    public void set_color_arr(SpriteBatch paramGraphics, GameConfig paramg, int al, int am, int av, int bo, int bp, int bq, int br, byte[] stt_byte_arr_bs)
+    // void
+    public ReturnHelper set_color_arr(SpriteBatch paramGraphics, GameConfig paramg, int al, int am, int av, int bo, int bp, int bq, int br, byte[] stt_byte_arr_bs)
     {
+        ReturnHelper arrReturn = new ReturnHelper();
+
         int[] arrayOfInt = { 255, 16711680, 16776960, 16776960 };
         int i5 = paramg.c;
         int i3 = paramg.a;
         int i4 = paramg.b;
-        int i1 = shift_byte_6(450 - av, i3, i4, bo, bp, bq, br, stt_byte_arr_bs);
-        int i2 = return_turn_helper(450 - av, i3, i4, bo, bp, bq, br, stt_byte_arr_bs);
+        // int i1 = shift_byte_6(450 - av, i3, i4, bo, bp, bq, br, stt_byte_arr_bs);
+        ReturnHelper shiftReturn = shift_byte_6(450 - av, i3, i4, bo, bp, bq, br, stt_byte_arr_bs);
+        int i1 = shiftReturn.five;
+        bo = shiftReturn.one;
+        bp = shiftReturn.two;
+        bq = shiftReturn.three;
+        br = shiftReturn.four;
+
+        // int i2 = return_turn_helper(450 - av, i3, i4, bo, bp, bq, br, stt_byte_arr_bs);
+        ReturnHelper returnHelper2 = return_turn_helper(450 - av, i3, i4, bo, bp, bq, br, stt_byte_arr_bs);
+        int i2 = returnHelper2.five;
+        bo = returnHelper2.one;
+        bp = returnHelper2.two;
+        bq = returnHelper2.three;
+        br = returnHelper2.four;
+
         if ((i5 >= 11) && ((paramg.e = shift_3(i3, i4)) < 4284))
         {
             i3 = i1 >> 8;
@@ -180,6 +219,13 @@ public class MainGameHelper {
         }
         paramg.a -= al;
         paramg.b -= am;
+
+        arrReturn.one = bo;
+        arrReturn.two = bp;
+        arrReturn.three = bq;
+        arrReturn.four = br;
+
+        return arrReturn;
     }
 
     public int shift_3(int paramInt1, int paramInt2)
@@ -247,274 +293,41 @@ public class MainGameHelper {
         }
     }
 
-    public int turn_helper(int paramInt, int bo, int bp, byte[] stt_byte_arr_bs)
+    public ReturnHelper turn_helper(int paramInt, int bo, int bp, byte[] stt_byte_arr_bs) // int
     {
+        ReturnHelper returnHelper = new ReturnHelper();
         if (paramInt == bo) {
-            return bp;
+            // return bp;
+            returnHelper.two = bp;
+            return returnHelper;
         }
         bo = paramInt;
-        return bp = turnAngleCalc(paramInt, stt_byte_arr_bs);
+        returnHelper.one = bo;
+        returnHelper.two = bp = turnAngleCalc(paramInt, stt_byte_arr_bs); // return
+
+        return returnHelper;
     }
 
-    public int turn_helper2(int paramInt, int bq, int br, byte[] stt_byte_arr_bs)
+    public ReturnHelper turn_helper2(int paramInt, int bq, int br, byte[] stt_byte_arr_bs) // int
     {
+        ReturnHelper turnReturn = new ReturnHelper();
         if (paramInt == bq) {
-            return br;
+            // return br;
+            turnReturn.two = br;
+            return turnReturn;
         }
         bq = paramInt;
-        return br = turnAngleCalc(90 - paramInt, stt_byte_arr_bs);
-    }
+        turnReturn.one = bq;
+        br = turnAngleCalc(90 - paramInt, stt_byte_arr_bs); // return
+        turnReturn.two = br;
 
-    //	TODO refactor long parameters
-//	public void turn_helper2(GameConfig paramg, int paramInt1, int paramInt2)
-    public void turn_helper2(GameConfig paramg, GameConfig gameConfig2, GameSettings gameSetting, int paramInt1, int paramInt2,
-                             Random rnd, ArchAngelME AA, int af, int ah, int ag, int al, int am, int an,
-                             int av, int bo, int bp, int bq, int br, int cc, int j, int n, int o, int k,
-                             int r, int s, int v, int w, byte[] stt_byte_arr_bs, byte[] stt_byte_arr_bt)
-    {
-        paramg.m = 0;
-        int i1;
-        switch (paramInt1)
-        {
-            case 9:
-                paramg.a = r;
-                paramg.b = s;
-                paramg.e = 99999;
-                paramg.h = 0;
-                paramg.i = 0;
-                break;
-            case 10:
-                paramg.m = 50;
-                i1 = (rnd.nextInt() & 0x1F) - 15;
-                int i2 = (rnd.nextInt() & 0x7) + 63;
-                paramg.a = (i2 * turn_helper(i1 + av, bo, bp, stt_byte_arr_bs));
-                paramg.b = (i2 * turn_helper2(i1 + av, bq, br, stt_byte_arr_bs));
-                paramg.h = (paramg.i = 0);
-                paramg.e = i1;
-                ah += 1;
-                break;
-            case 14:
-                paramg.m = n;
-                av = 90;
-                i1 = 0;
-                paramg.a = (60 * turn_helper(i1 + av, bo, bp, stt_byte_arr_bs));
-                paramg.b = (60 * turn_helper2(i1 + av, bq, br, stt_byte_arr_bs));
-                paramg.e = i1;
-                paramg.h = (paramg.i = 0);
-                paramg.j = av;
-                paramg.l = 2;
-                v += 1;
-                paramg.d = 0;
-                AA.bool_n = true;
-                break;
-            case 13:
-                paramg.m = j;
-                i1 = (rnd.nextInt() & 0x7F) - 63;
-                paramg.a = (60 * turn_helper(i1 + av, bo, bp, stt_byte_arr_bs));
-                paramg.b = (60 * turn_helper2(i1 + av, bq, br, stt_byte_arr_bs));
-                paramg.e = i1;
-                paramg.h = (paramg.i = 0);
-                paramg.j = ((av + 180) % 360);
-                paramg.l = 2;
-                w += 1;
-                ag += 1;
-                break;
-            case 12:
-                paramg.a = gameConfig2.a;
-                paramg.b = gameConfig2.b;
-                paramg.e = shift_3(paramg.a, paramg.b);
-                i1 = paramg.j = angle_helper(-paramg.a + al, -paramg.b + am, stt_byte_arr_bt);
-                paramg.h = (3 * turn_helper(i1, bo, bp, stt_byte_arr_bs) + al);
-                paramg.i = (3 * turn_helper2(i1, bq, br, stt_byte_arr_bs) + am);
-                paramg.l = 30;
-                paramg.m = (gameConfig2.c == 14 ? o : k); // If miss use ie. paramg => Boss do not die.
-                af += 1;
-                break;
-            case 11:
-                i1 = paramg.j = av;
-                paramg.h = (6 * turn_helper(i1, bq, br, stt_byte_arr_bs));
-                paramg.i = (6 * turn_helper2(i1, bq, br, stt_byte_arr_bs));
-                paramg.a = (turn_helper(av - 90, bo, bp, stt_byte_arr_bs) + paramg.h);
-                paramg.b = (turn_helper2(av - 90, bq, br, stt_byte_arr_bs) + paramg.i);
-                paramg.e = 64;
-                paramg.k = paramInt2;
-                paramg.l = 30;
-                paramg.m = gameSetting.s;
-                break;
-            case 1:
-                i1 = paramg.j = av;
-                paramg.h = (6 * turn_helper(i1, bo, bp, stt_byte_arr_bs));
-                paramg.i = (6 * turn_helper2(i1, bq, br, stt_byte_arr_bs));
-                paramg.a = (turn_helper(av - 90, bo, bp, stt_byte_arr_bs) + paramg.h);
-                paramg.b = (turn_helper2(av - 90, bq, br, stt_byte_arr_bs) + paramg.i);
-                paramg.e = 64;
-                paramg.k = paramInt2;
-                paramg.l = 30;
-                paramg.m = gameSetting.n;
-                break;
-            case 6:
-                i1 = paramg.j = av;
-                paramg.h = (6 * turn_helper(i1, bo, bp, stt_byte_arr_bs));
-                paramg.i = (6 * turn_helper2(i1, bq, br, stt_byte_arr_bs));
-                paramg.a = (turn_helper(av + 90, bo, bp, stt_byte_arr_bs) + paramg.h);
-                paramg.b = (turn_helper2(av + 90, bq, br, stt_byte_arr_bs) + paramg.i);
-                paramg.e = 64;
-                paramg.l = (10 + cc);
-                cc = (1 - cc);
-                paramg.m = (gameSetting.n / 10);
-                break;
-        }
-        paramg.c = paramInt1;
-    }
-
-    //	public void draw_arr_byte_plasma_boss(SpriteBatch paramGraphics)
-    public void draw_arr_byte_plasma_boss(SpriteBatch paramGraphics, ReadMedia readMedia, ArchAngelME AA, int a8,
-                                          int a9, int ap, int aw, int ba, int bb, int bc, int bd, int bi, int z, boolean bool_ay, boolean bool_bg)
-    {
-        byte[][] arrayOfByte1 = { { 5, -8 }, { 2, -18 }, { 6, -22 }, { 3, -25 } };
-        byte[][] arrayOfByte2 = { new byte[2], { 1, 6 }, { -2, -10 }, { 4, 8 }, { 1, -12 }, { -1, -4 }, { 0, 4 }, { 0, -6 }, { 1, 5 } };
-        int i1 = ap / 3;
-        int i2 = ap / 4 % 8;
-        if (ba < 3)
-        {
-            if (bd < 5) {
-                z = ba;
-            } else {
-                z = (ba + 2);
-            }
-        }
-        else if (bd < 5) {
-            z = (ba + 2);
-        } else {
-            z = (ba + 4);
-        }
-        switch (bi)
-        {
-            case 1:
-                readMedia.drawImageInArr(paramGraphics, 24 + z, bb + 30, bc + 11);
-                if ((bool_ay == true) && (ap % 2 == 0)) {
-                    readMedia.drawImageInArr(paramGraphics, 80, 120, 165);
-                }
-                if (AA.game_state != 3)
-                {
-//                    paramGraphics.setClip(bb + 10 + arrayOfByte2[game_state][0], bc + 11 + arrayOfByte2[game_state][1], 12, 11);
-                    readMedia.drawImageAnchor20(paramGraphics, 33, bb + 10 + arrayOfByte2[z][0], bc + 11 + arrayOfByte2[z][1] - 11 * (ap % 2));
-//                    paramGraphics.setClip(bb + 38 - arrayOfByte2[game_state][0], bc + 11 - arrayOfByte2[game_state][1], 12, 11);
-                    readMedia.drawImageAnchor20(paramGraphics, 34, bb + 38 - arrayOfByte2[z][0], bc + 11 - arrayOfByte2[z][1] - 11 * (ap % 2));
-//                    paramGraphics.setClip(0, 0, 240, 300);
-                }
-                AA.bool_m = true;
-                break;
-            case 2:
-                AA.stopSound();
-//                paramGraphics.setClip(0, 0, 240, 300);
-                if (i1 / 2 % 2 == 0) {
-                    readMedia.drawImageAnchor20(paramGraphics, 112, 66, 103);
-                }
-                aw = 10;
-                a8 = 0;
-                bool_ay = false;
-                bool_bg = true;
-                if (i1 < 5) {
-                    if (i1 == 0) {
-                        readMedia.drawImageAnchor20(paramGraphics, 24, bb, bc);
-                    } else {
-                        readMedia.drawImageAnchor20(paramGraphics, 24 + i1 + 10, bb + arrayOfByte1[(i1 - 1)][0], bc + arrayOfByte1[(i1 - 1)][1]);
-                    }
-                }
-                if (i1 == 5)
-                {
-                    readMedia.destroyImage(112);
-                    for (int i3 = 0; i3 < 11; i3++) {
-                        readMedia.destroyImage(24 + i3);
-                    }
-                    for (int i3 = 0; i3 < 9; i3++)
-                    {
-                        readMedia.destroyImage(53 + i3);
-                        readMedia.destroyImage(44 + i3);
-                    }
-                    for (int i3 = 10; i3 < 13; i3++) {
-                        readMedia.destroyImage(71 + i3);
-                    }
-                    for (int i3 = 18; i3 < 24; i3++) {
-                        readMedia.destroyImage(84 + i3);
-                    }
-                    readMedia.drawImageAnchor20(paramGraphics, 38, bb + arrayOfByte1[3][0], bc + arrayOfByte1[3][1]);
-                    bb = 93;
-                    bc = 144;
-                    System.gc();
-                    readMedia.readMediaStream("boss" + AA.boss_sprite_level);
-                    for (int i3 = 0; i3 < 7; i3++) {
-                        readMedia.reloadImageArr(i3, 62 + i3);
-                    }
-                    readMedia.closeInputStream();
-                    readMedia.readMediaStream("plasma");
-                    for (int i3 = 0; i3 < 18; i3++) {
-                        readMedia.reloadImageArr(i3, 84 + i3);
-                    }
-                    readMedia.closeInputStream();
-                    bi = 3;
-                }
-                break;
-            case 3:
-                switch (ba)
-                {
-                    case 1:
-                        bb -= 10;
-                        if (bb < 33) {
-                            bb = 33;
-                        }
-                        break;
-                    case 2:
-                        bb += 10;
-                        if (bb > 153) {
-                            bb = 153;
-                        }
-                        break;
-                    case 3:
-                    case 4:
-                        ba = 0;
-                        break;
-                }
-                switch (a9)
-                {
-                    case 1:
-                        bc -= 10;
-                        if (bc < 104) {
-                            bc = 104;
-                        }
-                        break;
-                    case 2:
-                        bc += 10;
-                        if (bc > 174) {
-                            bc = 174;
-                        }
-                        break;
-                }
-                readMedia.drawImageAnchor20(paramGraphics, 38 + ba, bb, bc);
-                if (ba == 1)
-                {
-//                    paramGraphics.setClip(bb + 14, bc + 21, 19, 14);
-                    readMedia.drawImageAnchor20(paramGraphics, 42, bb + 14, bc + 7);
-                }
-                else if (ba == 2)
-                {
-//                    paramGraphics.setClip(bb + 20, bc + 21, 19, 14);
-                    readMedia.drawImageAnchor20(paramGraphics, 42, bb + 20, bc + 21);
-                }
-                else
-                {
-//                    paramGraphics.setClip(bb + 16, bc + 21, 22, 14);
-                    readMedia.drawImageAnchor20(paramGraphics, 41, bb + 16, bc + 21 - 15 * (i1 / 3 % 2));
-                }
-//                paramGraphics.setClip(0, 0, 240, 300);
-                break;
-        }
+        return turnReturn;
     }
 
     //	public void follow_boss(int paramInt)
-    public void follow_boss(int paramInt, boolean bool_bg, int bd, int bb, int x, int[] int_arr_a5, boolean[] bool_arr_a7 )
+    public ReturnHelper follow_boss(int paramInt, int bb, int bd, int x, boolean bool_bg, int[] int_arr_a5, boolean[] bool_arr_a7 )
     {
+        ReturnHelper bossReturn = new ReturnHelper();
         int i1;
         if (!bool_bg)
         {
@@ -682,6 +495,10 @@ public class MainGameHelper {
                 }
             }
         }
+
+        bossReturn.one = bd;
+        bossReturn.two = x;
+        return bossReturn;
     }
 
     // FIXME can not change speed of fighter
@@ -751,13 +568,19 @@ public class MainGameHelper {
                         b1 = (i3 + 98 + 50);
                         b2 = (bb + 27);
                         b3 = (bc + 30);
-                        draw_anchor_helper(paramGraphics, readMedia, b0, b1, i3 >> 2, paramg.d, true, be, bf);
+                        ReturnHelper anchorReturn =
+                        draw_anchor_helper(paramGraphics, readMedia, b0, b1, i3 >> 2, paramg.d, true); //  be, bf
+                        complexReturn.san = anchorReturn.one;
+                        complexReturn.si = anchorReturn.two;
                     }
                     else
                     {
                         complexReturn.eight = (b0 + paramg.d * ((b2 - b0) / 10)); // b6
                         complexReturn.night = (b1 + paramg.d * ((b3 - b1) / 10)); // b7
-                        draw_anchor_helper(paramGraphics, readMedia, complexReturn.eight, complexReturn.night, i3 >> 2, paramg.d, true, be, bf); // b6 b7
+                        ReturnHelper anchorReturn =
+                        draw_anchor_helper(paramGraphics, readMedia, complexReturn.eight, complexReturn.night, i3 >> 2, paramg.d, true); // b6 b7
+                        complexReturn.san = anchorReturn.one;
+                        complexReturn.si = anchorReturn.two;
                     }
                     if (paramg.d == 8) {
                         if ((bb - be > -50) && (bb - be < 27) && (bc - bf > -50) && (bc - bf < 30))
@@ -786,7 +609,10 @@ public class MainGameHelper {
                     }
                     complexReturn.six = (i2 + 88 + 32 - by + (7 - paramg.d) * (by / 10)); // b4
                     complexReturn.seven = (i3 + 100 + 50 - bz + (7 - paramg.d) * (bz / 10)); // b5
-                    draw_anchor_helper(paramGraphics, readMedia, complexReturn.six, complexReturn.seven, i3 >> 1, paramg.l, false, be, bf); // b4 b5
+                    ReturnHelper anchorReturn =
+                    draw_anchor_helper(paramGraphics, readMedia, complexReturn.six, complexReturn.seven, i3 >> 1, paramg.l, false); // b4 b5
+                    complexReturn.san = anchorReturn.one;
+                    complexReturn.si = anchorReturn.two;
                 }
                 break;
             case 1:
@@ -840,8 +666,9 @@ public class MainGameHelper {
     }
 
     //	public void draw_anchor_helper(SpriteBatch paramGraphics, int paramInt1, int paramInt2, int paramInt3, int paramInt4, boolean paramBoolean)
-    public void draw_anchor_helper(SpriteBatch paramGraphics, ReadMedia readMedia, int paramInt1, int paramInt2, int paramInt3, int paramInt4, boolean paramBoolean, int be, int bf)
+    public ReturnHelper draw_anchor_helper(SpriteBatch paramGraphics, ReadMedia readMedia, int paramInt1, int paramInt2, int paramInt3, int paramInt4, boolean paramBoolean)
     {
+        ReturnHelper anchorReturn = new ReturnHelper();
         if (paramInt3 > 20) {
             paramInt3 = 20;
         }
@@ -850,76 +677,15 @@ public class MainGameHelper {
         if (paramBoolean)
         {
             readMedia.drawImageAnchor20(paramGraphics, 93 + paramInt4, i1, i2);
-            be = i1;
-            bf = i2;
+            anchorReturn.one = i1; // be = i1;
+            anchorReturn.two = i2; // bf = i2;
         }
         else
         {
             readMedia.drawImageAnchor20(paramGraphics, 84 + (29 - paramInt4), i1, i2);
         }
-    }
 
-    // FIXME outofbound Exception
-    public void draw_anchor_helper2(SpriteBatch paramGraphics, GameConfig gameConfig, ReadMedia readMedia, int ai, int aj, int ak, int as, int bi, int bw, int bx)
-    {
-        int i6 = 0;
-//        paramGraphics.setColor(65280);
-        ai = (85 + as * 7);
-        if ((aj >= 0) && (gameConfig.c == 0)) {
-            aj = -1;
-        }
-        int i1;
-        int i2;
-        for (int i7 = 0; i7 < 18; i7++)
-        {
-            int i4 = gameConfig.c;
-            int i5 = gameConfig.d;
-            if ((i4 >= 13) && (i5 >= 1) && (i5 < 6))
-            {
-                i1 = gameConfig.f + 88 + 32;
-                i2 = 158 - gameConfig.g;
-                bw = i1;
-                bx = i2;
-                if ((i1 > ai) && (i1 < ai + 88) && (i2 > 87) && (i2 < 188)) {
-                    if (aj == -1)
-                    {
-                        i6 = 1;
-                        aj = i7;
-                        ak = 5;
-                    }
-                    else if (aj == i7)
-                    {
-                        i6 = 1;
-                        if (ak > 0) {
-                            ak += -1;
-                        }
-                    }
-                }
-            }
-        }
-        if (i6 != 0)
-        {
-            if (aj >= 0)
-            {
-                i1 = gameConfig.f + 88 + 32;
-                i2 = 155 - gameConfig.g;
-                int i3 = gameConfig.d * 8 + 4;
-                if (bi == 1) {
-                    if (gameConfig.d < 4) {
-                        readMedia.drawImageAnchor20(paramGraphics, 82, i1 - 10, i2 - 6);
-                    } else {
-                        readMedia.drawImageAnchor20(paramGraphics, 81, i1 - 17, i2 - 12);
-                    }
-                }
-            }
-        }
-        else
-        {
-            aj = -1;
-            if (bi == 1) {
-                readMedia.drawImageAnchor20(paramGraphics, 83, ai, 136);
-            }
-        }
+        return anchorReturn;
     }
 
     public void draw_img_helper(SpriteBatch paramGraphics, ReadMedia readMedia, int paramInt1, int paramInt2, int paramInt3, int paramInt4)
@@ -997,9 +763,21 @@ public class MainGameHelper {
         }
     }
 
-    public int return_turn_helper(int paramInt1, int paramInt2, int paramInt3, int bo, int bp, int bq, int br, byte[] stt_byte_arr_bs)
+    // int
+    public ReturnHelper return_turn_helper(int paramInt1, int paramInt2, int paramInt3, int bo, int bp, int bq, int br, byte[] stt_byte_arr_bs)
     {
-        return turn_helper2(paramInt1, bq, br, stt_byte_arr_bs) * paramInt2 + turn_helper(paramInt1, bo, bp, stt_byte_arr_bs) * paramInt3 >> 6;
+        ReturnHelper returnHelper = new ReturnHelper();
+        ReturnHelper returnHelper2 = turn_helper2(paramInt1, bq, br, stt_byte_arr_bs);
+        returnHelper.three = returnHelper2.one;
+        returnHelper.four = returnHelper2.two;
+
+        ReturnHelper returnHelper3 = turn_helper(paramInt1, bo, bp, stt_byte_arr_bs);
+        returnHelper.one = returnHelper3.one;
+        returnHelper.two = returnHelper3.two;
+
+        returnHelper.five = returnHelper2.two * paramInt2 +  returnHelper3.two * paramInt3 >> 6; // return
+
+        return returnHelper;
     }
 
 }

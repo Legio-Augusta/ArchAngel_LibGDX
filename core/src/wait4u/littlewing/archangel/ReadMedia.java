@@ -291,7 +291,7 @@ public class ReadMedia
             return new Texture("archangel/ui_" + paramInt + ".png");
         }
 
-        return new Texture(Gdx.files.internal("archangel/shop_0.png")); // DEBUG
+        return new Texture(Gdx.files.internal("archangel/fence2_6.png")); // DEBUG
     }
 
     public void drawImageInArr(SpriteBatch paramGraphics, int paramInt1, int paramInt2, int paramInt3)
