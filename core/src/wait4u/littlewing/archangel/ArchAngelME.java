@@ -35,7 +35,7 @@ public class ArchAngelME
     public boolean bool_u = false;
     public boolean bool_v = true;
     public boolean bool_w = true;
-    public int x = 0;
+    public int x = 0; // fighter ammunation
     public int y = -1;
     public int game_state = 0;
     public int aa = -1;
@@ -61,24 +61,24 @@ public class ArchAngelME
 
     public void addScore1()
     {
-//        AARecordStore localh = new AARecordStore();
-//        if (localh.readRecordStore("Angel1", false))
-//        {
-//            this.af = localh.returnByteCalc();
-//            this.ag = localh.returnByteCalc();
-//            localh.addScore();
-//        }
+        // AARecordStore localh = new AARecordStore();
+        // if (localh.readRecordStore("Angel1", false))
+        // {
+        //     this.af = localh.returnByteCalc();
+        //     this.ag = localh.returnByteCalc();
+        //     localh.addScore();
+        // }
     }
 
     public void addScore()
     {
-//        AARecordStore localh = new AARecordStore();
-//        if (localh.readRecordStore("Angel", true))
-//        {
-//            this.gameSetting.calcFromRecord(localh);
-//            localh.byteCalculate(this.ah);
-//            localh.addScore();
-//        }
+        // AARecordStore localh = new AARecordStore();
+        // if (localh.readRecordStore("Angel", true))
+        // {
+        //     this.gameSetting.calcFromRecord(localh);
+        //     localh.byteCalculate(this.ah);
+        //     localh.addScore();
+        // }
     }
 
     public ArchAngelME()
@@ -220,11 +220,11 @@ public class ArchAngelME
     {
         if (this.bool_as)
         {
-//            this.game_scrn = new GameScreen(this);
-//            this.game_scrn.setFullScreenMode(true);
-//            Display.getDisplay(this).setCurrent(this.game_scrn);
-//            this.thread = new Thread(this.game_scrn);
-//            this.thread.start();
+            // this.game_scrn = new GameScreen(this);
+            // this.game_scrn.setFullScreenMode(true);
+            // Display.getDisplay(this).setCurrent(this.game_scrn);
+            // this.thread = new Thread(this.game_scrn);
+            // this.thread.start();
             this.boss_sprite_level = 0;
             this.bool_as = false;
         }

@@ -2,6 +2,7 @@ package wait4u.littlewing.archangel;
 
 /**
  * Created by nickfarow on 21/10/2016.
+ * TODO auto init value to avoid condition check result.
  */
 
 public class ReturnHelper {

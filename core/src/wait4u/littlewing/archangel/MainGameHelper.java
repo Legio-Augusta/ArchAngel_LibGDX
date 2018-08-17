@@ -1,12 +1,27 @@
 package wait4u.littlewing.archangel;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.Random;
 
 public class MainGameHelper {
-    public MainGameHelper() {
+    private Texture [] imgColor;
 
+    public MainGameHelper() {
+        loadTextures();
+    }
+
+    public void loadTextures() {
+        /**
+         * #0 for red
+         * #1 for light blue, #3 light blue 2 6DCFF6
+         * #2 for light yellow, #4 gray 93959A #5 for white
+         */
+        imgColor = new Texture[6];
+        for (int i = 0; i < 6; i++) {
+            imgColor[i] = new Texture("samsung-white/color-" + i + ".png");
+        }
     }
 
     public void init_600(int[][] int_arr_bu)
@@ -172,38 +187,40 @@ public class MainGameHelper {
     }
 
     // void
-    public ReturnHelper set_color_arr(SpriteBatch paramGraphics, GameConfig paramg, int al, int am, int av, int bo, int bp, int bq, int br, byte[] stt_byte_arr_bs)
+    public ReturnHelper draw_radar_dot(SpriteBatch paramGraphics, GameConfig paramg, int al, int am, int av, int bo, int bp, int bq, int br, byte[] stt_byte_arr_bs)
     {
         ReturnHelper arrReturn = new ReturnHelper();
 
-        int[] arrayOfInt = { 255, 16711680, 16776960, 16776960 };
+        int[] arrayOfInt = { 255, 16711680, 16776960, 16776960 }; // 255 ~ blue; 16711680 ~ red; 16776960 ~ yellow
+        // This function seem only draw radar dot red for missile, yellow for enermy ?
         int i5 = paramg.c;
         int i3 = paramg.a;
         int i4 = paramg.b;
         // int i1 = shift_byte_6(450 - av, i3, i4, bo, bp, bq, br, stt_byte_arr_bs);
         ReturnHelper shiftReturn = shift_byte_6(450 - av, i3, i4, bo, bp, bq, br, stt_byte_arr_bs);
         int i1 = shiftReturn.five;
-        bo = shiftReturn.one;
-        bp = shiftReturn.two;
-        bq = shiftReturn.three;
-        br = shiftReturn.four;
+        bo = (shiftReturn.one > shiftReturn.MIN_INT) ? shiftReturn.one : bo;
+        bp = (shiftReturn.two > shiftReturn.MIN_INT) ? shiftReturn.two : bp;
+        bq = (shiftReturn.three > shiftReturn.MIN_INT) ? shiftReturn.three : bq;
+        br = (shiftReturn.four > shiftReturn.MIN_INT) ? shiftReturn.four : br;
 
         // int i2 = return_turn_helper(450 - av, i3, i4, bo, bp, bq, br, stt_byte_arr_bs);
         ReturnHelper returnHelper2 = return_turn_helper(450 - av, i3, i4, bo, bp, bq, br, stt_byte_arr_bs);
         int i2 = returnHelper2.five;
-        bo = returnHelper2.one;
-        bp = returnHelper2.two;
-        bq = returnHelper2.three;
-        br = returnHelper2.four;
+        bo = (returnHelper2.one > returnHelper2.MIN_INT) ? returnHelper2.one : bo;
+        bp = (returnHelper2.two > returnHelper2.MIN_INT) ? returnHelper2.two : bp;
+        bq = (returnHelper2.three > returnHelper2.MIN_INT) ? returnHelper2.three : bq;
+        br = (returnHelper2.four > returnHelper2.MIN_INT) ? returnHelper2.four : br;
 
         if ((i5 >= 11) && ((paramg.e = shift_3(i3, i4)) < 4284))
         {
             i3 = i1 >> 8;
             i4 = i2 >> 8;
             if( (i5 - 11) < arrayOfInt.length) {
-//                paramGraphics.setColor(arrayOfInt[(i5 - 11)]);
+                // paramGraphics.setColor(arrayOfInt[(i5 - 11)]);
             }
-//            paramGraphics.fillRect(28 + i3, 21 - i4, 3, 3);
+            // Enermy dot yellow for fighter, red for missile
+            fillRect(paramGraphics, 28 + i3, 21 - i4, 3, 3, 2);
         }
         i2 += 300;
         int i6 = i2 + 151;
@@ -301,9 +318,8 @@ public class MainGameHelper {
             returnHelper.two = bp;
             return returnHelper;
         }
-        bo = paramInt;
-        returnHelper.one = bo;
-        returnHelper.two = bp = turnAngleCalc(paramInt, stt_byte_arr_bs); // return
+        returnHelper.one = paramInt; // bo = paramInt;
+        returnHelper.two = turnAngleCalc(paramInt, stt_byte_arr_bs); // return bp =
 
         return returnHelper;
     }
@@ -316,10 +332,8 @@ public class MainGameHelper {
             turnReturn.two = br;
             return turnReturn;
         }
-        bq = paramInt;
-        turnReturn.one = bq;
-        br = turnAngleCalc(90 - paramInt, stt_byte_arr_bs); // return
-        turnReturn.two = br;
+        turnReturn.one = paramInt; // bq = paramInt;
+        turnReturn.two = turnAngleCalc(90 - paramInt, stt_byte_arr_bs); // return br =
 
         return turnReturn;
     }
@@ -780,4 +794,11 @@ public class MainGameHelper {
         return returnHelper;
     }
 
+    public void fillRect(SpriteBatch batch, int x, int y, int width, int height, int color) {
+        // Hard code default width x height of color img: 12x12 px
+        int scaleY = height / 12;
+        int scaleX = width / 12;
+        // (Texture, float x, float y, float originX, float originY, float width, float height, float scaleX, float scaleY, float rotation, int srcX, int srcY, int srcWidth, int srcHeight, boolean flipX, boolean flipY)
+        batch.draw(imgColor[color], x, y, 0, 0, imgColor[color].getWidth(), imgColor[color].getHeight(), scaleX, scaleY, 0, 0, 0, imgColor[color].getWidth()*scaleX, imgColor[color].getHeight()*scaleY, false, false);
+    }
 }

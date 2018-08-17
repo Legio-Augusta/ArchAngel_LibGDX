@@ -688,11 +688,10 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
 
         // Calculate global var width/height, view port ...
         create();
-//        this.screen = param_screen;
 
         touchPoint = new Vector3();
-//        game_speed = getGameSpeed();
-//        init_game(stage);
+        // game_speed = getGameSpeed();
+        // init_game(stage);
     }
 
     public void void_empty() {}
@@ -1030,13 +1029,19 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                 break;
             case 9:
                 if (this.archAngel.gameSetting.c != this.archAngel.gameSetting.boss_level) {
+                    ReturnHelper startReturn =
                     this.secondHelper.draw_start_option(batch, this.o, this.p, this.archAngel);
+                    this.o = (startReturn.one > startReturn.MIN_INT) ? startReturn.one : this.o;
+                    this.p = (startReturn.two > startReturn.MIN_INT) ? startReturn.two : this.p;
                 } else {
                     this.archAngel.screen = 25;
                 }
                 break;
             case 8:
+                ReturnHelper startReturn =
                 this.secondHelper.draw_start_option(batch, this.o, this.p, this.archAngel);
+                this.o = (startReturn.one > startReturn.MIN_INT) ? startReturn.one : this.o;
+                this.p = (startReturn.two > startReturn.MIN_INT) ? startReturn.two : this.p;
                 break;
             case 10:
                 this.helper.draw_system_setin(batch, this.l, this.o, this.p, this.q, this.t, this.x, this.y, this.str_arr_w, this.archAngel, this.readText);
@@ -1226,7 +1231,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         int scaleY = height / 12;
         int scaleX = width / 12;
         // (Texture, float x, float y, float originX, float originY, float width, float height, float scaleX, float scaleY, float rotation, int srcX, int srcY, int srcWidth, int srcHeight, boolean flipX, boolean flipY)
-//        batch.draw(imgColor[color], x, y, 0, 0, imgColor[color].getWidth(), imgColor[color].getHeight(), scaleX, scaleY, 0, 0, 0, imgColor[color].getWidth()*scaleX, imgColor[color].getHeight()*scaleY, false, false);
+        batch.draw(imgColor[color], x, y, 0, 0, imgColor[color].getWidth(), imgColor[color].getHeight(), scaleX, scaleY, 0, 0, 0, imgColor[color].getWidth()*scaleX, imgColor[color].getHeight()*scaleY, false, false);
     }
 
     protected void drawUI() {
@@ -1258,22 +1263,6 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         font = new BitmapFont();
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         font.getData().setScale(6);
-    }
-
-    public void init_game(int paramInt)
-    {
-//        initHeroTexture();
-        //initEnemy();
-
-        // repaint(); // TODO find gdx equivalent method or handle this function. May be multi Screen help ? Does global vars remain ?
-//        game_state = 0;
-
-        // screen = 6;
-        item_mode = 0;
-
-//        state = 2;
-        // startThread();
-//        gameOn = true;
     }
 
     private void loadTextures() {
@@ -1410,27 +1399,4 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         getPrefs().flush();
     }
 
-    private static ShapeRenderer debugRenderer = new ShapeRenderer();
-
-    public static void DrawDebugLine(Vector2 start, Vector2 end, int lineWidth, Color color, Matrix4 projectionMatrix)
-    {
-        Gdx.gl.glLineWidth(lineWidth);
-        debugRenderer.setProjectionMatrix(projectionMatrix);
-        debugRenderer.begin(ShapeRenderer.ShapeType.Line);
-        debugRenderer.setColor(color);
-        debugRenderer.line(start, end);
-        debugRenderer.end();
-        Gdx.gl.glLineWidth(1);
-    }
-
-    public static void DrawDebugLine(Vector2 start, Vector2 end, Matrix4 projectionMatrix)
-    {
-        Gdx.gl.glLineWidth(2);
-        debugRenderer.setProjectionMatrix(projectionMatrix);
-        debugRenderer.begin(ShapeRenderer.ShapeType.Line);
-        debugRenderer.setColor(Color.WHITE);
-        debugRenderer.line(start, end);
-        debugRenderer.end();
-        Gdx.gl.glLineWidth(1);
-    }
 }

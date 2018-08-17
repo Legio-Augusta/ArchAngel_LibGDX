@@ -776,79 +776,44 @@ public class MainGameScreen {
         for (int i1 = 0; i1 < 18; i1++) {
             if (gameConfigArr[i1].c != 0) {
                 ReturnHelper arrReturn =
-                this.gameHelper.set_color_arr(paramGraphics, gameConfigArr[i1], this.al, this.am, this.av, this.bo, this.bp, this.bq, this.br, stt_byte_arr_bs);
-                this.bo = arrReturn.one;
-                this.bp = arrReturn.two;
-                this.bq = arrReturn.three;
-                this.br = arrReturn.four;
+                this.gameHelper.draw_radar_dot(paramGraphics, gameConfigArr[i1], this.al, this.am, this.av, this.bo, this.bp, this.bq, this.br, stt_byte_arr_bs);
+                this.bo = (arrReturn.one > arrReturn.MIN_INT) ? arrReturn.one : this.bo;
+                this.bp = (arrReturn.two > arrReturn.MIN_INT) ? arrReturn.two : this.bp;
+                this.bq = (arrReturn.three > arrReturn.MIN_INT) ? arrReturn.three : this.bq;
+                this.br = (arrReturn.four > arrReturn.MIN_INT) ? arrReturn.four : this.br;
             }
         }
-//        paramGraphics.setClip(0, 50, 240, 250);
+        // paramGraphics.setClip(0, 50, 240, 250);
         for (int i1 = 0; i1 < 9; i1++) {
             for (int i2 = 0; i2 < 18; i2++) {
                 if ((gameConfigArr[i2].c != 0) && (gameConfigArr[i2].d == i1)) {
                     // complex_draw_helper(paramGraphics, gameConfigArr[i2]);
                     ReturnHelper returnComplexDrawHelper =
-                            this.gameHelper.complex_draw_helper(paramGraphics, gameConfigArr[i2], this.readMedia, this.af, this.b0, this.b1, this.b2,
-                                    this.b3, this.bb, this.bc, this.be, this.bf, this.bi, this.bj, this.bk, this.by, this.bz, this.AA.bool_n, this.rnd);
+                        this.gameHelper.complex_draw_helper(paramGraphics, gameConfigArr[i2], this.readMedia, this.af, this.b0, this.b1, this.b2,
+                            this.b3, this.bb, this.bc, this.be, this.bf, this.bi, this.bj, this.bk, this.by, this.bz, this.AA.bool_n, this.rnd);
 
-                    if(returnComplexDrawHelper.one > returnComplexDrawHelper.MIN_INT) { // If this.l value has changed
-                        this.af = returnComplexDrawHelper.one;
-                    }
-                    if(returnComplexDrawHelper.two >= returnComplexDrawHelper.MIN_INT) {
-                        this.b0 = returnComplexDrawHelper.two;
-                    }
-                    if(returnComplexDrawHelper.three >= returnComplexDrawHelper.MIN_INT) {
-                        this.b1 = returnComplexDrawHelper.three;
-                    }
-                    if(returnComplexDrawHelper.four >= returnComplexDrawHelper.MIN_INT) {
-                        this.b2 = returnComplexDrawHelper.four;
-                    }
-                    if(returnComplexDrawHelper.five >= returnComplexDrawHelper.MIN_INT) {
-                        this.b3 = returnComplexDrawHelper.five;
-                    }
-                    if(returnComplexDrawHelper.six >= returnComplexDrawHelper.MIN_INT) {
-                        this.b4 = returnComplexDrawHelper.six;
-                    }
-                    if(returnComplexDrawHelper.seven >= returnComplexDrawHelper.MIN_INT) {
-                        this.b5 = returnComplexDrawHelper.seven;
-                    }
-                    if(returnComplexDrawHelper.eight >= returnComplexDrawHelper.MIN_INT) {
-                        this.b6 = returnComplexDrawHelper.eight;
-                    }
-                    if(returnComplexDrawHelper.night >= returnComplexDrawHelper.MIN_INT) {
-                        this.b7 = returnComplexDrawHelper.night;
-                    }
+                    // If this.l value has changed
+                    this.af = (returnComplexDrawHelper.one > returnComplexDrawHelper.MIN_INT) ? returnComplexDrawHelper.one : this.af;
+                    this.b0 = (returnComplexDrawHelper.two >= returnComplexDrawHelper.MIN_INT) ? returnComplexDrawHelper.two : this.b0;
+                    this.b1 = (returnComplexDrawHelper.three >= returnComplexDrawHelper.MIN_INT) ? returnComplexDrawHelper.three : this.b1;
+                    this.b2 = (returnComplexDrawHelper.four >= returnComplexDrawHelper.MIN_INT) ? returnComplexDrawHelper.four : this.b2;
+                    this.b3 = (returnComplexDrawHelper.five >= returnComplexDrawHelper.MIN_INT) ? returnComplexDrawHelper.five : this.b3;
+                    this.b4 = (returnComplexDrawHelper.six >= returnComplexDrawHelper.MIN_INT) ? returnComplexDrawHelper.six : this.b4;
+                    this.b5 = (returnComplexDrawHelper.seven >= returnComplexDrawHelper.MIN_INT) ? returnComplexDrawHelper.seven : this.b5;
+                    this.b6 = (returnComplexDrawHelper.eight >= returnComplexDrawHelper.MIN_INT) ? returnComplexDrawHelper.eight : this.b6;
+                    this.b7 = (returnComplexDrawHelper.night >= returnComplexDrawHelper.MIN_INT) ? returnComplexDrawHelper.night : this.b7;
                     if(returnComplexDrawHelper.bool_one > 0) {
                         this.AA.bool_n = (returnComplexDrawHelper.bool_one != 0) ? true : false;
                     }
-                    if(returnComplexDrawHelper.yi > returnComplexDrawHelper.MIN_INT) {
-                        this.bb = returnComplexDrawHelper.yi;
-                    }
-                    if(returnComplexDrawHelper.er > returnComplexDrawHelper.MIN_INT) {
-                        this.bc = returnComplexDrawHelper.er;
-                    }
-                    if(returnComplexDrawHelper.san > returnComplexDrawHelper.MIN_INT) {
-                        this.be = returnComplexDrawHelper.san;
-                    }
-                    if(returnComplexDrawHelper.si > returnComplexDrawHelper.MIN_INT) {
-                        this.bf = returnComplexDrawHelper.si;
-                    }
-                    if(returnComplexDrawHelper.wu > returnComplexDrawHelper.MIN_INT) {
-                        this.bi = returnComplexDrawHelper.wu;
-                    }
-                    if(returnComplexDrawHelper.liu > returnComplexDrawHelper.MIN_INT) {
-                        this.bj = returnComplexDrawHelper.liu;
-                    }
-                    if(returnComplexDrawHelper.qi > returnComplexDrawHelper.MIN_INT) {
-                        this.bk = returnComplexDrawHelper.qi;
-                    }
-                    if(returnComplexDrawHelper.ba > returnComplexDrawHelper.MIN_INT) {
-                        this.by = returnComplexDrawHelper.ba;
-                    }
-                    if(returnComplexDrawHelper.jiu > returnComplexDrawHelper.MIN_INT) {
-                        this.bz = returnComplexDrawHelper.jiu;
-                    }
+                    this.bb = (returnComplexDrawHelper.yi > returnComplexDrawHelper.MIN_INT) ? returnComplexDrawHelper.yi : this.bb;
+                    this.bc = (returnComplexDrawHelper.er > returnComplexDrawHelper.MIN_INT) ? returnComplexDrawHelper.er : this.bc;
+                    this.be = (returnComplexDrawHelper.san > returnComplexDrawHelper.MIN_INT) ? returnComplexDrawHelper.san : this.be;
+                    this.bf = (returnComplexDrawHelper.si > returnComplexDrawHelper.MIN_INT) ? returnComplexDrawHelper.si : this.bf;
+                    this.bi = (returnComplexDrawHelper.wu > returnComplexDrawHelper.MIN_INT) ? returnComplexDrawHelper.wu : this.bi;
+                    this.bj = (returnComplexDrawHelper.liu > returnComplexDrawHelper.MIN_INT) ? returnComplexDrawHelper.liu : this.bj;
+                    this.bk = (returnComplexDrawHelper.qi > returnComplexDrawHelper.MIN_INT) ? returnComplexDrawHelper.qi : this.bk;
+                    this.by = (returnComplexDrawHelper.ba > returnComplexDrawHelper.MIN_INT) ? returnComplexDrawHelper.ba : this.by;
+                    this.bz = (returnComplexDrawHelper.jiu > returnComplexDrawHelper.MIN_INT) ? returnComplexDrawHelper.jiu: this.bz;
                 }
             }
         }
