@@ -371,8 +371,8 @@ public class ReadMedia
         paramString = "android/assets/msr/" + paramString + ".msr";
             int i = readBinaryData() + 1;
             this.int_arr_d = new int[i];
-            for (int j = 0; j < i; j++) {
-                this.int_arr_d[j] = readBinaryData();
+            for (int fighter_hp = 0; fighter_hp < i; fighter_hp++) {
+                this.int_arr_d[fighter_hp] = readBinaryData();
             }
         this.int_bound_e = this.int_arr_d[0];
         */

@@ -14,7 +14,7 @@ public class GameSettings
     public int g;
     public int h;
     public int i;
-    public int j; // Fighter hp ?
+    public int fighter_hp; // Fighter hp ?
     public String str_k;
     public int l;
     public int m;
@@ -30,7 +30,7 @@ public class GameSettings
 
     public void initGame1()
     {
-        this.j = this.g;
+        this.fighter_hp = this.g;
         this.o = this.m;
         this.t = this.r;
     }
@@ -65,7 +65,7 @@ public class GameSettings
 
     public void loseHP(int paramInt)
     {
-        this.j -= (paramInt - this.h < 1 ? 1 : paramInt - this.h);
+        this.fighter_hp -= (paramInt - this.h < 1 ? 1 : paramInt - this.h);
     }
 
     public void loadConfig2(ReadText readText)

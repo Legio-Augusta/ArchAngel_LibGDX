@@ -17,7 +17,7 @@ public class MainGameScreen {
     public GameSettings gameSetting;
     public Random rnd = new Random();
     public String str_e;
-    public int f; // Fighter move step, 5 for right turn, -5 or less than for turn left ?
+    public int f; // Fighter HP related, for example Fighter lose 50 HP each time collidate cliff
     public int g;
     public int h;
     public int i;
@@ -110,7 +110,7 @@ public class MainGameScreen {
     public int b7;
     public int b8;
     public int b9;
-    public int ca;
+    public int boss_distance; // Boss distance
     public int cb = 0;
     public int cc = 0;
 
@@ -123,9 +123,9 @@ public class MainGameScreen {
         Gdx.app.log("DEBUG", "Game Cnf 2: " + gameConfigArr[2].debug());
         Gdx.app.log("DEBUG", "Game Cnf 3: " + gameConfigArr[3].debug());
         Gdx.app.log("DEBUG", "Game Cnf 4: " + gameConfigArr[4].debug());
-        Gdx.app.log("DEBUG", "Game Cnf 5: " + gameConfigArr[5].debug());
-        Gdx.app.log("DEBUG", "Game Cnf 7: " + gameConfigArr[7].debug());
-        Gdx.app.log("DEBUG", "Game Cnf 9: " + gameConfigArr[9].debug());
+        // Gdx.app.log("DEBUG", "Game Cnf 5: " + gameConfigArr[5].debug());
+        // Gdx.app.log("DEBUG", "Game Cnf 7: " + gameConfigArr[7].debug());
+        // Gdx.app.log("DEBUG", "Game Cnf 9: " + gameConfigArr[9].debug());
 
         int i2;
         if ((i2 = paramGameCnf.c) == 0) {
@@ -158,11 +158,11 @@ public class MainGameScreen {
                     // this.f = turn_calc(angle_helper(paramGameCnf.a, paramGameCnf.screen), this.av);
                     // turn speed
                     this.f = this.gameHelper.turn_calc(this.gameHelper.angle_helper(paramGameCnf.a, paramGameCnf.b, stt_byte_arr_bt), this.av);
-                    this.ca = (Math.abs(paramGameCnf.a) + Math.abs(paramGameCnf.b) - 200);
+                    this.boss_distance = 2000; // (Math.abs(paramGameCnf.a) + Math.abs(paramGameCnf.b) - 200);
                 }
-                if ((this.ca <= 0) && (this.aa == 1))
+                if ((this.boss_distance <= 0) && (this.aa == 1))
                 {
-                    this.ca = 0;
+                    this.boss_distance = 0;
                     paramGameCnf.c = 0;
                     this.readMedia.readMediaStream("etc");
                     this.readMedia.reloadImageArr(1, 112);
@@ -190,9 +190,9 @@ public class MainGameScreen {
                     paramGameCnf.c = 0;
                     this.ah += -1;
                     // May be boss hp, fighter seme have inital only 78hp
-                    this.gameSetting.j -= 50; // ammunition reduce ? 1000 round available; or Fighter hp
+                    this.gameSetting.fighter_hp -= 50; // ammunition reduce ? 1000 round available; or Fighter hp
                     play_s_gun(false);
-                    if (this.gameSetting.j <= 0) {
+                    if (this.gameSetting.fighter_hp <= 0) {
                         setup2();
                     }
                 }
@@ -235,7 +235,7 @@ public class MainGameScreen {
                         this.af += -1;
                         this.au += 3;
                         this.gameSetting.loseHP(paramGameCnf.m); // This seem to be reduce ammo round instead of hp
-                        if (this.gameSetting.j <= 0) {
+                        if (this.gameSetting.fighter_hp <= 0) {
                             setup2();
                         }
                     }
@@ -247,7 +247,7 @@ public class MainGameScreen {
                     this.au += 3;
                     this.gameSetting.loseHP(paramGameCnf.m);
                     play_s_gun(false);
-                    if (this.gameSetting.j <= 0) { // ammo round reduce ?
+                    if (this.gameSetting.fighter_hp <= 0) { // ammo round reduce ?
                         setup2();
                     }
                 }
@@ -754,7 +754,7 @@ public class MainGameScreen {
     public void setup2()
     {
         this.au = 1000;
-        this.gameSetting.j = 0;
+        this.gameSetting.fighter_hp = 0;
         this.bool_ay = false;
         this.bool_az = false;
         this.bool_a0 = false;
@@ -1069,7 +1069,7 @@ public class MainGameScreen {
                 paramg.a = gameConfigArr[paramInt2].a;
                 paramg.b = gameConfigArr[paramInt2].b;
                 paramg.e = this.gameHelper.shift_3(paramg.a, paramg.b);
-                // i1 = paramg.j = angle_helper(-paramg.a + this.al, -paramg.screen + this.am);
+                // i1 = paramg.fighter_hp = angle_helper(-paramg.a + this.al, -paramg.screen + this.am);
                 i1 = paramg.j = this.gameHelper.angle_helper(-paramg.a + this.al, -paramg.b + this.am, stt_byte_arr_bt);
                 paramg.h = (3 * turn_helper(i1) + this.al);
                 paramg.i = (3 * turn_helper2(i1) + this.am);

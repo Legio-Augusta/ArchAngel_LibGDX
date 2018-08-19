@@ -1,6 +1,10 @@
 package wait4u.littlewing.archangel;
 
+import com.badlogic.gdx.Gdx;
+
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 public class ReadText
 {
@@ -15,6 +19,7 @@ public class ReadText
     public int i;
     public int j;
     public int k;
+    // public byte[] byte_arr_l = new byte['?']; // ASCII '?' = 63
     public byte[] byte_arr_l = new byte['?']; // ASCII '?' = 63
     public int[] int_arr_m = new int[9];
     public int n = -1;
@@ -88,14 +93,152 @@ public class ReadText
 
     public void readTextFromStream(String paramString) // Load text seem has problem, it not shown on screen
     {
-        String str = "/text/" + paramString + ".txt";
+        String str = "assets/text/" + paramString + ".txt";
+
+        String textAsInputStream = "";
+        if(paramString == "about") {
+            textAsInputStream = "<1>\n" +
+                    "ArchAngel Ver 1.0.0\n" +
+                    "\n" +
+                    "Published by wait4u\n" +
+                    "URL: www.wait4u.net\n" +
+                    "E-mail: info@wait4u.net\n" +
+                    "\n" +
+                    "Developed by WithMobile";
+        } else if(paramString == "arm") {
+            textAsInputStream = "<1>\n" +
+                    "ArchAngel Ver 1.0.0\n" +
+                    "\n" +
+                    "Published by wait4u\n" +
+                    "URL: www.wait4u.net\n" +
+                    "E-mail: info@wait4u.net\n" +
+                    "\n" +
+                    "Developed by WithMobile\n" +
+                    "nickfarrow:text$ cat arm.txt \n" +
+                    "<1>+10+1+0\n" +
+                    "T2-COMPO\n" +
+                    "<2>+20+2+2000\n" +
+                    "T-10 COMPO\n" +
+                    "<3>+40+3+4000\n" +
+                    "EX-T COMPO\n" +
+                    "<4>+80+4+8000\n" +
+                    "ERA 1000\n" +
+                    "<5>+160+5+16000\n" +
+                    "ERA 2000\n" +
+                    "<6>+320+6+50000\n" +
+                    "ERA 3000";
+        } else if(paramString == "open") {
+            textAsInputStream = "<11>\n" +
+                    "The year 2028...\n" +
+                    "A conflict between\n" +
+                    "the Earth and the\n" +
+                    "<12>\n" +
+                    "other planets has\n" +
+                    "led the worlds to \n" +
+                    "the edge of a final\n" +
+                    "<13>\n" +
+                    "war which threatens\n" +
+                    "man's very survival.\n" +
+                    "In a struggle to end\n" +
+                    "<14>\n" +
+                    "the conflict, the\n" +
+                    "confederation has\n" +
+                    "developed a\n" +
+                    "<15>\n" +
+                    "revolutionary land-\n" +
+                    "sea-air-space unit \n" +
+                    "in a top secret\n" +
+                    "<16>\n" +
+                    "operation.\n" +
+                    "Due to the fact that\n" +
+                    "this unit looks like\n" +
+                    "<17>\n" +
+                    "a fire-spitting angel\n" +
+                    "its code name is \n" +
+                    "'Arch Angel'.\n" +
+                    "\n";
+        } else if(paramString == "plasma") {
+            textAsInputStream = "<1>+40+50+0\n" +
+                    "MAG 300KV\n" +
+                    "<2>+60+60+2000\n" +
+                    "LINIE 360KV\n" +
+                    "<3>+100+70+4000\n" +
+                    "DUNA 420KV\n" +
+                    "<4>+150+80+8000\n" +
+                    "MAG 480KV\n" +
+                    "<5>+300+90+16000\n" +
+                    "LINIE 540KV\n" +
+                    "<6>+500+300+50000\n" +
+                    "DUNA 600KV";
+        } else if(paramString == "ms1") {
+            textAsInputStream = "<1>+20000+40000+5\n" +
+                    "<2>+100+30+1+200\n" +
+                    "AZ-1\n" +
+                    "<3>+1200+100+0+1000\n" +
+                    "AL 101A\n" +
+                    "<4>\n" +
+                    "EndingMent\n" +
+                    "<10>\n" +
+                    "Mission 1\n" +
+                    "<11>\n" +
+                    "In Dark Eden an area in\n" +
+                    "the Nekkar desert, the\n" +
+                    "enemy has concentrated \n" +
+                    "<12>\n" +
+                    "its troops to prepare \n" +
+                    "for war. You will face\n" +
+                    "a group of 10 AZ-1\n" +
+                    "<13>\n" +
+                    "combat units, which you\n" +
+                    "need to destroy. Then,\n" +
+                    "follow the directions\n" +
+                    "<14>\n" +
+                    "of your navigator for\n" +
+                    "60 km, which will leads\n" +
+                    "you directly to their\n" +
+                    "<15>\n" +
+                    "newly developed AL-101\n" +
+                    "air fighter...\n" +
+                    "Destroy it!\n";
+        } else if(paramString == "ms2") {
+            textAsInputStream = "<1>+30000+50000+7\n" +
+                    "<2>+100+30+1+200\n" +
+                    "AZ-1\n" +
+                    "<3>+1500+150+0+2000\n" +
+                    "AL 101B\n" +
+                    "<4>\n" +
+                    "EndingMent\n" +
+                    "<10>\n" +
+                    "Mission 2\n" +
+                    "<11>\n" +
+                    "The remaining enemy\n" +
+                    "troops are hiding\n" +
+                    "in the Bellatrix\n" +
+                    "<12>\n" +
+                    "mountains, north-east\n" +
+                    "of Dark Eden.\n" +
+                    "Destroy 7 of their \n" +
+                    "<13>\n" +
+                    "AZ-1 units and then \n" +
+                    "follow the navigator\n" +
+                    "for 80km and destroy\n" +
+                    "<14>\n" +
+                    "their upgraded AL-101\n" +
+                    "unit!\n" +
+                    "Good luck!";
+        }
+        InputStream localInputStream = new ByteArrayInputStream(textAsInputStream.getBytes(StandardCharsets.UTF_8));
+
         try
         {
-            InputStream localInputStream = getClass().getResourceAsStream(str);
-            this.j = localInputStream.read(this.byte_arr_l);
-            if(this.j < this.byte_arr_l.length){
+            // InputStream localInputStream = getClass().getResourceAsStream(str);
+            this.j = localInputStream.read(this.byte_arr_l, 0, this.byte_arr_l.length-1);
+            if(this.j < this.byte_arr_l.length-1){
                 this.byte_arr_l[this.j] = 0;
+            } else {
+                Gdx.app.log("DEBUG", " fuck ");
             }
+            Gdx.app.log("DEBUG", "text " + paramString + " length "+this.j);
             localInputStream.close();
         }
         catch (Exception localException) {}

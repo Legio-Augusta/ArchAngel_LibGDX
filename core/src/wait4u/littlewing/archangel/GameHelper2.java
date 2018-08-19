@@ -509,8 +509,8 @@ public class GameHelper2 {
                 break;
             case 1:
                 // paramGraphics.setColor(14408703); // purple
-                // paramGraphics.drawString(archAngel.mainGameScreen.ca + " m", 120, 3, 17);
-                int i1 = archAngel.mainGameScreen.f;
+                // paramGraphics.drawString(archAngel.mainGameScreen.boss_distance + " m", 120, 3, 17);
+                int i1 = archAngel.mainGameScreen.f; // Related to Hero HP
                 int i2 = Math.abs(i1) / 60 + 1;
                 if ((i1 <= 5) && (i1 >= -5))
                 {
@@ -551,11 +551,13 @@ public class GameHelper2 {
                 // paramGraphics.fillRect(103, 18, archAngel.ae, 5);
                 break;
         }
-        int i1 = 40 * archAngel.gameSetting.j >> 9;
-        // 1000 >> 9 ~ 1; 40,000 >> 9 ~ 78
+        int i1 = 40 * archAngel.gameSetting.fighter_hp >> 9;
+        // 1000 >> 9 ~ 1; 40,000 >> 9 ~ 78; fighter_hp * 40 lost 50 value each time colidate cliff
+        // equal ab 4 Fighter HP each collision
         // paramGraphics.setColor(255);
         // Fighter hp ?
         fillRect(paramGraphics, 192+20, 5+2, i1 / 2, 4, 1);
+        Gdx.app.log("DEBUG", "Fighter HP: " + archAngel.gameSetting.fighter_hp + " >> 9 i1 = "+ i1);
         if (archAngel.mainGameScreen.bi == 3)
         {
             if (archAngel.mainGameScreen.bool_bh == true)
@@ -781,7 +783,7 @@ public class GameHelper2 {
             i1 += 16;
             i2 += i3;
         }
-        i3 = -archAngel.gameSetting.i * (archAngel.gameSetting.g - archAngel.gameSetting.j);
+        i3 = -archAngel.gameSetting.i * (archAngel.gameSetting.g - archAngel.gameSetting.fighter_hp);
         archAngel.readMedia.drawGraphicStr40_122(paramGraphics, 50, i1, "Maintenance Fee:");
         i1 += 16;
         archAngel.readMedia.drawGraphicStr40_122(paramGraphics, 59, i1, "" + i3);

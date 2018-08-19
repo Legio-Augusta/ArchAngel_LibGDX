@@ -9,3 +9,14 @@ Systray composited rendering on
 tint2 : nb monitor 2, nb monitor used 2, nb desktop 1
 Kernel uevent interface initialized...
 [1;31mtint2 : another systray is running[0m pid=5238[0m
+xRandr: Found crtc's: 2
+xRandr: Linking output LVDS1 with crtc 0
+xRandr: Linking output VGA1 with crtc 1
+xsettings: Gtk/FontName = Ubuntu 11
+xsettings: Net/IconThemeName = ubuntu-mono-dark
+real transparency on... depth: 32
+panel items: TSC
+Systray composited rendering on
+tint2 : nb monitor 2, nb monitor used 2, nb desktop 1
+Kernel uevent interface initialized...
+[1;31mtint2 : another systray is running[0m pid=5238[0m
