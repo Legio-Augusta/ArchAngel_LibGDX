@@ -16,7 +16,7 @@ public class GameHelper2 {
     private static int TOP_BOUND = VIEW_PORT_HEIGHT + (int)SCREEN_HEIGHT/8;
     private static int BOTTOM_SPACE = (int)SCREEN_HEIGHT/8; // May be change for fit touch button
 
-    private Texture[] imgColor; // For fillRect with color
+    private Texture[] imgColor; // For fillRect with color; TODO color constant and add remain color png
     public GameHelper2() {
         imgColor = new Texture[6];
         for (int i = 0; i < 6; i++) {
@@ -508,22 +508,24 @@ public class GameHelper2 {
                 }
                 break;
             case 1:
-                // paramGraphics.setColor(14408703);
+                // paramGraphics.setColor(14408703); // purple
                 // paramGraphics.drawString(archAngel.mainGameScreen.ca + " m", 120, 3, 17);
                 int i1 = archAngel.mainGameScreen.f;
                 int i2 = Math.abs(i1) / 60 + 1;
                 if ((i1 <= 5) && (i1 >= -5))
                 {
-                    // paramGraphics.fillRect(112, 20, 1, 7);
+                     fillRect(paramGraphics, 112, 20, 1, 7, 0); // TODO add purple color img
                 }
                 else
                 {
                     int i3;
                     if (i1 > 5) {
                         for (i3 = 0; i3 < i2; i3++) {
+                            // ui_2
                             archAngel.readMedia.drawImageAnchor20(paramGraphics, 23, 114 + i3 * 4, 20);
                         }
                     } else if (i1 < -5) {
+                        // ui_1
                         for (i3 = 0; i3 < i2; i3++) {
                             archAngel.readMedia.drawImageAnchor20(paramGraphics, 22, 106 - i3 * 4, 20);
                         }
@@ -541,7 +543,7 @@ public class GameHelper2 {
                     archAngel.readMedia.drawStringGraphic(paramGraphics, 89, 11, "   MK2   ", 0);
                 }
                 archAngel.readMedia.drawStringGraphic(paramGraphics, 82, 18, "HP:", 0);
-                // paramGraphics.setColor(9605802);
+                // paramGraphics.setColor(9605802); // gray
                 // paramGraphics.fillRect(102, 17, 42, 7);
                 // paramGraphics.setColor(14408703);
                 // paramGraphics.drawRect(102, 17, 41, 6);
@@ -550,8 +552,10 @@ public class GameHelper2 {
                 break;
         }
         int i1 = 40 * archAngel.gameSetting.j >> 9;
+        // 1000 >> 9 ~ 1; 40,000 >> 9 ~ 78
         // paramGraphics.setColor(255);
-        // paramGraphics.fillRect(192, 5, i1 / 2, 4);
+        // Fighter hp ?
+        fillRect(paramGraphics, 192+20, 5+2, i1 / 2, 4, 1);
         if (archAngel.mainGameScreen.bi == 3)
         {
             if (archAngel.mainGameScreen.bool_bh == true)
@@ -569,13 +573,13 @@ public class GameHelper2 {
                 // paramGraphics.setColor(16711680);
                 if (archAngel.x / 2 % 2 == 0) // boss scene, out of amour
                 {
-                    // paramGraphics.fillRect(80, 194, 80, 19);
+                     fillRect(paramGraphics, 80, 194, 80, 19, 0);
                     // Boss screen
                     archAngel.readMedia.drawStringGraphic(paramGraphics, 86, 197, "PRESS 0 KEY", 0);
                     archAngel.readMedia.drawStringGraphic(paramGraphics, 92, 205, "TO RELOAD", 0);
                 }
             }
-            if (archAngel.gameSetting.r != 0) {
+            if (archAngel.gameSetting.r != 0) { // may be lever or stage mode ?
                 i1 = archAngel.gameSetting.t * 40 / archAngel.gameSetting.r;
             }
         }
@@ -584,7 +588,7 @@ public class GameHelper2 {
             if(archAngel.gameSetting.m != 0) {
                 i1 = archAngel.gameSetting.o * 40 / archAngel.gameSetting.m;
             } else {
-                i1 = 0; // dungnv
+                i1 = 40; // dungnv
             }
         }
         else
@@ -592,7 +596,7 @@ public class GameHelper2 {
             i1 = 40;
         }
         // paramGraphics.setColor(16711680);
-        fillRect(paramGraphics, 192, 17, i1, 4, 0);
+        fillRect(paramGraphics, 192+20, 17+4, i1-20, 4, 0); // nick_farrow adjust
     }
 
     public void draw_weapon_shop(SpriteBatch paramGraphics, int paramInt1, boolean paramBoolean, int paramInt2, int t, int u, String[][] str_arr_w, ArchAngelME archAngel, ReadText readText)
@@ -762,7 +766,7 @@ public class GameHelper2 {
         int i1 = 133;
         int i2 = 0;
         int i3 = 0;
-//        paramGraphics.setColor(0);
+        // paramGraphics.setColor(0);
         if (archAngel.mainGameScreen.str_m != null)
         {
             i3 = archAngel.mainGameScreen.h * archAngel.mainGameScreen.u;
@@ -812,16 +816,16 @@ public class GameHelper2 {
                 archAngel.game_state += 1;
                 break;
             case 1:
-//                paramGraphics.setColor(0);
-//                paramGraphics.fillRect(0, 0, 240, 320);
-//                paramGraphics.setColor(4802901);
-//                paramGraphics.fillRect(0, 0, 240, 40);
-//                paramGraphics.drawLine(0, 42, 240, 42);
-//                paramGraphics.drawLine(0, 45, 240, 45);
-//                paramGraphics.fillRect(0, 50, 240, 6);
-//                paramGraphics.fillRect(0, 119, 240, 30);
-//                paramGraphics.fillRect(0, 171, 240, 10);
-//                paramGraphics.fillRect(0, 205, 240, 30);
+                // paramGraphics.setColor(0);
+                fillRect(paramGraphics, 0, 0, 240, 320, 4);
+                // paramGraphics.setColor(4802901);
+                fillRect(paramGraphics, 0, 0, 240, 40, 4);
+                // paramGraphics.drawLine(0, 42, 240, 42);
+                // paramGraphics.drawLine(0, 45, 240, 45);
+                fillRect(paramGraphics, 0, 50, 240, 6, 4);
+                fillRect(paramGraphics, 0, 119, 240, 30, 4);
+                fillRect(paramGraphics, 0, 171, 240, 10, 4);
+                fillRect(paramGraphics, 0, 205, 240, 30, 4);
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 3, 0, 0);
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 5, 27, 25);
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 4, 0, 160);
@@ -831,15 +835,15 @@ public class GameHelper2 {
             case 2:
                 if (archAngel.x < 21)
                 {
-//                    paramGraphics.setColor(0);
-//                    paramGraphics.fillRect(0, 80, 240, 200);
-//                    paramGraphics.setColor(4802901);
-//                    paramGraphics.fillRect(0, 119, 240, 30);
-//                    paramGraphics.fillRect(0, 171, 240, 10);
-//                    paramGraphics.fillRect(0, 205, 240, 30);
+                    // paramGraphics.setColor(0);
+                    fillRect(paramGraphics, 0, 80, 240, 200, 4);
+                    // setColor(4802901);
+                    fillRect(paramGraphics, 0, 119, 240, 30, 4);
+                    fillRect(paramGraphics, 0, 171, 240, 10, 4);
+                    fillRect(paramGraphics, 0, 205, 240, 30, 4);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 4, 0, 160 - 5 * archAngel.x);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 3, 0, 180 + 5 * archAngel.x);
-//                    paramGraphics.setClip(0, 180 - 5 * archAngel.x, 240, 10 * archAngel.x);
+                    // paramGraphics.setClip(0, 180 - 5 * archAngel.x, 240, 10 * archAngel.x);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 14, 17, 89 + l * 33);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 13, 60, 90);
                 }
@@ -853,15 +857,15 @@ public class GameHelper2 {
                 break;
             case 3:
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 15, 33, 60);
-//                paramGraphics.setClip(198, 60, 18, 20);
+                // paramGraphics.setClip(198, 60, 18, 20);
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 16, 198, 60 - archAngel.gameSetting.boss_level * 20);
-//                paramGraphics.setClip(0, 0, 240, 280);
-//                paramGraphics.setColor(0);
-//                paramGraphics.fillRect(0, 80, 240, 200);
-//                paramGraphics.setColor(4802901);
-//                paramGraphics.fillRect(0, 119, 240, 30);
-//                paramGraphics.fillRect(0, 171, 240, 10);
-//                paramGraphics.fillRect(0, 205, 240, 30);
+                // paramGraphics.setClip(0, 0, 240, 280);
+                // paramGraphics.setColor(0);
+                 fillRect(paramGraphics, 0, 80, 240, 200, 4); // black
+                 // paramGraphics.setColor(4802901);
+                 fillRect(paramGraphics, 0, 119, 240, 30, 4); // dark-gray
+                 fillRect(paramGraphics, 0, 171, 240, 10, 4);
+                 fillRect(paramGraphics, 0, 205, 240, 30, 4);
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 14, 17, 89 + l * 33);
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 13, 60, 90);
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 3, 0, 280);
@@ -903,7 +907,7 @@ public class GameHelper2 {
                 fillRect( paramGraphics, 45, 126, 150, 107, 0);
                 if (archAngel.gameSetting.boss_level == 7)
                 {
-//                    paramGraphics.setColor(0);
+                    // paramGraphics.setColor(0);
                     fillRect(paramGraphics, 0, 0, 240, 300, 1);
                     archAngel.screen = 27;
                 }
@@ -913,7 +917,7 @@ public class GameHelper2 {
                 }
                 break;
             case 4:
-                if (archAngel.x == 0) {
+                if (archAngel.x == 0) { // game stage or boss hp?
                     draw_victory(paramGraphics, archAngel);
                 }
                 break;
@@ -922,14 +926,14 @@ public class GameHelper2 {
             default:
                 if (archAngel.x < 16)
                 {
-//                    paramGraphics.setColor(0);
-//                    paramGraphics.fillRect(0, 0, 240, archAngel.x * 10);
-//                    paramGraphics.fillRect(0, 300 - archAngel.x * 10, 240, archAngel.x * 10);
+                    // paramGraphics.setColor(0);
+                    fillRect(paramGraphics, 0, 0, 240, archAngel.x * 10, 4); // TODO may be set color as CONSTANT
+                    fillRect(paramGraphics, 0, 300 - archAngel.x * 10, 240, archAngel.x * 10, 4);
                 }
                 if (archAngel.x == 16)
                 {
                     archAngel.readMedia.destroyImage53_115();
-//                    System.gc();
+                    // System.gc();
                     archAngel.gameSetting.boss_level += 1;
                     archAngel.addScore();
                     archAngel.screen = 5;

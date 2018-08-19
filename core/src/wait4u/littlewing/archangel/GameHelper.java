@@ -1,10 +1,27 @@
 package wait4u.littlewing.archangel;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class GameHelper {
+    private static int SCREEN_HEIGHT = Gdx.graphics.getHeight();
+
+    // 120x160 or 128x128px from original J2ME resolution (in some game). This case screen_width is 240px
+    private static int MOBI_SCL = (int)Gdx.graphics.getWidth()/240; // FIXME 4.5 is not integer
+    private static int MOBI_H = 360;  // JavaME height = 320px
+
+    private static int VIEW_PORT_HEIGHT = (int)SCREEN_HEIGHT*3/4;
+    private static int TOP_BOUND = VIEW_PORT_HEIGHT + (int)SCREEN_HEIGHT/8;
+    private static int BOTTOM_SPACE = (int)SCREEN_HEIGHT/8; // May be change for fit touch button
+
+    private Texture[] imgColor; // For fillRect with color; TODO color constant and add remain color png
 
     public GameHelper() {
+        imgColor = new Texture[6];
+        for (int i = 0; i < 6; i++) {
+            imgColor[i] = new Texture("samsung-white/color-" + i + ".png");
+        }
     }
 
     public void loadBrief1(SpriteBatch paramGraphics, int o, int p, ArchAngelME archAngel)
@@ -27,15 +44,15 @@ public class GameHelper {
                 if (archAngel.x == 0)
                 {
                     // paramGraphics.setColor(0);
-                    // paramGraphics.fillRect(0, 0, 240, 320);
+                    fillRect(paramGraphics, 0, 0, 240, 320, 4);
                     // paramGraphics.setColor(4802901);
-                    // paramGraphics.fillRect(0, 0, 240, 40);
+                    fillRect(paramGraphics, 0, 0, 240, 40, 4);
                     // paramGraphics.drawLine(0, 42, 240, 42);
                     // paramGraphics.drawLine(0, 45, 240, 45);
-                    // paramGraphics.fillRect(0, 50, 240, 6);
-                    // paramGraphics.fillRect(0, 119, 240, 30);
-                    // paramGraphics.fillRect(0, 171, 240, 10);
-                    // paramGraphics.fillRect(0, 205, 240, 30);
+                    fillRect(paramGraphics, 0, 50, 240, 6, 4);
+                    fillRect(paramGraphics, 0, 119, 240, 30, 4);
+                    fillRect(paramGraphics, 0, 171, 240, 10, 4);
+                    fillRect(paramGraphics, 0, 205, 240, 30, 4);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 3, 0, 0);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 5, 27, 25);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 4, 0, 60);
@@ -53,11 +70,11 @@ public class GameHelper {
                 if (archAngel.x < 21)
                 {
                     // paramGraphics.setColor(0);
-                    // paramGraphics.fillRect(0, 60, 240, 240);
+                    fillRect(paramGraphics, 0, 60, 240, 240, 4);
                     // paramGraphics.setColor(4802901);
-                    // paramGraphics.fillRect(0, 119, 240, 30);
-                    // paramGraphics.fillRect(0, 171, 240, 10);
-                    // paramGraphics.fillRect(0, 205, 240, 30);
+                    fillRect(paramGraphics, 0, 119, 240, 30, 4);
+                    fillRect(paramGraphics, 0, 171, 240, 10, 4);
+                    fillRect(paramGraphics, 0, 205, 240, 30, 4);
                     // paramGraphics.setClip(0, 80 + 5 * archAngel.x, 240, 200 - 10 * archAngel.x);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 31, 0, 80);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 32, 0, 175);
@@ -81,7 +98,7 @@ public class GameHelper {
         if (archAngel.game_state < 15)
         {
             // paramGraphics.setColor(0);
-            // paramGraphics.fillRect(0, 227, 240, 53);
+            fillRect(paramGraphics, 0, 227, 240, 53, 4);
             // paramGraphics.setColor(16777130);
             // paramGraphics.drawRect(0, 227, 239, 53);
             simple_arm_helper(paramGraphics, archAngel.game_state, 228, o, p, archAngel);
@@ -186,17 +203,17 @@ public class GameHelper {
                 }
                 break;
             case 1:
-                // paramGraphics.setColor(107, 222, 255);
-                // paramGraphics.fillRect(45, 93, 150, 33);
+                // paramGraphics.setColor(107, 222, 255); // fade-light blue
+                fillRect(paramGraphics, 45, 93, 150, 33, 3);
                 archAngel.readMedia.drawGraphicStr40_122(paramGraphics, 62, 103, "YOU ARE DEAD");
                 // paramGraphics.setColor(16777215);
-                // paramGraphics.fillRect(45, 126, 150, 107);
+                fillRect(paramGraphics, 45, 126, 150, 107, 5);
                 // paramGraphics.setColor(16777215);
-                // paramGraphics.fillRect(45, 126, 150, 107);
+                fillRect(paramGraphics, 45, 126, 150, 107, 5);
                 archAngel.readMedia.drawGraphicStr40_122(paramGraphics, 50, 129, "You have been");
                 archAngel.readMedia.drawGraphicStr40_122(paramGraphics, 50, 144, "hit deadly.");
-//                paramGraphics.setColor(0);
-//                paramGraphics.fillRect(49, 172 + archAngel.c * 15, 75, 15);
+                // paramGraphics.setColor(0);
+                fillRect(paramGraphics, 49, 172 + archAngel.c * 15, 75, 15, 4);
                 archAngel.readMedia.drawGraphicStr40_122(paramGraphics, 50, 174, "1. Retry");
                 archAngel.readMedia.drawGraphicStr40_122(paramGraphics, 50, 189, "2. Back");
                 break;
@@ -219,9 +236,9 @@ public class GameHelper {
                         archAngel.readMedia.destroyImage7_53();
                         archAngel.readMedia.destroyImage53_115();
                     }
-//                    paramGraphics.setColor(0);
-//                    paramGraphics.fillRect(0, 0, 240, archAngel.x * 10);
-//                    paramGraphics.fillRect(0, 300 - archAngel.x * 10, 240, archAngel.x * 10);
+                    // paramGraphics.setColor(0);
+                    fillRect(paramGraphics, 0, 0, 240, archAngel.x * 10, 4);
+                    fillRect(paramGraphics, 0, 300 - archAngel.x * 10, 240, archAngel.x * 10, 4);
                 }
                 if (archAngel.x == 16) {
                     archAngel.screen = 5;
@@ -238,12 +255,12 @@ public class GameHelper {
             case 0:
                 if (archAngel.x < 21)
                 {
-//                    paramGraphics.setColor(0);
-//                    paramGraphics.fillRect(0, 60, 240, 240);
-//                    paramGraphics.setColor(4802901);
-//                    paramGraphics.fillRect(0, 119, 240, 30);
-//                    paramGraphics.fillRect(0, 171, 240, 10);
-//                    paramGraphics.fillRect(0, 205, 240, 30);
+                    // paramGraphics.setColor(0);
+                    fillRect(paramGraphics, 0, 60, 240, 240, 4);
+                    // paramGraphics.setColor(4802901);
+                    fillRect(paramGraphics, 0, 119, 240, 30, 4);
+                    fillRect(paramGraphics, 0, 171, 240, 10, 4);
+                    fillRect(paramGraphics, 0, 205, 240, 30, 4);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 4, 0, 160 - 5 * archAngel.x);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 3, 0, 180 + 5 * archAngel.x);
                 }
@@ -256,12 +273,12 @@ public class GameHelper {
             case 1:
                 if (archAngel.x < 22)
                 {
-//                    paramGraphics.setColor(0);
-//                    paramGraphics.fillRect(0, 80, 240, 200);
-//                    paramGraphics.setColor(4802901);
-//                    paramGraphics.fillRect(0, 119, 240, 30);
-//                    paramGraphics.fillRect(0, 171, 240, 10);
-//                    paramGraphics.fillRect(0, 205, 240, 30);
+                    // paramGraphics.setColor(0);
+                    fillRect(paramGraphics, 0, 80, 240, 200, 4);
+                    // paramGraphics.setColor(4802901);
+                    fillRect(paramGraphics, 0, 119, 240, 30, 4);
+                    fillRect(paramGraphics, 0, 171, 240, 10, 4);
+                    fillRect(paramGraphics, 0, 205, 240, 30, 4);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 6, 65326 + archAngel.x * 10, 118);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 7, 247 - archAngel.x * 10, 204);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 9, 65388 + archAngel.x * 10, 125);
@@ -283,12 +300,12 @@ public class GameHelper {
                 archAngel.bool_w = true;
                 break;
             case 3:
-//                paramGraphics.setColor(0);
-//                paramGraphics.fillRect(0, 80, 240, 200);
-//                paramGraphics.setColor(4802901);
-//                paramGraphics.fillRect(0, 119, 240, 30);
-//                paramGraphics.fillRect(0, 171, 240, 10);
-//                paramGraphics.fillRect(0, 205, 240, 30);
+                // paramGraphics.setColor(0);
+                fillRect(paramGraphics, 0, 80, 240, 200, 4);
+                // paramGraphics.setColor(4802901);
+                fillRect(paramGraphics, 0, 119, 240, 30, 4);
+                fillRect(paramGraphics, 0, 171, 240, 10, 4);
+                fillRect(paramGraphics, 0, 205, 240, 30, 4);
                 if (archAngel.x < 21)
                 {
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 6, 0 - archAngel.x * 10, 118);
@@ -320,19 +337,19 @@ public class GameHelper {
             case 5:
                 if (archAngel.x < 21)
                 {
-//                    paramGraphics.setColor(0);
-//                    paramGraphics.fillRect(0, 60, 240, 240);
-//                    paramGraphics.setColor(4802901);
-//                    paramGraphics.fillRect(0, 119, 240, 30);
-//                    paramGraphics.fillRect(0, 171, 240, 10);
-//                    paramGraphics.fillRect(0, 205, 240, 30);
-//                    paramGraphics.setClip(0, 80 + 5 * archAngel.x, 240, 200 - 10 * archAngel.x);
+                    // paramGraphics.setColor(0);
+                    fillRect(paramGraphics, 0, 60, 240, 240, 4);
+                    // paramGraphics.setColor(4802901); // dark-gray
+                    fillRect(paramGraphics, 0, 119, 240, 30, 4);
+                    fillRect(paramGraphics, 0, 171, 240, 10, 4);
+                    fillRect(paramGraphics, 0, 205, 240, 30, 4);
+                    // paramGraphics.setClip(0, 80 + 5 * archAngel.x, 240, 200 - 10 * archAngel.x);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 6, 0, 118);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 7, 37, 204);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 8, 41, 122 + archAngel.ah * 86);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 11, 55, 125);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 12, 55, 211);
-//                    paramGraphics.setClip(0, 0, 240, 320);
+                    // paramGraphics.setClip(0, 0, 240, 320);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 4, 0, 60 + 5 * archAngel.x);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 3, 0, 280 - 5 * archAngel.x);
                 }
@@ -348,8 +365,8 @@ public class GameHelper {
                 if (archAngel.x < 20)
                 {
                     archAngel.bool_w = false;
-//                    paramGraphics.setColor(0);
-//                    paramGraphics.fillRect(41, 208, 160, 26);
+                    // paramGraphics.setColor(0);
+                    fillRect(paramGraphics, 41, 208, 160, 26, 4);
                     archAngel.readMedia.drawStringGraphic(paramGraphics, 47, 218, "A SAVED GAME IS NOT FOUND.", 0);
                 }
                 if (archAngel.x == 20) {
@@ -376,15 +393,15 @@ public class GameHelper {
             case 0:
                 if (archAngel.x < 21)
                 {
-//                    paramGraphics.setColor(0);
-//                    paramGraphics.fillRect(0, 60, 240, 240);
-//                    paramGraphics.setColor(4802901);
-//                    paramGraphics.fillRect(0, 119, 240, 30);
-//                    paramGraphics.fillRect(0, 171, 240, 10);
-//                    paramGraphics.fillRect(0, 205, 240, 30);
+                    // paramGraphics.setColor(0);
+                     fillRect(paramGraphics, 0, 60, 240, 240, 4);
+                    // paramGraphics.setColor(4802901);
+                     fillRect(paramGraphics, 0, 119, 240, 30, 4);
+                     fillRect(paramGraphics, 0, 171, 240, 10, 4);
+                     fillRect(paramGraphics, 0, 205, 240, 30, 4);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 4, 0, 160 - 5 * archAngel.x);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 3, 0, 180 + 5 * archAngel.x);
-//                    paramGraphics.setClip(0, 180 - 5 * archAngel.x, 240, 10 * archAngel.x);
+                    // paramGraphics.setClip(0, 180 - 5 * archAngel.x, 240, 10 * archAngel.x);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 29, 0, 80);
                 }
                 if (archAngel.x == 20) {
@@ -400,15 +417,15 @@ public class GameHelper {
             case 18:
                 if (archAngel.x < 21)
                 {
-//                    paramGraphics.setColor(0);
-//                    paramGraphics.fillRect(0, 60, 240, 240);
-//                    paramGraphics.setColor(4802901);
-//                    paramGraphics.fillRect(0, 119, 240, 30);
-//                    paramGraphics.fillRect(0, 171, 240, 10);
-//                    paramGraphics.fillRect(0, 205, 240, 30);
-//                    paramGraphics.setClip(0, 80 + 5 * archAngel.x, 240, 200 - 10 * archAngel.x);
+                    // paramGraphics.setColor(0);
+                    fillRect(paramGraphics, 0, 60, 240, 240, 4);
+                    // paramGraphics.setColor(4802901); // dark-gray
+                    fillRect(paramGraphics, 0, 119, 240, 30, 4);
+                    fillRect(paramGraphics, 0, 171, 240, 10, 4);
+                    fillRect(paramGraphics, 0, 205, 240, 30, 4);
+                    // paramGraphics.setClip(0, 80 + 5 * archAngel.x, 240, 200 - 10 * archAngel.x);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 29, 0, 80);
-//                    paramGraphics.setClip(0, 0, 240, 320);
+                    // paramGraphics.setClip(0, 0, 240, 320);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 4, 0, 60 + 5 * archAngel.x);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 3, 0, 280 - 5 * archAngel.x);
                 }
@@ -421,10 +438,10 @@ public class GameHelper {
         }
         if (archAngel.game_state < 18)
         {
-//            paramGraphics.setColor(0);
-//            paramGraphics.fillRect(0, 227, 240, 53);
-//            paramGraphics.setColor(16777130);
-//            paramGraphics.drawRect(0, 227, 239, 53);
+            // paramGraphics.setColor(0);
+            fillRect(paramGraphics, 0, 227, 240, 53, 4);
+            // paramGraphics.setColor(16777130);
+            // paramGraphics.drawRect(0, 227, 239, 53);
             simple_arm_helper(paramGraphics, archAngel.game_state, 228, o, p, archAngel);
             archAngel.readMedia.drawImageAnchor20(paramGraphics, 3, 0, 280);
         }
@@ -443,13 +460,13 @@ public class GameHelper {
                 break;
             case 1:
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 14, 17, 89);
-//                paramGraphics.setClip(17, 89, 223, 25);
+                //paramGraphics.setClip(17, 89, 223, 25);
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 13, 60, 90 - l * 33);
-//                paramGraphics.setClip(0, 0, 240, 320);
-//                paramGraphics.setColor(7171414);
-//                paramGraphics.fillRect(2, 119, 238, 181);
-//                paramGraphics.setColor(9605802);
-//                paramGraphics.drawRect(2, 119, 237, 180);
+                // paramGraphics.setClip(0, 0, 240, 320);
+                // paramGraphics.setColor(7171414); // dark-gray-yellow
+                fillRect(paramGraphics, 2, 119, 238, 181, 2);
+                // paramGraphics.setColor(9605802);
+                // paramGraphics.drawRect(2, 119, 237, 180);
                 simple_helper2(paramGraphics, archAngel.game_state, 130, o, p, archAngel);
                 archAngel.drawImage(paramGraphics);
                 archAngel.a(paramGraphics, "BACK", true);
@@ -473,9 +490,9 @@ public class GameHelper {
         while ((str = archAngel.readText.buildString()) != null)
         {
             //return; // Avoid draw string error outOfBound
-//            paramGraphics.setColor(16777215);
+            // paramGraphics.setColor(16777215);
             if (archAngel.screen == 4) {
-//                paramGraphics.drawString(str, 120, i1, 17);
+                // paramGraphics.drawString(str, 120, i1, 17);
             }
             i1 += 17;
         }
@@ -671,10 +688,10 @@ public class GameHelper {
                 if (archAngel.screen == 13)
                 {
                     i4 = 5;
-//                    paramGraphics.setColor(4343106);
-//                    paramGraphics.fillRect(0, 217, 140, 83);
-//                    paramGraphics.setColor(14605311);
-//                    paramGraphics.drawRect(0, 217, 139, 82);
+                    // paramGraphics.setColor(4343106); // dark-gray
+                    fillRect(paramGraphics, 0, 217, 140, 83, 4);
+                    // paramGraphics.setColor(14605311);
+                    // paramGraphics.drawRect(0, 217, 139, 82);
                     q = paramInt1;
                 }
                 else
@@ -685,21 +702,21 @@ public class GameHelper {
             else if (archAngel.screen == 7)
             {
                 i4 = 18;
-//                paramGraphics.setColor(16777215);
-//                paramGraphics.fillRect(13, 76, 150, 107);
+                // paramGraphics.setColor(16777215);
+                fillRect(paramGraphics, 13, 76, 150, 107, 5);
             }
             else
             {
                 i4 = 30;
             }
-//            paramGraphics.setColor(40960);
+            //paramGraphics.setColor(40960);
             archAngel.readText.processTxt(paramInt1);
             archAngel.readText.b = 0;
             archAngel.p = archAngel.readText.o;
             String str;
             while ((str = archAngel.readText.buildString()) != null)
             {
-//                paramGraphics.setColor(0);
+                // paramGraphics.setColor(0);
                 int i3 = str.indexOf(".");
                 if (i3 == 1)
                 {
@@ -718,23 +735,23 @@ public class GameHelper {
                     if (i2 == archAngel.readText.a) {
                         if (archAngel.screen == 13)
                         {
-//                            paramGraphics.setColor(83967);
-//                            paramGraphics.fillRect(i4 + 15, i1 + 6, str.length() * 5 + 3, 9);
+                            // paramGraphics.setColor(83967); // light blue
+                            fillRect(paramGraphics, i4 + 15, i1 + 6, str.length() * 5 + 3, 9, 3);
                         }
                         else
                         {
-//                            paramGraphics.setColor(0);
-//                            paramGraphics.fillRect(i4 - 2, i1 - 2, str.length() * 9 + 3, 15);
+                            // paramGraphics.setColor(0);
+                            fillRect(paramGraphics, i4 - 2, i1 - 2, str.length() * 9 + 3, 15, 4);
                         }
                     }
                 }
                 if (archAngel.screen == 13)
                 {
                     archAngel.readMedia.drawStringGraphic(paramGraphics, i4, i1 + 8, str, 0);
-//                    paramGraphics.setColor(0);
+                    // paramGraphics.setColor(0);
                     if (archAngel.bool_s)
                     {
-//                        paramGraphics.setColor(0);
+                        // paramGraphics.setColor(0);
                         archAngel.readMedia.drawStringGraphic(paramGraphics, i4 + 66, 236, archAngel.on_off[(1 - archAngel.af)], 0);
                         archAngel.readMedia.drawStringGraphic(paramGraphics, i4 + 72, 247, archAngel.auto_manual[(1 - archAngel.ag)], 0);
                     }
@@ -743,7 +760,7 @@ public class GameHelper {
                 {
                     archAngel.readMedia.drawGraphicStr40_122(paramGraphics, i4, i1, str);
                     if ((archAngel.screen == 10) && (paramInt1 == 51) && ((archAngel.readText.a <= 2) || (archAngel.readText.a == 4))) {
-//                        paramGraphics.setColor(0);
+                        // paramGraphics.setColor(0);
                     }
                 }
                 if (archAngel.screen == 13) {
@@ -754,10 +771,10 @@ public class GameHelper {
             }
             if (archAngel.screen == 11)
             {
-//                paramGraphics.setColor(9540180);
-//                paramGraphics.fillRect(10, 135, 70, 42);
+                // paramGraphics.setColor(9540180);
+                fillRect(paramGraphics, 10, 135, 70, 42, 2);
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 114, 10, 135);
-//                paramGraphics.setColor(0);
+                // paramGraphics.setColor(0);
                 archAngel.readMedia.drawGraphicStr40_122(paramGraphics, 12, 180, "My money:" + archAngel.gameSetting.a);
                 archAngel.readMedia.drawGraphicStr40_122(paramGraphics, 10, 210, "1.Missile");
                 archAngel.readMedia.drawGraphicStr40_122(paramGraphics, 10, 225, "2.Plasma Canon");
@@ -784,20 +801,20 @@ public class GameHelper {
         switch (x)
         {
             case 0:
-//                paramGraphics.setColor(430330);
+                // paramGraphics.setColor(430330);
                 break;
             case 1:
-//                paramGraphics.setColor(65280);
+                // paramGraphics.setColor(65280);
                 break;
             case 2:
-//                paramGraphics.setColor(16776960);
+                // paramGraphics.setColor(16776960);
                 break;
         }
         String str;
         while ((str = archAngel.readText.buildString()) != null)
         {
             archAngel.readMedia.drawStringGraphic(paramGraphics, 10, i1, str, x);
-//            paramGraphics.setClip(0, 0, 240, 300);
+            // paramGraphics.setClip(0, 0, 240, 300);
             int i3 = str.indexOf("=");
             if (i3 == 1)
             {
@@ -815,8 +832,8 @@ public class GameHelper {
                 }
                 if (i2 == archAngel.readText.a)
                 {
-//                    paramGraphics.setColor(0);
-//                    paramGraphics.fillRect(7, i1 - 2, str.length() * 6 + 6, 9);
+                    // paramGraphics.setColor(0);
+                    fillRect(paramGraphics, 7, i1 - 2, str.length() * 6 + 6, 9, 4);
                     archAngel.readMedia.drawStringGraphic(paramGraphics, 10, i1, str, 3);
                 }
             }
@@ -830,11 +847,11 @@ public class GameHelper {
         if (archAngel.bool_q)
         {
             // paramGraphics.setColor(7171414);
-            // paramGraphics.fillRect(6, 127, 226, 147);
+             fillRect(paramGraphics, 6, 127, 226, 147, 2);
             // paramGraphics.setColor(9605802);
             // paramGraphics.drawRect(6, 127, 225, 146);
             // paramGraphics.setColor(9605717);
-            // paramGraphics.fillRect(10, 130, 72, 42);
+             fillRect(paramGraphics, 10, 130, 72, 422, 2);
             // paramGraphics.setColor(16777130);
             // paramGraphics.drawRect(10, 129, 72, 43);
             if (archAngel.bool_r)
@@ -867,16 +884,16 @@ public class GameHelper {
         switch (paramInt2)
         {
             case 0:
-//                paramGraphics.setColor(430330);
+                // paramGraphics.setColor(430330);
                 break;
             case 1:
-//                paramGraphics.setColor(65280);
+                // paramGraphics.setColor(65280);
                 break;
             case 2:
-//                paramGraphics.setColor(16776960);
+                // paramGraphics.setColor(16776960);
                 break;
         }
-//        paramGraphics.setClip(0, 0, 240, 320);
+        // paramGraphics.setClip(0, 0, 240, 320);
         archAngel.readMedia.drawImageSwitch(paramGraphics, 13, 131, 60, 40, i1 - 1, paramInt2);
         switch (paramInt2)
         {
@@ -912,5 +929,14 @@ public class GameHelper {
         }
     }
 
+    public void fillRect(SpriteBatch batch, int x, int y, int width, int height, int color) {
+        // Hard code default width x height of color img: 12x12 px
+        int scaleY = height*MOBI_SCL / 12;
+        int scaleX = width*MOBI_SCL / 12;
+        // (Texture, float x, float y, float originX, float originY, float width, float height, float scaleX, float scaleY, float rotation, int srcX, int srcY, int srcWidth, int srcHeight, boolean flipX, boolean flipY)
+        int pos_x = (int) (MOBI_SCL*x);
+        int pos_y = (int) ((MOBI_H - y+20)*MOBI_SCL - imgColor[color].getHeight()*scaleY + BOTTOM_SPACE);
+        batch.draw(imgColor[color], pos_x, pos_y, 0, 0, imgColor[color].getWidth(), imgColor[color].getHeight(), scaleX, scaleY, 0, 0, 0, imgColor[color].getWidth()*scaleX, imgColor[color].getHeight()*scaleY, false, false);
+    }
 
 }

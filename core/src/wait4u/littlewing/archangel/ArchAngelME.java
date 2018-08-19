@@ -35,7 +35,7 @@ public class ArchAngelME
     public boolean bool_u = false;
     public boolean bool_v = true;
     public boolean bool_w = true;
-    public int x = 0; // fighter ammunation
+    public int x = 0; // fighter ammunation, x, y and z seem related to game state, boss hp...
     public int y = -1;
     public int game_state = 0;
     public int aa = -1;
@@ -191,7 +191,6 @@ public class ArchAngelME
 
         this.mainGameScreen.str_e = this.readText.buildString();
         this.readText.processTxt(4);
-        Gdx.app.log("DEBUG", "AA.a void str_m: " + this.mainGameScreen.str_m);
     }
 
     public boolean e()
@@ -212,7 +211,7 @@ public class ArchAngelME
 
     public void drawImage(SpriteBatch paramGraphics)
     {
-//        paramGraphics.setClip(0, 0, 240, 320);
+        // paramGraphics.setClip(0, 0, 240, 320);
         this.readMedia.drawImageAnchor20(paramGraphics, 3, 0, 300);
     }
 

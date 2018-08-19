@@ -14,7 +14,7 @@ public class GameSettings
     public int g;
     public int h;
     public int i;
-    public int j;
+    public int j; // Fighter hp ?
     public String str_k;
     public int l;
     public int m;
@@ -22,7 +22,7 @@ public class GameSettings
     public int o;
     public String str_p;
     public int q;
-    public int r;
+    public int r; // level or stage, mode of hero fighter/game settings
     public int s;
     public int t; // appear in boss screen
     public String str_u;

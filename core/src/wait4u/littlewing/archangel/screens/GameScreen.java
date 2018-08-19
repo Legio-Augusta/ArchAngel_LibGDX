@@ -633,8 +633,8 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         {
             case 0:
                 this.archAngel.stopSound();
-                paramGraphics.setColor(0);
-//                paramGraphics.fillRect(0, 150, 240, 15);
+                // paramGraphics.setColor(0);
+                fillRect(paramGraphics, 0, 150, 240, 15, 4);
                 this.archAngel.readMedia.drawGraphicStr40_122(paramGraphics, 98, 152, "PAUSE");
                 this.archAngel.drawImage(paramGraphics);
                 this.archAngel.a(paramGraphics, "RESUME", false);
@@ -698,7 +698,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
 
     public void keyReleased(int paramInt)
     {
-//        this.key_code = 0;
+        // this.key_code = 0;
         switch (this.archAngel.screen)
         {
             case 25:
@@ -1226,12 +1226,12 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         return 0;
     }
 
-    public void fillRect(int x, int y, int width, int height, int color) {
+    public void fillRect(SpriteBatch paramGraphics, int x, int y, int width, int height, int color) {
         // Hard code default width x height of color img: 12x12 px
         int scaleY = height / 12;
         int scaleX = width / 12;
         // (Texture, float x, float y, float originX, float originY, float width, float height, float scaleX, float scaleY, float rotation, int srcX, int srcY, int srcWidth, int srcHeight, boolean flipX, boolean flipY)
-        batch.draw(imgColor[color], x, y, 0, 0, imgColor[color].getWidth(), imgColor[color].getHeight(), scaleX, scaleY, 0, 0, 0, imgColor[color].getWidth()*scaleX, imgColor[color].getHeight()*scaleY, false, false);
+        paramGraphics.draw(imgColor[color], x, y, 0, 0, imgColor[color].getWidth(), imgColor[color].getHeight(), scaleX, scaleY, 0, 0, 0, imgColor[color].getWidth()*scaleX, imgColor[color].getHeight()*scaleY, false, false);
     }
 
     protected void drawUI() {

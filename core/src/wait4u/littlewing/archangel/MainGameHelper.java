@@ -610,6 +610,7 @@ public class MainGameHelper {
                 }
                 else if (paramg.d < 8)
                 {
+                    // *6960 = yellow, *8608 = dark red
                     fillRect_helper(paramGraphics, i2 + 88 + 32, i3 + 98 + 50, i3 >> 2, 16776960, 8388608);
                 }
                 break;
@@ -666,17 +667,17 @@ public class MainGameHelper {
     // TODO remove this method in MainGameScreen
     public void fillRect_helper(SpriteBatch paramGraphics, int paramInt1, int paramInt2, int paramInt3, int paramInt4, int paramInt5)
     {
-        // paramGraphics.setColor(paramInt5);
+        // paramGraphics.setColor(paramInt5); // dark red *8608
         int i1 = paramInt1 - paramInt3;
         int i2 = paramInt2 - (paramInt3 >> 1);
-        // paramGraphics.fillRect(i1, i2, paramInt3 << 1, paramInt3);
+        fillRect(paramGraphics, i1, i2, paramInt3 << 1, paramInt3, 0);
         i1 = paramInt1 - (paramInt3 >> 1);
         i2 = paramInt2 - paramInt3;
-        // paramGraphics.fillRect(i1, i2, paramInt3, paramInt3 << 1);
-        // paramGraphics.setColor(paramInt4);
+        fillRect(paramGraphics, i1, i2, paramInt3, paramInt3 << 1, 0);
+        // paramGraphics.setColor(paramInt4); // yellow *6960
         i1 = paramInt1 - (paramInt3 >> 1);
         i2 = paramInt2 - (paramInt3 >> 1);
-        // paramGraphics.fillRect(i1, i2, paramInt3, paramInt3);
+        fillRect(paramGraphics, i1, i2, paramInt3, paramInt3, 2);
     }
 
     //	public void draw_anchor_helper(SpriteBatch paramGraphics, int paramInt1, int paramInt2, int paramInt3, int paramInt4, boolean paramBoolean)

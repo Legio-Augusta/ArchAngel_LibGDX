@@ -17,7 +17,7 @@ public class MainGameScreen {
     public GameSettings gameSetting;
     public Random rnd = new Random();
     public String str_e;
-    public int f;
+    public int f; // Fighter move step, 5 for right turn, -5 or less than for turn left ?
     public int g;
     public int h;
     public int i;
@@ -124,18 +124,9 @@ public class MainGameScreen {
         Gdx.app.log("DEBUG", "Game Cnf 3: " + gameConfigArr[3].debug());
         Gdx.app.log("DEBUG", "Game Cnf 4: " + gameConfigArr[4].debug());
         Gdx.app.log("DEBUG", "Game Cnf 5: " + gameConfigArr[5].debug());
-        Gdx.app.log("DEBUG", "Game Cnf 6: " + gameConfigArr[6].debug());
         Gdx.app.log("DEBUG", "Game Cnf 7: " + gameConfigArr[7].debug());
-        Gdx.app.log("DEBUG", "Game Cnf 8: " + gameConfigArr[8].debug());
         Gdx.app.log("DEBUG", "Game Cnf 9: " + gameConfigArr[9].debug());
-        Gdx.app.log("DEBUG", "Game Cnf 10: " + gameConfigArr[10].debug());
-        Gdx.app.log("DEBUG", "Game Cnf 11: " + gameConfigArr[11].debug());
-        Gdx.app.log("DEBUG", "Game Cnf 12: " + gameConfigArr[12].debug());
-        Gdx.app.log("DEBUG", "Game Cnf 13: " + gameConfigArr[13].debug());
-        Gdx.app.log("DEBUG", "Game Cnf 14: " + gameConfigArr[14].debug());
-        Gdx.app.log("DEBUG", "Game Cnf 15: " + gameConfigArr[15].debug());
-        Gdx.app.log("DEBUG", "Game Cnf 16: " + gameConfigArr[16].debug());
-        Gdx.app.log("DEBUG", "Game Cnf 17: " + gameConfigArr[17].debug());
+
         int i2;
         if ((i2 = paramGameCnf.c) == 0) {
             return;
@@ -165,6 +156,7 @@ public class MainGameScreen {
                         this.bool_a1 = false;
                     }
                     // this.f = turn_calc(angle_helper(paramGameCnf.a, paramGameCnf.screen), this.av);
+                    // turn speed
                     this.f = this.gameHelper.turn_calc(this.gameHelper.angle_helper(paramGameCnf.a, paramGameCnf.b, stt_byte_arr_bt), this.av);
                     this.ca = (Math.abs(paramGameCnf.a) + Math.abs(paramGameCnf.b) - 200);
                 }
@@ -197,7 +189,8 @@ public class MainGameScreen {
                     this.au += 2;
                     paramGameCnf.c = 0;
                     this.ah += -1;
-                    this.gameSetting.j -= 50; // ammunition reduce ? 1000 round available
+                    // May be boss hp, fighter seme have inital only 78hp
+                    this.gameSetting.j -= 50; // ammunition reduce ? 1000 round available; or Fighter hp
                     play_s_gun(false);
                     if (this.gameSetting.j <= 0) {
                         setup2();
