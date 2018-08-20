@@ -227,28 +227,28 @@ public class ReadMedia
         } else if( this.msr_media.equals("aa") ) { // 0-24 9-33 10-34
             // 24 -> 34; 13 to 16 is Hecman transform
             return new Texture("archangel/aa_" + paramInt +".png");
-        } else if( this.msr_media.equals("background0") ) { // 7 -> 17
+        } else if( this.msr_media.equals(new String("background0")) ) { // 7 -> 17
             return new Texture("archangel/background0_" + paramInt + ".png");
-        } else if(this.msr_media.equals("background1")) {
+        } else if(this.msr_media.equals(new String("background1")) ) {
             return new Texture("archangel/background1_" + paramInt + ".png");
-        } else if(this.msr_media.equals("background2")) {
+        } else if(this.msr_media.equals(new String("background2")) ) {
             return new Texture("archangel/background2_" + paramInt + ".png");
         } else if(this.msr_media.equals("boss0")) {
             // this.img_arr_a[21] = new Texture("archangel/boss0_8.png");
             return new Texture("archangel/boss0_" + paramInt + ".png");
-        } else if(this.msr_media.equals("boss1")) {
+        } else if(this.msr_media.equals(new String("boss1")) ) {
             return new Texture("archangel/boss1_" + paramInt + ".png");
-        } else if(this.msr_media.equals("boss2")) {
+        } else if(this.msr_media.equals(new String("boss2")) ) {
             return new Texture("archangel/boss2_" + paramInt + ".png");
-        } else if(this.msr_media.equals("boss3")) {
+        } else if(this.msr_media.equals(new String("boss3")) ) {
             return new Texture("archangel/boss3_" + paramInt + ".png");
-        } else if(this.msr_media.equals("boss4")) {
+        } else if(this.msr_media.equals(new String("boss4")) ) {
             return new Texture("archangel/boss4_" + paramInt + ".png");
-        } else if(this.msr_media.equals("boss5")) {
+        } else if(this.msr_media.equals(new String("boss5")) ) {
             return new Texture("archangel/boss5_" + paramInt + ".png");
-        } else if(this.msr_media.equals("boss6")) {
+        } else if(this.msr_media.equals(new String("boss6")) ) {
             return new Texture("archangel/boss6_" + paramInt + ".png");
-        } else if(this.msr_media.equals("boss7")) {
+        } else if(this.msr_media.equals(new String("boss7")) ) {
             return new Texture("archangel/boss7_" + paramInt + ".png");
         } else if(this.msr_media.equals("brief")) { // 17->20
             return new Texture("archangel/brief_" + paramInt + ".png");
@@ -258,19 +258,19 @@ public class ReadMedia
         } else if(this.msr_media.equals("enermy0")) { // 53 -> 60
             return new Texture("archangel/enermy0_" + paramInt + ".png");
             // this.img_arr_a[22] = new Texture("archangel/enermy0_8.png");
-        } else if(this.msr_media.equals("enermy1")) { // 53 -> 60
+        } else if(this.msr_media.equals(new String("enermy1")) ) { // 53 -> 60
             return new Texture("archangel/enermy1_" + paramInt + ".png");
-        } else if(this.msr_media.equals("enermy2")) {
+        } else if(this.msr_media.equals(new String("enermy2")) ) {
             return new Texture("archangel/enermy2_" + paramInt + ".png");
-        } else if(this.msr_media.equals("enermy3")) {
+        } else if(this.msr_media.equals(new String("enermy3")) ) {
             return new Texture("archangel/enermy3_" + paramInt + ".png");
         } else if(this.msr_media.equals("etc")) { // 3_114 0_111
             return new Texture("archangel/etc_"+ paramInt + ".png");
-        } else if(this.msr_media.equals("fence0")) { // 44 -> 51
+        } else if(this.msr_media.equals(new String("fence0")) ) { // 44 -> 51
             return new Texture("archangel/fence0_" + paramInt + ".png");
-        } else if(this.msr_media.equals("fence1")) {
+        } else if(this.msr_media.equals(new String("fence1")) ) {
             return new Texture("archangel/fence1_" + paramInt + ".png");
-        } else if(this.msr_media.equals("fence2")) {
+        } else if(this.msr_media.equals(new String("fence2")) ) {
             return new Texture("archangel/fence2_" + paramInt + ".png");
         } else if(this.msr_media.equals("intro")) { // 30
             return new Texture("archangel/intro_0.png");
@@ -298,14 +298,10 @@ public class ReadMedia
     {
         if (this.img_arr_a[paramInt1] == null) {
             Gdx.app.log("ERROR", "load Media Arr: " + this.msr_media + " int 1 "+ paramInt1 + " int 2 " + paramInt2);
-            if(this.msr_media.matches("enermy.")) {
-                readMediaStream("enermy0");
-            }
-            this.img_arr_a[paramInt1] = new Texture("archangel/boss7_7.png");
         }
         int img_height = this.img_arr_a[paramInt1].getHeight();
         int position_y = (int) ((MOBI_H-paramInt3+3)*MOBI_SCL-img_height + BOTTOM_SPACE);
-//        Gdx.app.log("DEBUG INARR", "IMG: " + this.msr_media + "_" + paramInt1 + " JME y= "+paramInt3 + " position y="+position_y + " height="+img_height + " top bound="+(position_y+img_height));
+        Gdx.app.log("DEBUG INARR", "IMG: " + this.msr_media + "_" + paramInt1 + " JME y= "+paramInt3 + " position y="+position_y + " height="+img_height + " top bound="+(position_y+img_height));
         paramGraphics.draw(this.img_arr_a[paramInt1], (int)(paramInt2*MOBI_SCL), position_y); // 3
     }
 
@@ -336,7 +332,7 @@ public class ReadMedia
     {
         Texture temp = loadImage(paramInt1);
         int position_y = (int) ((MOBI_H - paramInt3 + 20)*MOBI_SCL-temp.getHeight() + BOTTOM_SPACE); // anchor 20
-//        Gdx.app.log("DEBUG Load IMG", "IMG: " + this.msr_media + "_" + paramInt1 + " JME y= "+paramInt3 + " position y="+position_y + " height="+temp.getHeight() + " top bound="+(position_y+temp.getHeight()));
+        Gdx.app.log("DEBUG Load IMG", "IMG: " + this.msr_media + "_" + paramInt1 + " JME y= "+paramInt3 + " position y="+position_y + " height="+temp.getHeight() + " top bound="+(position_y+temp.getHeight()));
         paramGraphics.draw(temp, (int)(paramInt2*MOBI_SCL), position_y); // 20
     }
 
@@ -387,48 +383,48 @@ public class ReadMedia
             for (int i = 24; i <= 42; i++) {
                 this.img_arr_a[i] = new Texture("archangel/aa_" + (i-24) +".png");
             }
-        } else if(paramString.equals("background0")) { // 7 -> 17
+        } else if( paramString.equals(new String("background0")) ) { // 7 -> 17
             for (int i = 7; i <= 17; i++) {
                 this.img_arr_a[i] = new Texture("archangel/background0_" + (i-7) + ".png");
             }
-        } else if(paramString.equals("background1")) {
+        } else if( paramString.equals(new String("background1")) ) {
             for (int i = 7; i <= 17; i++) {
                 this.img_arr_a[i] = new Texture("archangel/background1_" + (i-7) + ".png");
             }
-        } else if(paramString.equals("background2")) {
+        } else if( paramString.equals(new String("background2")) ) {
             for (int i = 7; i <= 17; i++) {
                 this.img_arr_a[i] = new Texture("archangel/background2_" + (i-7) + ".png");
             }
-        } else if(paramString.equals("boss0")) {
+        } else if( paramString.equals(new String("boss0")) ) {
             this.img_arr_a[21] = new Texture("archangel/boss0_8.png");
             for (int i = 62; i <= 68; i++) {
                 this.img_arr_a[i] = new Texture("archangel/boss0_" + (i-62) + ".png");
             }
-        } else if(paramString.equals("boss1")) {
+        } else if( paramString.equals(new String("boss1")) ) {
             for (int i = 62; i <= 68; i++) {
                 this.img_arr_a[i] = new Texture("archangel/boss1_" + (i-62) + ".png");
             }
-        } else if(paramString.equals("boss2")) {
+        } else if( paramString.equals(new String("boss2")) ) {
             for (int i = 62; i <= 68; i++) {
                 this.img_arr_a[i] = new Texture("archangel/boss2_" + (i-62) + ".png");
             }
-        } else if(paramString.equals("boss3")) {
+        } else if( paramString.equals(new String("boss3")) ) {
             for (int i = 62; i <= 68; i++) {
                 this.img_arr_a[i] = new Texture("archangel/boss3_" + (i-62) + ".png");
             }
-        } else if(paramString.equals("boss4")) {
+        } else if( paramString.equals(new String("boss4")) ) {
             for (int i = 62; i <= 68; i++) {
                 this.img_arr_a[i] = new Texture("archangel/boss4_" + (i-62) + ".png");
             }
-        } else if(paramString.equals("boss5")) {
+        } else if( paramString.equals(new String("boss5")) ) {
             for (int i = 62; i <= 68; i++) {
                 this.img_arr_a[i] = new Texture("archangel/boss5_" + (i-62) + ".png");
             }
-        } else if(paramString.equals("boss6")) {
+        } else if( paramString.equals(new String("boss6")) ) {
             for (int i = 62; i <= 68; i++) {
                 this.img_arr_a[i] = new Texture("archangel/boss6_" + (i-62) + ".png");
             }
-        } else if(paramString.equals("boss7")) {
+        } else if( paramString.equals(new String("boss7")) ) {
             for (int i = 62; i <= 68; i++) {
                 this.img_arr_a[i] = new Texture("archangel/boss7_" + (i-62) + ".png");
             }
@@ -441,21 +437,21 @@ public class ReadMedia
                 this.img_arr_a[i] = new Texture("archangel/effect_" + (i-71) + ".png");
             }
         } else if(paramString.equals("end")) {
-        } else if(paramString.equals("enermy0")) { // 53 -> 60
+        } else if( paramString.equals(new String("enermy0")) ) { // 53 -> 60
             for (int i = 53; i <= 60; i++) {
                 this.img_arr_a[i] = new Texture("archangel/enermy0_" + (i-53) + ".png");
             }
             this.img_arr_a[22] = new Texture("archangel/enermy0_8.png");
-        } else if(paramString.equals("enermy1")) { // 53 -> 60
+        } else if( paramString.equals(new String("enermy1")) ) { // 53 -> 60
             this.img_arr_a[22] = new Texture("archangel/enermy1_8.png");
             for (int i = 53; i <= 60; i++) {
                 this.img_arr_a[i] = new Texture("archangel/enermy1_" + (i-53) + ".png");
             }
-        } else if(paramString.equals("enermy2")) {
+        } else if( paramString.equals(new String("enermy2")) ) {
             for (int i = 53; i <= 60; i++) {
                 this.img_arr_a[i] = new Texture("archangel/enermy2_" + (i-53) + ".png");
             }
-        } else if(paramString.equals("enermy3")) {
+        } else if( paramString.equals(new String("enermy3")) ) {
             for (int i = 53; i <= 60; i++) {
                 this.img_arr_a[i] = new Texture("archangel/enermy3_" + (i-53) + ".png");
             }
@@ -463,15 +459,15 @@ public class ReadMedia
             this.img_arr_a[114] = new Texture("archangel/etc_3.png");
             this.img_arr_a[111] = new Texture("archangel/etc_0.png");
             this.img_arr_a[112] = new Texture("archangel/etc_1.png");
-        } else if(paramString.equals("fence0")) { // 44 -> 51
+        } else if( paramString.equals(new String("fence0")) ) { // 44 -> 51
             for (int i = 44; i <= 51; i++) {
                 this.img_arr_a[i] = new Texture("archangel/fence0_" + (i-44) + ".png");
             }
-        } else if(paramString.equals("fence1")) {
+        } else if( paramString.equals(new String("fence1")) ) {
             for (int i = 44; i <= 51; i++) {
                 this.img_arr_a[i] = new Texture("archangel/fence1_" + (i-44) + ".png");
             }
-        } else if(paramString.equals("fence2")) {
+        } else if( paramString.equals(new String("fence2")) ) {
             for (int i = 44; i <= 51; i++) {
                 this.img_arr_a[i] = new Texture("archangel/fence2_" + (i-44) + ".png");
             }

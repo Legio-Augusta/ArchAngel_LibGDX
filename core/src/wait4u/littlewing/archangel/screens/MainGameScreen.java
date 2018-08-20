@@ -158,7 +158,7 @@ public class MainGameScreen {
                     // this.f = turn_calc(angle_helper(paramGameCnf.a, paramGameCnf.screen), this.av);
                     // turn speed
                     this.f = this.gameHelper.turn_calc(this.gameHelper.angle_helper(paramGameCnf.a, paramGameCnf.b, stt_byte_arr_bt), this.av);
-                    this.boss_distance = 2000; // (Math.abs(paramGameCnf.a) + Math.abs(paramGameCnf.b) - 200);
+                    this.boss_distance = (Math.abs(paramGameCnf.a) + Math.abs(paramGameCnf.b) - 200);
                 }
                 if ((this.boss_distance <= 0) && (this.aa == 1))
                 {
