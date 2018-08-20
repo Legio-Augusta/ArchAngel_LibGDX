@@ -466,8 +466,8 @@ public class MainGameScreen {
             i2 = 0;
         }
         this.readMedia.drawImageAnchor20(paramGraphics, 7, this.int_arr_a5[0], 27);
-        this.readMedia.drawImageAnchor20(paramGraphics, 7, this.int_arr_a5[0] + (this.bool_arr_a7[0] != false ? 65296 : 240), 27); // != 0
-        this.readMedia.drawImageAnchor36(paramGraphics, 8, this.int_arr_a5[1], 166);
+        this.readMedia.drawImageAnchor20(paramGraphics, 7, this.int_arr_a5[0] + (this.bool_arr_a7[0] != false ? -240 : 240), 27); // != 0
+        // this.readMedia.drawImageAnchor36(paramGraphics, 8, this.int_arr_a5[1], 166);
     }
 
     public void draw_anchor_helper3(SpriteBatch paramGraphics)
@@ -478,8 +478,8 @@ public class MainGameScreen {
         for (int i1 = 0; i1 < 3; i1++)
         {
             this.readMedia.drawImageAnchor36(paramGraphics, 9 + i1 * 3 + i2, this.int_arr_a5[(i1 + 2)], this.int_arr_a6[i1] - arrayOfInt[i1][i2]);
-            // this.screen.screen(paramGraphics, 9 + i1 * 3 + i2, this.a5[(i1 + 2)] + (this.a7[(i1 + 1)] != 0 ? 65296 : 240), this.a6[i1] - arrayOfInt[i1][i2]);
-            this.readMedia.drawImageAnchor36(paramGraphics, 9 + i1 * 3 + i2, this.int_arr_a5[(i1 + 2)] + (this.bool_arr_a7[(i1 + 1)] != false ? 65296 : 240), this.int_arr_a6[i1] - arrayOfInt[i1][i2]);
+            // this.screen.screen(paramGraphics, 9 + i1 * 3 + i2, this.a5[(i1 + 2)] + (this.a7[(i1 + 1)] != 0 ? -240 : 240), this.a6[i1] - arrayOfInt[i1][i2]);
+            this.readMedia.drawImageAnchor36(paramGraphics, 9 + i1 * 3 + i2, this.int_arr_a5[(i1 + 2)] + ((this.bool_arr_a7[(i1 + 1)] != false) ? -240 : 240), this.int_arr_a6[i1] - arrayOfInt[i1][i2]);
         }
         if ((this.AA.ad == 2) || (this.AA.screen == 0)) {
             this.readMedia.drawImageAnchor20(paramGraphics, 18 + i2, 0, 166);

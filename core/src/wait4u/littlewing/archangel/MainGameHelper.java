@@ -349,20 +349,20 @@ public class MainGameHelper {
             {
                 bd += 1;
                 int_arr_a5[0] -= 4;
-                if (int_arr_a5[0] < 65296) {
+                if (int_arr_a5[0] < -240) {
                     int_arr_a5[0] = 0;
                 }
                 if (int_arr_a5[0] < 0) {
                     bool_arr_a7[0] = false;
                 }
                 int_arr_a5[1] -= 6;
-                if (int_arr_a5[1] < 65196) {
+                if (int_arr_a5[1] < -340) {
                     int_arr_a5[1] = 240;
                 }
                 for (i1 = 0; i1 < 3; i1++)
                 {
                     int_arr_a5[(i1 + 2)] -= 6 - 2 * i1;
-                    if (int_arr_a5[(i1 + 2)] < 65296) {
+                    if (int_arr_a5[(i1 + 2)] < -240) {
                         int_arr_a5[(i1 + 2)] = 0;
                     }
                     if (int_arr_a5[(i1 + 2)] < 0) {
@@ -382,7 +382,7 @@ public class MainGameHelper {
                 }
                 int_arr_a5[1] += 6;
                 if (int_arr_a5[1] > 240) {
-                    int_arr_a5[1] = 65196;
+                    int_arr_a5[1] = -340;
                 }
                 for (i1 = 0; i1 < 3; i1++)
                 {
@@ -399,20 +399,20 @@ public class MainGameHelper {
             {
                 bd += 1;
                 int_arr_a5[0] -= 4;
-                if (int_arr_a5[0] < 65296) {
+                if (int_arr_a5[0] < -240) {
                     int_arr_a5[0] = 0;
                 }
                 if (int_arr_a5[0] < 0) {
                     bool_arr_a7[0] = false;
                 }
                 int_arr_a5[1] -= 2;
-                if (int_arr_a5[1] < 65196) {
+                if (int_arr_a5[1] < -340) {
                     int_arr_a5[1] = 240;
                 }
                 for (i1 = 0; i1 < 3; i1++)
                 {
                     int_arr_a5[(i1 + 2)] -= 2 + 2 * i1;
-                    if (int_arr_a5[(i1 + 2)] < 65296) {
+                    if (int_arr_a5[(i1 + 2)] < -240) {
                         int_arr_a5[(i1 + 2)] = 0;
                     }
                     if (int_arr_a5[(i1 + 2)] < 0) {
@@ -432,7 +432,7 @@ public class MainGameHelper {
                 }
                 int_arr_a5[1] += 2;
                 if (int_arr_a5[1] > 240) {
-                    int_arr_a5[1] = 65196;
+                    int_arr_a5[1] = -340;
                 }
                 for (i1 = 0; i1 < 3; i1++)
                 {
@@ -459,20 +459,20 @@ public class MainGameHelper {
                     x = -10;
                 }
                 int_arr_a5[0] -= 2;
-                if (int_arr_a5[0] < 65296) {
+                if (int_arr_a5[0] < -240) {
                     int_arr_a5[0] = 0;
                 }
                 if (int_arr_a5[0] < 0) {
                     bool_arr_a7[0] = false;
                 }
                 int_arr_a5[1] -= 1;
-                if (int_arr_a5[1] < 65196) {
+                if (int_arr_a5[1] < -340) {
                     int_arr_a5[1] = 240;
                 }
                 for (i1 = 0; i1 < 3; i1++)
                 {
                     int_arr_a5[(i1 + 2)] -= 2 + 1 * i1;
-                    if (int_arr_a5[(i1 + 2)] < 65296) {
+                    if (int_arr_a5[(i1 + 2)] < -240) {
                         int_arr_a5[(i1 + 2)] = 0;
                     }
                     if (int_arr_a5[(i1 + 2)] < 0) {
@@ -496,7 +496,7 @@ public class MainGameHelper {
             }
             int_arr_a5[1] += 1;
             if (int_arr_a5[1] > 240) {
-                int_arr_a5[1] = 65196;
+                int_arr_a5[1] = -340;
             }
             for (i1 = 0; i1 < 3; i1++)
             {
