@@ -53,9 +53,8 @@ public class ReadText
             this.k = 0;
             return false;
         }
-        while (bool_ascii_helper('+')) { // boolean a (String str)
+        while (bool_ascii_helper('+')) { // boolean processText (String str)
             // Exception on i1 = 8 or 9
-            System.out.println(" bool e.a i1= " + i1 + " k= " + this.k);
             if (i1 <= 8) {
                 this.o = (this.int_arr_m[(i1++)] = calcIntCharFromASCII(this.k));
             } else {
@@ -103,8 +102,6 @@ public class ReadText
             this.j = localInputStream.read(this.byte_arr_l, 0, this.byte_arr_l.length-1); // Original has no -1, call read(byte_arr)
             if( (this.j < this.byte_arr_l.length) && (this.j >= 0) ) {
                 this.byte_arr_l[this.j] = 0;
-            } else {
-                Gdx.app.log("DEBUG", " fuck u");
             }
             localInputStream.close();
         }
@@ -163,7 +160,7 @@ public class ReadText
      * @param paramChar
      * @return
      * eg. + in text "<100>+101 The radar is situated"
-     * use : while (a('+'))
+     * use : while (processText('+'))
      * byte array this.l; &#43 is Dec value of '+' ASCII
      */
     public boolean bool_ascii_helper(char paramChar)
@@ -171,7 +168,7 @@ public class ReadText
         int i1 = 0; // dungnv
         for (i1 = this.k; i1 < this.j; i1++) // int i1
         {
-//      System.out.println(" e this.l arr : " + i1 + " " + this.l[i1]);
+            // System.out.println(" e this.l arr : " + i1 + " " + this.l[i1]);
             if (this.byte_arr_l[i1] == 10)
             {
                 this.k = (i1 - 1);
@@ -180,7 +177,7 @@ public class ReadText
             // this.l is byte array. this.l[i1] is char ? if not then why compare it with paramChar ?
             // if this.l[i1] is char then why it can assigned/compared to 10 ?
             // May be byte-char conversion here
-            // A byte is 8 bits, a char is 16 bits
+            // A byte is 8 bits, processText char is 16 bits
             // 60 Dec: '<'
             // 10: 'NL' new line to 90: 'Z' in AZ-1 (ms1.txt)
             if (this.byte_arr_l[i1] == paramChar) {
@@ -361,25 +358,25 @@ public class ReadText
                     "<12>\n" +
                     "other planets has\n" +
                     "led the worlds to \n" +
-                    "the edge of a final\n" +
+                    "the edge of processText final\n" +
                     "<13>\n" +
                     "war which threatens\n" +
                     "man's very survival.\n" +
-                    "In a struggle to end\n" +
+                    "In processText struggle to end\n" +
                     "<14>\n" +
                     "the conflict, the\n" +
                     "confederation has\n" +
-                    "developed a\n" +
+                    "developed processText\n" +
                     "<15>\n" +
                     "revolutionary land-\n" +
                     "sea-air-space unit \n" +
-                    "in a top secret\n" +
+                    "in processText top secret\n" +
                     "<16>\n" +
                     "operation.\n" +
                     "Due to the fact that\n" +
                     "this unit looks like\n" +
                     "<17>\n" +
-                    "a fire-spitting angel\n" +
+                    "processText fire-spitting angel\n" +
                     "its code name is \n" +
                     "'Arch Angel'.\n" +
                     "\n";
@@ -427,7 +424,7 @@ public class ReadText
                     "<12>\n" +
                     "its troops to prepare \n" +
                     "for war. You will face\n" +
-                    "a group of 10 AZ-1\n" +
+                    "processText group of 10 AZ-1\n" +
                     "<13>\n" +
                     "combat units, which you\n" +
                     "need to destroy. Then,\n" +
@@ -487,7 +484,7 @@ public class ReadText
                     "<13>\n" +
                     "are guarding the plant\n" +
                     "to prepare everything\n" +
-                    "for a massive air \n" +
+                    "for processText massive air \n" +
                     "<14>\n" +
                     "strike. Then follow \n" +
                     "the navigator for \n" +
@@ -518,7 +515,7 @@ public class ReadText
                     "the Arcturus mountains \n" +
                     "north-east of Castor\n" +
                     "<14>\n" +
-                    "where you will face a\n" +
+                    "where you will face processText\n" +
                     "so far unidentified\n" +
                     "combat unit. \n" +
                     "<15>\n" +
@@ -539,7 +536,7 @@ public class ReadText
                     "unit you faced in \n" +
                     "your last mission was\n" +
                     "<12>\n" +
-                    "a prototype called\n" +
+                    "processText prototype called\n" +
                     "BL-102, the successor\n" +
                     "of the AL-101.\n" +
                     "<13>\n" +
@@ -586,7 +583,7 @@ public class ReadText
                     "and then follow the \n" +
                     "<14>\n" +
                     "navigator for 160km in \n" +
-                    "a low-level flight \n" +
+                    "processText low-level flight \n" +
                     "below 100m.\n" +
                     "<15>\n" +
                     "There are many cliffs\n" +
@@ -618,7 +615,7 @@ public class ReadText
                     "AL-101 units and then \n" +
                     "follow the navigator\n" +
                     "<13>\n" +
-                    "180km to a new area\n" +
+                    "180km to processText new area\n" +
                     "where we have seen\n" +
                     "some YFC-2 units, \n" +
                     "<14>\n" +
@@ -652,7 +649,7 @@ public class ReadText
                     "Arch Angel MK2 unit, \n" +
                     "<15>\n" +
                     "which was developed \n" +
-                    "in a top secret\n" +
+                    "in processText top secret\n" +
                     "operation. Dealers\n" +
                     "<16>\n" +
                     "seem to have sold the\n" +

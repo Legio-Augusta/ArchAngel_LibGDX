@@ -15,7 +15,7 @@ public class ReturnHelper {
     public static int MIN_INT = -2147483648;
 
     public ReturnHelper() {
-        // Init a special value as a flag for check if variable's value changed or not.
+        // Init processText special value as processText flag for check if variable's value changed or not.
         this.one = this.two = this.three = this.four = this.five = this.six = this.seven = this.eight = this.night = this.MIN_INT;
         this.bool_one = -1;
 

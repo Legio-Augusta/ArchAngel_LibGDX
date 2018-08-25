@@ -39,7 +39,7 @@ public class MainGameHelper {
         if (i1 > 180) {
             i1 -= 360;
         }
-        if (i1 < 65356) {
+        if (i1 < -180) { // TODO sync back to EclipME
             i1 = 360 + i1;
         }
         return i1;
@@ -99,7 +99,7 @@ public class MainGameHelper {
 
     public boolean config_helper(GameConfig paramgcnf1, GameConfig paramgcnf2)
     {
-        if (Math.abs(paramgcnf1.a - paramgcnf2.a) + Math.abs(paramgcnf1.b - paramgcnf2.b) < 200)
+        if (Math.abs(paramgcnf1.boss_distance_1 - paramgcnf2.boss_distance_1) + Math.abs(paramgcnf1.boss_distance_2 - paramgcnf2.boss_distance_2) < 200)
         {
             paramgcnf2.m -= paramgcnf1.m;
             paramgcnf2.l += 5;
@@ -120,16 +120,19 @@ public class MainGameHelper {
         return false;
     }
 
-    public int random_helper(GameConfig paramg, int paramInt, Random rnd, int af, int al, int am, int an, int ao, int bo,
+    // int
+    public ReturnHelper random_helper(GameConfig paramg, int paramInt, Random rnd, int af, int al, int am, int an, int ao, int bo,
                              int bp, int bq, int br, byte[] stt_byte_arr_bt, byte[] stt_byte_arr_bs)
     {
+        ReturnHelper randomReturn = new ReturnHelper();
+
         int i3 = 8;
         int i4;
         int i1;
         if (paramg.e > 4000)
         {
-	        // i4 = angle_helper(-paramg.a, -paramg.screen);
-            i4 = angle_helper(-paramg.a, -paramg.b, stt_byte_arr_bt);
+	        // i4 = angle_helper(-paramg.boss_distance_1, -paramg.screen);
+            i4 = angle_helper(-paramg.boss_distance_1, -paramg.boss_distance_2, stt_byte_arr_bt);
             i1 = 20;
         }
         else
@@ -154,17 +157,24 @@ public class MainGameHelper {
             }
         }
         ReturnHelper returnHelper = turn_helper(i4, bo, bp, stt_byte_arr_bs);
-        bo = returnHelper.one;
-        bp = returnHelper.two;
+        bo = (returnHelper.one > returnHelper.MIN_INT) ? returnHelper.one : bo;
+        bp = (returnHelper.two > returnHelper.MIN_INT) ? returnHelper.two : bp;
 
-        paramg.h = (al - an + returnHelper.two);
+        paramg.h = (al - an + bp);
         // paramg.i = (am - ao + turn_helper2(i4, bq, br, stt_byte_arr_bs));
         ReturnHelper turnReturn = turn_helper2(i4, bq, br, stt_byte_arr_bs);
-        bq = turnReturn.one;
-        br = turnReturn.two;
-        paramg.i = (am - ao + turnReturn.two);
+        bq = (turnReturn.one > turnReturn.MIN_INT) ? turnReturn.one : bq;
+        br = (turnReturn.two > turnReturn.MIN_INT) ? turnReturn.two : br;
+        paramg.i = (am - ao + br);
         paramg.j = i4;
-        return i1;
+
+        randomReturn.one = bo;
+        randomReturn.two = bp;
+        randomReturn.three = bq;
+        randomReturn.four = br;
+        // return i1;
+        randomReturn.five = i1;
+        return randomReturn;
     }
 
     // int
@@ -186,7 +196,7 @@ public class MainGameHelper {
         return byteReturn;
     }
 
-    // void
+    // void; seem AI function
     public ReturnHelper draw_radar_dot(SpriteBatch paramGraphics, GameConfig paramg, int al, int am, int av, int bo, int bp, int bq, int br, byte[] stt_byte_arr_bs)
     {
         ReturnHelper arrReturn = new ReturnHelper();
@@ -194,8 +204,8 @@ public class MainGameHelper {
         int[] arrayOfInt = { 255, 16711680, 16776960, 16776960 }; // 255 ~ blue; 16711680 ~ red; 16776960 ~ yellow
         // This function seem only draw radar dot red for missile, yellow for enermy ?
         int i5 = paramg.c;
-        int i3 = paramg.a;
-        int i4 = paramg.b;
+        int i3 = paramg.boss_distance_1;
+        int i4 = paramg.boss_distance_2;
         // int i1 = shift_byte_6(450 - av, i3, i4, bo, bp, bq, br, stt_byte_arr_bs);
         ReturnHelper shiftReturn = shift_byte_6(450 - av, i3, i4, bo, bp, bq, br, stt_byte_arr_bs);
         int i1 = shiftReturn.five;
@@ -234,8 +244,14 @@ public class MainGameHelper {
         {
             paramg.d = 8;
         }
-        paramg.a -= al;
-        paramg.b -= am;
+        paramg.boss_distance_1 -= al; // -1 too slow; but *1000 -> error boss disapear n can not pass first boss scene
+        // may be this is boss hp and used in somewhere
+        if(paramg.boss_distance_2 < 0) {
+            paramg.boss_distance_2 -= am*-1000; // 20, 10; combined other calc => distance -189 per loop
+        }
+        // *-100000 -> error null img[108]-plasma and not pass scene 1
+        // -> this similar as al has some other usage.
+        // or -100 000 too big n distance_2 drop too fast to MIN_INT
 
         arrReturn.one = bo;
         arrReturn.two = bp;
@@ -289,7 +305,7 @@ public class MainGameHelper {
         if ((paramInt > 90) && (paramInt < 180)) { // >=90
             // Why in some app section, bound of array is out by 1 like in e.java i1++ (line 52)
             // This bs byte array is 90 in length, so index of it has maximum value equal 89.
-            // May be this way to trick/optimize a custom compiler for old Java mobile devices ?
+            // May be this way to trick/optimize processText custom compiler for old Java mobile devices ?
             // Or decompiler resulted in defect
             return -stt_byte_arr_bs[(180 - paramInt)];
         }

@@ -47,4 +47,4 @@ Character (often procedural) => Implement some Class for Hero, Enermy ...
 Some game state: screen, state, school (lever) =>
 
 # Notes
-* I do not own any copyrighted contents like images, photos, original Java ME source code... I just want make this old game back to live and do not want any complicated legal issues.
+* I do not own any copyrighted contents like images, photos, original Java ME source code... I just want bring this gorgeous old game back to live and do not want any complicated legal issues.

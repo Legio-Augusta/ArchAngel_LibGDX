@@ -124,7 +124,7 @@ public class ArchAngelME
         return false;
     }
 
-    // TODO make plasma, missile sound louder use tool like Audacity. But low volume my be a good effect simulate explosion far away
+    // TODO make plasma, missile sound louder use tool like Audacity. But low volume my be processText good effect simulate explosion far away
     public void playSound(String paramString, int paramInt)
     {
         if (this.af == 0) {
@@ -141,6 +141,10 @@ public class ArchAngelME
             this.aq = null;
             this.aq = new AudioClip(3, str);
             this.aq.play(paramInt, 3);*/
+            if(this.music != null){
+                this.music.dispose();
+            }
+
             this.music = null;
             this.music = Gdx.audio.newMusic(Gdx.files.internal("audio/"+ paramString + ".wav"));
             // this.music.setVolume(0.5f);
@@ -157,13 +161,12 @@ public class ArchAngelME
         }
     }
 
-    public void a(int paramInt)
+    public void processText(int paramInt)
     {
-        this.readText.readTextFromStream("ms" + paramInt); // e.a()
+        this.readText.readTextFromStream("ms" + paramInt); // e.processText()
         this.readText.processTxt(1);
-        Gdx.app.log("DEBUG", "AA.a void " + paramInt);
-        this.mainGameScreen.r = this.readText.int_arr_m[0]; // f.r =
-        this.mainGameScreen.s = this.readText.int_arr_m[1];
+        this.mainGameScreen.boss_distance_r = this.readText.int_arr_m[0]; // f.r =
+        this.mainGameScreen.boss_distance_s = this.readText.int_arr_m[1];
         this.mainGameScreen.y = this.readText.int_arr_m[2];
         this.readText.processTxt(2);
 

@@ -105,6 +105,12 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
     private static final int KEY_SHARP = 0;
 
     Vector3 touchPoint;
+    TouchStatus touchStatus = TouchStatus.NONE;
+
+    enum TouchStatus {
+        TOUCH_DOWN, TOUCH_UP, NONE
+    }
+
     Preferences prefs = Gdx.app.getPreferences("gamestate");
     private static final String PREF_VIBRATION      = "vibration";
     private static final String PREF_SOUND_ENABLED  = "soundenabled";
@@ -214,7 +220,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                 if ((this.archAngel.game_state > 1) && (this.archAngel.game_state < 18)) {
                     switch (paramInt)
                     {
-                        case -7:
+                        case -7: // Right menu, OK, left menu respectively
                         case -5:
                             this.archAngel.game_state += 1;
                             break;
@@ -227,9 +233,9 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                 if (this.archAngel.game_state == 3) {
                     switch (paramInt)
                     {
-                        case -4:
-                        case -2:
-                        case 56:
+                        case -4: // right
+                        case -2: // down
+                        case 56: // may be key_num 8
                             this.l += 1;
                             if (this.l > 4) {
                                 this.l = 0;
@@ -237,9 +243,9 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                             this.archAngel.playSound("s_menu_move", 1);
                             this.archAngel.bool_e = true;
                             break;
-                        case -3:
-                        case -1:
-                        case 50:
+                        case -3: // left
+                        case -1: // up
+                        case 50: // may be key_num 2
                             this.l += -1;
                             if (this.l < 0) {
                                 this.l = 4;
@@ -247,11 +253,11 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                             this.archAngel.playSound("s_menu_move", 1);
                             this.archAngel.bool_e = true;
                             break;
-                        case -6:
+                        case -6: // menu left
                             this.archAngel.screen = 9;
                             break;
-                        case -7:
-                        case -5:
+                        case -7: // menu right
+                        case -5: // ok
                             if (this.l == 5) {
                                 this.archAngel.screen = 4;
                             } else {
@@ -280,7 +286,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                     }
                 }
                 break;
-            case 25:
+            case 25: // fighting screen
                 if ((this.archAngel.game_state == 4) && (this.archAngel.bool_m == true))
                 {
                     if ((this.archAngel.mainGameScreen.bi == 1) && (paramInt != 53) && (paramInt != -5))
@@ -298,7 +304,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                     {
                         keyReleased(50);
                         this.archAngel.mainGameScreen.setup3();
-                        this.archAngel.mainGameScreen.ba = 0;
+                        this.archAngel.mainGameScreen.ba = 0; // may be used to stop turning
                         this.archAngel.mainGameScreen.a9 = 0;
                         this.archAngel.mainGameScreen.bd = 0;
                     }
@@ -396,7 +402,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                             }
                     }
                 }
-                break;
+                break; // end fighting screen
             case 11:
                 if (paramInt == -6)
                 {
@@ -699,6 +705,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
     public void keyReleased(int paramInt)
     {
         // this.key_code = 0;
+        touchStatus = TouchStatus.NONE; // debug
         switch (this.archAngel.screen)
         {
             case 25:
@@ -1110,20 +1117,35 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         // convert touch event to key event (getGameAction)
         touchPoint.set(Gdx.input.getX(),Gdx.input.getY(), 0);
 
-        Gdx.app.log("DEBUG", "touch " + touchPoint.x + " y "+ (SCREEN_HEIGHT-touchPoint.y) + " key_code "+ this.key_code);
-        game_action = getGameAction();
+        // Gdx.app.log("DEBUG", "touch " + touchPoint.x + " y "+ (SCREEN_HEIGHT-touchPoint.y) + " key_code "+ this.key_code);
+        //if(touchStatus == TouchStatus.NONE) {
+        touchStatus = TouchStatus.TOUCH_DOWN;
+        //game_action = getGameAction(); // seem take no effect
 
-        if(isTouchedMenuLeft()) { // smaller value, shorter sleep
+        if (isTouchedMenuLeft()) { // smaller value, shorter sleep
+            this.key_code = KEY_LEFT_MENU;
             Gdx.input.vibrate(5);
-        } else if(isTouchedMenuRight()) {
+        } else if (isTouchedMenuRight()) {
+            this.key_code = KEY_RIGHT_MENU;
             Gdx.input.vibrate(5);
-        } else if(isTouchedOK()) {
-        } else if(isTouchedUp()) {
-        } else if(isTouchedDown()){
-        } else if(isTouchedLeft()){
-        } else if(isTouchedRight()){
+        } else if (isTouchedOK()) {
+            this.key_code = KEY_OK;
+        } else if (isTouchedUp()) {
+            Gdx.input.vibrate(5);
+            this.key_code = -1;
+        } else if (isTouchedDown()) {
+            Gdx.input.vibrate(5);
+            this.key_code = -2;
+        } else if (isTouchedLeft()) {
+            Gdx.input.vibrate(5);
+            this.key_code = -3;
+        } else if (isTouchedRight()) {
+            Gdx.input.vibrate(5);
+            this.key_code = -4;
+        } else if (isTouchedNum3()) {
+            this.key_code = 57;
         } else {
-            this.key_code = 0;
+             this.key_code = 0;
         }
 
         // Use rectangle instead of collisionRay. TODO fix collisionRay null and multiplex many Gdx.input
@@ -1136,8 +1158,17 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-//        this.key_code = 0;
         // TODO handle key released, touch and hold
+
+        //if(touchStatus == TouchStatus.TOUCH_DOWN) {
+        touchStatus = TouchStatus.TOUCH_UP;
+        if(isTouchedMenuLeft() || isTouchedMenuRight() || isTouchedOK() || isTouchedUp() || isTouchedDown() || isTouchedLeft() || isTouchedRight()) {
+            // seem only effect key-code can overide keep turning effect
+            this.key_code = KEY_OK; // debug KEY_OK -> turn ok but dupli fire; 51 ok but keep turn right; 35 no effect.
+            this.game_action = 0;
+            keyPressed();
+        }
+
         return false;
     }
 
@@ -1172,12 +1203,15 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         batch.enableBlending();
         batch.begin();
 
-        // paint(this.batch);
         run();
 
         // drawTouchPad();
         drawUI();
         batch.end();
+
+        //if(this.game_action == 0 && key_code == 0 && touchStatus == TouchStatus.TOUCH_UP) {
+        //    touchStatus = TouchStatus.NONE;
+        //}
     }
 
     @Override
@@ -1255,7 +1289,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         camera.position.y = SCREEN_HEIGHT/2;
         camera.update();
 
-        Gdx.input.setInputProcessor(this);
+        Gdx.input.setInputProcessor(this); // TODO use an InputProcessor object
 
         loadTextures();
         this.archAngel.startApp();
@@ -1286,26 +1320,26 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
     }
 
     protected boolean isTouchedUp() {
-        this.key_code = -1;
+        // this.key_code = -1;
         return OverlapTester.pointInRectangle(upBtnRect, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) );
     }
     protected boolean isTouchedDown() {
-        this.key_code = -2;
+        // this.key_code = -2;
         return OverlapTester.pointInRectangle(downBtnRect, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) );
     }
     protected boolean isTouchedLeft() {
-        this.key_code = -3;
+        // this.key_code = -3;
         return OverlapTester.pointInRectangle(leftBtnRect, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) );
     }
     protected boolean isTouchedRight() {
-        this.key_code = -4;
+        // this.key_code = -4;
         return OverlapTester.pointInRectangle(rightBtnRect, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) );
     }
     protected boolean isTouchedOption() {
         return OverlapTester.pointInRectangle(optionBtnRect, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) );
     }
     protected boolean isTouchedOK() {
-        this.key_code = KEY_OK;
+        // this.key_code = KEY_OK;
         Rectangle textureBounds = new Rectangle(SCREEN_WIDTH-fireBtnTexture.getWidth()-50, SCREEN_HEIGHT-50-fireBtnTexture.getHeight(), fireBtnTexture.getWidth(),fireBtnTexture.getHeight());
         return textureBounds.contains(touchPoint.x, touchPoint.y);
     }
@@ -1314,11 +1348,11 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         return textureBounds.contains(touchPoint.x, touchPoint.y);
     }
     protected boolean isTouchedMenuLeft() {
-        this.key_code = KEY_LEFT_MENU;
+        // this.key_code = KEY_LEFT_MENU;
         return OverlapTester.pointInRectangle(leftMenuBtn, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) );
     }
     protected boolean isTouchedMenuRight() {
-        this.key_code = KEY_RIGHT_MENU;
+        // this.key_code = KEY_RIGHT_MENU;
         return OverlapTester.pointInRectangle(rightMenuBtn, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) );
     }
 

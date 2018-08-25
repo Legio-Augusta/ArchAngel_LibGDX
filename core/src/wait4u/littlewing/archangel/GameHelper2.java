@@ -137,7 +137,7 @@ public class GameHelper2 {
                 return startReturn;
             case 1:
                 archAngel.game_state = 11;
-                archAngel.a(archAngel.gameSetting.boss_level + 1);
+                archAngel.processText(archAngel.gameSetting.boss_level + 1);
                 // paramGraphics.setColor(65280);
                 break;
             case 999:
@@ -279,7 +279,7 @@ public class GameHelper2 {
                 archAngel.readMedia.destroyImage(2);
                 archAngel.readMedia.destroyImage(5);
                 archAngel.gameSetting.initGame1();
-                archAngel.a(archAngel.gameSetting.boss_level + 1);
+                archAngel.processText(archAngel.gameSetting.boss_level + 1);
                 archAngel.mainGameScreen.init_game2();
                 archAngel.readMedia.readMediaStream("etc");
                 archAngel.readMedia.reloadImageArr(0, 111);
@@ -557,7 +557,7 @@ public class GameHelper2 {
         // paramGraphics.setColor(255);
         // Fighter hp ?
         fillRect(paramGraphics, 192+20, 5+2, i1 / 2, 4, 1);
-        Gdx.app.log("DEBUG", "Fighter HP: " + archAngel.gameSetting.fighter_hp + " >> 9 i1 = "+ i1);
+        // Gdx.app.log("DEBUG", "Fighter HP: " + archAngel.gameSetting.fighter_hp + " >> 9 i1 = "+ i1);
         if (archAngel.mainGameScreen.bi == 3)
         {
             if (archAngel.mainGameScreen.bool_bh == true)
@@ -714,7 +714,7 @@ public class GameHelper2 {
                 archAngel.addScore12();
                 archAngel.addScore();
                 archAngel.destroyApp(false);
-//                archAngel.notifyDestroyed();
+                // archAngel.notifyDestroyed();
                 return;
         }
         if (archAngel.bool_t)
@@ -1069,7 +1069,7 @@ public class GameHelper2 {
                     fillRect( paramGraphics, 0, 119, 240, 30, 0);
                     fillRect( paramGraphics, 0, 171, 240, 10, 0);
                     fillRect( paramGraphics, 0, 205, 240, 30, 0);
-                    // TODO 3 drawClip in a row
+                    // TODO 3 drawClip in boss_distance_1 row
                     // paramGraphics.setClip(0, 80 + 5 * archAngel.x, 240, 200 - 10 * archAngel.x);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 30, 0, 80);
                     // paramGraphics.setClip(0, 0, 240, 320);

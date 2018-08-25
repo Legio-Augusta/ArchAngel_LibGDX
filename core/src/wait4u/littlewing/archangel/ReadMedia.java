@@ -89,14 +89,18 @@ public class ReadMedia
     {
         if (this.img_arr_a[paramInt1] == null) {
             Gdx.app.log("ERROR", "load Media: " + this.msr_media + " int1= "+ paramInt1 + " int2= " + paramInt2);
-            this.img_arr_a[paramInt1] = new Texture(Gdx.files.internal("archangel/shop_0.png"));
+            this.img_arr_a[paramInt1] = new Texture("archangel/plasma_19.png");
         }
 
         // 53 as BOTTOM_SPACE (~ 240 = 480/2) 240/4.5 ~= 53 (tile cell)
         int img_height = this.img_arr_a[paramInt1].getHeight();
         int position_y = (int) ((MOBI_H - paramInt3+20)*MOBI_SCL - img_height + BOTTOM_SPACE); // anchor 20
-        Gdx.app.log("DEBUG", "IMG: " + this.msr_media + "_" + paramInt1 + " JME y= "+paramInt3 + " position y="+position_y + " height="+img_height + " top bound="+(position_y+img_height));
-        paramGraphics.draw(this.img_arr_a[paramInt1], (int)(paramInt2*MOBI_SCL), position_y); // 20 anchor
+        // Gdx.app.log("DEBUG", "IMG: " + this.msr_media + "_" + paramInt1 + " JME y= "+paramInt3 + " position y="+position_y + " height="+img_height + " top bound="+(position_y+img_height));
+        if(paramInt1 == 3) { // && (paramInt1 == 3) // this.msr_media.equals("font")
+             paramGraphics.draw(this.img_arr_a[paramInt1], (int)(paramInt2*MOBI_SCL), position_y -240); // 20 anchor
+        } else {
+            paramGraphics.draw(this.img_arr_a[paramInt1], (int)(paramInt2*MOBI_SCL), position_y); // 20 anchor
+        }
     }
 
     public ReadMedia()
@@ -123,7 +127,7 @@ public class ReadMedia
     public void drawImageAnchor36(SpriteBatch paramGraphics, int paramInt1, int paramInt2, int paramInt3)
     {
         int img_height = this.img_arr_a[paramInt1].getHeight();
-        int position_y = (int) ((MOBI_H-paramInt3+36)*MOBI_SCL-img_height + BOTTOM_SPACE);
+        int position_y = (int) ((MOBI_H-paramInt3+36)*MOBI_SCL-img_height/2 + BOTTOM_SPACE); // 36
         // Gdx.app.log("DEBUG Anchor 36", "IMG: " + this.msr_media + "_" + paramInt1 + " JME y= "+paramInt3 + " position y="+position_y + " height="+img_height + " top bound="+(position_y+img_height));
         paramGraphics.draw(this.img_arr_a[paramInt1], (int)(paramInt2*MOBI_SCL), position_y); // 36
     }
@@ -141,8 +145,8 @@ public class ReadMedia
                 int i = j - 48;
                 // Clever way to draw ASCII from integer position and sprite-pack crop area
                 // mySetClip(paramGraphics, paramInt1 + 6 * k, paramInt2, 5, 5); // font_00.png 215 x 5 ?
-                Gdx.app.log("DEBUG Clip", "int1: " + paramInt1 + " k " + k + " int 2 = "+paramInt2 + " index " + i);
-                // TODO combine with draw to form a drawClip()
+                // Gdx.app.log("DEBUG Clip", "int1: " + paramInt1 + " k " + k + " int 2 = "+paramInt2 + " index " + i + " Msg " + paramString);
+                // TODO combine with draw to form processText drawClip()
                 // drawImageAnchor20(paramGraphics, 0, paramInt1 + 6 * k - i * 5, paramInt2);
                 // ENERMY:null
                 myDrawClip(paramGraphics, i, paramInt2, 5, 5, 0, paramInt1 + 6 * k - i * 5, paramInt2, 20);
@@ -297,11 +301,12 @@ public class ReadMedia
     public void drawImageInArr(SpriteBatch paramGraphics, int paramInt1, int paramInt2, int paramInt3)
     {
         if (this.img_arr_a[paramInt1] == null) {
-            Gdx.app.log("ERROR", "load Media Arr: " + this.msr_media + " int 1 "+ paramInt1 + " int 2 " + paramInt2);
+            Gdx.app.log("ERROR", "load Media Arr: " + this.msr_media + " int_1 "+ paramInt1 + " int_2 " + paramInt2);
+            this.img_arr_a[paramInt1] = new Texture("archangel/plasma_15.png");
         }
         int img_height = this.img_arr_a[paramInt1].getHeight();
         int position_y = (int) ((MOBI_H-paramInt3+3)*MOBI_SCL-img_height + BOTTOM_SPACE);
-        Gdx.app.log("DEBUG INARR", "IMG: " + this.msr_media + "_" + paramInt1 + " JME y= "+paramInt3 + " position y="+position_y + " height="+img_height + " top bound="+(position_y+img_height));
+        // Gdx.app.log("DEBUG INARR", "IMG: " + this.msr_media + "_" + paramInt1 + " JME y= "+paramInt3 + " position y="+position_y + " height="+img_height + " top bound="+(position_y+img_height));
         paramGraphics.draw(this.img_arr_a[paramInt1], (int)(paramInt2*MOBI_SCL), position_y); // 3
     }
 
@@ -332,7 +337,7 @@ public class ReadMedia
     {
         Texture temp = loadImage(paramInt1);
         int position_y = (int) ((MOBI_H - paramInt3 + 20)*MOBI_SCL-temp.getHeight() + BOTTOM_SPACE); // anchor 20
-        Gdx.app.log("DEBUG Load IMG", "IMG: " + this.msr_media + "_" + paramInt1 + " JME y= "+paramInt3 + " position y="+position_y + " height="+temp.getHeight() + " top bound="+(position_y+temp.getHeight()));
+        // Gdx.app.log("DEBUG Load IMG", "IMG: " + this.msr_media + "_" + paramInt1 + " JME y= "+paramInt3 + " position y="+position_y + " height="+temp.getHeight() + " top bound="+(position_y+temp.getHeight()));
         paramGraphics.draw(temp, (int)(paramInt2*MOBI_SCL), position_y); // 20
     }
 
@@ -443,7 +448,7 @@ public class ReadMedia
             }
             this.img_arr_a[22] = new Texture("archangel/enermy0_8.png");
         } else if( paramString.equals(new String("enermy1")) ) { // 53 -> 60
-            this.img_arr_a[22] = new Texture("archangel/enermy1_8.png");
+            // this.img_arr_a[22] = new Texture("archangel/enermy1_8.png"); // This override < right arrow turn guidance
             for (int i = 53; i <= 60; i++) {
                 this.img_arr_a[i] = new Texture("archangel/enermy1_" + (i-53) + ".png");
             }
