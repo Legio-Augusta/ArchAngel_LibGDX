@@ -1,5 +1,6 @@
 package wait4u.littlewing.archangel;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -247,11 +248,19 @@ public class MainGameHelper {
         paramg.boss_distance_1 -= al; // -1 too slow; but *1000 -> error boss disapear n can not pass first boss scene
         // may be this is boss hp and used in somewhere
         if(paramg.boss_distance_2 < 0) {
-            paramg.boss_distance_2 -= am*-1000; // 20, 10; combined other calc => distance -189 per loop
+            if(am > 0 ) {
+                paramg.boss_distance_2 -= am*10000; // 20, 10; combined other calc => distance -189 per loop
+            } else { // ie. -3
+                // Ensure boss reach, but this make turn guidance worthless
+                // am can be have value -3
+                paramg.boss_distance_2 -= am*-10000*4; // 20, 10; combined other calc => distance -189 per loop
+            }
         }
+
         // *-100000 -> error null img[108]-plasma and not pass scene 1
         // -> this similar as al has some other usage.
         // or -100 000 too big n distance_2 drop too fast to MIN_INT
+        // TODO careful and clever adjust this calc for better game play, not too easy and mode depend
 
         arrReturn.one = bo;
         arrReturn.two = bp;
@@ -309,14 +318,14 @@ public class MainGameHelper {
             // Or decompiler resulted in defect
             return -stt_byte_arr_bs[(180 - paramInt)];
         }
-        if ((paramInt == 90) && (paramInt < 180)) { // dungnv
+        if ((paramInt == 90) && (paramInt < 180)) {
             return -stt_byte_arr_bs[89];
         }
 
         if ((paramInt > 180) && (paramInt < 270)) { // >=180
             return -stt_byte_arr_bs[(paramInt - 180)];
         }
-        if ((paramInt == 180) && (paramInt < 270)) { // dungnv
+        if ((paramInt == 180) && (paramInt < 270)) {
             return -stt_byte_arr_bs[89];
         }
         if ( (360 - paramInt) < stt_byte_arr_bs.length ) {
@@ -794,7 +803,7 @@ public class MainGameHelper {
         }
     }
 
-    // int
+    // int; (450 - av, i3, i4... i3 = boss_dt_1, i4 = boss_dt_2 (ab few thousands)
     public ReturnHelper return_turn_helper(int paramInt1, int paramInt2, int paramInt3, int bo, int bp, int bq, int br, byte[] stt_byte_arr_bs)
     {
         ReturnHelper returnHelper = new ReturnHelper();

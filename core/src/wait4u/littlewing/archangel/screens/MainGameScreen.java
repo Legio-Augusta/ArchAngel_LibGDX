@@ -157,7 +157,7 @@ public class MainGameScreen {
                     this.boss_distance = (Math.abs(paramGameCnf.boss_distance_1) + Math.abs(paramGameCnf.boss_distance_2) - 200);
                 }
                 if( (Math.abs(paramGameCnf.boss_distance_1) > 1000*1000*1000) || (Math.abs(paramGameCnf.boss_distance_2) > 1000*1000*1000) ) {
-                    Gdx.app.log("ERROR", "Distance <<>> "+ this.boss_distance);
+                    Gdx.app.log("ERROR", "Distance <<>> "+ this.boss_distance + " aa =1? "+(this.aa ==1)+ " dt1 "+paramGameCnf.boss_distance_1 + " dt2 "+ paramGameCnf.boss_distance_2);
                 }
                 if ((this.boss_distance <= 0) && (this.aa == 1))
                 {
