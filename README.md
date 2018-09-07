@@ -27,9 +27,10 @@ SnowBallFight is a Samsung J2ME [arcade game by MCookie n Wait4U, NeoMnT](http:/
 # SnowBallFightLibGdx
 
 # TODO
- * Apply design pattern, libGDX best practice to implement AI, Sprite batch, etc.
+ * Apply design pattern, libGDX best practice: Box2D physic, Tiled map, world, Title etc.
  * Object oriented approach to refactor old J2ME source.
- * Renfine sprite image, media quality.
+ * Refine sprite image, media quality.
+ * Optional: implement AI as Britanica; multi-player.
 
 
 # List J2ME functions require port to GDX

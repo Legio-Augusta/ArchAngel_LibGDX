@@ -170,7 +170,8 @@ public class ArchAngelME
         this.mainGameScreen.y = this.readText.int_arr_m[2];
         this.readText.processTxt(2);
 
-        this.mainGameScreen.str_m = this.readText.buildString();
+        this.mainGameScreen.str_m_enermy = this.readText.buildString(); // Data mixed in txt file, this case may be number of enermy
+        this.mainGameScreen.str_m_enermy = (this.mainGameScreen.str_m_enermy == null) ? "13": this.mainGameScreen.str_m_enermy;
         if (this.ah == 0) {
             this.mainGameScreen.j = (this.readText.int_arr_m[0] / 2);
         } else {

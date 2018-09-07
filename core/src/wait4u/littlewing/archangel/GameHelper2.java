@@ -204,7 +204,7 @@ public class GameHelper2 {
             archAngel.readMedia.drawImageAnchor20(paramGraphics, 20, 6, 126);
             archAngel.readMedia.drawImageInArr(paramGraphics, 22, 55, 170);
             archAngel.readMedia.drawStringGraphic(paramGraphics, 140, 140, "NAME:", 0);
-            archAngel.readMedia.drawStringGraphic(paramGraphics, 140, 150, archAngel.mainGameScreen.str_m, 0);
+            archAngel.readMedia.drawStringGraphic(paramGraphics, 140, 150, archAngel.mainGameScreen.str_m_enermy, 0);
             archAngel.readMedia.drawStringGraphic(paramGraphics, 140, 160, "DAMAGE:", 0);
             archAngel.readMedia.drawStringGraphic(paramGraphics, 140, 170, archAngel.mainGameScreen.k + "MP", 0);
         }
@@ -495,10 +495,12 @@ public class GameHelper2 {
         switch (archAngel.mainGameScreen.aa)
         {
             case 0:
-                if (archAngel.boss_sprite_level < 4) {
-                    archAngel.readMedia.drawStringGraphic(paramGraphics, 75, 10, "ENERMY:" + archAngel.mainGameScreen.str_m, 0);
+                // From text data => first line is number of enermy need to destroy before reach boss.
+                // For example mission 5 <1>+60000+80000+13 ~ destroy the 13 AL-101
+                if (archAngel.boss_sprite_level < 4) { // This seem number of enermy
+                    archAngel.readMedia.drawStringGraphic(paramGraphics, 75, 10, "ENERMY:" + archAngel.mainGameScreen.str_m_enermy, 0);
                 } else {
-                    archAngel.readMedia.drawStringGraphic(paramGraphics, 75, 10, archAngel.mainGameScreen.str_m, 0);
+                    archAngel.readMedia.drawStringGraphic(paramGraphics, 75, 10, archAngel.mainGameScreen.str_m_enermy, 0);
                 }
                 archAngel.readMedia.drawStringGraphic(paramGraphics, 75, 20, "N:" + (archAngel.mainGameScreen.y - archAngel.mainGameScreen.u), 0);
                 if (archAngel.mainGameScreen.y - archAngel.mainGameScreen.u <= 0)
@@ -769,10 +771,10 @@ public class GameHelper2 {
         int i2 = 0;
         int i3 = 0;
         // paramGraphics.setColor(0);
-        if (archAngel.mainGameScreen.str_m != null)
+        if (archAngel.mainGameScreen.str_m_enermy != null)
         {
             i3 = archAngel.mainGameScreen.h * archAngel.mainGameScreen.u;
-            archAngel.readMedia.drawGraphicStr40_122(paramGraphics, 50, i1, archAngel.mainGameScreen.str_m + ":" + archAngel.mainGameScreen.h + "x" + archAngel.mainGameScreen.u);
+            archAngel.readMedia.drawGraphicStr40_122(paramGraphics, 50, i1, archAngel.mainGameScreen.str_m_enermy + ":" + archAngel.mainGameScreen.h + "x" + archAngel.mainGameScreen.u);
             i1 += 16;
             i2 += i3;
         }

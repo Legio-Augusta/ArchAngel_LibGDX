@@ -248,6 +248,8 @@ public class MainGameHelper {
         paramg.boss_distance_1 -= al; // -1 too slow; but *1000 -> error boss disapear n can not pass first boss scene
         // may be this is boss hp and used in somewhere
         if(paramg.boss_distance_2 < 0) {
+//            Gdx.app.log("ERROR", paramg.debug() );
+//            Gdx.app.log("ERROR", "al " + al + " am " + am +" av "+ av + " bo "+ bo + " bp " + bp + " bq " + bq + " br " + br);
             if(am > 0 ) {
                 paramg.boss_distance_2 -= am*10000; // 20, 10; combined other calc => distance -189 per loop
             } else { // ie. -3

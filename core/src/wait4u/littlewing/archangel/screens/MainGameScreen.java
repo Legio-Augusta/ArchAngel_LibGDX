@@ -24,7 +24,7 @@ public class MainGameScreen {
     public int j;
     public int k;
     public int l = 0;
-    public String str_m;
+    public String str_m_enermy; // Enermy left
     public int n;
     public int o;
     public int p = 0;

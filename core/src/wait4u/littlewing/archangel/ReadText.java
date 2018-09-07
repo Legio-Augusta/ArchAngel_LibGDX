@@ -110,6 +110,7 @@ public class ReadText
         this.k = 0;
     }
 
+    // TODO use conditional or some way to return value based on some flag; read byte seem not easy ?
     public String buildString()
     {
         String str = null;

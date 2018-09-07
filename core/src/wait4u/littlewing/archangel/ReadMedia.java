@@ -3,6 +3,7 @@ package wait4u.littlewing.archangel;
 import com.badlogic.gdx.Gdx;
 import java.io.InputStream;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
@@ -29,6 +30,7 @@ public class ReadMedia
     private static int VIEW_PORT_HEIGHT = (int)SCREEN_HEIGHT*3/4;
     private static int TOP_BOUND = VIEW_PORT_HEIGHT + (int)SCREEN_HEIGHT/8;
     private static int BOTTOM_SPACE = (int)SCREEN_HEIGHT/8; // May be change for fit touch button
+    BitmapFont font;
 
     public void destroyImage(int paramInt)
     {
@@ -112,6 +114,10 @@ public class ReadMedia
 //            reloadImageArr(i, i);
 //        }
 //        closeInputStream();
+
+        font = new BitmapFont();
+        font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        font.getData().setScale(3);
     }
 
     public void destroyImage7_53()
@@ -132,11 +138,18 @@ public class ReadMedia
         paramGraphics.draw(this.img_arr_a[paramInt1], (int)(paramInt2*MOBI_SCL), position_y); // 36
     }
 
+    // TODO debug trace J2ME read text data. May be some default data stored here.
     public void drawStringGraphic(SpriteBatch paramGraphics, int paramInt1, int paramInt2, String paramString, int paramInt3)
     {
+        Gdx.app.log("ERROR", "---------->" + paramString);
         if(paramString == null) { // dungnv FIXME
             return;
         }
+
+        int position_y = (int) ((MOBI_H-paramInt2)*MOBI_SCL + BOTTOM_SPACE);
+        font.setColor(1, 0, 0, 1);
+        font.draw(paramGraphics, paramString, (int)(paramInt1 * MOBI_SCL), position_y);
+
         for (int k = 0; k < paramString.length(); k++) // NAME: \n AZ 1 \n DAMAGE: 30MP
         {
             int j = paramString.charAt(k);
@@ -146,7 +159,7 @@ public class ReadMedia
                 // Clever way to draw ASCII from integer position and sprite-pack crop area
                 // mySetClip(paramGraphics, paramInt1 + 6 * k, paramInt2, 5, 5); // font_00.png 215 x 5 ?
                 // Gdx.app.log("DEBUG Clip", "int1: " + paramInt1 + " k " + k + " int 2 = "+paramInt2 + " index " + i + " Msg " + paramString);
-                // TODO combine with draw to form processText drawClip()
+                // TODO use GDX Title or text.
                 // drawImageAnchor20(paramGraphics, 0, paramInt1 + 6 * k - i * 5, paramInt2);
                 // ENERMY:null
                 myDrawClip(paramGraphics, i, paramInt2, 5, 5, 0, paramInt1 + 6 * k - i * 5, paramInt2, 20);
