@@ -53,6 +53,7 @@ public class ReadText
             this.k = 0;
             return false;
         }
+        // <1>+20000+40000+5 +5 is number of fighter you have to destroy before next target.
         while (bool_ascii_helper('+')) { // boolean processText (String str)
             // Exception on i1 = 8 or 9
             if (i1 <= 8) {
@@ -791,7 +792,6 @@ public class ReadText
                     "1.Automatic\n" +
                     "\n";
         }
-
 
         return "";
     }

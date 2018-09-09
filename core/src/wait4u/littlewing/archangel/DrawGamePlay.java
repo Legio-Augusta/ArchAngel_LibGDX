@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class GameHelper2 {
+public class DrawGamePlay {
     private static int SCREEN_HEIGHT = Gdx.graphics.getHeight();
 
     // 120x160 or 128x128px from original J2ME resolution (in some game). This case screen_width is 240px
@@ -17,7 +17,7 @@ public class GameHelper2 {
     private static int BOTTOM_SPACE = (int)SCREEN_HEIGHT/8; // May be change for fit touch button
 
     private Texture[] imgColor; // For fillRect with color; TODO color constant and add remain color png
-    public GameHelper2() {
+    public DrawGamePlay() {
         imgColor = new Texture[6];
         for (int i = 0; i < 6; i++) {
             imgColor[i] = new Texture("samsung-white/color-" + i + ".png");
@@ -204,7 +204,7 @@ public class GameHelper2 {
             archAngel.readMedia.drawImageAnchor20(paramGraphics, 20, 6, 126);
             archAngel.readMedia.drawImageInArr(paramGraphics, 22, 55, 170);
             archAngel.readMedia.drawStringGraphic(paramGraphics, 140, 140, "NAME:", 0);
-            archAngel.readMedia.drawStringGraphic(paramGraphics, 140, 150, archAngel.mainGameScreen.str_m_enermy, 0);
+            archAngel.readMedia.drawStringGraphic(paramGraphics, 140, 150, archAngel.mainGameScreen.enemy_fighter, 0);
             archAngel.readMedia.drawStringGraphic(paramGraphics, 140, 160, "DAMAGE:", 0);
             archAngel.readMedia.drawStringGraphic(paramGraphics, 140, 170, archAngel.mainGameScreen.k + "MP", 0);
         }
@@ -249,7 +249,7 @@ public class GameHelper2 {
         archAngel.bool_g = false;
     }
 
-    // Orig void int aa, int ab, int ac, int ad, int ae, int af, int ag, boolean bool_z
+    // Orig void int mission_stage, int ab, int ac, int ad, int ae, int af, int ag, boolean bool_z
     public ReturnHelper draw_game_play_screen(SpriteBatch paramGraphics, ArchAngelME archAngel)
     {
         ReturnHelper myReturn = new ReturnHelper();
@@ -473,7 +473,7 @@ public class GameHelper2 {
         archAngel.readMedia.drawImageAnchor20(paramGraphics, 111, 87, 200);
     }
 
-    // void int aa, int ab, int ac, int ad, int ae, int af, int ag, boolean bool_z
+    // void int mission_stage, int ab, int ac, int ad, int ae, int af, int ag, boolean bool_z
     public ReturnHelper setting2(SpriteBatch paramGraphics, ArchAngelME archAngel)
     {
         boolean bool_z = false;
@@ -492,21 +492,23 @@ public class GameHelper2 {
     public void draw_fighting(SpriteBatch paramGraphics, ArchAngelME archAngel)
     {
         // paramGraphics.setClip(0, 0, 240, 40);
-        switch (archAngel.mainGameScreen.aa)
+        switch (archAngel.mainGameScreen.mission_stage) // mission_stage seem game sub state from destroy N enermies to reach boss
         {
             case 0:
                 // From text data => first line is number of enermy need to destroy before reach boss.
                 // For example mission 5 <1>+60000+80000+13 ~ destroy the 13 AL-101
-                if (archAngel.boss_sprite_level < 4) { // This seem number of enermy
-                    archAngel.readMedia.drawStringGraphic(paramGraphics, 75, 10, "ENERMY:" + archAngel.mainGameScreen.str_m_enermy, 0);
+                if (archAngel.boss_sprite_level < 4) { // Last mission show ARCHANGEL MK
+                    // Original posiotion (75, 10); this fix caused by game status bar shifted to higher
+                    archAngel.readMedia.drawStringGraphic(paramGraphics, 75, 10, "ENERMY:" + archAngel.mainGameScreen.enemy_fighter, 0);
                 } else {
-                    archAngel.readMedia.drawStringGraphic(paramGraphics, 75, 10, archAngel.mainGameScreen.str_m_enermy, 0);
+                    archAngel.readMedia.drawStringGraphic(paramGraphics, 75, 10, archAngel.mainGameScreen.enemy_fighter, 0);
                 }
-                archAngel.readMedia.drawStringGraphic(paramGraphics, 75, 20, "N:" + (archAngel.mainGameScreen.y - archAngel.mainGameScreen.u), 0);
-                if (archAngel.mainGameScreen.y - archAngel.mainGameScreen.u <= 0)
+                archAngel.readMedia.drawStringGraphic(paramGraphics, 75, 20, "N:" + (archAngel.mainGameScreen.destroy_n_e - archAngel.mainGameScreen.downed_e_count), 0);
+                if (archAngel.mainGameScreen.destroy_n_e - archAngel.mainGameScreen.downed_e_count <= 0)
                 {
                     archAngel.mainGameScreen.bool_a1 = true;
-                    archAngel.mainGameScreen.aa = archAngel.mainGameScreen.byte_ac;
+                    // Next sub stage: destroyed enermy number reached
+                    archAngel.mainGameScreen.mission_stage = archAngel.mainGameScreen.byte_ac;
                 }
                 break;
             case 1:
@@ -523,7 +525,7 @@ public class GameHelper2 {
                     int i3;
                     if (i1 > 5) {
                         for (i3 = 0; i3 < i2; i3++) {
-                            // ui_2
+                            // ui_2 The direction marker indicates the direction.
                             archAngel.readMedia.drawImageAnchor20(paramGraphics, 23, 114 + i3 * 4, 20);
                         }
                     } else if (i1 < -5) {
@@ -534,7 +536,7 @@ public class GameHelper2 {
                     }
                 }
                 break;
-            case 2:
+            case 2: // very last mission
                 if (archAngel.boss_sprite_level < 7)
                 {
                     archAngel.readMedia.drawStringGraphic(paramGraphics, 87, 8, archAngel.mainGameScreen.str_q, 0);
@@ -663,7 +665,7 @@ public class GameHelper2 {
     }
 
     public void goto_menu(SpriteBatch paramGraphics, int o, int p, int q, int t, int x, String[][] str_arr_w,
-                          ArchAngelME archAngel, ReadText readText, GameHelper helper)
+                          ArchAngelME archAngel, ReadText readText, DrawShopAndBrief helper)
     {
         if (archAngel.x > 0) {
             return;
@@ -731,7 +733,7 @@ public class GameHelper2 {
     }
 
     public void setup2(SpriteBatch paramGraphics, int paramInt1, int paramInt2, int o, int p, int q, int t, int x,
-                       String[][] str_arr_w, ArchAngelME archAngel, ReadText readText, GameHelper helper)
+                       String[][] str_arr_w, ArchAngelME archAngel, ReadText readText, DrawShopAndBrief helper)
     {
         o = paramInt2;
         p = paramInt1;
@@ -739,7 +741,7 @@ public class GameHelper2 {
         helper.draw_arm_shop_menu(paramGraphics, paramInt1, paramInt2, q, t, x, str_arr_w, archAngel, readText);
     }
 
-    public void load_system_txt(SpriteBatch paramGraphics, int l, int o, int p, int q, int t, int x, int y, String[][] str_arr_w, ArchAngelME archAngel, ReadText readText, GameHelper helper)
+    public void load_system_txt(SpriteBatch paramGraphics, int l, int o, int p, int q, int t, int x, int y, String[][] str_arr_w, ArchAngelME archAngel, ReadText readText, DrawShopAndBrief helper)
     {
         if ((archAngel.game_state > 0) && (archAngel.x > 0)) {
             return;
@@ -771,10 +773,10 @@ public class GameHelper2 {
         int i2 = 0;
         int i3 = 0;
         // paramGraphics.setColor(0);
-        if (archAngel.mainGameScreen.str_m_enermy != null)
+        if (archAngel.mainGameScreen.enemy_fighter != null)
         {
-            i3 = archAngel.mainGameScreen.h * archAngel.mainGameScreen.u;
-            archAngel.readMedia.drawGraphicStr40_122(paramGraphics, 50, i1, archAngel.mainGameScreen.str_m_enermy + ":" + archAngel.mainGameScreen.h + "x" + archAngel.mainGameScreen.u);
+            i3 = archAngel.mainGameScreen.h * archAngel.mainGameScreen.downed_e_count;
+            archAngel.readMedia.drawGraphicStr40_122(paramGraphics, 50, i1, archAngel.mainGameScreen.enemy_fighter + ":" + archAngel.mainGameScreen.h + "x" + archAngel.mainGameScreen.downed_e_count);
             i1 += 16;
             i2 += i3;
         }
@@ -880,7 +882,7 @@ public class GameHelper2 {
         archAngel.a(paramGraphics, "OK", false);
     }
 
-    public void draw_font_result(SpriteBatch paramGraphics, ArchAngelME archAngel, GameHelper helper)
+    public void draw_font_result(SpriteBatch paramGraphics, ArchAngelME archAngel, DrawShopAndBrief helper)
     {
         switch (archAngel.game_state)
         {
@@ -1098,9 +1100,10 @@ public class GameHelper2 {
         // Hard code default width x height of color img: 12x12 px
         int scaleY = height*MOBI_SCL / 12;
         int scaleX = width*MOBI_SCL / 12;
-        // (Texture, float x, float y, float originX, float originY, float width, float height, float scaleX, float scaleY, float rotation, int srcX, int srcY, int srcWidth, int srcHeight, boolean flipX, boolean flipY)
+        // (Texture, float x, float destroy_n_e, float originX, float originY, float width, float height, float scaleX, float scaleY, float rotation, int srcX, int srcY, int srcWidth, int srcHeight, boolean flipX, boolean flipY)
         int pos_x = (int) (MOBI_SCL*x);
         int pos_y = (int) ((MOBI_H - y+20)*MOBI_SCL - imgColor[color].getHeight()*scaleY + BOTTOM_SPACE);
+
         batch.draw(imgColor[color], pos_x, pos_y, 0, 0, imgColor[color].getWidth(), imgColor[color].getHeight(), scaleX, scaleY, 0, 0, 0, imgColor[color].getWidth()*scaleX, imgColor[color].getHeight()*scaleY, false, false);
     }
 

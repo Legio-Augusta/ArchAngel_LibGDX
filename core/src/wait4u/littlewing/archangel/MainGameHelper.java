@@ -9,6 +9,15 @@ import java.util.Random;
 public class MainGameHelper {
     private Texture [] imgColor;
 
+    private static int SCREEN_HEIGHT = Gdx.graphics.getHeight();
+    // 120x160 or 128x128px from original J2ME resolution (in some game). This case screen_width is 240px
+    private static int MOBI_SCL = (int)Gdx.graphics.getWidth()/240; // FIXME 4.5 is not integer
+    private static int MOBI_H = 360;  // JavaME height = 320px
+
+    private static int VIEW_PORT_HEIGHT = (int)SCREEN_HEIGHT*3/4;
+    private static int TOP_BOUND = VIEW_PORT_HEIGHT + (int)SCREEN_HEIGHT/8;
+    private static int BOTTOM_SPACE = (int)SCREEN_HEIGHT/8; // May be change for fit touch button
+
     public MainGameHelper() {
         loadTextures();
     }
@@ -231,6 +240,8 @@ public class MainGameHelper {
                 // paramGraphics.setColor(arrayOfInt[(i5 - 11)]);
             }
             // Enermy dot yellow for fighter, red for missile
+            // i5 = 12 -> (i5-11) = 1 -> color = red (missile); i5 = 13, 14 is two enemies at same time
+            // Enemies are marked as yellow points, their missiles are marked red.
             fillRect(paramGraphics, 28 + i3, 21 - i4, 3, 3, 2);
         }
         i2 += 300;
@@ -259,9 +270,6 @@ public class MainGameHelper {
             }
         }
 
-        // *-100000 -> error null img[108]-plasma and not pass scene 1
-        // -> this similar as al has some other usage.
-        // or -100 000 too big n distance_2 drop too fast to MIN_INT
         // TODO careful and clever adjust this calc for better game play, not too easy and mode depend
 
         arrReturn.one = bo;
@@ -824,9 +832,12 @@ public class MainGameHelper {
 
     public void fillRect(SpriteBatch batch, int x, int y, int width, int height, int color) {
         // Hard code default width x height of color img: 12x12 px
-        int scaleY = height / 12;
-        int scaleX = width / 12;
-        // (Texture, float x, float y, float originX, float originY, float width, float height, float scaleX, float scaleY, float rotation, int srcX, int srcY, int srcWidth, int srcHeight, boolean flipX, boolean flipY)
-        batch.draw(imgColor[color], x, y, 0, 0, imgColor[color].getWidth(), imgColor[color].getHeight(), scaleX, scaleY, 0, 0, 0, imgColor[color].getWidth()*scaleX, imgColor[color].getHeight()*scaleY, false, false);
+        int scaleY = height*MOBI_SCL / 12;
+        int scaleX = width*MOBI_SCL / 12;
+        // (Texture, float x, float destroy_n_e, float originX, float originY, float width, float height, float scaleX, float scaleY, float rotation, int srcX, int srcY, int srcWidth, int srcHeight, boolean flipX, boolean flipY)
+        int pos_x = (int) (MOBI_SCL*x);
+        int pos_y = (int) ((MOBI_H - y+20)*MOBI_SCL - imgColor[color].getHeight()*scaleY + BOTTOM_SPACE);
+
+        batch.draw(imgColor[color], pos_x, pos_y, 0, 0, imgColor[color].getWidth(), imgColor[color].getHeight(), scaleX, scaleY, 0, 0, 0, imgColor[color].getWidth()*scaleX, imgColor[color].getHeight()*scaleY, false, false);
     }
 }

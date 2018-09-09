@@ -40,11 +40,11 @@ public class ReadMedia
 
     /*
     https://docs.oracle.com/javame/config/cldc/ref-impl/midp2.0/jsr118/javax/microedition/lcdui/Graphics.html#setClip()
-    public void setClip(int x, int y, int width, int height)
+    public void setClip(int x, int destroy_n_e, int width, int height)
         Sets the current clip to the rectangle specified by the given coordinates. Rendering operations have no effect outside of the clipping area.
         Parameters:
         x - the x coordinate of the new clip rectangle
-        y - the y coordinate of the new clip rectangle
+        destroy_n_e - the destroy_n_e coordinate of the new clip rectangle
         width - the width of the new clip rectangle
         height - the height of the new clip rectangle
      */
@@ -97,7 +97,7 @@ public class ReadMedia
         // 53 as BOTTOM_SPACE (~ 240 = 480/2) 240/4.5 ~= 53 (tile cell)
         int img_height = this.img_arr_a[paramInt1].getHeight();
         int position_y = (int) ((MOBI_H - paramInt3+20)*MOBI_SCL - img_height + BOTTOM_SPACE); // anchor 20
-        // Gdx.app.log("DEBUG", "IMG: " + this.msr_media + "_" + paramInt1 + " JME y= "+paramInt3 + " position y="+position_y + " height="+img_height + " top bound="+(position_y+img_height));
+        // Gdx.app.log("DEBUG", "IMG: " + this.msr_media + "_" + paramInt1 + " JME destroy_n_e= "+paramInt3 + " position destroy_n_e="+position_y + " height="+img_height + " top bound="+(position_y+img_height));
         if(paramInt1 == 3) { // && (paramInt1 == 3) // this.msr_media.equals("font")
              paramGraphics.draw(this.img_arr_a[paramInt1], (int)(paramInt2*MOBI_SCL), position_y -240); // 20 anchor
         } else {
@@ -134,7 +134,7 @@ public class ReadMedia
     {
         int img_height = this.img_arr_a[paramInt1].getHeight();
         int position_y = (int) ((MOBI_H-paramInt3+36)*MOBI_SCL-img_height/2 + BOTTOM_SPACE); // 36
-        // Gdx.app.log("DEBUG Anchor 36", "IMG: " + this.msr_media + "_" + paramInt1 + " JME y= "+paramInt3 + " position y="+position_y + " height="+img_height + " top bound="+(position_y+img_height));
+        // Gdx.app.log("DEBUG Anchor 36", "IMG: " + this.msr_media + "_" + paramInt1 + " JME destroy_n_e= "+paramInt3 + " position destroy_n_e="+position_y + " height="+img_height + " top bound="+(position_y+img_height));
         paramGraphics.draw(this.img_arr_a[paramInt1], (int)(paramInt2*MOBI_SCL), position_y); // 36
     }
 
@@ -319,7 +319,7 @@ public class ReadMedia
         }
         int img_height = this.img_arr_a[paramInt1].getHeight();
         int position_y = (int) ((MOBI_H-paramInt3+3)*MOBI_SCL-img_height + BOTTOM_SPACE);
-        // Gdx.app.log("DEBUG INARR", "IMG: " + this.msr_media + "_" + paramInt1 + " JME y= "+paramInt3 + " position y="+position_y + " height="+img_height + " top bound="+(position_y+img_height));
+        // Gdx.app.log("DEBUG INARR", "IMG: " + this.msr_media + "_" + paramInt1 + " JME destroy_n_e= "+paramInt3 + " position destroy_n_e="+position_y + " height="+img_height + " top bound="+(position_y+img_height));
         paramGraphics.draw(this.img_arr_a[paramInt1], (int)(paramInt2*MOBI_SCL), position_y); // 3
     }
 
@@ -342,7 +342,7 @@ public class ReadMedia
         // paramGraphics.draw(loadImage(paramInt1), paramInt2, paramInt3); //20
         int img_height = this.img_arr_a[paramInt1].getHeight();
         int position_y = (int) ((MOBI_H - paramInt3 +20)*MOBI_SCL-img_height + BOTTOM_SPACE); // anchor 20
-//        Gdx.app.log("DEBUG STRING IMAGE", "IMG: " + this.msr_media + "_" + paramInt1 + " JME y= "+paramInt3 + " position y="+position_y + " height="+img_height + " top bound="+(position_y+img_height));
+//        Gdx.app.log("DEBUG STRING IMAGE", "IMG: " + this.msr_media + "_" + paramInt1 + " JME destroy_n_e= "+paramInt3 + " position destroy_n_e="+position_y + " height="+img_height + " top bound="+(position_y+img_height));
         paramGraphics.draw(this.img_arr_a[paramInt1], (int)(paramInt2*MOBI_SCL), position_y); //20
     }
 
@@ -350,7 +350,7 @@ public class ReadMedia
     {
         Texture temp = loadImage(paramInt1);
         int position_y = (int) ((MOBI_H - paramInt3 + 20)*MOBI_SCL-temp.getHeight() + BOTTOM_SPACE); // anchor 20
-        // Gdx.app.log("DEBUG Load IMG", "IMG: " + this.msr_media + "_" + paramInt1 + " JME y= "+paramInt3 + " position y="+position_y + " height="+temp.getHeight() + " top bound="+(position_y+temp.getHeight()));
+        // Gdx.app.log("DEBUG Load IMG", "IMG: " + this.msr_media + "_" + paramInt1 + " JME destroy_n_e= "+paramInt3 + " position destroy_n_e="+position_y + " height="+temp.getHeight() + " top bound="+(position_y+temp.getHeight()));
         paramGraphics.draw(temp, (int)(paramInt2*MOBI_SCL), position_y); // 20
     }
 

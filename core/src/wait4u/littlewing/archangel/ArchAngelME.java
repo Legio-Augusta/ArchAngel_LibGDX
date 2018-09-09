@@ -35,7 +35,7 @@ public class ArchAngelME
     public boolean bool_u = false;
     public boolean bool_v = true;
     public boolean bool_w = true;
-    public int x = 0; // fighter ammunation, x, y and z seem related to game state, boss hp...
+    public int x = 0; // fighter ammunation, x, destroy_n_e and z seem related to game state, boss hp...
     public int y = -1;
     public int game_state = 0;
     public int aa = -1;
@@ -167,11 +167,11 @@ public class ArchAngelME
         this.readText.processTxt(1);
         this.mainGameScreen.boss_distance_r = this.readText.int_arr_m[0]; // f.r =
         this.mainGameScreen.boss_distance_s = this.readText.int_arr_m[1];
-        this.mainGameScreen.y = this.readText.int_arr_m[2];
+        this.mainGameScreen.destroy_n_e = (this.readText.int_arr_m[2] > 0) ? this.readText.int_arr_m[2] : 5;
         this.readText.processTxt(2);
 
-        this.mainGameScreen.str_m_enermy = this.readText.buildString(); // Data mixed in txt file, this case may be number of enermy
-        this.mainGameScreen.str_m_enermy = (this.mainGameScreen.str_m_enermy == null) ? "13": this.mainGameScreen.str_m_enermy;
+        this.mainGameScreen.enemy_fighter = this.readText.buildString(); // Data mixed in txt file, this case may be number of enermy
+        this.mainGameScreen.enemy_fighter = (this.mainGameScreen.enemy_fighter == null) ? "AZ-1": this.mainGameScreen.enemy_fighter;
         if (this.ah == 0) {
             this.mainGameScreen.j = (this.readText.int_arr_m[0] / 2);
         } else {

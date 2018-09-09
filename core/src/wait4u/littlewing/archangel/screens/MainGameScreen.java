@@ -24,7 +24,7 @@ public class MainGameScreen {
     public int j;
     public int k;
     public int l = 0;
-    public String str_m_enermy; // Enermy left
+    public String enemy_fighter; // Enermy left
     public int n;
     public int o;
     public int p = 0;
@@ -32,13 +32,13 @@ public class MainGameScreen {
     public int boss_distance_r;
     public int boss_distance_s;
     public int t;
-    public int u;
+    public int downed_e_count; // Number of enemy fighter destroyed in a mission.
     public int v;
     public int w;
     public int x;
-    public int y;
+    public int destroy_n_e; // Number of enemy have to destroy before reach boss
     public int z;
-    public int aa;
+    public int mission_stage;
     public final byte byte_ab = 0;
     public final byte byte_ac = 1;
     public final byte byte_ad = 2;
@@ -140,7 +140,7 @@ public class MainGameScreen {
         switch (i2)
         {
             case 9:
-                if (this.aa == 1)
+                if (this.mission_stage == 1)
                 {
                     if (this.bool_a1 == true)
                     {
@@ -157,9 +157,9 @@ public class MainGameScreen {
                     this.boss_distance = (Math.abs(paramGameCnf.boss_distance_1) + Math.abs(paramGameCnf.boss_distance_2) - 200);
                 }
                 if( (Math.abs(paramGameCnf.boss_distance_1) > 1000*1000*1000) || (Math.abs(paramGameCnf.boss_distance_2) > 1000*1000*1000) ) {
-                    Gdx.app.log("ERROR", "Distance <<>> "+ this.boss_distance + " aa =1? "+(this.aa ==1)+ " dt1 "+paramGameCnf.boss_distance_1 + " dt2 "+ paramGameCnf.boss_distance_2);
+                    Gdx.app.log("ERROR", "Distance <<>> "+ this.boss_distance + " mission_stage =1? "+(this.mission_stage ==1)+ " dt1 "+paramGameCnf.boss_distance_1 + " dt2 "+ paramGameCnf.boss_distance_2);
                 }
-                if ((this.boss_distance <= 0) && (this.aa == 1))
+                if ((this.boss_distance <= 0) && (this.mission_stage == 1))
                 {
                     Gdx.app.log("ERROR", "Distance Zou tian ya <<>> "+ this.boss_distance);
                     this.boss_distance = 0;
@@ -173,7 +173,7 @@ public class MainGameScreen {
                     }
                     this.readMedia.closeInputStream();
                     this.bi = 2;
-                    this.aa = 2;
+                    this.mission_stage = 2;
                     this.ap = 0;
                 }
                 break;
@@ -331,7 +331,7 @@ public class MainGameScreen {
                 {
                     this.ag += -1;
                     paramGameCnf.c = 0;
-                    this.u += 1;
+                    this.downed_e_count += 1;
                 }
                 break;
             case 7:
@@ -341,7 +341,7 @@ public class MainGameScreen {
                     paramGameCnf.c = 0;
                     this.t += 1;
                     this.AA.ab = 6;
-                    this.g = (this.t * this.i + this.u * this.h);
+                    this.g = (this.t * this.i + this.downed_e_count * this.h);
                 }
                 break;
         }
@@ -368,13 +368,13 @@ public class MainGameScreen {
         this.ba = 0;
         this.a8 = 0;
         this.bd = 0;
-        this.aa = 0;
+        this.mission_stage = 0;
         this.bool_az = (this.bool_ay = this.bool_a0 = this.bool_a2 = false);
         //this.az = (this.ay = this.a0 = this.a2 = 0);
         this.a3 = 20;
         this.a4 = 0;
         this.t = 0;
-        this.u = 0;
+        this.downed_e_count = 0;
         this.v = (this.w = 0);
         this.at = 262143;
         this.af = (this.ag = this.ah = 0);

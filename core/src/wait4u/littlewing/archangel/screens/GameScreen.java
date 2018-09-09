@@ -5,23 +5,19 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 import wait4u.littlewing.archangel.ArchAngelME;
 import wait4u.littlewing.archangel.OverlapTester;
 import wait4u.littlewing.archangel.ReadText;
-import wait4u.littlewing.archangel.GameHelper;
-import wait4u.littlewing.archangel.GameHelper2;
+import wait4u.littlewing.archangel.DrawShopAndBrief;
+import wait4u.littlewing.archangel.DrawGamePlay;
 import wait4u.littlewing.archangel.ReturnHelper;
 
 public class GameScreen extends DefaultScreen implements InputProcessor {
@@ -61,8 +57,8 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
     public boolean gameOff;
     public final ArchAngelME archAngel;
 
-    public GameHelper helper = new GameHelper();
-    public GameHelper2 secondHelper = new GameHelper2();
+    public DrawShopAndBrief helper = new DrawShopAndBrief();
+    public DrawGamePlay secondHelper = new DrawGamePlay();
 
     private static int SMALL_GAP = 32; // 32px for gap
 
@@ -1117,7 +1113,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         // convert touch event to key event (getGameAction)
         touchPoint.set(Gdx.input.getX(),Gdx.input.getY(), 0);
 
-        // Gdx.app.log("DEBUG", "touch " + touchPoint.x + " y "+ (SCREEN_HEIGHT-touchPoint.y) + " key_code "+ this.key_code);
+        // Gdx.app.log("DEBUG", "touch " + touchPoint.x + " destroy_n_e "+ (SCREEN_HEIGHT-touchPoint.destroy_n_e) + " key_code "+ this.key_code);
         //if(touchStatus == TouchStatus.NONE) {
         touchStatus = TouchStatus.TOUCH_DOWN;
         //game_action = getGameAction(); // seem take no effect
@@ -1264,7 +1260,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         // Hard code default width x height of color img: 12x12 px
         int scaleY = height / 12;
         int scaleX = width / 12;
-        // (Texture, float x, float y, float originX, float originY, float width, float height, float scaleX, float scaleY, float rotation, int srcX, int srcY, int srcWidth, int srcHeight, boolean flipX, boolean flipY)
+        // (Texture, float x, float destroy_n_e, float originX, float originY, float width, float height, float scaleX, float scaleY, float rotation, int srcX, int srcY, int srcWidth, int srcHeight, boolean flipX, boolean flipY)
         paramGraphics.draw(imgColor[color], x, y, 0, 0, imgColor[color].getWidth(), imgColor[color].getHeight(), scaleX, scaleY, 0, 0, 0, imgColor[color].getWidth()*scaleX, imgColor[color].getHeight()*scaleY, false, false);
     }
 

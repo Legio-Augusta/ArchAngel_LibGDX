@@ -1,7 +1,17 @@
 ArchAngel - LibGDX (migrate from J2ME)
 ====================
 
-  ArchAngel - Samsung Funclub
+ArchAngel Ver 1.0.0
+
+Published by wait4u
+URL: www.wait4u.net
+E-mail: info@wait4u.net
+
+Developed by WithMobile
+
+Many of us have played a plenty of Java games, such as Metal Slug, Prince of Persia, Legend of Zelda, Covert Ops or Samsung's game: SnowBallFight, ArchAngel. We have many memorial with these game. This game is android Clone of gorgeous game ArchAngel from NeoMnT and Wait4u.
+
+Have a look at the starting screen...
 
 ![archangel](https://github.com/Legio-Augusta/ArchAngel_LibGDX/blob/master/android/assets/intro_00.png)
 ![arch-angel](https://github.com/Legio-Augusta/ArchAngel_LibGDX/blob/master/android/assets/screen_2.png)
@@ -47,5 +57,4 @@ Graphics.fillRect  => implement similar method using color image (.png) and draw
 Character (often procedural) => Implement some Class for Hero, Enermy ...
 Some game state: screen, state, school (lever) =>
 
-# Notes
-* I do not own any copyrighted contents like images, photos, original Java ME source code... I just want bring this gorgeous old game back to live and do not want any complicated legal issues.
+**Disclaimer**: This game is non commercial, non profitable and released for entertainment purpose only. It uses many resources from Net, if any copyrights is violated (which is purely unintentional), please let us know.
