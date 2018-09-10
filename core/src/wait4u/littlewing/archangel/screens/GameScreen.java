@@ -330,11 +330,11 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                             }
                             break;
                         case 50:
-                            this.archAngel.mainGameScreen.simple_bool(true);
+                            this.archAngel.mainGameScreen.speed_up_down(true);
                             this.archAngel.mainGameScreen.a9 = 1;
                             break;
                         case 56:
-                            this.archAngel.mainGameScreen.simple_bool(false);
+                            this.archAngel.mainGameScreen.speed_up_down(false);
                             this.archAngel.mainGameScreen.a9 = 2;
                             break;
                         case 52:
@@ -359,12 +359,12 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                         default:
                             switch (paramInt)
                             {
-                                case -2:
-                                    this.archAngel.mainGameScreen.simple_bool(false);
+                                case -2:  // Game speed up/down here; -2 ~ DOWN
+                                    this.archAngel.mainGameScreen.speed_up_down(false);
                                     this.archAngel.mainGameScreen.a9 = 2;
                                     break;
-                                case -1:
-                                    this.archAngel.mainGameScreen.simple_bool(true);
+                                case -1: // up speed
+                                    this.archAngel.mainGameScreen.speed_up_down(true);
                                     this.archAngel.mainGameScreen.a9 = 1;
                                     break;
                                 case -4:
@@ -420,21 +420,23 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                         switch (paramInt)
                         {
                             case -3:
-                            case -2:
-                                if (this.archAngel.game_state < 10)
+                            case -2: // speed down ?
+                                if (this.archAngel.game_state < 10)  // Not fighting boss ?
                                 {
                                     this.archAngel.readText.a += 1;
                                     this.archAngel.x = -1;
                                     this.archAngel.bool_g = true;
+                                    paramInt = 0; // fix me
                                 }
                                 break;
                             case -4:
-                            case -1:
+                            case -1: // speed up
                                 if (this.archAngel.game_state < 10)
                                 {
                                     this.archAngel.readText.a += -1;
                                     this.archAngel.x = -1;
                                     this.archAngel.bool_g = true;
+                                    paramInt = 0; // fix me
                                 }
                                 break;
                             case -7:

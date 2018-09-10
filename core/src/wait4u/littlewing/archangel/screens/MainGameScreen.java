@@ -55,12 +55,12 @@ public class MainGameScreen {
     public int ao = 0;
     public int ap = 0;
     public int aq = 0;
-    public int ar = 0;
+    public int ar = 0; // related to fighter speed
     public int as = 0;
     public int at;
     public int au = 0;
     public int av = 90;
-    public int aw = 20;
+    public int gamespeed = 20;
     public int ax = 0;
     public boolean bool_ay = false;
     public boolean bool_az = false;
@@ -73,14 +73,14 @@ public class MainGameScreen {
     public int[] int_arr_a6 = { 187, 232, 304 };
     public boolean[] bool_arr_a7 = new boolean[4];
     public int a8;
-    public int a9;
+    public int a9; // Related to fighter game speed
     public int ba;
     public int bb = 90;
-    public int bc = 169;
+    public int fighter_y = 169; // Game speed or fighter y-position
     public int bd;
     public int be;
     public int bf;
-    public boolean bool_bg;
+    public boolean bool_bg; //
     public boolean bool_bh;
     public int bi;
     public int bj;
@@ -109,7 +109,7 @@ public class MainGameScreen {
     public int b6;
     public int b7;
     public int b8;
-    public int b9;
+    public int other_fighter_y;
     public int boss_distance; // Boss distance
     public int cb = 0;
     public int cc = 0;
@@ -357,11 +357,11 @@ public class MainGameScreen {
     public void init_game2()
     {
         this.bb = 90;
-        this.bc = 169;
+        this.fighter_y = 169;
         this.int_arr_a5[1] = -82;
         this.AA.ae = 40;
         this.f = (this.ax = this.al = this.am = this.as = this.aq = this.ar = this.an = this.ao = 0);
-        this.aw = 20;
+        this.gamespeed = 20;
         this.av = 90;
         this.ap = 0;
         this.au = 0;
@@ -514,16 +514,16 @@ public class MainGameScreen {
         switch (this.bi)
         {
             case 1:
-                this.readMedia.drawImageInArr(paramGraphics, 24 + this.z, this.bb + 30, this.bc + 11);
+                this.readMedia.drawImageInArr(paramGraphics, 24 + this.z, this.bb + 30, this.fighter_y + 11);
                 if ((this.bool_ay == true) && (this.ap % 2 == 0)) {
                     this.readMedia.drawImageInArr(paramGraphics, 80, 120, 165);
                 }
                 if (this.AA.game_state != 3)
                 {
                     //paramGraphics.setClip(this.bb + 10 + arrayOfByte2[this.game_state][0], this.bc + 11 + arrayOfByte2[this.game_state][1], 12, 11);
-                    this.readMedia.drawImageAnchor20(paramGraphics, 33, this.bb + 10 + arrayOfByte2[this.z][0], this.bc + 11 + arrayOfByte2[this.z][1] - 11 * (this.ap % 2));
+                    this.readMedia.drawImageAnchor20(paramGraphics, 33, this.bb + 10 + arrayOfByte2[this.z][0], this.fighter_y + 11 + arrayOfByte2[this.z][1] - 11 * (this.ap % 2));
                     //paramGraphics.setClip(this.bb + 38 - arrayOfByte2[this.game_state][0], this.bc + 11 - arrayOfByte2[this.game_state][1], 12, 11);
-                    this.readMedia.drawImageAnchor20(paramGraphics, 34, this.bb + 38 - arrayOfByte2[this.z][0], this.bc + 11 - arrayOfByte2[this.z][1] - 11 * (this.ap % 2));
+                    this.readMedia.drawImageAnchor20(paramGraphics, 34, this.bb + 38 - arrayOfByte2[this.z][0], this.fighter_y + 11 - arrayOfByte2[this.z][1] - 11 * (this.ap % 2));
                     // paramGraphics.setClip(0, 0, 240, 300);
                 }
                 this.AA.bool_m = true;
@@ -534,15 +534,15 @@ public class MainGameScreen {
                 if (i1 / 2 % 2 == 0) {
                     this.readMedia.drawImageAnchor20(paramGraphics, 112, 66, 103);
                 }
-                this.aw = 10;
+                this.gamespeed = 10;
                 this.a8 = 0;
                 this.bool_ay = false;
                 this.bool_bg = true;
                 if (i1 < 5) {
                     if (i1 == 0) {
-                        this.readMedia.drawImageAnchor20(paramGraphics, 24, this.bb, this.bc);
+                        this.readMedia.drawImageAnchor20(paramGraphics, 24, this.bb, this.fighter_y);
                     } else {
-                        this.readMedia.drawImageAnchor20(paramGraphics, 24 + i1 + 10, this.bb + arrayOfByte1[(i1 - 1)][0], this.bc + arrayOfByte1[(i1 - 1)][1]);
+                        this.readMedia.drawImageAnchor20(paramGraphics, 24 + i1 + 10, this.bb + arrayOfByte1[(i1 - 1)][0], this.fighter_y + arrayOfByte1[(i1 - 1)][1]);
                     }
                 }
                 if (i1 == 5)
@@ -562,9 +562,9 @@ public class MainGameScreen {
                     for (int i3 = 18; i3 < 24; i3++) {
                         this.readMedia.destroyImage(84 + i3);
                     }
-                    this.readMedia.drawImageAnchor20(paramGraphics, 38, this.bb + arrayOfByte1[3][0], this.bc + arrayOfByte1[3][1]);
+                    this.readMedia.drawImageAnchor20(paramGraphics, 38, this.bb + arrayOfByte1[3][0], this.fighter_y + arrayOfByte1[3][1]);
                     this.bb = 93;
-                    this.bc = 144;
+                    this.fighter_y = 144;
                     System.gc();
                     this.readMedia.readMediaStream("boss" + this.AA.boss_sprite_level);
                     for (int i3 = 0; i3 < 7; i3++) {
@@ -599,36 +599,36 @@ public class MainGameScreen {
                         this.ba = 0;
                         break;
                 }
-                switch (this.a9)
+                switch (this.a9)  // Change game speed or Hecman position ?
                 {
                     case 1:
-                        this.bc -= 10;
-                        if (this.bc < 104) {
-                            this.bc = 104;
+                        //this.gamespeed -= 10;
+                        if (this.fighter_y < 104) {
+                            this.fighter_y = 104;
                         }
                         break;
                     case 2:
-                        this.bc += 10;
-                        if (this.bc > 174) {
-                            this.bc = 174;
+                        //this.gamespeed += 10;
+                        if (this.fighter_y > 174) {
+                            this.fighter_y = 174;
                         }
                         break;
                 }
-                this.readMedia.drawImageAnchor20(paramGraphics, 38 + this.ba, this.bb, this.bc);
+                this.readMedia.drawImageAnchor20(paramGraphics, 38 + this.ba, this.bb, this.fighter_y);
                 if (this.ba == 1)
                 {
                     //paramGraphics.setClip(this.bb + 14, this.bc + 21, 19, 14);
-                    this.readMedia.drawImageAnchor20(paramGraphics, 42, this.bb + 14, this.bc + 7);
+                    this.readMedia.drawImageAnchor20(paramGraphics, 42, this.bb + 14, this.fighter_y + 7);
                 }
                 else if (this.ba == 2)
                 {
                     //paramGraphics.setClip(this.bb + 20, this.bc + 21, 19, 14);
-                    this.readMedia.drawImageAnchor20(paramGraphics, 42, this.bb + 20, this.bc + 21);
+                    this.readMedia.drawImageAnchor20(paramGraphics, 42, this.bb + 20, this.fighter_y + 21);
                 }
                 else
                 {
                     //paramGraphics.setClip(this.bb + 16, this.bc + 21, 22, 14);
-                    this.readMedia.drawImageAnchor20(paramGraphics, 41, this.bb + 16, this.bc + 21 - 15 * (i1 / 3 % 2));
+                    this.readMedia.drawImageAnchor20(paramGraphics, 41, this.bb + 16, this.fighter_y + 21 - 15 * (i1 / 3 % 2));
                 }
                 //paramGraphics.setClip(0, 0, 240, 300);
                 break;
@@ -651,9 +651,9 @@ public class MainGameScreen {
         if (this.au > 0)
         {
             this.b8 = (61 - this.bb);
-            this.b9 = (94 - this.bc);
+            this.other_fighter_y = (94 - this.fighter_y);
 
-            this.gameHelper.shift_1(paramGraphics, false, 88 - this.b8, 133 - this.b9, 30, 8, 4, readMedia, rnd);
+            this.gameHelper.shift_1(paramGraphics, false, 88 - this.b8, 133 - this.other_fighter_y, 30, 8, 4, readMedia, rnd);
             // shift_1(paramGraphics, false, 88 - this.b8, 133 - this.b9, 30, 8, 4);
             if ((this.bi == 1) && (!this.bool_ay)) {
                 this.AA.playSound("s_explo", 1);
@@ -701,7 +701,8 @@ public class MainGameScreen {
         return this.br = this.gameHelper.turnAngleCalc(90 - paramInt, stt_byte_arr_bs);
     }
 
-    public void simple_bool(boolean paramBoolean)
+    // Change flying speed
+    public void speed_up_down(boolean paramBoolean)
     {
         if (!this.bool_bg) {
             this.ar = (paramBoolean ? 20 : -20);
@@ -789,7 +790,7 @@ public class MainGameScreen {
                     // complex_draw_helper(paramGraphics, gameConfigArr[i2]);
                     ReturnHelper returnComplexDrawHelper =
                         this.gameHelper.complex_draw_helper(paramGraphics, gameConfigArr[i2], this.readMedia, this.af, this.b0, this.b1, this.b2,
-                            this.b3, this.bb, this.bc, this.be, this.bf, this.bi, this.bj, this.bk, this.by, this.bz, this.AA.bool_n, this.rnd);
+                            this.b3, this.bb, this.fighter_y, this.be, this.bf, this.bi, this.bj, this.bk, this.by, this.bz, this.AA.bool_n, this.rnd);
 
                     // If this.l value has changed
                     this.af = (returnComplexDrawHelper.one > returnComplexDrawHelper.MIN_INT) ? returnComplexDrawHelper.one : this.af;
@@ -805,7 +806,7 @@ public class MainGameScreen {
                         this.AA.bool_n = (returnComplexDrawHelper.bool_one != 0) ? true : false;
                     }
                     this.bb = (returnComplexDrawHelper.yi > returnComplexDrawHelper.MIN_INT) ? returnComplexDrawHelper.yi : this.bb;
-                    this.bc = (returnComplexDrawHelper.er > returnComplexDrawHelper.MIN_INT) ? returnComplexDrawHelper.er : this.bc;
+                    this.fighter_y = (returnComplexDrawHelper.er > returnComplexDrawHelper.MIN_INT) ? returnComplexDrawHelper.er : this.fighter_y;
                     this.be = (returnComplexDrawHelper.san > returnComplexDrawHelper.MIN_INT) ? returnComplexDrawHelper.san : this.be;
                     this.bf = (returnComplexDrawHelper.si > returnComplexDrawHelper.MIN_INT) ? returnComplexDrawHelper.si : this.bf;
                     this.bi = (returnComplexDrawHelper.wu > returnComplexDrawHelper.MIN_INT) ? returnComplexDrawHelper.wu : this.bi;
@@ -893,15 +894,15 @@ public class MainGameScreen {
         if (this.av >= 360) {
             this.av -= 360;
         }
-        this.al = ((turn_helper(this.av) * this.aw >> 6) + this.an);
-        this.am = ((turn_helper2(this.av) * this.aw >> 6) + this.ao);
+        this.al = ((turn_helper(this.av) * this.gamespeed >> 6) + this.an);
+        this.am = ((turn_helper2(this.av) * this.gamespeed >> 6) + this.ao);
         this.at -= this.am;
-        this.aw += this.ar;
-        if (this.aw > 140) {
-            this.aw = 140;
+        this.gamespeed += this.ar; // change game speed
+        if (this.gamespeed > 140) {
+            this.gamespeed = 140;
         }
-        if (this.aw < 20) {
-            this.aw = 20;
+        if (this.gamespeed < 20) {
+            this.gamespeed = 20;
         }
         this.a3 += -1;
         this.a4 += -1;
