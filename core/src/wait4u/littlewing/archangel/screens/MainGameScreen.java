@@ -705,7 +705,7 @@ public class MainGameScreen {
     public void speed_up_down(boolean paramBoolean)
     {
         if (!this.bool_bg) {
-            this.ar = (paramBoolean ? 20 : -20);
+            this.ar = (paramBoolean ? 2 : -2); // +/- 20
         }
     }
 
@@ -898,8 +898,8 @@ public class MainGameScreen {
         this.am = ((turn_helper2(this.av) * this.gamespeed >> 6) + this.ao);
         this.at -= this.am;
         this.gamespeed += this.ar; // change game speed
-        if (this.gamespeed > 140) {
-            this.gamespeed = 140;
+        if (this.gamespeed > 60) { // 140
+            this.gamespeed = 60; // 140
         }
         if (this.gamespeed < 20) {
             this.gamespeed = 20;
