@@ -2,8 +2,8 @@ package wait4u.littlewing.archangel;
 
 public class GameConfig
 {
-    public int boss_distance_1 = this.boss_distance_2 = this.c = this.d = this.e = this.f = this.g = this.h = this.i = this.j = this.k = this.l = this.m = 0;
-    public int boss_distance_2;
+    public int enemy_distance_1 = this.enemy_distance_2 = this.c = this.d = this.e = this.f = this.g = this.h = this.i = this.j = this.k = this.l = this.m = 0;
+    public int enemy_distance_2;
     public int c; // related to boss distance calc
     public int d;
     public int e;
@@ -19,8 +19,8 @@ public class GameConfig
 
     public String debug() {
         String debugMsg = "";
-        debugMsg = (boss_distance_1 != 0) ? debugMsg + " boss_distance_1 = " + boss_distance_1 : debugMsg;
-        debugMsg = (boss_distance_2 != 0) ? debugMsg + " boss_distance_2 = " + boss_distance_2 : debugMsg;
+        debugMsg = (enemy_distance_1 != 0) ? debugMsg + " enemy_distance_1 = " + enemy_distance_1 : debugMsg;
+        debugMsg = (enemy_distance_2 != 0) ? debugMsg + " enemy_distance_2 = " + enemy_distance_2 : debugMsg;
         debugMsg = (c != 0) ? debugMsg + " c = " + c : debugMsg;
         debugMsg = (d != 0) ? debugMsg + " d = " + d : debugMsg;
         debugMsg = (e != 0) ? debugMsg + " e = " + e : debugMsg;

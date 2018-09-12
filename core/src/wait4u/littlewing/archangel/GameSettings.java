@@ -37,7 +37,7 @@ public class GameSettings
 
     public void readRSSetting(AARecordStore recordStore)
     {
-        // this.boss_distance_1 = recordStore.returnByteCalc();
+        // this.enemy_distance_1 = recordStore.returnByteCalc();
         // this.boss_level = recordStore.returnByteCalc();
         // this.d = recordStore.returnByteCalc();
         // this.e = recordStore.returnByteCalc();
@@ -97,7 +97,7 @@ public class GameSettings
 
     public void calcFromRecord(AARecordStore recordStore)
     {
-        // recordStore.byteCalculate(this.boss_distance_1);
+        // recordStore.byteCalculate(this.enemy_distance_1);
         // recordStore.byteCalculate(this.boss_level);
         // recordStore.byteCalculate(this.d);
         // recordStore.byteCalculate(this.e);

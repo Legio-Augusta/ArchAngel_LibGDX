@@ -285,12 +285,12 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
             case 25: // fighting screen
                 if ((this.archAngel.game_state == 4) && (this.archAngel.bool_m == true))
                 {
-                    if ((this.archAngel.mainGameScreen.bi == 1) && (paramInt != 53) && (paramInt != -5))
+                    if ((this.archAngel.mainGameScreen.gamestage1 == 1) && (paramInt != 53) && (paramInt != -5))
                     {
                         this.archAngel.mainGameScreen.play_s_gun(false);
                         this.archAngel.stopSound();
                     }
-                    if ((this.archAngel.mainGameScreen.bi == 3) && (this.archAngel.ag != 1) && (paramInt != 53) && (paramInt != -5))
+                    if ((this.archAngel.mainGameScreen.gamestage1 == 3) && (this.archAngel.ag != 1) && (paramInt != 53) && (paramInt != -5))
                     {
                         keyReleased(53);
                         this.archAngel.mainGameScreen.play_s_plasma(false);
@@ -315,17 +315,17 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                             this.archAngel.mainGameScreen.ba = 4;
                             break;
                         case 53:
-                            if ((this.archAngel.mainGameScreen.bi == 1) && (this.archAngel.bool_m == true)) {
+                            if ((this.archAngel.mainGameScreen.gamestage1 == 1) && (this.archAngel.bool_m == true)) {
                                 this.archAngel.mainGameScreen.play_s_gun(true);
                             }
-                            if ((this.archAngel.mainGameScreen.bi == 3) && (this.archAngel.bool_n == true))
+                            if ((this.archAngel.mainGameScreen.gamestage1 == 3) && (this.archAngel.bool_n == true))
                             {
                                 this.archAngel.mainGameScreen.bool_bh = false;
                                 this.archAngel.mainGameScreen.play_s_plasma(true);
                             }
                             break;
                         case 57:
-                            if (this.archAngel.mainGameScreen.bi == 1) {
+                            if (this.archAngel.mainGameScreen.gamestage1 == 1) {
                                 this.archAngel.mainGameScreen.play_missile_sound();
                             }
                             break;
@@ -346,7 +346,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                             this.archAngel.mainGameScreen.ba = 2;
                             break;
                         case 48:
-                            if (this.archAngel.mainGameScreen.bi == 3)
+                            if (this.archAngel.mainGameScreen.gamestage1 == 3)
                             {
                                 this.archAngel.mainGameScreen.bool_az = false;
                                 if (this.archAngel.gameSetting.t < this.archAngel.gameSetting.r) {
@@ -386,10 +386,10 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                                     }
                                     break;
                                 case -5:
-                                    if ((this.archAngel.mainGameScreen.bi == 1) && (this.archAngel.bool_m == true)) {
+                                    if ((this.archAngel.mainGameScreen.gamestage1 == 1) && (this.archAngel.bool_m == true)) {
                                         this.archAngel.mainGameScreen.play_s_gun(true);
                                     }
-                                    if ((this.archAngel.mainGameScreen.bi == 3) && (this.archAngel.bool_n == true))
+                                    if ((this.archAngel.mainGameScreen.gamestage1 == 3) && (this.archAngel.bool_n == true))
                                     {
                                         this.archAngel.mainGameScreen.bool_bh = false;
                                         this.archAngel.mainGameScreen.play_s_plasma(true);
@@ -707,7 +707,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         switch (this.archAngel.screen)
         {
             case 25:
-                if (this.archAngel.mainGameScreen.bi == 1)
+                if (this.archAngel.mainGameScreen.gamestage1 == 1)
                 {
                     if ((paramInt == -5) || (paramInt == 53))
                     {
@@ -715,7 +715,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                         this.archAngel.stopSound();
                     }
                 }
-                else if ((this.archAngel.mainGameScreen.bi == 3) && ((paramInt == -5) || (paramInt == 53)) && (this.archAngel.ag != 1))
+                else if ((this.archAngel.mainGameScreen.gamestage1 == 3) && ((paramInt == -5) || (paramInt == 53)) && (this.archAngel.ag != 1))
                 {
                     this.archAngel.mainGameScreen.play_s_plasma(false);
                     this.archAngel.stopSound();
@@ -1113,6 +1113,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         // TODO pass touchPoint instead of global
         // BoundingBox can be use Rectangle as alternative ?
         // convert touch event to key event (getGameAction)
+        // TODO study libgdx-mario-bros key handle mechanism
         touchPoint.set(Gdx.input.getX(),Gdx.input.getY(), 0);
 
         // Gdx.app.log("DEBUG", "touch " + touchPoint.x + " destroy_n_e "+ (SCREEN_HEIGHT-touchPoint.destroy_n_e) + " key_code "+ this.key_code);

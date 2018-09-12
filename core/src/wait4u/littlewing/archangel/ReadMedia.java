@@ -83,9 +83,15 @@ public class ReadMedia
         System.gc();
     }
 
-    /*
-      20 => anchor point
-      paramGraphics.drawImage(this.img_arr_a[paramInt1], paramInt2, paramInt3, 20);
+    /**
+     *
+     * paramGraphics.drawImage(this.img_arr_a[paramInt1], paramInt2, paramInt3, 20);
+     *
+     * @param paramGraphics
+     * @param int paramInt1 image sprite index
+     * @param paramInt2 positon x (240x320 J2ME geometry)
+     * @param paramInt3 positon y
+     * 20 => anchor point
      */
     public void drawImageAnchor20(SpriteBatch paramGraphics, int paramInt1, int paramInt2, int paramInt3)
     {

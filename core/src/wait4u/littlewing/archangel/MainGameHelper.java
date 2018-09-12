@@ -109,7 +109,7 @@ public class MainGameHelper {
 
     public boolean config_helper(GameConfig paramgcnf1, GameConfig paramgcnf2)
     {
-        if (Math.abs(paramgcnf1.boss_distance_1 - paramgcnf2.boss_distance_1) + Math.abs(paramgcnf1.boss_distance_2 - paramgcnf2.boss_distance_2) < 200)
+        if (Math.abs(paramgcnf1.enemy_distance_1 - paramgcnf2.enemy_distance_1) + Math.abs(paramgcnf1.enemy_distance_2 - paramgcnf2.enemy_distance_2) < 200)
         {
             paramgcnf2.m -= paramgcnf1.m;
             paramgcnf2.l += 5;
@@ -141,8 +141,8 @@ public class MainGameHelper {
         int i1;
         if (paramg.e > 4000)
         {
-	        // i4 = angle_helper(-paramg.boss_distance_1, -paramg.screen);
-            i4 = angle_helper(-paramg.boss_distance_1, -paramg.boss_distance_2, stt_byte_arr_bt);
+	        // i4 = angle_helper(-paramg.enemy_distance_1, -paramg.screen);
+            i4 = angle_helper(-paramg.enemy_distance_1, -paramg.enemy_distance_2, stt_byte_arr_bt);
             i1 = 20;
         }
         else
@@ -207,66 +207,66 @@ public class MainGameHelper {
     }
 
     // void; seem AI function
-    public ReturnHelper draw_radar_dot(SpriteBatch paramGraphics, GameConfig paramg, int al, int am, int av, int bo, int bp, int bq, int br, byte[] stt_byte_arr_bs)
+    public ReturnHelper draw_radar_dot(SpriteBatch paramGraphics, GameConfig paramg, int al, int am, int av, int bo, int bp, int bq, int br, int gamestage1, byte[] stt_byte_arr_bs)
     {
         ReturnHelper arrReturn = new ReturnHelper();
 
         int[] arrayOfInt = { 255, 16711680, 16776960, 16776960 }; // 255 ~ blue; 16711680 ~ red; 16776960 ~ yellow
         // This function seem only draw radar dot red for missile, yellow for enermy ?
         int i5 = paramg.c;
-        int i3 = paramg.boss_distance_1;
-        int i4 = paramg.boss_distance_2;
+        int e_distance_radar_x = paramg.enemy_distance_1; // i3
+        int e_distance_radar_y = paramg.enemy_distance_2; // i4
         // int i1 = shift_byte_6(450 - av, i3, i4, bo, bp, bq, br, stt_byte_arr_bs);
-        ReturnHelper shiftReturn = shift_byte_6(450 - av, i3, i4, bo, bp, bq, br, stt_byte_arr_bs);
-        int i1 = shiftReturn.five;
+        ReturnHelper shiftReturn = shift_byte_6(450 - av, e_distance_radar_x, e_distance_radar_y, bo, bp, bq, br, stt_byte_arr_bs);
+        int e_ai_distance_x = shiftReturn.five; // i1
         bo = (shiftReturn.one > shiftReturn.MIN_INT) ? shiftReturn.one : bo;
         bp = (shiftReturn.two > shiftReturn.MIN_INT) ? shiftReturn.two : bp;
         bq = (shiftReturn.three > shiftReturn.MIN_INT) ? shiftReturn.three : bq;
         br = (shiftReturn.four > shiftReturn.MIN_INT) ? shiftReturn.four : br;
 
         // int i2 = return_turn_helper(450 - av, i3, i4, bo, bp, bq, br, stt_byte_arr_bs);
-        ReturnHelper returnHelper2 = return_turn_helper(450 - av, i3, i4, bo, bp, bq, br, stt_byte_arr_bs);
-        int i2 = returnHelper2.five;
+        ReturnHelper returnHelper2 = return_turn_helper(450 - av, e_distance_radar_x, e_distance_radar_y, bo, bp, bq, br, stt_byte_arr_bs);
+        int e_ai_distance_y = returnHelper2.five; // i2
         bo = (returnHelper2.one > returnHelper2.MIN_INT) ? returnHelper2.one : bo;
         bp = (returnHelper2.two > returnHelper2.MIN_INT) ? returnHelper2.two : bp;
         bq = (returnHelper2.three > returnHelper2.MIN_INT) ? returnHelper2.three : bq;
         br = (returnHelper2.four > returnHelper2.MIN_INT) ? returnHelper2.four : br;
 
-        if ((i5 >= 11) && ((paramg.e = shift_3(i3, i4)) < 4284))
+        if ((i5 >= 11) && ((paramg.e = shift_3(e_distance_radar_x, e_distance_radar_y)) < 4284))
         {
-            i3 = i1 >> 8;
-            i4 = i2 >> 8;
+            e_distance_radar_x = e_ai_distance_x >> 8;
+            e_distance_radar_y = e_ai_distance_y >> 8;
             if( (i5 - 11) < arrayOfInt.length) {
                 // paramGraphics.setColor(arrayOfInt[(i5 - 11)]);
             }
             // Enermy dot yellow for fighter, red for missile
-            // i5 = 12 -> (i5-11) = 1 -> color = red (missile); i5 = 13, 14 is two enemies at same time
+            // i5 = 12 -> (i5-11) = 1 -> color = red (missile); i5 = 13, 14 is two enemies position at same time
             // Enemies are marked as yellow points, their missiles are marked red.
-            fillRect(paramGraphics, 28 + i3, 21 - i4, 3, 3, 2);
+            fillRect(paramGraphics, 28 + e_distance_radar_x, 21 - e_distance_radar_y, 3, 3, 2);
         }
-        i2 += 300;
-        int i6 = i2 + 151;
+        e_ai_distance_y += 300;
+        int i6 = e_ai_distance_y + 151;
         if (i6 > 0)
         {
             paramg.g = (20000 / i6);
-            paramg.f = (i1 * 151 / i6);
-            paramg.d = (7 - (i2 >> 9));
+            paramg.f = (e_ai_distance_x * 151 / i6);
+            paramg.d = (7 - (e_ai_distance_y >> 9));
         }
         else
         {
             paramg.d = 8;
         }
-        paramg.boss_distance_1 -= al; // -1 too slow; but *1000 -> error boss disapear n can not pass first boss scene
-        // may be this is boss hp and used in somewhere
-        if(paramg.boss_distance_2 < 0) {
-//            Gdx.app.log("ERROR", paramg.debug() );
-//            Gdx.app.log("ERROR", "al " + al + " am " + am +" av "+ av + " bo "+ bo + " bp " + bp + " bq " + bq + " br " + br);
-            if(am > 0 ) {
-                paramg.boss_distance_2 -= am*10000; // 20, 10; combined other calc => distance -189 per loop
-            } else { // ie. -3
-                // Ensure boss reach, but this make turn guidance worthless
-                // am can be have value -3
-                paramg.boss_distance_2 -= am*-10000*4; // 20, 10; combined other calc => distance -189 per loop
+        paramg.enemy_distance_1 -= al; // -1 too slow; but *1000 -> error boss disappear n can not pass first boss scene
+        paramg.enemy_distance_2 -= am;
+        // This is fix in boss fight scene to allow boss reachable; 1 ~ destroy n; 2 ~ finding stage; 3 ~ boss fight
+        // fix me gamestage seem not work at level 2 (may be number e to destroy have issue)
+        if (gamestage1 == 2) {
+            if(paramg.enemy_distance_2 < 0) {
+                if(am > 0 ) {
+                    paramg.enemy_distance_2 -= am*4000; // 20, 10; combined other calc => distance -189 per loop
+                } else { // ie. -3
+                    paramg.enemy_distance_2 -= am*-6000; // TODO use level to update these value to better distance each level
+                }
             }
         }
 

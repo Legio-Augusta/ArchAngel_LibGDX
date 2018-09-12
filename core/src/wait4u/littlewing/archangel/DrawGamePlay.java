@@ -562,7 +562,7 @@ public class DrawGamePlay {
         // Fighter hp ?
         fillRect(paramGraphics, 192+20, 5+2, i1 / 2, 4, 1);
         // Gdx.app.log("DEBUG", "Fighter HP: " + archAngel.gameSetting.fighter_hp + " >> 9 i1 = "+ i1);
-        if (archAngel.mainGameScreen.bi == 3)
+        if (archAngel.mainGameScreen.gamestage1 == 3)
         {
             if (archAngel.mainGameScreen.bool_bh == true)
             {
@@ -589,7 +589,7 @@ public class DrawGamePlay {
                 i1 = archAngel.gameSetting.t * 40 / archAngel.gameSetting.r;
             }
         }
-        else if (archAngel.mainGameScreen.bi == 1)
+        else if (archAngel.mainGameScreen.gamestage1 == 1)
         {
             if(archAngel.gameSetting.m != 0) {
                 i1 = archAngel.gameSetting.o * 40 / archAngel.gameSetting.m;
@@ -1073,7 +1073,7 @@ public class DrawGamePlay {
                     fillRect( paramGraphics, 0, 119, 240, 30, 0);
                     fillRect( paramGraphics, 0, 171, 240, 10, 0);
                     fillRect( paramGraphics, 0, 205, 240, 30, 0);
-                    // TODO 3 drawClip in boss_distance_1 row
+                    // TODO 3 drawClip in enemy_distance_1 row
                     // paramGraphics.setClip(0, 80 + 5 * archAngel.x, 240, 200 - 10 * archAngel.x);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 30, 0, 80);
                     // paramGraphics.setClip(0, 0, 240, 320);
