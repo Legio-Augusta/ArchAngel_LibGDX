@@ -207,7 +207,7 @@ public class MainGameHelper {
     }
 
     // void; seem AI function
-    public ReturnHelper draw_radar_dot(SpriteBatch paramGraphics, GameConfig paramg, int al, int am, int av, int bo, int bp, int bq, int br, int gamestage1, byte[] stt_byte_arr_bs)
+    public ReturnHelper draw_radar_dot(SpriteBatch paramGraphics, GameConfig paramg, int al, int am, int av, int bo, int bp, int bq, int br, int gamestage1, int aa_sprite_level, byte[] stt_byte_arr_bs)
     {
         ReturnHelper arrReturn = new ReturnHelper();
 
@@ -260,7 +260,11 @@ public class MainGameHelper {
         paramg.enemy_distance_2 -= am;
         // This is fix in boss fight scene to allow boss reachable; 1 ~ destroy n; 2 ~ finding stage; 3 ~ boss fight
         // fix me gamestage seem not work at level 2 (may be number e to destroy have issue)
-        if (gamestage1 == 2) {
+
+        // Distance should be decreased, but on debug it show that distance should be exceed over 1.9B
+        // TODO use temp var to avoid affect two enemy position
+        if ( false ) { // aa_sprite_level >= 1) { // gamestage1 == 2
+            Gdx.app.log("ERROR", " Level " + aa_sprite_level + " stage "+ gamestage1);
             if(paramg.enemy_distance_2 < 0) {
                 if(am > 0 ) {
                     paramg.enemy_distance_2 -= am*4000; // 20, 10; combined other calc => distance -189 per loop

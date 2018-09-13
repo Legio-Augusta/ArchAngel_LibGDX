@@ -771,7 +771,7 @@ public class MainGameScreen {
         for (int i1 = 0; i1 < 18; i1++) {
             if (gameConfigArr[i1].c != 0) {
                 ReturnHelper arrReturn =
-                this.gameHelper.draw_radar_dot(paramGraphics, gameConfigArr[i1], this.al, this.am, this.av, this.bo, this.bp, this.bq, this.br, this.gamestage1, stt_byte_arr_bs);
+                this.gameHelper.draw_radar_dot(paramGraphics, gameConfigArr[i1], this.al, this.am, this.av, this.bo, this.bp, this.bq, this.br, this.gamestage1, this.AA.boss_sprite_level, stt_byte_arr_bs);
                 Gdx.app.log("ERROR", ""+this.gamestage1);
                 this.bo = (arrReturn.one > arrReturn.MIN_INT) ? arrReturn.one : this.bo;
                 this.bp = (arrReturn.two > arrReturn.MIN_INT) ? arrReturn.two : this.bp;

@@ -514,6 +514,7 @@ public class DrawGamePlay {
             case 1:
                 // paramGraphics.setColor(14408703); // purple
                 // paramGraphics.drawString(archAngel.mainGameScreen.boss_distance + " m", 120, 3, 17);
+                archAngel.readMedia.drawStringGraphic(paramGraphics, 120, 3, archAngel.mainGameScreen.boss_distance + " m", 17);
                 int i1 = archAngel.mainGameScreen.f; // Related to Hero HP
                 int i2 = Math.abs(i1) / 60 + 1;
                 if ((i1 <= 5) && (i1 >= -5))
