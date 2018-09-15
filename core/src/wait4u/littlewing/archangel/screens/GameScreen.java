@@ -300,19 +300,19 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                     {
                         keyReleased(50);
                         this.archAngel.mainGameScreen.setup3();
-                        this.archAngel.mainGameScreen.ba = 0; // may be used to stop turning
-                        this.archAngel.mainGameScreen.a9 = 0;
+                        this.archAngel.mainGameScreen.hecman_step = 0; // may be used to stop turning
+                        this.archAngel.mainGameScreen.hecman_y_step = 0;
                         this.archAngel.mainGameScreen.bd = 0;
                     }
                     switch (paramInt)
                     {
                         case 49:
                             this.archAngel.mainGameScreen.simple_90(true);
-                            this.archAngel.mainGameScreen.ba = 3;
+                            this.archAngel.mainGameScreen.hecman_step = 3;
                             break;
                         case 51:
                             this.archAngel.mainGameScreen.simple_90(false);
-                            this.archAngel.mainGameScreen.ba = 4;
+                            this.archAngel.mainGameScreen.hecman_step = 4;
                             break;
                         case 53:
                             if ((this.archAngel.mainGameScreen.gamestage1 == 1) && (this.archAngel.bool_m == true)) {
@@ -331,19 +331,19 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                             break;
                         case 50:
                             this.archAngel.mainGameScreen.speed_up_down(true);
-                            this.archAngel.mainGameScreen.a9 = 1;
+                            this.archAngel.mainGameScreen.hecman_y_step = 1;
                             break;
                         case 56:
                             this.archAngel.mainGameScreen.speed_up_down(false);
-                            this.archAngel.mainGameScreen.a9 = 2;
+                            this.archAngel.mainGameScreen.hecman_y_step = 2;
                             break;
                         case 52:
                             this.archAngel.mainGameScreen.left_right(true);
-                            this.archAngel.mainGameScreen.ba = 1;
+                            this.archAngel.mainGameScreen.hecman_step = 1;
                             break;
                         case 54:
                             this.archAngel.mainGameScreen.left_right(false);
-                            this.archAngel.mainGameScreen.ba = 2;
+                            this.archAngel.mainGameScreen.hecman_step = 2;
                             break;
                         case 48:
                             if (this.archAngel.mainGameScreen.gamestage1 == 3)
@@ -361,19 +361,19 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                             {
                                 case -2:  // Game speed up/down here; -2 ~ DOWN
                                     this.archAngel.mainGameScreen.speed_up_down(false);
-                                    this.archAngel.mainGameScreen.a9 = 2;
+                                    this.archAngel.mainGameScreen.hecman_y_step = 2;
                                     break;
                                 case -1: // up speed
                                     this.archAngel.mainGameScreen.speed_up_down(true);
-                                    this.archAngel.mainGameScreen.a9 = 1;
+                                    this.archAngel.mainGameScreen.hecman_y_step = 1;
                                     break;
                                 case -4:
                                     this.archAngel.mainGameScreen.left_right(false);
-                                    this.archAngel.mainGameScreen.ba = 2;
+                                    this.archAngel.mainGameScreen.hecman_step = 2;
                                     break;
                                 case -3:
                                     this.archAngel.mainGameScreen.left_right(true);
-                                    this.archAngel.mainGameScreen.ba = 1;
+                                    this.archAngel.mainGameScreen.hecman_step = 1;
                                     break;
                                 case -7:
                                     if (this.archAngel.bool_l) {
@@ -579,8 +579,8 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                     if ((this.archAngel.readText.a == 1) && ((paramInt == -7) || (paramInt == -5) || (paramInt == 49)))
                     {
                         this.archAngel.mainGameScreen.setup3();
-                        this.archAngel.mainGameScreen.ba = 0;
-                        this.archAngel.mainGameScreen.a9 = 0;
+                        this.archAngel.mainGameScreen.hecman_step = 0;
+                        this.archAngel.mainGameScreen.hecman_y_step = 0;
                         this.archAngel.mainGameScreen.bd = 0;
                     }
                 }
@@ -598,8 +598,8 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                         this.archAngel.playSound("s_plasma", 0);
                     }
                     this.archAngel.mainGameScreen.setup3();
-                    this.archAngel.mainGameScreen.ba = 0;
-                    this.archAngel.mainGameScreen.a9 = 0;
+                    this.archAngel.mainGameScreen.hecman_step = 0;
+                    this.archAngel.mainGameScreen.hecman_y_step = 0;
                     this.archAngel.mainGameScreen.bd = 0;
                 }
                 break;
@@ -723,8 +723,8 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                 if ((paramInt == 49) || (paramInt == 50) || (paramInt == 51) || (paramInt == 52) || (paramInt == 54) || (paramInt == 57) || (paramInt == -1) || (paramInt == -2) || (paramInt == -4) || (paramInt == -3))
                 {
                     this.archAngel.mainGameScreen.setup3();
-                    this.archAngel.mainGameScreen.ba = 0;
-                    this.archAngel.mainGameScreen.a9 = 0;
+                    this.archAngel.mainGameScreen.hecman_step = 0;
+                    this.archAngel.mainGameScreen.hecman_y_step = 0;
                     this.archAngel.mainGameScreen.bd = 0;
                 }
                 break;
@@ -738,8 +738,8 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         if (this.archAngel.screen == 25)
         {
             this.archAngel.mainGameScreen.setup3();
-            this.archAngel.mainGameScreen.ba = 0;
-            this.archAngel.mainGameScreen.a9 = 0;
+            this.archAngel.mainGameScreen.hecman_step = 0;
+            this.archAngel.mainGameScreen.hecman_y_step = 0;
             this.archAngel.mainGameScreen.bd = 0;
         }
     }

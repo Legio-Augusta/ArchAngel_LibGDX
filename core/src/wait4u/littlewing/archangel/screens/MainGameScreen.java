@@ -37,7 +37,7 @@ public class MainGameScreen {
     public int w;
     public int x;
     public int destroy_n_e; // Number of enemy have to destroy before reach boss
-    public int z;
+    public int fighter_turn; // ~ fighter turn
     public int mission_stage;
     public final byte byte_ab = 0;
     public final byte byte_ac = 1;
@@ -46,17 +46,17 @@ public class MainGameScreen {
     public int af = 0;
     public int ag = 0;
     public int ah = 0;
-    public int ai;
+    public int ai;  // aim related
     public int aj = -1;
     public int ak = 0;
     public int al = 0; // boss related
     public int am = 0; // boss dist related
     public int an = 0;
     public int ao = 0;
-    public int ap = 0;
+    public int ap = 0; // Related to mission stage (ie. hecman transformer)
     public int aq = 0;
     public int ar = 0; // related to fighter speed
-    public int as = 0;
+    public int as = 0; // aim target related
     public int at;
     public int au = 0;
     public int av = 90;
@@ -73,9 +73,9 @@ public class MainGameScreen {
     public int[] int_arr_a6 = { 187, 232, 304 };
     public boolean[] bool_arr_a7 = new boolean[4];
     public int a8;
-    public int a9; // Related to fighter game speed
-    public int ba;
-    public int bb = 90;
+    public int hecman_y_step; // Related to fighter game speed
+    public int hecman_step;
+    public int fighter_x = 90; // Fighter init position x 240px width; aa width range from 35, 47 to ab 61px; turn sprite is more slim
     public int fighter_y = 169; // Game speed or fighter y-position (bc)
     public int bd;
     public int be;
@@ -351,7 +351,7 @@ public class MainGameScreen {
 
     public void init_game2()
     {
-        this.bb = 90;
+        this.fighter_x = 90;
         this.fighter_y = 169;
         this.int_arr_a5[1] = -82;
         this.AA.ae = 40;
@@ -360,7 +360,7 @@ public class MainGameScreen {
         this.av = 90;
         this.ap = 0;
         this.au = 0;
-        this.ba = 0;
+        this.hecman_step = 0;
         this.a8 = 0;
         this.bd = 0;
         this.mission_stage = 0;
@@ -453,8 +453,8 @@ public class MainGameScreen {
         else // fix me image idx 81 82 83 seem missing, debug JME to find it
         {
             this.aj = -1;
-            if (this.gamestage1 == 1) {
-                this.readMedia.drawImageAnchor20(paramGraphics, 83, this.ai, 136);
+            if (this.gamestage1 == 1) { // effect 12 (aim target)
+                this.readMedia.drawImageAnchor20(paramGraphics, 83, this.ai+5, 136); // nickfarrow+15
             }
         }
     }
@@ -463,12 +463,14 @@ public class MainGameScreen {
     {
         int i1 = -this.av * 4 + 360;
         int i2 = this.at >> 14;
-        if (i2 < 0) {
+        if (i2 < 0) { // fix me why unused code here
             i2 = 0;
         }
+        // Background 0
         this.readMedia.drawImageAnchor20(paramGraphics, 7, this.int_arr_a5[0], 27);
         this.readMedia.drawImageAnchor20(paramGraphics, 7, this.int_arr_a5[0] + (this.bool_arr_a7[0] != false ? -240 : 240), 27); // != 0
-        // this.readMedia.drawImageAnchor36(paramGraphics, 8, this.int_arr_a5[1], 166);
+        // Bg 1 Table mount Hara Berezaiti ﺐﻠﻧﺩ
+        this.readMedia.drawImageAnchor36(paramGraphics, 8, this.int_arr_a5[1], 166);
     }
 
     public void draw_anchor_helper3(SpriteBatch paramGraphics)
@@ -490,40 +492,51 @@ public class MainGameScreen {
     public void draw_arr_byte_plasma_boss(SpriteBatch paramGraphics)
     {
         byte[][] arrayOfByte1 = { { 5, -8 }, { 2, -18 }, { 6, -22 }, { 3, -25 } };
+        // Used in draw fuel burn thrust position
         byte[][] arrayOfByte2 = { new byte[2], { 1, 6 }, { -2, -10 }, { 4, 8 }, { 1, -12 }, { -1, -4 }, { 0, 4 }, { 0, -6 }, { 1, 5 } };
         int i1 = this.ap / 3;
         int i2 = this.ap / 4 % 8;
-        if (this.ba < 3)
+        if (this.hecman_step < 3)
         {
             if (this.bd < 5) {
-                this.z = this.ba;
+                this.fighter_turn = this.hecman_step; // calc turn sprite change affect position of fighter TOP-LEFT of fighter sprite
             } else {
-                this.z = (this.ba + 2);
+                this.fighter_turn = (this.hecman_step + 2);
             }
         }
         else if (this.bd < 5) {
-            this.z = (this.ba + 2);
+            this.fighter_turn = (this.hecman_step + 2);
         } else {
-            this.z = (this.ba + 4);
+            this.fighter_turn = (this.hecman_step + 4);
         }
         switch (this.gamestage1) // TODO this seem game state ?
         {
-            case 1:
-                this.readMedia.drawImageInArr(paramGraphics, 24 + this.z, this.bb + 30, this.fighter_y + 11);
+            case 1: // playing
+                // this.z ~ turn sprite position shift
+                // TODO fix smooth turn
+                this.readMedia.drawImageInArr(paramGraphics, 24 + this.fighter_turn, this.fighter_x +10, this.fighter_y + 11); // x + 30
                 if ((this.bool_ay == true) && (this.ap % 2 == 0)) {
                     this.readMedia.drawImageInArr(paramGraphics, 80, 120, 165);
                 }
                 if (this.AA.game_state != 3)
                 {
-                    //paramGraphics.setClip(this.bb + 10 + arrayOfByte2[this.game_state][0], this.bc + 11 + arrayOfByte2[this.game_state][1], 12, 11);
-                    this.readMedia.drawImageAnchor20(paramGraphics, 33, this.bb + 10 + arrayOfByte2[this.z][0], this.fighter_y + 11 + arrayOfByte2[this.z][1] - 11 * (this.ap % 2));
-                    //paramGraphics.setClip(this.bb + 38 - arrayOfByte2[this.game_state][0], this.bc + 11 - arrayOfByte2[this.game_state][1], 12, 11);
-                    this.readMedia.drawImageAnchor20(paramGraphics, 34, this.bb + 38 - arrayOfByte2[this.z][0], this.fighter_y + 11 - arrayOfByte2[this.z][1] - 11 * (this.ap % 2));
+                    // Note This set clip have both x, y posision dynamic, so it very fit with Fighter fuel burn thrust posision.
+                    // Only few setClip region in source code have DYNAMIC position.
+                    // Original [12x22] aa_09/10 and [22x28]px aa_17 ; media idx 24->42
+                    // paramGraphics.setClip(this.fighter_x + 10 + arrayOfByte2[this.game_state][0], this.bc + 11 + arrayOfByte2[this.game_state][1], 12, 11);
+
+                    // 33 ~ 24 + 9 ~ Fighter thrust normal mode
+                    // this.readMedia.drawImageAnchor20(paramGraphics, 33, this.fighter_x + 10 + arrayOfByte2[this.z][0], this.fighter_y + 11 + arrayOfByte2[this.z][1] - 11 * (this.ap % 2));
+                    this.readMedia.myDrawClipRegion(paramGraphics, 0, this.fighter_x + 10 + arrayOfByte2[this.fighter_turn][0]+13, this.fighter_y + 11 + arrayOfByte2[this.fighter_turn][1] - 11 * (this.ap % 2) +20); // nickfarrow x+15; y+42
+
+                    //paramGraphics.setClip(this.fighter_x + 38 - arrayOfByte2[this.game_state][0], this.bc + 11 - arrayOfByte2[this.game_state][1], 12, 11);
+                    // this.readMedia.drawImageAnchor20(paramGraphics, 34, this.fighter_x + 38 - arrayOfByte2[this.z][0], this.fighter_y + 11 - arrayOfByte2[this.z][1] - 11 * (this.ap % 2));
+                    this.readMedia.myDrawClipRegion(paramGraphics, 2, this.fighter_x + 38 - arrayOfByte2[this.fighter_turn][0]+13, this.fighter_y + 11 - arrayOfByte2[this.fighter_turn][1] - 11 * (this.ap % 2) +20);
                     // paramGraphics.setClip(0, 0, 240, 300);
                 }
                 this.AA.bool_m = true;
                 break;
-            case 2:
+            case 2: // this seem starting engine scene
                 this.AA.stopSound();
                 //paramGraphics.setClip(0, 0, 240, 300);
                 if (i1 / 2 % 2 == 0) {
@@ -535,9 +548,12 @@ public class MainGameScreen {
                 this.bool_bg = true;
                 if (i1 < 5) {
                     if (i1 == 0) {
-                        this.readMedia.drawImageAnchor20(paramGraphics, 24, this.bb, this.fighter_y);
+                        // Fighter
+                        // Need careful fix position to center and sync this position value to GameController for other anchor data.
+                        this.readMedia.drawImageAnchor20(paramGraphics, 24, this.fighter_x, this.fighter_y); // fix me
                     } else {
-                        this.readMedia.drawImageAnchor20(paramGraphics, 24 + i1 + 10, this.bb + arrayOfByte1[(i1 - 1)][0], this.fighter_y + arrayOfByte1[(i1 - 1)][1]);
+                        // Hecman transformer
+                        this.readMedia.drawImageAnchor20(paramGraphics, 24 + i1 + 10, this.fighter_x + arrayOfByte1[(i1 - 1)][0], this.fighter_y + arrayOfByte1[(i1 - 1)][1]);
                     }
                 }
                 if (i1 == 5)
@@ -557,13 +573,14 @@ public class MainGameScreen {
                     for (int i3 = 18; i3 < 24; i3++) {
                         this.readMedia.destroyImage(84 + i3);
                     }
-                    this.readMedia.drawImageAnchor20(paramGraphics, 38, this.bb + arrayOfByte1[3][0], this.fighter_y + arrayOfByte1[3][1]);
-                    this.bb = 93;
+                    // Normal hecman
+                    this.readMedia.drawImageAnchor20(paramGraphics, 38, this.fighter_x + arrayOfByte1[3][0], this.fighter_y + arrayOfByte1[3][1]);
+                    this.fighter_x = 93;
                     this.fighter_y = 144;
                     System.gc();
                     this.readMedia.readMediaStream("boss" + this.AA.boss_sprite_level);
                     for (int i3 = 0; i3 < 7; i3++) {
-                        this.readMedia.reloadImageArr(i3, 62 + i3);
+                        this.readMedia.reloadImageArr(i3, 62 + i3); // sprite Idx from 62 to 68
                     }
                     this.readMedia.closeInputStream();
                     this.readMedia.readMediaStream("plasma");
@@ -575,26 +592,26 @@ public class MainGameScreen {
                 }
                 break;
             case 3: // stage boss fight
-                switch (this.ba) // TODO boss move or what this ?
+                switch (this.hecman_step) // TODO boss move or what this ?
                 {
                     case 1:
-                        this.bb -= 10;
-                        if (this.bb < 33) {
-                            this.bb = 33;
+                        this.fighter_x -= 10;
+                        if (this.fighter_x < 33) {
+                            this.fighter_x = 33;
                         }
                         break;
                     case 2:
-                        this.bb += 10;
-                        if (this.bb > 153) {
-                            this.bb = 153;
+                        this.fighter_x += 10;
+                        if (this.fighter_x > 153) {
+                            this.fighter_x = 153;
                         }
                         break;
                     case 3:
                     case 4:
-                        this.ba = 0;
+                        this.hecman_step = 0;
                         break;
                 }
-                switch (this.a9)  // Hecman (fighter transformed)  move
+                switch (this.hecman_y_step)  // Hecman (fighter transformed)  move
                 {
                     case 1:
                         this.fighter_y -= 10;
@@ -609,21 +626,25 @@ public class MainGameScreen {
                         }
                         break;
                 }
-                this.readMedia.drawImageAnchor20(paramGraphics, 38 + this.ba, this.bb, this.fighter_y);
-                if (this.ba == 1)
+                // Hecman step move
+                this.readMedia.drawImageAnchor20(paramGraphics, 38 + this.hecman_step, this.fighter_x, this.fighter_y); // Hecman
+                if (this.hecman_step == 1)
                 {
-                    //paramGraphics.setClip(this.bb + 14, this.bc + 21, 19, 14);
-                    this.readMedia.drawImageAnchor20(paramGraphics, 42, this.bb + 14, this.fighter_y + 7);
+                    //paramGraphics.setClip(this.fighter_x + 14, this.bc + 21, 19, 14);
+                    // this.readMedia.drawImageAnchor20(paramGraphics, 42, this.fighter_x + 14, this.fighter_y + 7);
+                    this.readMedia.myDrawClipRegion(paramGraphics, 6, this.fighter_x + 14, this.fighter_y + 7);
                 }
-                else if (this.ba == 2)
+                else if (this.hecman_step == 2)
                 {
-                    //paramGraphics.setClip(this.bb + 20, this.bc + 21, 19, 14);
-                    this.readMedia.drawImageAnchor20(paramGraphics, 42, this.bb + 20, this.fighter_y + 21);
+                    //paramGraphics.setClip(this.fighter_x + 20, this.bc + 21, 19, 14);
+                    // this.readMedia.drawImageAnchor20(paramGraphics, 42, this.fighter_x + 20, this.fighter_y + 21);
+                    this.readMedia.myDrawClipRegion(paramGraphics, 7, this.fighter_x + 20, this.fighter_y + 21);
                 }
                 else
                 {
-                    //paramGraphics.setClip(this.bb + 16, this.bc + 21, 22, 14);
-                    this.readMedia.drawImageAnchor20(paramGraphics, 41, this.bb + 16, this.fighter_y + 21 - 15 * (i1 / 3 % 2));
+                    //paramGraphics.setClip(this.fighter_x + 16, this.bc + 21, 22, 14);
+                    // this.readMedia.drawImageAnchor20(paramGraphics, 41, this.fighter_x + 16, this.fighter_y + 21 - 15 * (i1 / 3 % 2));
+                    this.readMedia.myDrawClipRegion(paramGraphics, 4, this.fighter_x + 16, this.fighter_y + 21 - 15 * (i1 / 3 % 2));
                 }
                 //paramGraphics.setClip(0, 0, 240, 300);
                 break;
@@ -645,7 +666,7 @@ public class MainGameScreen {
 
         if (this.au > 0)
         {
-            this.b8 = (61 - this.bb);
+            this.b8 = (61 - this.fighter_x);
             this.other_fighter_y = (94 - this.fighter_y);
 
             this.gameHelper.shift_1(paramGraphics, false, 88 - this.b8, 133 - this.other_fighter_y, 30, 8, 4, readMedia, rnd);
@@ -786,7 +807,7 @@ public class MainGameScreen {
                     // complex_draw_helper(paramGraphics, gameConfigArr[i2]);
                     ReturnHelper returnComplexDrawHelper =
                         this.gameHelper.complex_draw_helper(paramGraphics, gameConfigArr[i2], this.readMedia, this.af, this.b0, this.b1, this.b2,
-                            this.b3, this.bb, this.fighter_y, this.be, this.bf, this.gamestage1, this.bj, this.bk, this.by, this.bz, this.AA.bool_n, this.rnd);
+                            this.b3, this.fighter_x, this.fighter_y, this.be, this.bf, this.gamestage1, this.bj, this.bk, this.by, this.bz, this.AA.bool_n, this.rnd);
 
                     // If this.l value has changed
                     this.af = (returnComplexDrawHelper.one > returnComplexDrawHelper.MIN_INT) ? returnComplexDrawHelper.one : this.af;
@@ -801,7 +822,7 @@ public class MainGameScreen {
                     if(returnComplexDrawHelper.bool_one > 0) {
                         this.AA.bool_n = (returnComplexDrawHelper.bool_one != 0) ? true : false;
                     }
-                    this.bb = (returnComplexDrawHelper.yi > returnComplexDrawHelper.MIN_INT) ? returnComplexDrawHelper.yi : this.bb;
+                    this.fighter_x = (returnComplexDrawHelper.yi > returnComplexDrawHelper.MIN_INT) ? returnComplexDrawHelper.yi : this.fighter_x;
                     this.fighter_y = (returnComplexDrawHelper.er > returnComplexDrawHelper.MIN_INT) ? returnComplexDrawHelper.er : this.fighter_y;
                     this.be = (returnComplexDrawHelper.san > returnComplexDrawHelper.MIN_INT) ? returnComplexDrawHelper.san : this.be;
                     this.bf = (returnComplexDrawHelper.si > returnComplexDrawHelper.MIN_INT) ? returnComplexDrawHelper.si : this.bf;
@@ -859,11 +880,11 @@ public class MainGameScreen {
 
     public void complex_helper()
     {
-        simple_helper2(this.a9);
+        simple_helper2(this.hecman_y_step);
         if ((this.x <= 10) && (this.x >= -10)) {
-            // follow_boss(this.ba);
+            // follow_boss(this.hecman_step);
             ReturnHelper bossReturn =
-            this.gameHelper.follow_boss(this.ba, this.bb, this.bd, this.x, this.bool_bg, this.int_arr_a5, this.bool_arr_a7);
+            this.gameHelper.follow_boss(this.hecman_step, this.fighter_x, this.bd, this.x, this.bool_bg, this.int_arr_a5, this.bool_arr_a7);
             this.bd = bossReturn.one;
             this.x = bossReturn.two;
         }

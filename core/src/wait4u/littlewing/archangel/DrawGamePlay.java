@@ -197,6 +197,7 @@ public class DrawGamePlay {
         // paramGraphics.fillRect(0, 119, 240, 181);
         if (paramInt1 == 11)
         {
+            // Bottom background
             archAngel.readMedia.drawImageAnchor20(paramGraphics, 17, 10, 126);
         }
         else if ((paramInt1 >= 12) && (paramInt1 < 14))
@@ -255,7 +256,7 @@ public class DrawGamePlay {
         ReturnHelper myReturn = new ReturnHelper();
 
         archAngel.boss_sprite_level = archAngel.gameSetting.boss_level;
-        archAngel.mainGameScreen.z = 0;
+        archAngel.mainGameScreen.fighter_turn = 0;
         if (archAngel.boss_sprite_level < 3) {
             archAngel.ad = 0;
         } else if ((archAngel.boss_sprite_level == 3) || (archAngel.boss_sprite_level == 4)) {

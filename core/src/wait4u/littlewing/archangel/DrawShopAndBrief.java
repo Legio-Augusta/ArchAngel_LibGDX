@@ -279,9 +279,12 @@ public class DrawShopAndBrief {
                     fillRect(paramGraphics, 0, 119, 240, 30, 4);
                     fillRect(paramGraphics, 0, 171, 240, 10, 4);
                     fillRect(paramGraphics, 0, 205, 240, 30, 4);
-                    archAngel.readMedia.drawImageAnchor20(paramGraphics, 6, 65326 + archAngel.x * 10, 118);
+                    // TODO sync back to J2ME, investigate idx 6 for image sprite
+                    archAngel.readMedia.drawImageAnchor20(paramGraphics, 6, -210 + archAngel.x * 10, 118);
+                    // Bg0
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 7, 247 - archAngel.x * 10, 204);
-                    archAngel.readMedia.drawImageAnchor20(paramGraphics, 9, 65388 + archAngel.x * 10, 125);
+                    // 2 Bg 2
+                    archAngel.readMedia.drawImageAnchor20(paramGraphics, 9, -148 + archAngel.x * 10, 125);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 10, 266 - archAngel.x * 10, 211);
                 }
                 if (archAngel.x == 21) {
@@ -289,6 +292,7 @@ public class DrawShopAndBrief {
                 }
                 break;
             case 2:
+                // Backgrounds
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 6, 0, 118);
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 7, 37, 204);
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 8, 41, 122 + l * 86);
@@ -308,6 +312,7 @@ public class DrawShopAndBrief {
                 fillRect(paramGraphics, 0, 205, 240, 30, 4);
                 if (archAngel.x < 21)
                 {
+                    // Backgrounds
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 6, 0 - archAngel.x * 10, 118);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 7, 37 + archAngel.x * 10, 204);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 9, 62 - archAngel.x * 10, 125);
@@ -315,9 +320,9 @@ public class DrawShopAndBrief {
                 }
                 else if (archAngel.x < 43)
                 {
-                    archAngel.readMedia.drawImageAnchor20(paramGraphics, 6, 65326 + (archAngel.x - 21) * 10, 118);
+                    archAngel.readMedia.drawImageAnchor20(paramGraphics, 6, -210 + (archAngel.x - 21) * 10, 118);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 7, 247 - (archAngel.x - 21) * 10, 204);
-                    archAngel.readMedia.drawImageAnchor20(paramGraphics, 11, 65381 + (archAngel.x - 21) * 10, 125);
+                    archAngel.readMedia.drawImageAnchor20(paramGraphics, 11, -155 + (archAngel.x - 21) * 10, 125);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 12, 265 - (archAngel.x - 21) * 10, 211);
                 }
                 if (archAngel.x == 42) {

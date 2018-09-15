@@ -32,35 +32,37 @@ public class ReadMedia
     private static int BOTTOM_SPACE = (int)SCREEN_HEIGHT/8; // May be change for fit touch button
     BitmapFont font;
 
+    // For clipped sprite manual draw (try to use sprite region on clip later)
+    public Texture[] img_arr_clipped = new Texture[12];
+
     public void destroyImage(int paramInt)
     {
         this.img_arr_a[paramInt] = null;
         System.gc();
     }
 
-    /*
-    https://docs.oracle.com/javame/config/cldc/ref-impl/midp2.0/jsr118/javax/microedition/lcdui/Graphics.html#setClip()
-    public void setClip(int x, int destroy_n_e, int width, int height)
-        Sets the current clip to the rectangle specified by the given coordinates. Rendering operations have no effect outside of the clipping area.
-        Parameters:
-        x - the x coordinate of the new clip rectangle
-        destroy_n_e - the destroy_n_e coordinate of the new clip rectangle
-        width - the width of the new clip rectangle
-        height - the height of the new clip rectangle
+    /**
+     * https://docs.oracle.com/javame/config/cldc/ref-impl/midp2.0/jsr118/javax/microedition/lcdui/Graphics.html#setClip()
+     * public void setClip(int x, int y, int width, int height)
+     *     Sets the current clip to the rectangle specified by the given coordinates. Rendering operations have no effect outside of the clipping area.
+     *     Parameters:
+     *     x - the x coordinate of the new clip rectangle
+     *     y - the y coordinate of the new clip rectangle
+     *     width - the width of the new clip rectangle
+     *     height - the height of the new clip rectangle
+     *    TODO use GDX scissor, texture-packer, texture region ...
      */
-    // TODO use GDX scissor, texture-packer, texture region ...
     public void mySetClip(SpriteBatch paramGraphics, int x, int y, int width, int height)
     {
         // Depend on clip type font or sprites
     }
 
-    /*
-      setClip() and drawImage() combined
-      use width, height of crop area to identify what sprite-packer are used
-      char_idx => character idx in sprite-packer image
-      img_idx => index of texture image in array
-      anchor => original J2ME Graphics.drawImage() anchor
-     */
+    /**
+      * use width, height of crop area to identify what sprite-packer are used
+      * char_idx => character idx in sprite-packer image
+      * img_idx => index of texture image in array
+      * anchor => original J2ME Graphics.drawImage() anchor
+      */
     public void myDrawClip(SpriteBatch paramGraphics, int char_idx, int y, int width, int height, int img_idx, int pos_x, int pos_y, int anchor) {
         if(this.msr_media.equals("font")) {
             if(height == 5) { // Checkme
@@ -73,6 +75,24 @@ public class ReadMedia
             int position_y = (int) ((MOBI_H - pos_y+anchor)*MOBI_SCL - img_height + BOTTOM_SPACE);
             paramGraphics.draw(this.img_arr_a[img_idx], (int)(pos_x * MOBI_SCL), position_y);
         }
+    }
+
+    /**
+     *
+     * Handle draw clip region by simple cut original sprite image to single one then draw each of them.
+     *
+     * @param paramGraphics
+     * @param spriteIdx image clipped sprite index
+     * @param pos_x positon x (240x320 J2ME geometry)
+     * @param pos_y positon y
+     * TODO handle multiple sprite region draw
+     */
+    public void myDrawClipRegion(SpriteBatch paramGraphics, int spriteIdx, int pos_x, int pos_y)
+    {
+        int img_height = this.img_arr_clipped[spriteIdx].getHeight();
+        int position_y = (int) ((MOBI_H - pos_y)*MOBI_SCL - img_height + BOTTOM_SPACE);
+        // Condition for custom position for each sprite image
+        paramGraphics.draw(this.img_arr_clipped[spriteIdx], (int)(pos_x*MOBI_SCL), position_y);
     }
 
     public void destroyImage53_115()
@@ -88,42 +108,57 @@ public class ReadMedia
      * paramGraphics.drawImage(this.img_arr_a[paramInt1], paramInt2, paramInt3, 20);
      *
      * @param paramGraphics
-     * @param int paramInt1 image sprite index
-     * @param paramInt2 positon x (240x320 J2ME geometry)
-     * @param paramInt3 positon y
+     * @param spriteIdx image sprite index
+     * @param pos_x positon x (240x320 J2ME geometry)
+     * @param pos_y positon y
      * 20 => anchor point
      */
-    public void drawImageAnchor20(SpriteBatch paramGraphics, int paramInt1, int paramInt2, int paramInt3)
+    public void drawImageAnchor20(SpriteBatch paramGraphics, int spriteIdx, int pos_x, int pos_y)
     {
-        if (this.img_arr_a[paramInt1] == null) {
-            Gdx.app.log("ERROR", "load Media: " + this.msr_media + " int1= "+ paramInt1 + " int2= " + paramInt2);
-            this.img_arr_a[paramInt1] = new Texture("archangel/plasma_19.png");
+        if (this.img_arr_a[spriteIdx] == null) {
+            Gdx.app.log("ERROR", "load Media: " + this.msr_media + " int1= "+ spriteIdx + " int2= " + pos_x);
+            this.img_arr_a[spriteIdx] = new Texture("archangel/plasma_19.png");
         }
 
         // 53 as BOTTOM_SPACE (~ 240 = 480/2) 240/4.5 ~= 53 (tile cell)
-        int img_height = this.img_arr_a[paramInt1].getHeight();
-        int position_y = (int) ((MOBI_H - paramInt3+20)*MOBI_SCL - img_height + BOTTOM_SPACE); // anchor 20
-        // Gdx.app.log("DEBUG", "IMG: " + this.msr_media + "_" + paramInt1 + " JME destroy_n_e= "+paramInt3 + " position destroy_n_e="+position_y + " height="+img_height + " top bound="+(position_y+img_height));
-        if(paramInt1 == 3) { // && (paramInt1 == 3) // this.msr_media.equals("font")
-             paramGraphics.draw(this.img_arr_a[paramInt1], (int)(paramInt2*MOBI_SCL), position_y -240); // 20 anchor
+        int img_height = this.img_arr_a[spriteIdx].getHeight();
+        int position_y = (int) ((MOBI_H - pos_y+20)*MOBI_SCL - img_height + BOTTOM_SPACE); // anchor 20
+
+        // Fix me hard code position
+        if(spriteIdx == 3) { // && (paramInt1 == 3) // this.msr_media.equals("font")
+             paramGraphics.draw(this.img_arr_a[spriteIdx], (int)(pos_x*MOBI_SCL), position_y -240); // 20 anchor
         } else {
-            paramGraphics.draw(this.img_arr_a[paramInt1], (int)(paramInt2*MOBI_SCL), position_y); // 20 anchor
+            paramGraphics.draw(this.img_arr_a[spriteIdx], (int)(pos_x*MOBI_SCL), position_y); // 20 anchor
         }
     }
 
     public ReadMedia()
     {
         readMediaStream("font");
-//        reloadImageArr(0, 0);
-//        reloadImageArr(1, 1);
-//        for (int i = 3; i < 6; i++) {
-//            reloadImageArr(i, i);
-//        }
-//        closeInputStream();
+        // reloadImageArr(0, 0);
+        // reloadImageArr(1, 1);
+        // for (int i = 3; i < 6; i++) {
+        //     reloadImageArr(i, i);
+        // }
+        // closeInputStream();
 
         font = new BitmapFont();
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         font.getData().setScale(3);
+
+        this.loadClippedTexture();
+    }
+
+    // TODO prevent outofbound
+    private void loadClippedTexture() {
+        this.img_arr_clipped[0] = new Texture("archangel/clipped-sprite/aa_9_0" + ".png");
+        this.img_arr_clipped[1] = new Texture("archangel/clipped-sprite/aa_9_1" + ".png");
+        this.img_arr_clipped[2] = new Texture("archangel/clipped-sprite/aa_10_0" + ".png");
+        this.img_arr_clipped[3] = new Texture("archangel/clipped-sprite/aa_10_1" + ".png");
+        this.img_arr_clipped[4] = new Texture("archangel/clipped-sprite/aa_17_0" + ".png");
+        this.img_arr_clipped[5] = new Texture("archangel/clipped-sprite/aa_17_1" + ".png");
+        this.img_arr_clipped[6] = new Texture("archangel/clipped-sprite/aa_18_0" + ".png");
+        this.img_arr_clipped[7] = new Texture("archangel/clipped-sprite/aa_18_1" + ".png");
     }
 
     public void destroyImage7_53()
@@ -136,12 +171,12 @@ public class ReadMedia
 
     // Load image from binary file seem complex, in many case the img_arr (120 items) has many null value.
     // These null value lead to NullPointer exception
-    public void drawImageAnchor36(SpriteBatch paramGraphics, int paramInt1, int paramInt2, int paramInt3)
+    public void drawImageAnchor36(SpriteBatch paramGraphics, int spriteIdx, int pos_x, int pos_y)
     {
-        int img_height = this.img_arr_a[paramInt1].getHeight();
-        int position_y = (int) ((MOBI_H-paramInt3+36)*MOBI_SCL-img_height/2 + BOTTOM_SPACE); // 36
-        // Gdx.app.log("DEBUG Anchor 36", "IMG: " + this.msr_media + "_" + paramInt1 + " JME destroy_n_e= "+paramInt3 + " position destroy_n_e="+position_y + " height="+img_height + " top bound="+(position_y+img_height));
-        paramGraphics.draw(this.img_arr_a[paramInt1], (int)(paramInt2*MOBI_SCL), position_y); // 36
+        int img_height = this.img_arr_a[spriteIdx].getHeight();
+        int position_y = (int) ((MOBI_H-pos_y+36)*MOBI_SCL-img_height/2 + BOTTOM_SPACE); // 36
+
+        paramGraphics.draw(this.img_arr_a[spriteIdx], (int)(pos_x*MOBI_SCL), position_y); // 36
     }
 
     // TODO debug trace J2ME read text data. May be some default data stored here.
@@ -317,16 +352,16 @@ public class ReadMedia
         return new Texture(Gdx.files.internal("archangel/fence2_6.png")); // DEBUG
     }
 
-    public void drawImageInArr(SpriteBatch paramGraphics, int paramInt1, int paramInt2, int paramInt3)
+    public void drawImageInArr(SpriteBatch paramGraphics, int spriteIdx, int pos_x, int pos_y)
     {
-        if (this.img_arr_a[paramInt1] == null) {
-            Gdx.app.log("ERROR", "load Media Arr: " + this.msr_media + " int_1 "+ paramInt1 + " int_2 " + paramInt2);
-            this.img_arr_a[paramInt1] = new Texture("archangel/plasma_15.png");
+        if (this.img_arr_a[spriteIdx] == null) {
+            Gdx.app.log("ERROR", "load Media Arr: " + this.msr_media + " int_1 "+ spriteIdx + " int_2 " + pos_x);
+            this.img_arr_a[spriteIdx] = new Texture("archangel/plasma_15.png");
         }
-        int img_height = this.img_arr_a[paramInt1].getHeight();
-        int position_y = (int) ((MOBI_H-paramInt3+3)*MOBI_SCL-img_height + BOTTOM_SPACE);
+        int img_height = this.img_arr_a[spriteIdx].getHeight();
+        int position_y = (int) ((MOBI_H-pos_y+3)*MOBI_SCL-img_height + BOTTOM_SPACE);
         // Gdx.app.log("DEBUG INARR", "IMG: " + this.msr_media + "_" + paramInt1 + " JME destroy_n_e= "+paramInt3 + " position destroy_n_e="+position_y + " height="+img_height + " top bound="+(position_y+img_height));
-        paramGraphics.draw(this.img_arr_a[paramInt1], (int)(paramInt2*MOBI_SCL), position_y); // 3
+        paramGraphics.draw(this.img_arr_a[spriteIdx], (int)(pos_x*MOBI_SCL), position_y); // 3
     }
 
     public int readBinaryData()
