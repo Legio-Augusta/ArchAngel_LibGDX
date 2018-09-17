@@ -13,7 +13,7 @@ public class GameConfig
     public int i; // boss dist calc
     public int j;
     public int k;
-    public int l;
+    public int l; // related to boss finding
     public int m;
     public boolean bool_n = false;
 

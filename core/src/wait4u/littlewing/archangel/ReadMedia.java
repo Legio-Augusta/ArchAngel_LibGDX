@@ -549,6 +549,7 @@ public class ReadMedia
         } else if(paramString.equals("result")) { // 6->12
             // this.img_arr_a[i] = new Texture("archangel/result_" + (i-6) + ".png");
         } else if(paramString.equals("select")) {
+            // This seem conflict with 7->17 background; TODO debug J2ME to inspect reload images array logic.
             for (int i = 6; i <= 12; i++) {
                 this.img_arr_a[i] = new Texture("archangel/select_" + (i-6) + ".png");
             }

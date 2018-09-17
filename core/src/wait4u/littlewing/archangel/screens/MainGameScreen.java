@@ -151,18 +151,16 @@ public class MainGameScreen {
                     this.f = this.gameHelper.turn_calc(this.gameHelper.angle_helper(paramGameCnf.enemy_distance_1, paramGameCnf.enemy_distance_2, stt_byte_arr_bt), this.av);
                     this.boss_distance = (Math.abs(paramGameCnf.enemy_distance_1) + Math.abs(paramGameCnf.enemy_distance_2) - 200);
                 }
-                if( (Math.abs(paramGameCnf.enemy_distance_1) > 1000*1000*1000) || (Math.abs(paramGameCnf.enemy_distance_2) > 1000*1000*1000) ) {
-                    Gdx.app.log("ERROR", "Distance <<>> "+ this.boss_distance + " mission_stage =1? "+(this.mission_stage ==1)+ " dt1 "+paramGameCnf.enemy_distance_1 + " dt2 "+ paramGameCnf.enemy_distance_2);
-                }
+
                 if ((this.boss_distance <= 0) && (this.mission_stage == 1))
                 {
-                    Gdx.app.log("ERROR", "Distance Zou tian ya <<>> "+ this.boss_distance);
                     this.boss_distance = 0;
                     paramGameCnf.c = 0;
                     this.readMedia.readMediaStream("etc");
                     this.readMedia.reloadImageArr(1, 112);
                     this.readMedia.closeInputStream();
                     this.readMedia.readMediaStream("aa");
+                    // Hecman transform from fighter
                     for (i3 = 11; i3 < 19; i3++) {
                         this.readMedia.reloadImageArr(i3, 24 + i3);
                     }
@@ -267,6 +265,9 @@ public class MainGameScreen {
                     paramGameCnf.c = 0;
                     return;
                 }
+                // a = 0011 1100
+                // b = 0000 1101
+                // a & b = 0000 1100 (12 Dec)
                 if (((paramGameCnf.l & 0x1) == 0) && (Math.abs(paramGameCnf.enemy_distance_1 - gameConfigArr[i1].enemy_distance_1) + Math.abs(paramGameCnf.enemy_distance_2 - gameConfigArr[i1].enemy_distance_2) < 300))
                 {
                     paramGameCnf.c = 4;
@@ -708,7 +709,7 @@ public class MainGameScreen {
         }
     }
 
-    public int turn_helper2(int paramInt)
+    public int boss_distance_ai(int paramInt)
     {
         if (paramInt == this.bq) {
             return this.br;
@@ -769,7 +770,7 @@ public class MainGameScreen {
         }
         i5 += i6;
         paramg.h = (6 * turn_helper(i5));
-        paramg.i = (6 * turn_helper2(i5));
+        paramg.i = (6 * boss_distance_ai(i5));
         paramg.j = i5;
     }
 
@@ -912,7 +913,7 @@ public class MainGameScreen {
             this.av -= 360;
         }
         this.al = ((turn_helper(this.av) * this.gamespeed >> 6) + this.an);
-        this.am = ((turn_helper2(this.av) * this.gamespeed >> 6) + this.ao);
+        this.am = ((boss_distance_ai(this.av) * this.gamespeed >> 6) + this.ao);
         this.at -= this.am;
         this.gamespeed += this.ar; // change game speed
         if (this.gamespeed > 60) { // 140
@@ -1019,7 +1020,7 @@ public class MainGameScreen {
             }
         }
         paramg.h = (this.al - this.an + turn_helper(i4) * 2);
-        paramg.i = (this.am - this.ao + turn_helper2(i4) * 2);
+        paramg.i = (this.am - this.ao + boss_distance_ai(i4) * 2);
         paramg.j = i4;
         return i1;
     }
@@ -1035,12 +1036,12 @@ public class MainGameScreen {
         if (i1 == 18) {
             return false;
         }
-        turn_helper2(gameConfigArr[i1], paramInt1, paramInt2);
+        boss_distance_ai(gameConfigArr[i1], paramInt1, paramInt2);
 
         return true;
     }
 
-    public void turn_helper2(GameConfig paramg, int paramInt1, int paramInt2)
+    public void boss_distance_ai(GameConfig paramg, int paramInt1, int paramInt2)
     {
         paramg.m = 0;
         int i1;
@@ -1058,7 +1059,7 @@ public class MainGameScreen {
                 i1 = (this.rnd.nextInt() & 0x1F) - 15;
                 int i2 = (this.rnd.nextInt() & 0x7) + 63;
                 paramg.enemy_distance_1 = (i2 * turn_helper(i1 + this.av));
-                paramg.enemy_distance_2 = (i2 * turn_helper2(i1 + this.av));
+                paramg.enemy_distance_2 = (i2 * boss_distance_ai(i1 + this.av));
                 paramg.h = (paramg.i = 0);
                 paramg.e = i1;
                 this.ah += 1;
@@ -1068,7 +1069,7 @@ public class MainGameScreen {
                 this.av = 90;
                 i1 = 0;
                 paramg.enemy_distance_1 = (60 * turn_helper(i1 + this.av));
-                paramg.enemy_distance_2 = (60 * turn_helper2(i1 + this.av));
+                paramg.enemy_distance_2 = (60 * boss_distance_ai(i1 + this.av));
                 paramg.e = i1;
                 paramg.h = (paramg.i = 0);
                 paramg.j = this.av;
@@ -1081,7 +1082,7 @@ public class MainGameScreen {
                 paramg.m = this.j;
                 i1 = (this.rnd.nextInt() & 0x7F) - 63;
                 paramg.enemy_distance_1 = (60 * turn_helper(i1 + this.av));
-                paramg.enemy_distance_2 = (60 * turn_helper2(i1 + this.av));
+                paramg.enemy_distance_2 = (60 * boss_distance_ai(i1 + this.av));
                 paramg.e = i1;
                 paramg.h = (paramg.i = 0);
                 paramg.j = ((this.av + 180) % 360);
@@ -1096,7 +1097,7 @@ public class MainGameScreen {
                 // i1 = paramg.fighter_hp = angle_helper(-paramg.enemy_distance_1 + this.al, -paramg.screen + this.am);
                 i1 = paramg.j = this.gameHelper.angle_helper(-paramg.enemy_distance_1 + this.al, -paramg.enemy_distance_2 + this.am, stt_byte_arr_bt);
                 paramg.h = (3 * turn_helper(i1) + this.al);
-                paramg.i = (3 * turn_helper2(i1) + this.am);
+                paramg.i = (3 * boss_distance_ai(i1) + this.am);
                 paramg.l = 30;
                 paramg.m = (gameConfigArr[paramInt2].c == 14 ? this.o : this.k);
                 this.af += 1;
@@ -1104,9 +1105,9 @@ public class MainGameScreen {
             case 11:
                 i1 = paramg.j = this.av;
                 paramg.h = (6 * turn_helper(i1));
-                paramg.i = (6 * turn_helper2(i1));
+                paramg.i = (6 * boss_distance_ai(i1));
                 paramg.enemy_distance_1 = (turn_helper(this.av - 90) + paramg.h);
-                paramg.enemy_distance_2 = (turn_helper2(this.av - 90) + paramg.i);
+                paramg.enemy_distance_2 = (boss_distance_ai(this.av - 90) + paramg.i);
                 paramg.e = 64;
                 paramg.k = paramInt2;
                 paramg.l = 30;
@@ -1115,9 +1116,9 @@ public class MainGameScreen {
             case 1:
                 i1 = paramg.j = this.av;
                 paramg.h = (6 * turn_helper(i1));
-                paramg.i = (6 * turn_helper2(i1));
+                paramg.i = (6 * boss_distance_ai(i1));
                 paramg.enemy_distance_1 = (turn_helper(this.av - 90) + paramg.h);
-                paramg.enemy_distance_2 = (turn_helper2(this.av - 90) + paramg.i);
+                paramg.enemy_distance_2 = (boss_distance_ai(this.av - 90) + paramg.i);
                 paramg.e = 64;
                 paramg.k = paramInt2;
                 paramg.l = 30;
@@ -1126,9 +1127,9 @@ public class MainGameScreen {
             case 6:
                 i1 = paramg.j = this.av;
                 paramg.h = (6 * turn_helper(i1));
-                paramg.i = (6 * turn_helper2(i1));
+                paramg.i = (6 * boss_distance_ai(i1));
                 paramg.enemy_distance_1 = (turn_helper(this.av + 90) + paramg.h);
-                paramg.enemy_distance_2 = (turn_helper2(this.av + 90) + paramg.i);
+                paramg.enemy_distance_2 = (boss_distance_ai(this.av + 90) + paramg.i);
                 paramg.e = 64;
                 paramg.l = (10 + this.cc);
                 this.cc = (1 - this.cc);
@@ -1144,7 +1145,7 @@ public class MainGameScreen {
         {
             int i1 = paramBoolean ? 90 : -90;
             this.an = (2 * turn_helper(this.av + i1));
-            this.ao = (2 * turn_helper2(this.av + i1));
+            this.ao = (2 * boss_distance_ai(this.av + i1));
         }
     }
 

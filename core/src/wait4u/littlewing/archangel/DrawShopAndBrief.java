@@ -247,7 +247,7 @@ public class DrawShopAndBrief {
         }
     }
 
-    public void loadSavedGame(SpriteBatch paramGraphics, int l, ArchAngelME archAngel)
+    public void drawGameMenu(SpriteBatch paramGraphics, int l, ArchAngelME archAngel)
     {
         int i1;
         switch (archAngel.game_state)
@@ -281,9 +281,9 @@ public class DrawShopAndBrief {
                     fillRect(paramGraphics, 0, 205, 240, 30, 4);
                     // TODO sync back to J2ME, investigate idx 6 for image sprite
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 6, -210 + archAngel.x * 10, 118);
-                    // Bg0
+                    // select1 or Bg0
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 7, 247 - archAngel.x * 10, 204);
-                    // 2 Bg 2
+                    // Game menu selects; Index reserved to Backgrounds;
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 9, -148 + archAngel.x * 10, 125);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 10, 266 - archAngel.x * 10, 211);
                 }
@@ -292,7 +292,7 @@ public class DrawShopAndBrief {
                 }
                 break;
             case 2:
-                // Backgrounds
+                // Backgrounds (no) new game scene
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 6, 0, 118);
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 7, 37, 204);
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 8, 41, 122 + l * 86);
@@ -334,6 +334,7 @@ public class DrawShopAndBrief {
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 7, 37, 204);
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 8, 41, 122 + archAngel.ah * 86);
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 11, 55, 125);
+                // Easy/Hard mode
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 12, 55, 211);
                 archAngel.drawImage(paramGraphics);
                 archAngel.a(paramGraphics, "OK", false);
@@ -361,6 +362,7 @@ public class DrawShopAndBrief {
                 if (archAngel.x == 20)
                 {
                     for (i1 = 0; i1 < 7; i1++) {
+                        // Destroy all menu images (idx 6 to 12), these index is reserved for background used later
                         archAngel.readMedia.destroyImage(6 + i1);
                     }
                     archAngel.screen = 26;
@@ -399,11 +401,11 @@ public class DrawShopAndBrief {
                 if (archAngel.x < 21)
                 {
                     // paramGraphics.setColor(0);
-                     fillRect(paramGraphics, 0, 60, 240, 240, 4);
+                    fillRect(paramGraphics, 0, 60, 240, 240, 4);
                     // paramGraphics.setColor(4802901);
-                     fillRect(paramGraphics, 0, 119, 240, 30, 4);
-                     fillRect(paramGraphics, 0, 171, 240, 10, 4);
-                     fillRect(paramGraphics, 0, 205, 240, 30, 4);
+                    fillRect(paramGraphics, 0, 119, 240, 30, 4);
+                    fillRect(paramGraphics, 0, 171, 240, 10, 4);
+                    fillRect(paramGraphics, 0, 205, 240, 30, 4);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 4, 0, 160 - 5 * archAngel.x);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 3, 0, 180 + 5 * archAngel.x);
                     // paramGraphics.setClip(0, 180 - 5 * archAngel.x, 240, 10 * archAngel.x);

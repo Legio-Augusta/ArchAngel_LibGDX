@@ -171,7 +171,7 @@ public class MainGameHelper {
         bp = (returnHelper.two > returnHelper.MIN_INT) ? returnHelper.two : bp;
 
         paramg.h = (al - an + bp);
-        // paramg.i = (am - ao + turn_helper2(i4, bq, br, stt_byte_arr_bs));
+        // paramg.i = (am - ao + boss_distance_ai(i4, bq, br, stt_byte_arr_bs));
         ReturnHelper turnReturn = turn_helper2(i4, bq, br, stt_byte_arr_bs);
         bq = (turnReturn.one > turnReturn.MIN_INT) ? turnReturn.one : bq;
         br = (turnReturn.two > turnReturn.MIN_INT) ? turnReturn.two : br;

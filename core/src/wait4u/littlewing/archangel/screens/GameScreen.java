@@ -1018,7 +1018,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                 this.secondHelper.draw_intro(batch, this.archAngel);
                 break;
             case 3:
-                this.helper.loadSavedGame(batch, this.l, this.archAngel);
+                this.helper.drawGameMenu(batch, this.l, this.archAngel);
                 break;
             case 1:
                 this.secondHelper.load_system_txt(batch, this.l, this.o, this.p, this.q, this.t, this.x, this.y, this.str_arr_w, this.archAngel, this.readText, this.helper);
