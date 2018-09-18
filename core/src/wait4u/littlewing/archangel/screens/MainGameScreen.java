@@ -70,8 +70,8 @@ public class MainGameScreen {
     public int a3 = 0;
     public int a4 = 0;
     public int[] int_arr_a5 = new int[5];
-    public int[] int_arr_a6 = { 187, 232, 304 };
-    public boolean[] bool_arr_a7 = new boolean[4];
+    public int[] int_arr_a6 = { 187, 232, 304 }; // Positioning y of bg
+    public boolean[] bool_arr_a7 = new boolean[4]; // Overlap or serie of bg in a line position x
     public int a8;
     public int hecman_y_step; // Related to fighter game speed
     public int hecman_step;
@@ -391,14 +391,15 @@ public class MainGameScreen {
     public void main_paint(SpriteBatch paramGraphics)
     {
         this.AA.bool_l = true; // gameStart, gameOn ?
-        shift_14(paramGraphics);
-        draw_anchor_helper3(paramGraphics);
+        draw_background(paramGraphics);
+        draw_lower_bg(paramGraphics);
         clip_color_arr_helper(paramGraphics);
-        draw_anchor_helper2(paramGraphics);
+        draw_aim_lock(paramGraphics);
         sound_explode(paramGraphics);
     }
 
-    public void draw_anchor_helper2(SpriteBatch paramGraphics)
+    // Draw enemy target lock and aim
+    public void draw_aim_lock(SpriteBatch paramGraphics)
     {
         int i6 = 0;
         // setColor(65280); // F**K U
@@ -439,14 +440,15 @@ public class MainGameScreen {
         {
             if (this.aj >= 0)
             {
-                i1 = gameConfigArr[this.aj].f + 88 + 32;
-                i2 = 155 - gameConfigArr[this.aj].g;
+                i1 = gameConfigArr[this.aj].f + 88 + 32; // enemy position x
+                i2 = 155 - gameConfigArr[this.aj].g;     // enemy position y
                 int i3 = gameConfigArr[this.aj].d * 8 + 4;
                 if (this.gamestage1 == 1) {
                     if (gameConfigArr[this.aj].d < 4) {
-                        this.readMedia.drawImageAnchor20(paramGraphics, 82, i1 - 10, i2 - 6);
+                        // nickfarrow +3
+                        this.readMedia.drawImageAnchor20(paramGraphics, 82, i1 - 10 +3, i2 - 6 + 14); // nickfarrow +14
                     } else {
-                        this.readMedia.drawImageAnchor20(paramGraphics, 81, i1 - 17, i2 - 12);
+                        this.readMedia.drawImageAnchor20(paramGraphics, 81, i1 - 17 +3, i2 - 12 + 14); // nickfarrow +14
                     }
                 }
             }
@@ -460,37 +462,54 @@ public class MainGameScreen {
         }
     }
 
-    public void shift_14(SpriteBatch paramGraphics)
+    // Draw sky background (far and high bg)
+    public void draw_background(SpriteBatch paramGraphics)
     {
         int i1 = -this.av * 4 + 360;
-        int i2 = this.at >> 14;
+        int i2 = this.at >> 14; // 262143 >> 14 = 15
         if (i2 < 0) { // fix me why unused code here
             i2 = 0;
         }
-        // Background 0
+        // Double Background 0, may be bug sky edge sharky here.
+        // Background in same line need careful put together to make smooth bg view. May be 240px to 1080 scale calculation and rounding number caused this.
         this.readMedia.drawImageAnchor20(paramGraphics, 7, this.int_arr_a5[0], 27);
         this.readMedia.drawImageAnchor20(paramGraphics, 7, this.int_arr_a5[0] + (this.bool_arr_a7[0] != false ? -240 : 240), 27); // != 0
         // Bg 1 Table mount Hara Berezaiti ﺐﻠﻧﺩ
-        this.readMedia.drawImageAnchor36(paramGraphics, 8, this.int_arr_a5[1], 166);
+        this.readMedia.drawImageAnchor36(paramGraphics, 8, this.int_arr_a5[1], 166+24); // orig:166
     }
 
-    public void draw_anchor_helper3(SpriteBatch paramGraphics)
+    // Draw bottom (land and near) background bellow bg 0 and bg 1; Original low bg seem have same height as high one
+    public void draw_lower_bg(SpriteBatch paramGraphics)
     {
         this.bv += 1;
         int i2 = this.bv / (5 - this.a8) % 3;
         int[][] arrayOfInt = { new int[3], { 1, 2, 3 }, { 2, 3, 4 } };
         for (int i1 = 0; i1 < 3; i1++)
         {
-            this.readMedia.drawImageAnchor36(paramGraphics, 9 + i1 * 3 + i2, this.int_arr_a5[(i1 + 2)], this.int_arr_a6[i1] - arrayOfInt[i1][i2]);
+            // Backgrounds many bg in same line (row) for turn viewport.
+            // this.readMedia.drawImageAnchor36(paramGraphics, 9 + i1 * 3 + i2, this.int_arr_a5[(i1 + 2)], this.int_arr_a6[i1] - arrayOfInt[i1][i2] + 25); // nickfarrow +25
             // this.screen.screen(paramGraphics, 9 + i1 * 3 + i2, this.a5[(i1 + 2)] + (this.a7[(i1 + 1)] != 0 ? -240 : 240), this.a6[i1] - arrayOfInt[i1][i2]);
-            this.readMedia.drawImageAnchor36(paramGraphics, 9 + i1 * 3 + i2, this.int_arr_a5[(i1 + 2)] + ((this.bool_arr_a7[(i1 + 1)] != false) ? -240 : 240), this.int_arr_a6[i1] - arrayOfInt[i1][i2]);
+            // this.readMedia.drawImageAnchor36(paramGraphics, 9 + i1 * 3 + i2, this.int_arr_a5[(i1 + 2)] + ((this.bool_arr_a7[(i1 + 1)] != false) ? -240 : 240), this.int_arr_a6[i1] - arrayOfInt[i1][i2] + 25);
         }
+        // Custom draw lower bg position. Careful with x position so many layer of bg match view.
+        this.readMedia.drawImageAnchor36(paramGraphics, 9 + 0 * 3 + i2, this.int_arr_a5[(0 + 2)], this.int_arr_a6[0] - arrayOfInt[0][i2] + 25); // nickfarrow +25
+        // 240 +2 in x position to smoother edge caused by rounding calculation
+        this.readMedia.drawImageAnchor36(paramGraphics, 9 + 0 * 3 + i2, this.int_arr_a5[(0 + 2)] + ((this.bool_arr_a7[(0 + 1)] != false) ? -240 : 240), this.int_arr_a6[0] - arrayOfInt[0][i2] + 25);
+
+        this.readMedia.drawImageAnchor36(paramGraphics, 9 + 1 * 3 + i2, this.int_arr_a5[(1 + 2)], this.int_arr_a6[1] - arrayOfInt[1][i2] + 5);
+        this.readMedia.drawImageAnchor36(paramGraphics, 9 + 1 * 3 + i2, this.int_arr_a5[(1 + 2)] + ((this.bool_arr_a7[(1 + 1)] != false) ? -240 : 240), this.int_arr_a6[1] - arrayOfInt[1][i2] + 5);
+
+        this.readMedia.drawImageAnchor36(paramGraphics, 9 + 2 * 3 + i2, this.int_arr_a5[(2 + 2)], this.int_arr_a6[2] - arrayOfInt[2][i2] - 5); // nickfarrow +30
+        this.readMedia.drawImageAnchor36(paramGraphics, 9 + 2 * 3 + i2, this.int_arr_a5[(2 + 2)] + ((this.bool_arr_a7[(2 + 1)] != false) ? -240 : 240), this.int_arr_a6[2] - arrayOfInt[2][i2] - 5);
+
         if ((this.AA.ad == 2) || (this.AA.screen == 0)) {
-            this.readMedia.drawImageAnchor20(paramGraphics, 18 + i2, 0, 166);
+            return;
         }
+        // Briefs; screen = 0 seem to be force show brief on first mission
+        this.readMedia.drawImageAnchor20(paramGraphics, 18 + i2, 0, 166);
     }
 
-    public void draw_arr_byte_plasma_boss(SpriteBatch paramGraphics)
+    public void draw_archangel_and_related(SpriteBatch paramGraphics)
     {
         byte[][] arrayOfByte1 = { { 5, -8 }, { 2, -18 }, { 6, -22 }, { 3, -25 } };
         // Used in draw fuel burn thrust position
@@ -663,7 +682,7 @@ public class MainGameScreen {
 
     public void sound_explode(SpriteBatch paramGraphics)
     {
-        draw_arr_byte_plasma_boss(paramGraphics);
+        draw_archangel_and_related(paramGraphics);
 
         if (this.au > 0)
         {
@@ -869,7 +888,7 @@ public class MainGameScreen {
                 }
             }
         }
-        int i1 = this.at >> 10;
+        int i1 = this.at >> 10; // = 255
         if (i1 != this.cb)
         {
             if ((this.ah < 2) && (i2 != 14) && (this.gamestage1 == 1)) {

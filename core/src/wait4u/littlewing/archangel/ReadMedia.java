@@ -116,8 +116,14 @@ public class ReadMedia
     public void drawImageAnchor20(SpriteBatch paramGraphics, int spriteIdx, int pos_x, int pos_y)
     {
         if (this.img_arr_a[spriteIdx] == null) {
-            Gdx.app.log("ERROR", "load Media: " + this.msr_media + " int1= "+ spriteIdx + " int2= " + pos_x);
-            this.img_arr_a[spriteIdx] = new Texture("archangel/plasma_19.png");
+            Gdx.app.log("ERROR", "load Media: " + this.msr_media + " idx= "+ spriteIdx);
+
+            switch(spriteIdx) {
+                // brief 17 -> 20 or may be these index are reset for reuse.
+                default:
+                    this.img_arr_a[spriteIdx] = new Texture("archangel/plasma_19.png");
+                    break;
+            }
         }
 
         // 53 as BOTTOM_SPACE (~ 240 = 480/2) 240/4.5 ~= 53 (tile cell)
@@ -355,7 +361,7 @@ public class ReadMedia
     public void drawImageInArr(SpriteBatch paramGraphics, int spriteIdx, int pos_x, int pos_y)
     {
         if (this.img_arr_a[spriteIdx] == null) {
-            Gdx.app.log("ERROR", "load Media Arr: " + this.msr_media + " int_1 "+ spriteIdx + " int_2 " + pos_x);
+            Gdx.app.log("ERROR", "load Media Arr: " + this.msr_media + " idx "+ spriteIdx);
             this.img_arr_a[spriteIdx] = new Texture("archangel/plasma_15.png");
         }
         int img_height = this.img_arr_a[spriteIdx].getHeight();
