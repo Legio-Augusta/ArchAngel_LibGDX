@@ -370,7 +370,6 @@ public class DrawShopAndBrief {
                         archAngel.readMedia.destroyImage(6 + i1);
                     }
                     archAngel.screen = 26;
-                    // TODO draw OK/PLAY button
                 }
                 break;
             case 6:

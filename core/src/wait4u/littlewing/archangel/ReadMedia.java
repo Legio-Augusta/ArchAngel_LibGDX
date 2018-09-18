@@ -188,7 +188,6 @@ public class ReadMedia
     // TODO debug trace J2ME read text data. May be some default data stored here.
     public void drawStringGraphic(SpriteBatch paramGraphics, int paramInt1, int paramInt2, String paramString, int paramInt3)
     {
-        Gdx.app.log("ERROR", "---------->" + paramString);
         if(paramString == null) { // dungnv FIXME
             return;
         }
@@ -249,7 +248,7 @@ public class ReadMedia
     public void drawImageSwitch(SpriteBatch paramGraphics, int paramInt1, int paramInt2, int paramInt3, int paramInt4, int paramInt5, int paramInt6)
     {
         // paramGraphics.setClip(paramInt1, paramInt2, paramInt3, paramInt4);
-        Gdx.app.log("DEBUG", "drawImageSwitch width= " + paramInt3  + " height = " + paramInt4 + " msr "+this.msr_media);
+        // Gdx.app.log("DEBUG", "drawImageSwitch width= " + paramInt3  + " height = " + paramInt4 + " msr "+this.msr_media);
         switch (paramInt6)
         {
             case 0:

@@ -1163,7 +1163,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         touchStatus = TouchStatus.TOUCH_UP;
         if(isTouchedMenuLeft() || isTouchedMenuRight() || isTouchedOK() || isTouchedUp() || isTouchedDown() || isTouchedLeft() || isTouchedRight()) {
             // seem only effect key-code can overide keep turning effect
-            this.key_code = KEY_OK; // debug KEY_OK -> turn ok but dupli fire; 51 ok but keep turn right; 35 no effect.
+            // this.key_code = KEY_OK; // debug KEY_OK -> turn ok but dupli fire; 51 ok but keep turn right; 35 no effect.
             this.game_action = 0;
             keyPressed();
         }

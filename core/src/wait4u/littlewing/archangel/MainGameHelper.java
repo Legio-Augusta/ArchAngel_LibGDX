@@ -171,7 +171,7 @@ public class MainGameHelper {
         bp = (returnHelper.two > returnHelper.MIN_INT) ? returnHelper.two : bp;
 
         paramg.h = (al - an + bp);
-        // paramg.i = (am - ao + boss_distance_ai(i4, bq, br, stt_byte_arr_bs));
+        // paramg.i = (am - ao + enemy_ai_2(i4, bq, br, stt_byte_arr_bs));
         ReturnHelper turnReturn = turn_helper2(i4, bq, br, stt_byte_arr_bs);
         bq = (turnReturn.one > turnReturn.MIN_INT) ? turnReturn.one : bq;
         br = (turnReturn.two > turnReturn.MIN_INT) ? turnReturn.two : br;
@@ -232,7 +232,12 @@ public class MainGameHelper {
         bq = (returnHelper2.three > returnHelper2.MIN_INT) ? returnHelper2.three : bq;
         br = (returnHelper2.four > returnHelper2.MIN_INT) ? returnHelper2.four : br;
 
-        if ((i5 >= 11) && ((paramg.e = shift_3(e_distance_radar_x, e_distance_radar_y)) < 4284))
+        ReturnHelper shift3 = shift_3(e_distance_radar_x, e_distance_radar_y);
+        paramg.e = (shift3.three > shift3.MIN_INT) ? shift3.three : paramg.e;
+        e_distance_radar_x = (shift3.one > shift3.MIN_INT) ? shift3.one : e_ai_distance_x;
+        e_distance_radar_y = (shift3.two > shift3.MIN_INT) ? shift3.two : e_ai_distance_y;
+
+        if ((i5 >= 11) && (paramg.e < 4284))
         {
             e_distance_radar_x = e_ai_distance_x >> 8;
             e_distance_radar_y = e_ai_distance_y >> 8;
@@ -244,7 +249,6 @@ public class MainGameHelper {
             // Enemies are marked as yellow points, their missiles are marked red.
             fillRect(paramGraphics, 28 + e_distance_radar_x, 21 - e_distance_radar_y, 3, 3, 2);
         }
-        e_ai_distance_y += 300;
         int i6 = e_ai_distance_y + 151;
         if (i6 > 0)
         {
@@ -284,8 +288,10 @@ public class MainGameHelper {
         return arrReturn;
     }
 
-    public int shift_3(int paramInt1, int paramInt2)
+    // int
+    public ReturnHelper shift_3(int paramInt1, int paramInt2)
     {
+        ReturnHelper shift3Return = new ReturnHelper();
         int i1 = 0;
         if (paramInt1 < 0) {
             paramInt1 = -paramInt1;
@@ -294,14 +300,25 @@ public class MainGameHelper {
             paramInt2 = -paramInt2;
         }
         if (paramInt1 + paramInt2 == 0) {
-            return 0;
+            // return 0;
+            shift3Return.one = paramInt1;
+            shift3Return.two = paramInt2;
+            shift3Return.three = 0;
+
+            return shift3Return;
         }
         if (paramInt1 > paramInt2) {
             i1 = (18 - (paramInt1 << 3) / (paramInt1 + paramInt2)) * paramInt1;
         } else {
             i1 = (18 - (paramInt2 << 3) / (paramInt1 + paramInt2)) * paramInt2;
         }
-        return i1 / 10;
+
+        // return i1 / 10;
+        shift3Return.one = paramInt1;
+        shift3Return.two = paramInt2;
+        shift3Return.three = i1 / 10;
+
+        return shift3Return;
     }
 
     public int turnAngleCalc(int paramInt,  byte[] stt_byte_arr_bs)
@@ -552,27 +569,6 @@ public class MainGameHelper {
         bossReturn.one = bd;
         bossReturn.two = x;
         return bossReturn;
-    }
-
-    // FIXME can not change speed of fighter
-    public void simple_helper2(int paramInt, int a8, boolean bool_bg)
-    {
-        if (!bool_bg) {
-            if (paramInt == 1)
-            {
-                a8 += 1;
-                if (a8 > 4) {
-                    a8 = 4;
-                }
-            }
-            else if (paramInt == 2)
-            {
-                a8 += -1;
-                if (a8 < 0) {
-                    a8 = 0;
-                }
-            }
-        }
     }
 
     // FIXME
