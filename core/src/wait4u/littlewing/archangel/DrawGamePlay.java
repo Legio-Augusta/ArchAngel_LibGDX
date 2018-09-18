@@ -197,7 +197,7 @@ public class DrawGamePlay {
         // paramGraphics.fillRect(0, 119, 240, 181);
         if (paramInt1 == 11)
         {
-            // Bottom background
+            // Bottom background or brief (these index 17-20 is reused
             archAngel.readMedia.drawImageAnchor20(paramGraphics, 17, 10, 126);
         }
         else if ((paramInt1 >= 12) && (paramInt1 < 14))
@@ -245,6 +245,7 @@ public class DrawGamePlay {
                 }
             }
             // paramGraphics.drawString(str, 11, i1, 20);
+            archAngel.readMedia.drawStringGraphic(paramGraphics, 11, i1, str, 20);
             i1 += 17;
         }
         archAngel.bool_g = false;

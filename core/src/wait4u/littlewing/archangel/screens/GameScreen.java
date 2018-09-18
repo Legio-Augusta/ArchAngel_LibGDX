@@ -952,7 +952,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
     {
         if ((this.archAngel.screen == 25) && (this.archAngel.game_state == 4))
         {
-            this.archAngel.mainGameScreen.complex_helper();
+            this.archAngel.mainGameScreen.boss_finder_ai();
             this.archAngel.mainGameScreen.config2();
         }
 

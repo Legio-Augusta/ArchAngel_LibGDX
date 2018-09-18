@@ -152,11 +152,13 @@ public class DrawShopAndBrief {
             if (archAngel.screen == 13)
             {
                 // paramGraphics.drawString(str, i2, i1 + 8, 20);
+                archAngel.readMedia.drawStringGraphic(paramGraphics, i2, i1 + 8, str, 0);
             }
             else
             {
                 if (archAngel.screen != 7) {
                     // paramGraphics.drawString(str, i2, i1, 20);
+                    archAngel.readMedia.drawStringGraphic(paramGraphics, i2, i1, str, 0);
                 }
                 if ((archAngel.screen == 10) && (paramInt1 == 51) && ((archAngel.readText.a <= 2) || (archAngel.readText.a == 4))) {
                     // paramGraphics.setColor(0);
@@ -170,6 +172,7 @@ public class DrawShopAndBrief {
                     // paramGraphics.setColor(40960);
                 }
                 // paramGraphics.drawString(archAngel.on_off[(1 - archAngel.af)], 83, 119, 20);
+                archAngel.readMedia.drawStringGraphic(paramGraphics, 83, 119, archAngel.on_off[(1-archAngel.af)], 20); // int3 not use (it should be color or something
             }
             i1 += 17;
         }
@@ -177,6 +180,7 @@ public class DrawShopAndBrief {
         {
             // paramGraphics.setColor(0);
             // paramGraphics.drawString("1.YES   2.NO", 88, 105, 17);
+            archAngel.readMedia.drawStringGraphic(paramGraphics, 88, 105, "1.YES   2.NO", 17);
         }
         archAngel.bool_g = false;
     }
@@ -270,7 +274,7 @@ public class DrawShopAndBrief {
                     archAngel.game_state += 1;
                 }
                 break;
-            case 1:
+            case 1: // new game/saved game
                 if (archAngel.x < 22)
                 {
                     // paramGraphics.setColor(0);
@@ -291,7 +295,7 @@ public class DrawShopAndBrief {
                     archAngel.game_state += 1;
                 }
                 break;
-            case 2:
+            case 2: // highlight new game select
                 // Backgrounds (no) new game scene
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 6, 0, 118);
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 7, 37, 204);
@@ -329,7 +333,7 @@ public class DrawShopAndBrief {
                     archAngel.game_state += 1;
                 }
                 break;
-            case 4:
+            case 4: // easy/hard mode
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 6, 0, 118);
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 7, 37, 204);
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 8, 41, 122 + archAngel.ah * 86);
@@ -340,7 +344,7 @@ public class DrawShopAndBrief {
                 archAngel.a(paramGraphics, "OK", false);
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 3, 0, 280);
                 break;
-            case 5:
+            case 5: // game mode selected => close modal
                 if (archAngel.x < 21)
                 {
                     // paramGraphics.setColor(0);
@@ -366,6 +370,7 @@ public class DrawShopAndBrief {
                         archAngel.readMedia.destroyImage(6 + i1);
                     }
                     archAngel.screen = 26;
+                    // TODO draw OK/PLAY button
                 }
                 break;
             case 6:
@@ -500,6 +505,7 @@ public class DrawShopAndBrief {
             // paramGraphics.setColor(16777215);
             if (archAngel.screen == 4) {
                 // paramGraphics.drawString(str, 120, i1, 17);
+                archAngel.readMedia.drawStringGraphic(paramGraphics, 120, i1, str, 17);
             }
             i1 += 17;
         }

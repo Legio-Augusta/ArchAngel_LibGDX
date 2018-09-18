@@ -194,7 +194,14 @@ public class ReadMedia
         }
 
         int position_y = (int) ((MOBI_H-paramInt2)*MOBI_SCL + BOTTOM_SPACE);
-        font.setColor(1, 0, 0, 1);
+        switch(paramInt3) {
+            case 1:
+                font.setColor(1, 0, 0, 1); // red
+                break;
+            default:
+                font.setColor(1, 1, 1, 1);
+                break;
+        }
         font.draw(paramGraphics, paramString, (int)(paramInt1 * MOBI_SCL), position_y);
 
         for (int k = 0; k < paramString.length(); k++) // NAME: \n AZ 1 \n DAMAGE: 30MP
@@ -217,6 +224,13 @@ public class ReadMedia
 
     public void drawGraphicStr40_122(SpriteBatch paramGraphics, int paramInt1, int paramInt2, String paramString)
     {
+        if(paramString == null) { // dungnv FIXME
+            return;
+        }
+        int position_y = (int) ((MOBI_H-paramInt2)*MOBI_SCL + BOTTOM_SPACE);
+        font.setColor(1, 1, 1, 1);
+        font.draw(paramGraphics, paramString, (int)(paramInt1 * MOBI_SCL), position_y);
+
         for (int k = 0; k < paramString.length(); k++)
         {
             int j = paramString.charAt(k);

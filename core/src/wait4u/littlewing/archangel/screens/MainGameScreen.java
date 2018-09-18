@@ -149,6 +149,11 @@ public class MainGameScreen {
                     // this.f = turn_calc(angle_helper(paramGameCnf.enemy_distance_1, paramGameCnf.screen), this.av);
                     // turn speed
                     this.f = this.gameHelper.turn_calc(this.gameHelper.angle_helper(paramGameCnf.enemy_distance_1, paramGameCnf.enemy_distance_2, stt_byte_arr_bt), this.av);
+                    // Magnificent
+                    // distance_2 = -2122697960; distance_1 = -1137360710;
+                    // 2122697960 + 1137360710 = -1034908626 (out of range treated like this)
+                    // MIN_INT = -2147483648
+
                     this.boss_distance = (Math.abs(paramGameCnf.enemy_distance_1) + Math.abs(paramGameCnf.enemy_distance_2) - 200);
                 }
 
@@ -898,7 +903,7 @@ public class MainGameScreen {
         }
     }
 
-    public void complex_helper()
+    public void boss_finder_ai()
     {
         simple_helper2(this.hecman_y_step);
         if ((this.x <= 10) && (this.x >= -10)) {
