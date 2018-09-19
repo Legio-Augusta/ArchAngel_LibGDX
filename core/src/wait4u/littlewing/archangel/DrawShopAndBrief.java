@@ -60,8 +60,8 @@ public class DrawShopAndBrief {
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 31, 0, 80);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 32, 0, 175);
                     archAngel.drawImage(paramGraphics);
-                    archAngel.a(paramGraphics, "SKIP", true);
-                    archAngel.a(paramGraphics, "NEXT", false);
+                    archAngel.draw_string_y305(paramGraphics, "SKIP", true);
+                    archAngel.draw_string_y305(paramGraphics, "NEXT", false);
                     archAngel.readText.readTextFromStream("end");
                 }
                 archAngel.game_state = 11;
@@ -198,7 +198,7 @@ public class DrawShopAndBrief {
                     archAngel.readMedia.reloadImageArr(1, 1);
                     archAngel.readMedia.closeInputStream();
                     archAngel.drawImage(paramGraphics);
-                    archAngel.a(paramGraphics, "OK", false);
+                    archAngel.draw_string_y305(paramGraphics, "OK", false);
                     archAngel.bool_s = false;
                 }
                 else
@@ -303,7 +303,7 @@ public class DrawShopAndBrief {
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 9, 62, 125);
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 10, 56, 211);
                 archAngel.drawImage(paramGraphics);
-                archAngel.a(paramGraphics, "OK", false);
+                archAngel.draw_string_y305(paramGraphics, "OK", false);
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 3, 0, 280);
                 archAngel.bool_w = true;
                 break;
@@ -341,7 +341,7 @@ public class DrawShopAndBrief {
                 // Easy/Hard mode
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 12, 55, 211);
                 archAngel.drawImage(paramGraphics);
-                archAngel.a(paramGraphics, "OK", false);
+                archAngel.draw_string_y305(paramGraphics, "OK", false);
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 3, 0, 280);
                 break;
             case 5: // game mode selected => close modal
@@ -457,8 +457,8 @@ public class DrawShopAndBrief {
             archAngel.readMedia.drawImageAnchor20(paramGraphics, 3, 0, 280);
         }
         archAngel.drawImage(paramGraphics);
-        archAngel.a(paramGraphics, "SKIP", true);
-        archAngel.a(paramGraphics, "NEXT", false);
+        archAngel.draw_string_y305(paramGraphics, "SKIP", true);
+        archAngel.draw_string_y305(paramGraphics, "NEXT", false);
     }
 
     public void briefAbout(SpriteBatch paramGraphics, int o, int p, int l, ArchAngelME archAngel)
@@ -480,7 +480,7 @@ public class DrawShopAndBrief {
                 // paramGraphics.drawRect(2, 119, 237, 180);
                 simple_helper2(paramGraphics, archAngel.game_state, 130, o, p, archAngel);
                 archAngel.drawImage(paramGraphics);
-                archAngel.a(paramGraphics, "BACK", true);
+                archAngel.draw_string_y305(paramGraphics, "BACK", true);
                 break;
         }
     }
@@ -530,8 +530,8 @@ public class DrawShopAndBrief {
                 return;
             case 1:
                 archAngel.drawImage(paramGraphics);
-                archAngel.a(paramGraphics, "BACK", true);
-                archAngel.a(paramGraphics, "OK", false);
+                archAngel.draw_string_y305(paramGraphics, "BACK", true);
+                archAngel.draw_string_y305(paramGraphics, "OK", false);
                 archAngel.readText.bool_c = true;
                 archAngel.readText.bool_d = false;
                 archAngel.readText.h = 1;
@@ -549,8 +549,8 @@ public class DrawShopAndBrief {
             case 200:
             case 300:
                 archAngel.drawImage(paramGraphics);
-                archAngel.a(paramGraphics, "BACK", true);
-                archAngel.a(paramGraphics, "NEXT", false);
+                archAngel.draw_string_y305(paramGraphics, "BACK", true);
+                archAngel.draw_string_y305(paramGraphics, "NEXT", false);
                 break;
             case 101:
             case 102:
@@ -561,15 +561,15 @@ public class DrawShopAndBrief {
             case 204:
             case 301:
                 archAngel.drawImage(paramGraphics);
-                archAngel.a(paramGraphics, "PREV", true);
-                archAngel.a(paramGraphics, "NEXT", false);
+                archAngel.draw_string_y305(paramGraphics, "PREV", true);
+                archAngel.draw_string_y305(paramGraphics, "NEXT", false);
                 break;
             case 104:
             case 205:
             case 302:
                 archAngel.drawImage(paramGraphics);
-                archAngel.a(paramGraphics, "PREV", true);
-                archAngel.a(paramGraphics, "OK", false);
+                archAngel.draw_string_y305(paramGraphics, "PREV", true);
+                archAngel.draw_string_y305(paramGraphics, "OK", false);
                 break;
             case 21:
                 if (archAngel.e())
@@ -586,7 +586,7 @@ public class DrawShopAndBrief {
             case 12:
             case 22:
                 archAngel.drawImage(paramGraphics);
-                archAngel.a(paramGraphics, "OK", false);
+                archAngel.draw_string_y305(paramGraphics, "OK", false);
                 break;
             case 10:
                 archAngel.readText.bool_c = false;
@@ -620,8 +620,8 @@ public class DrawShopAndBrief {
                 y = 5;
                 archAngel.readText.readTextFromStream("helpmain");
                 archAngel.drawImage(paramGraphics);
-                archAngel.a(paramGraphics, "BACK", true);
-                archAngel.a(paramGraphics, "OK", false);
+                archAngel.draw_string_y305(paramGraphics, "BACK", true);
+                archAngel.draw_string_y305(paramGraphics, "OK", false);
                 archAngel.readText.bool_d = true;
                 archAngel.game_state = 61;
                 break;

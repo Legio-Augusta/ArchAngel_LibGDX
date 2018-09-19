@@ -100,7 +100,7 @@ public class ArchAngelME
         }
     }
 
-    public void a(SpriteBatch paramGraphics, String paramString, boolean paramBoolean)
+    public void draw_string_y305(SpriteBatch paramGraphics, String paramString, boolean paramBoolean)
     {
         int i1 = paramString.length() * 9;
         if (paramBoolean) {

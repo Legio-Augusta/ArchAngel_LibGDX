@@ -641,7 +641,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                 fillRect(paramGraphics, 0, 150, 240, 15, 4);
                 this.archAngel.readMedia.drawGraphicStr40_122(paramGraphics, 98, 152, "PAUSE");
                 this.archAngel.drawImage(paramGraphics);
-                this.archAngel.a(paramGraphics, "RESUME", false);
+                this.archAngel.draw_string_y305(paramGraphics, "RESUME", false);
                 break;
             case 1:
                 this.archAngel.y = (this.archAngel.screen = 25);
@@ -687,8 +687,8 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         this.ag = 0;
         this.gameOff = false;
 
-        Gdx.input.setCatchBackKey( true );
         Gdx.input.setInputProcessor(this);
+        Gdx.input.setCatchBackKey( true );
 
         // Calculate global var width/height, view port ...
         create();
@@ -765,16 +765,16 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                     }
                     this.archAngel.readMedia.closeInputStream();
                     this.archAngel.readMedia.drawImageAnchor20(paramGraphics, 14, 17, 89);
-//                    paramGraphics.setClip(17, 89, 223, 25);
+                    // paramGraphics.setClip(17, 89, 223, 25);
                     this.archAngel.readMedia.drawImageAnchor20(paramGraphics, 13, 60, 90 - this.l * 33);
-//                    paramGraphics.setClip(0, 0, 240, 320);
+                    // paramGraphics.setClip(0, 0, 240, 320);
                 }
                 this.helper.simple_helper(paramGraphics, this.archAngel);
                 return;
             case 1:
                 this.archAngel.drawImage(paramGraphics);
-                this.archAngel.a(paramGraphics, "BACK", true);
-                this.archAngel.a(paramGraphics, "OK", false);
+                this.archAngel.draw_string_y305(paramGraphics, "BACK", true);
+                this.archAngel.draw_string_y305(paramGraphics, "OK", false);
                 this.archAngel.d = 2;
                 this.archAngel.game_state = 5;
                 break;
@@ -825,12 +825,12 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                     }
                     this.archAngel.readMedia.closeInputStream();
                     this.archAngel.readMedia.drawImageAnchor20(paramGraphics, 14, 17, 89);
-//                    paramGraphics.setClip(17, 89, 223, 25);
+                    // paramGraphics.setClip(17, 89, 223, 25);
                     this.archAngel.readMedia.drawImageAnchor20(paramGraphics, 13, 60, 90 - this.l * 33);
-//                    paramGraphics.setClip(0, 0, 240, 320);
+                    // paramGraphics.setClip(0, 0, 240, 320);
                     this.archAngel.drawImage(paramGraphics);
-                    this.archAngel.a(paramGraphics, "BACK", true);
-                    this.archAngel.a(paramGraphics, "OK", false);
+                    this.archAngel.draw_string_y305(paramGraphics, "BACK", true);
+                    this.archAngel.draw_string_y305(paramGraphics, "OK", false);
                     this.archAngel.readText.readTextFromStream("shop");
                     this.readText = new ReadText();
                     this.archAngel.readText.g = 1;
@@ -839,14 +839,14 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                 return;
             case 2:
                 this.archAngel.drawImage(paramGraphics);
-                this.archAngel.a(paramGraphics, "BACK", true);
-                this.archAngel.a(paramGraphics, "OK", false);
+                this.archAngel.draw_string_y305(paramGraphics, "BACK", true);
+                this.archAngel.draw_string_y305(paramGraphics, "OK", false);
                 this.archAngel.game_state = 1;
                 break;
             case 1:
                 this.archAngel.drawImage(paramGraphics);
-                this.archAngel.a(paramGraphics, "BACK", true);
-                this.archAngel.a(paramGraphics, "OK", false);
+                this.archAngel.draw_string_y305(paramGraphics, "BACK", true);
+                this.archAngel.draw_string_y305(paramGraphics, "OK", false);
                 this.archAngel.readText.bool_c = true;
                 this.bool_v = true;
                 break;
@@ -898,9 +898,9 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                 {
                     this.helper.b(paramGraphics, this.archAngel.game_state, this.x, this.t, this.str_arr_w, this.archAngel, this.readText);
                     this.archAngel.drawImage(paramGraphics);
-                    this.archAngel.a(paramGraphics, "BACK", true);
-                    this.archAngel.a(paramGraphics, "OK", false);
-//                    paramGraphics.setClip(0, 0, 178, 75);
+                    this.archAngel.draw_string_y305(paramGraphics, "BACK", true);
+                    this.archAngel.draw_string_y305(paramGraphics, "OK", false);
+                    // paramGraphics.setClip(0, 0, 178, 75);
                     this.helper.draw_ammunation_buy(paramGraphics, this.archAngel.game_state, true, this.archAngel.d, this.x, this.t, this.str_arr_w, this.archAngel, this.readText);
                     this.s = this.archAngel.game_state;
                     switch (this.archAngel.d)
@@ -939,8 +939,8 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
             this.helper.b(paramGraphics, this.archAngel.game_state, this.x, this.t, this.str_arr_w, this.archAngel, this.readText);
             draw_data_helper(paramGraphics, this.archAngel.game_state, 190);
             this.archAngel.drawImage(paramGraphics);
-            this.archAngel.a(paramGraphics, "BACK", true);
-            this.archAngel.a(paramGraphics, "OK", false);
+            this.archAngel.draw_string_y305(paramGraphics, "BACK", true);
+            this.archAngel.draw_string_y305(paramGraphics, "OK", false);
         }
         else
         {
@@ -1163,7 +1163,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         touchStatus = TouchStatus.TOUCH_UP;
         if(isTouchedMenuLeft() || isTouchedMenuRight() || isTouchedOK() || isTouchedUp() || isTouchedDown() || isTouchedLeft() || isTouchedRight()) {
             // seem only effect key-code can overide keep turning effect
-            // this.key_code = KEY_OK; // debug KEY_OK -> turn ok but dupli fire; 51 ok but keep turn right; 35 no effect.
+            this.key_code = KEY_OK; // debug KEY_OK -> turn ok but dupli fire; 51 ok but keep turn right; 35 no effect.
             this.game_action = 0;
             keyPressed();
         }

@@ -5,7 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import wait4u.littlewing.archangel.ArchAngelME;
-import wait4u.littlewing.archangel.GameConfig;
+import wait4u.littlewing.archangel.Enemy;
 import wait4u.littlewing.archangel.GameSettings;
 import wait4u.littlewing.archangel.MainGameHelper;
 import wait4u.littlewing.archangel.ReadMedia;
@@ -32,7 +32,7 @@ public class MainGameScreen {
     public int boss_distance_r;
     public int boss_distance_s;
     public int t;
-    public int downed_e_count; // Number of enemy fighter destroyed in a mission.
+    public int downed_e_count; // Number of enemy fighter destroyed in draw_string_y305 mission.
     public int v;
     public int w;
     public int x;
@@ -41,7 +41,7 @@ public class MainGameScreen {
     public int mission_stage;
     public final byte byte_ac = 1;
     public final byte byte_ad = 2;
-    public static GameConfig[] gameConfigArr = new GameConfig[18];
+    public static Enemy[] enemyArr = new Enemy[18];
     public int af = 0;
     public int ag = 0;
     public int ah = 0;
@@ -70,7 +70,7 @@ public class MainGameScreen {
     public int a4 = 0;
     public int[] int_arr_a5 = new int[5];
     public int[] int_arr_a6 = { 187, 232, 304 }; // Positioning y of bg
-    public boolean[] bool_arr_a7 = new boolean[4]; // Overlap or serie of bg in a line position x
+    public boolean[] bool_arr_a7 = new boolean[4]; // Overlap or serie of bg in draw_string_y305 line position x
     public int a8;
     public int hecman_y_step; // Related to fighter game speed
     public int hecman_step;
@@ -82,8 +82,8 @@ public class MainGameScreen {
     public boolean bool_bg; //
     public boolean bool_bh;
     public int gamestage1; // bi
-    public int bj;
-    public int bk;
+    public int bj; // aim target
+    public int bk; // aim target
     public boolean bool_bl = false;
     public int bm = -1;
     public int bn = 0;
@@ -95,8 +95,8 @@ public class MainGameScreen {
     public static byte[] stt_byte_arr_bs = { 64, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 62, 62, 62, 62, 61, 61, 61, 60, 60, 60, 59, 59, 58, 58, 58, 57, 57, 56, 55, 55, 54, 54, 53, 53, 52, 51, 51, 50, 49, 49, 48, 47, 46, 46, 45, 44, 43, 42, 41, 41, 40, 39, 38, 37, 36, 35, 34, 33, 32, 31, 31, 30, 29, 28, 27, 26, 25, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 8, 7, 6, 5, 4, 3, 2, 1 };
     public static byte[] stt_byte_arr_bt = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15, 17, 18, 19, 20, 22, 23, 24, 25, 27, 28, 29, 31, 32, 34, 35, 36, 38, 39, 41, 43, 44, 46, 48, 50, 51, 53, 55, 57, 59, 61, 64 };
     public int[][] int_arr_bu = new int[3][2];
-    public int bv;
-    public int bw;
+    public int bv; // bg related
+    public int bw; // aim related
     public int bx;
     public int by;
     public int bz;
@@ -116,7 +116,7 @@ public class MainGameScreen {
 
     public MainGameHelper gameHelper = new MainGameHelper(); // new MainGameHelper(this.readMedia)
 
-    public void init_game(GameConfig paramGameCnf, int paramInt, GameConfig[] gameConfigArr)
+    public void init_game(Enemy paramGameCnf, int paramInt, Enemy[] enemyArr)
     {
         int i2;
         if ((i2 = paramGameCnf.c) == 0) {
@@ -264,26 +264,26 @@ public class MainGameScreen {
                 if ((i1 = paramGameCnf.k) == -1) {
                     return;
                 }
-                if (gameConfigArr[i1].c == 0)
+                if (enemyArr[i1].c == 0)
                 {
                     paramGameCnf.c = 0;
                     return;
                 }
-                // a = 0011 1100
+                // draw_string_y305 = 0011 1100
                 // b = 0000 1101
-                // a & b = 0000 1100 (12 Dec)
-                if (((paramGameCnf.l & 0x1) == 0) && (Math.abs(paramGameCnf.enemy_distance_1 - gameConfigArr[i1].enemy_distance_1) + Math.abs(paramGameCnf.enemy_distance_2 - gameConfigArr[i1].enemy_distance_2) < 300))
+                // draw_string_y305 & b = 0000 1100 (12 Dec)
+                if (((paramGameCnf.l & 0x1) == 0) && (Math.abs(paramGameCnf.enemy_distance_1 - enemyArr[i1].enemy_distance_1) + Math.abs(paramGameCnf.enemy_distance_2 - enemyArr[i1].enemy_distance_2) < 300))
                 {
                     paramGameCnf.c = 4;
                     paramGameCnf.l = 2;
-                    gameConfigArr[i1].m -= this.gameSetting.s; // decs_e_hp ? similar SBF decrease hp
+                    enemyArr[i1].m -= this.gameSetting.s; // decs_e_hp ? similar SBF decrease hp
                     if(this.n != 0) {
-                        this.AA.ae = (40 * gameConfigArr[i1].m / this.n);
+                        this.AA.ae = (40 * enemyArr[i1].m / this.n);
                     }
-                    if (gameConfigArr[i1].m <= 0)
+                    if (enemyArr[i1].m <= 0)
                     {
-                        gameConfigArr[i1].c = 7;
-                        gameConfigArr[i1].l = 4;
+                        enemyArr[i1].c = 7;
+                        enemyArr[i1].l = 4;
                     }
                 }
                 break;
@@ -296,29 +296,29 @@ public class MainGameScreen {
                 if ((i1 = paramGameCnf.k) == -1) {
                     return;
                 }
-                if (gameConfigArr[i1].c == 0)
+                if (enemyArr[i1].c == 0)
                 {
                     paramGameCnf.c = 0;
                     return;
                 }
                 if (this.gameSetting.o > 0) {
-                    config2(paramGameCnf, gameConfigArr[i1].enemy_distance_1, gameConfigArr[i1].enemy_distance_2);
+                    config2(paramGameCnf, enemyArr[i1].enemy_distance_1, enemyArr[i1].enemy_distance_2);
                 }
-                if (Math.abs(paramGameCnf.enemy_distance_1 - gameConfigArr[i1].enemy_distance_1) + Math.abs(paramGameCnf.enemy_distance_2 - gameConfigArr[i1].enemy_distance_2) < 300)
+                if (Math.abs(paramGameCnf.enemy_distance_1 - enemyArr[i1].enemy_distance_1) + Math.abs(paramGameCnf.enemy_distance_2 - enemyArr[i1].enemy_distance_2) < 300)
                 {
                     paramGameCnf.c = 4;
                     paramGameCnf.l = 2;
-                    gameConfigArr[i1].m -= this.gameSetting.n;
-                    if (gameConfigArr[i1].m <= 0)
+                    enemyArr[i1].m -= this.gameSetting.n;
+                    if (enemyArr[i1].m <= 0)
                     {
-                        gameConfigArr[i1].c = 8;
-                        gameConfigArr[i1].l = 4;
+                        enemyArr[i1].c = 8;
+                        enemyArr[i1].l = 4;
                     }
                 }
                 break;
             case 6:
                 for (i3 = 0; i3 < 18; i3++) {
-                    if ((gameConfigArr[i3].c >= 13) && (this.gameHelper.config_helper(paramGameCnf, gameConfigArr[i3])))
+                    if ((enemyArr[i3].c >= 13) && (this.gameHelper.config_helper(paramGameCnf, enemyArr[i3])))
                     {
                         paramGameCnf.c = 5;
                         paramGameCnf.l = 2;
@@ -383,13 +383,13 @@ public class MainGameScreen {
         this.bm = -1;
         this.bn = 0;
         for (int i1 = 0; i1 < 18; i1++) {
-            gameConfigArr[i1].c = 0;
+            enemyArr[i1].c = 0;
         }
         this.gameHelper.init_600(this.int_arr_bu);
         this.gamestage1 = 1;
         this.bool_bg = false;
         this.bool_bh = false;
-        setup_18_item(9, 0);
+        updateEnemyArr(9, 0);
     }
 
     public void main_paint(SpriteBatch paramGraphics)
@@ -406,21 +406,21 @@ public class MainGameScreen {
     public void draw_aim_lock(SpriteBatch paramGraphics)
     {
         int i6 = 0;
-        // setColor(65280); // F**K U
+        // setColor(65280);
         this.ai = (85 + this.as * 7);
-        if ((this.aj >= 0) && (gameConfigArr[this.aj].c == 0)) {
+        if ((this.aj >= 0) && (enemyArr[this.aj].c == 0)) {
             this.aj = -1;
         }
         int i1;
         int i2;
         for (int i7 = 0; i7 < 18; i7++)
         {
-            int i4 = gameConfigArr[i7].c;
-            int i5 = gameConfigArr[i7].d;
+            int i4 = enemyArr[i7].c;
+            int i5 = enemyArr[i7].d;
             if ((i4 >= 13) && (i5 >= 1) && (i5 < 6))
             {
-                i1 = gameConfigArr[i7].f + 88 + 32;
-                i2 = 158 - gameConfigArr[i7].g;
+                i1 = enemyArr[i7].f + 88 + 32;
+                i2 = 158 - enemyArr[i7].g;
                 this.bw = i1;
                 this.bx = i2;
                 if ((i1 > this.ai) && (i1 < this.ai + 88) && (i2 > 87) && (i2 < 188)) {
@@ -444,11 +444,11 @@ public class MainGameScreen {
         {
             if (this.aj >= 0)
             {
-                i1 = gameConfigArr[this.aj].f + 88 + 32; // enemy position x
-                i2 = 155 - gameConfigArr[this.aj].g;     // enemy position y
-                int i3 = gameConfigArr[this.aj].d * 8 + 4;
+                i1 = enemyArr[this.aj].f + 88 + 32; // enemy position x
+                i2 = 155 - enemyArr[this.aj].g;     // enemy position y
+                int i3 = enemyArr[this.aj].d * 8 + 4;
                 if (this.gamestage1 == 1) {
-                    if (gameConfigArr[this.aj].d < 4) {
+                    if (enemyArr[this.aj].d < 4) {
                         // nickfarrow +3
                         this.readMedia.drawImageAnchor20(paramGraphics, 82, i1 - 10 +3, i2 - 6 + 14); // nickfarrow +14
                     } else {
@@ -775,11 +775,11 @@ public class MainGameScreen {
         this.readMedia = paramd;
         this.gameSetting = paramArchAngel.gameSetting;
         for (int i1 = 0; i1 < 18; i1++) {
-            gameConfigArr[i1] = new GameConfig();
+            enemyArr[i1] = new Enemy();
         }
     }
 
-    public void config2(GameConfig paramg, int paramInt1, int paramInt2)
+    public void config2(Enemy paramg, int paramInt1, int paramInt2)
     {
         int i1 = paramg.enemy_distance_1;
         int i2 = paramg.enemy_distance_2;
@@ -814,9 +814,9 @@ public class MainGameScreen {
     {
         this.readMedia.drawImageAnchor20(paramGraphics, 21, 0, 0);
         for (int i1 = 0; i1 < 18; i1++) {
-            if (gameConfigArr[i1].c != 0) {
+            if (enemyArr[i1].c != 0) {
                 ReturnHelper arrReturn =
-                this.gameHelper.draw_radar_dot(paramGraphics, gameConfigArr[i1], this.al, this.am, this.av, this.bo, this.bp, this.bq, this.br, this.gamestage1, this.AA.boss_sprite_level, stt_byte_arr_bs);
+                this.gameHelper.draw_radar_dot(paramGraphics, enemyArr[i1], this.al, this.am, this.av, this.bo, this.bp, this.bq, this.br, this.gamestage1, this.AA.boss_sprite_level, stt_byte_arr_bs);
                 Gdx.app.log("ERROR", ""+this.gamestage1);
                 this.bo = (arrReturn.one > arrReturn.MIN_INT) ? arrReturn.one : this.bo;
                 this.bp = (arrReturn.two > arrReturn.MIN_INT) ? arrReturn.two : this.bp;
@@ -827,10 +827,10 @@ public class MainGameScreen {
         // paramGraphics.setClip(0, 50, 240, 250);
         for (int i1 = 0; i1 < 9; i1++) {
             for (int i2 = 0; i2 < 18; i2++) {
-                if ((gameConfigArr[i2].c != 0) && (gameConfigArr[i2].d == i1)) {
-                    // complex_draw_helper(paramGraphics, gameConfigArr[i2]);
+                if ((enemyArr[i2].c != 0) && (enemyArr[i2].d == i1)) {
+                    // complex_draw_helper(paramGraphics, enemyArr[i2]);
                     ReturnHelper returnComplexDrawHelper =
-                        this.gameHelper.complex_draw_helper(paramGraphics, gameConfigArr[i2], this.readMedia, this.af, this.b0, this.b1, this.b2,
+                        this.gameHelper.complex_draw_helper(paramGraphics, enemyArr[i2], this.readMedia, this.af, this.b0, this.b1, this.b2,
                             this.b3, this.fighter_x, this.fighter_y, this.be, this.bf, this.gamestage1, this.bj, this.bk, this.by, this.bz, this.AA.bool_n, this.rnd);
 
                     // If this.l value has changed
@@ -873,7 +873,7 @@ public class MainGameScreen {
         this.ap += 1;
         this.bn += -1;
         for (int i3 = 0; i3 < 18; i3++) {
-            init_game(gameConfigArr[i3], i3, gameConfigArr);
+            init_game(enemyArr[i3], i3, enemyArr);
         }
         if ((this.ap & 0x3) == 0)
         {
@@ -881,14 +881,14 @@ public class MainGameScreen {
             {
                 i2 = 14;
                 if (i2 > 0) {
-                    setup_18_item(i2, 0);
+                    updateEnemyArr(i2, 0);
                 }
             }
             if ((this.ag < 2) && (this.gamestage1 == 1))
             {
                 i2 = 13;
                 if (i2 > 0) {
-                    setup_18_item(i2, 0);
+                    updateEnemyArr(i2, 0);
                 }
             }
         }
@@ -896,7 +896,7 @@ public class MainGameScreen {
         if (i1 != this.cb)
         {
             if ((this.ah < 2) && (i2 != 14) && (this.gamestage1 == 1)) {
-                setup_18_item(10, 0);
+                updateEnemyArr(10, 0);
             }
             this.cb = i1;
         }
@@ -947,7 +947,7 @@ public class MainGameScreen {
         }
         this.a3 += -1;
         this.a4 += -1;
-        if ((this.bool_ay) && (this.a4 <= 0) && (setup_18_item(6, 0)) && (this.bn <= 0)) {
+        if ((this.bool_ay) && (this.a4 <= 0) && (updateEnemyArr(6, 0)) && (this.bn <= 0)) {
             this.bn = 12;
         }
         int i1;
@@ -957,7 +957,7 @@ public class MainGameScreen {
             if ((this.aj < 0) || (this.ak > 0)) {
                 i1 = -1;
             }
-            if (setup_18_item(11, i1))
+            if (updateEnemyArr(11, i1))
             {
                 this.gameSetting.t += -1;
                 if (this.gameSetting.t <= 0)
@@ -975,7 +975,7 @@ public class MainGameScreen {
                 if ((this.aj < 0) || (this.ak > 0)) {
                     i1 = -1;
                 }
-                if (setup_18_item(1, i1))
+                if (updateEnemyArr(1, i1))
                 {
                     this.gameSetting.o += -1;
                     if (this.gameSetting.o <= 0) {
@@ -1005,7 +1005,7 @@ public class MainGameScreen {
         }
     }
 
-    public int complex_helper2(GameConfig paramg, int paramInt)
+    public int complex_helper2(Enemy paramg, int paramInt)
     {
         int i3 = 8;
         int i5;
@@ -1030,7 +1030,7 @@ public class MainGameScreen {
             if (i2 >= i3)
             {
                 if (this.af < i5) {
-                    setup_18_item(12, paramInt);
+                    updateEnemyArr(12, paramInt);
                 }
                 i1 = 4;
             }
@@ -1048,23 +1048,23 @@ public class MainGameScreen {
         return i1;
     }
 
-    public boolean setup_18_item(int paramInt1, int paramInt2)
+    public boolean updateEnemyArr(int paramInt1, int paramInt2)
     {
         int i1;
         for (i1 = 0; i1 < 18; i1++) {
-            if (gameConfigArr[i1].c == 0) {
+            if (enemyArr[i1].c == 0) {
                 break;
             }
         }
         if (i1 == 18) {
             return false;
         }
-        boss_distance_ai(gameConfigArr[i1], paramInt1, paramInt2);
+        boss_distance_ai(enemyArr[i1], paramInt1, paramInt2);
 
         return true;
     }
 
-    public void boss_distance_ai(GameConfig paramg, int paramInt1, int paramInt2)
+    public void boss_distance_ai(Enemy paramg, int paramInt1, int paramInt2)
     {
         paramg.m = 0;
         int i1;
@@ -1114,8 +1114,8 @@ public class MainGameScreen {
                 this.ag += 1;
                 break;
             case 12:
-                paramg.enemy_distance_1 = gameConfigArr[paramInt2].enemy_distance_1;
-                paramg.enemy_distance_2 = gameConfigArr[paramInt2].enemy_distance_2;
+                paramg.enemy_distance_1 = enemyArr[paramInt2].enemy_distance_1;
+                paramg.enemy_distance_2 = enemyArr[paramInt2].enemy_distance_2;
 
                 ReturnHelper shift3 = this.gameHelper.shift_3(paramg.enemy_distance_1, paramg.enemy_distance_2);
                 paramg.e = (shift3.three > shift3.MIN_INT) ? shift3.three : paramg.e;
@@ -1125,7 +1125,7 @@ public class MainGameScreen {
                 paramg.h = (3 * enemy_ai_1(i1) + this.al);
                 paramg.i = (3 * enemy_ai_2(i1) + this.am);
                 paramg.l = 30;
-                paramg.m = (gameConfigArr[paramInt2].c == 14 ? this.o : this.k);
+                paramg.m = (enemyArr[paramInt2].c == 14 ? this.o : this.k);
                 this.af += 1;
                 break;
             case 11:
@@ -1175,8 +1175,8 @@ public class MainGameScreen {
         }
     }
 
-    // TODO fix setup_18_item so we can move these below method to MainGameHelper
-    public int e_turn_ai2(GameConfig paramg, int paramInt)
+    // TODO fix updateEnemyArr so we can move these below method to MainGameHelper
+    public int e_turn_ai2(Enemy paramg, int paramInt)
     {
         int i3 = 8;
         int i4;
@@ -1189,13 +1189,13 @@ public class MainGameScreen {
         }
         else
         {
-            i1 = (Math.abs(rnd.nextInt()) & 0x7) + 5;
-            int i2 = Math.abs(rnd.nextInt() & 0x7);
+            i1 = (Math.abs(this.rnd.nextInt()) & 0x7) + 5;
+            int i2 = Math.abs(this.rnd.nextInt() & 0x7);
             i3 = Math.abs(paramg.e - 3500) >> 8;
             if (i2 >= i3)
             {
-                if (af < 1) {
-                    setup_18_item(12, paramInt);
+                if (this.af < 1) {
+                    updateEnemyArr(12, paramInt);
                 }
                 i1 = 10;
             }

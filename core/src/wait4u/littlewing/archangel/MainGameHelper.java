@@ -107,7 +107,7 @@ public class MainGameHelper {
         return i4;
     }
 
-    public boolean config_helper(GameConfig paramgcnf1, GameConfig paramgcnf2)
+    public boolean config_helper(Enemy paramgcnf1, Enemy paramgcnf2)
     {
         if (Math.abs(paramgcnf1.enemy_distance_1 - paramgcnf2.enemy_distance_1) + Math.abs(paramgcnf1.enemy_distance_2 - paramgcnf2.enemy_distance_2) < 200)
         {
@@ -131,8 +131,8 @@ public class MainGameHelper {
     }
 
     // int
-    public ReturnHelper random_helper(GameConfig paramg, int paramInt, Random rnd, int af, int al, int am, int an, int ao, int bo,
-                             int bp, int bq, int br, byte[] stt_byte_arr_bt, byte[] stt_byte_arr_bs)
+    public ReturnHelper random_helper(Enemy paramg, int paramInt, Random rnd, int af, int al, int am, int an, int ao, int bo,
+                                      int bp, int bq, int br, byte[] stt_byte_arr_bt, byte[] stt_byte_arr_bs)
     {
         ReturnHelper randomReturn = new ReturnHelper();
 
@@ -207,7 +207,7 @@ public class MainGameHelper {
     }
 
     // void; seem AI function
-    public ReturnHelper draw_radar_dot(SpriteBatch paramGraphics, GameConfig paramg, int al, int am, int av, int bo, int bp, int bq, int br, int gamestage1, int aa_sprite_level, byte[] stt_byte_arr_bs)
+    public ReturnHelper draw_radar_dot(SpriteBatch paramGraphics, Enemy paramg, int al, int am, int av, int bo, int bp, int bq, int br, int gamestage1, int aa_sprite_level, byte[] stt_byte_arr_bs)
     {
         ReturnHelper arrReturn = new ReturnHelper();
 
@@ -577,12 +577,12 @@ public class MainGameHelper {
         return true;
     }
 
-    // public void complex_draw_helper(SpriteBatch paramGraphics, GameConfig paramg)
+    // public void complex_draw_helper(SpriteBatch paramGraphics, Enemy paramg)
     // These int params is original from this (MainGameScreen)
     // Be careful with param pass by reference ie. aa_bool_n here is not change value, only used for condition
-    public ReturnHelper complex_draw_helper(SpriteBatch paramGraphics, GameConfig paramg, ReadMedia readMedia, int af,
-                                    int b0, int b1, int b2, int b3, int bb, int bc, int be, int bf,
-                                    int bi, int bj, int bk, int by, int bz, boolean aa_bool_n, Random rnd)
+    public ReturnHelper complex_draw_helper(SpriteBatch paramGraphics, Enemy paramg, ReadMedia readMedia, int af,
+                                            int b0, int b1, int b2, int b3, int bb, int bc, int be, int bf,
+                                            int bi, int bj, int bk, int by, int bz, boolean aa_bool_n, Random rnd)
     {
         ReturnHelper complexReturn = new ReturnHelper();
 
@@ -750,28 +750,37 @@ public class MainGameHelper {
     //	public void graphic_helper(SpriteBatch paramGraphics, int paramInt1, int paramInt2, int paramInt3, int paramInt4)
     public void graphic_helper(SpriteBatch paramGraphics, int paramInt1, int paramInt2, int paramInt3, int paramInt4, int bj, int bk)
     {
-//        paramGraphics.setColor(bj);
+        // paramGraphics.setColor(bj);
         switch (paramInt4 & 0x3)
         {
             case 0:
-//                paramGraphics.fillRect(paramInt1, paramInt2 - paramInt3, paramInt3, paramInt3);
-//                paramGraphics.fillRect(paramInt1 - paramInt3, paramInt2, paramInt3, paramInt3);
+                // paramGraphics.fillRect(paramInt1, paramInt2 - paramInt3, paramInt3, paramInt3);
+                // paramGraphics.fillRect(paramInt1 - paramInt3, paramInt2, paramInt3, paramInt3);
+                fillRect(paramGraphics, paramInt1, paramInt2 - paramInt3, paramInt3, paramInt3, 4);
+                fillRect(paramGraphics, paramInt1 - paramInt3, paramInt2, paramInt3, paramInt3, 4);
                 break;
             case 1:
-//                paramGraphics.fillRect(paramInt1 - (paramInt3 >> 1), paramInt2 - paramInt3, paramInt3, paramInt3);
-//                paramGraphics.fillRect(paramInt1 - (paramInt3 >> 1), paramInt2, paramInt3, paramInt3);
+                // paramGraphics.fillRect(paramInt1 - (paramInt3 >> 1), paramInt2 - paramInt3, paramInt3, paramInt3);
+                // paramGraphics.fillRect(paramInt1 - (paramInt3 >> 1), paramInt2, paramInt3, paramInt3);
+                fillRect(paramGraphics, paramInt1 - (paramInt3 >> 1), paramInt2 - paramInt3, paramInt3, paramInt3, 4);
+                fillRect(paramGraphics, paramInt1 - (paramInt3 >> 1), paramInt2, paramInt3, paramInt3, 4);
                 break;
             case 2:
-//                paramGraphics.fillRect(paramInt1 - paramInt3, paramInt2 - paramInt3, paramInt3, paramInt3);
-//                paramGraphics.fillRect(paramInt1, paramInt2, paramInt3, paramInt3);
+                // paramGraphics.fillRect(paramInt1 - paramInt3, paramInt2 - paramInt3, paramInt3, paramInt3);
+                // paramGraphics.fillRect(paramInt1, paramInt2, paramInt3, paramInt3);
+                fillRect(paramGraphics, paramInt1 - paramInt3, paramInt2 - paramInt3, paramInt3, paramInt3, 4);
+                fillRect(paramGraphics, paramInt1, paramInt2, paramInt3, paramInt3, 4);
                 break;
             case 3:
-//                paramGraphics.fillRect(paramInt1 - paramInt3, paramInt2 - (paramInt3 >> 1), paramInt3, paramInt3);
-//                paramGraphics.fillRect(paramInt1, paramInt2 - (paramInt3 >> 1), paramInt3, paramInt3);
+                // paramGraphics.fillRect(paramInt1 - paramInt3, paramInt2 - (paramInt3 >> 1), paramInt3, paramInt3);
+                // paramGraphics.fillRect(paramInt1, paramInt2 - (paramInt3 >> 1), paramInt3, paramInt3);
+                fillRect(paramGraphics, paramInt1 - paramInt3, paramInt2 - (paramInt3 >> 1), paramInt3, paramInt3, 4);
+                fillRect(paramGraphics, paramInt1, paramInt2 - (paramInt3 >> 1), paramInt3, paramInt3, 4);
                 break;
         }
-//        paramGraphics.setColor(bk);
-//        paramGraphics.fillRect(paramInt1 - (paramInt3 >> 1), paramInt2 - (paramInt3 >> 1), paramInt3, paramInt3);
+        // paramGraphics.setColor(bk);
+        // paramGraphics.fillRect(paramInt1 - (paramInt3 >> 1), paramInt2 - (paramInt3 >> 1), paramInt3, paramInt3);
+        fillRect(paramGraphics, paramInt1 - (paramInt3 >> 1), paramInt2 - (paramInt3 >> 1), paramInt3, paramInt3, 4);
     }
 
     //	public void shift_1(SpriteBatch paramGraphics, boolean paramBoolean, int paramInt1, int paramInt2, int paramInt3, int paramInt4, int paramInt5)

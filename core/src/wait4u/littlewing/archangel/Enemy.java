@@ -1,17 +1,17 @@
 package wait4u.littlewing.archangel;
 
-public class GameConfig
+public class Enemy
 {
     public int enemy_distance_1 = this.enemy_distance_2 = this.c = this.d = this.e = this.f = this.g = this.h = this.i = this.j = this.k = this.l = this.m = 0;
     public int enemy_distance_2;
     public int c; // related to boss distance calc
     public int d;
-    public int e;
+    public int e; // related to fly ai
     public int f;
     public int g;
     public int h; // boss distance calc, turn step
     public int i; // boss dist calc
-    public int j;
+    public int j; // distance
     public int k;
     public int l; // related to boss finding
     public int m;

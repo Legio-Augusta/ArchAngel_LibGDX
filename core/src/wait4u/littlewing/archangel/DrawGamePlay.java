@@ -26,7 +26,7 @@ public class DrawGamePlay {
 
     public void save_equipment(SpriteBatch paramGraphics, ArchAngelME archAngel)
     {
-//        paramGraphics.setColor(0);
+        // paramGraphics.setColor(0);
         archAngel.readMedia.drawGraphicStr40_122(paramGraphics, 12, 145, "Save equipment");
         archAngel.readMedia.drawGraphicStr40_122(paramGraphics, 12, 160, "as you are using.");
     }
@@ -110,6 +110,7 @@ public class DrawGamePlay {
                         // archAngel.readMedia.closeInputStream();
                         // paramGraphics.setColor(0);
                         // paramGraphics.fillRect(0, 80, 240, 220);
+                        fillRect(paramGraphics, 0, 80, 240, 220, 5);
                         archAngel.readMedia.drawImageAnchor20(paramGraphics, 15, 33, 60);
                         // paramGraphics.setClip(198, 60, 18, 20);
                         archAngel.readMedia.drawImageAnchor20(paramGraphics, 16, 198, 60 - archAngel.gameSetting.boss_level * 20);
@@ -127,9 +128,9 @@ public class DrawGamePlay {
                     // archAngel.readMedia.closeInputStream();
                     archAngel.drawImage(paramGraphics);
                     if (archAngel.screen == 9) {
-                        archAngel.a(paramGraphics, "SKIP", true);
+                        archAngel.draw_string_y305(paramGraphics, "SKIP", true);
                     }
-                    archAngel.a(paramGraphics, "NEXT", false);
+                    archAngel.draw_string_y305(paramGraphics, "NEXT", false);
                     archAngel.game_state += 1;
                     archAngel.p = -1;
                     archAngel.bool_h = false;
@@ -163,12 +164,12 @@ public class DrawGamePlay {
             if (archAngel.screen == 9)
             {
                 archAngel.drawImage(paramGraphics);
-                archAngel.a(paramGraphics, "START", false);
+                archAngel.draw_string_y305(paramGraphics, "START", false);
             }
             else
             {
                 archAngel.drawImage(paramGraphics);
-                archAngel.a(paramGraphics, "OPTIONS", false);
+                archAngel.draw_string_y305(paramGraphics, "OPTIONS", false);
             }
             archAngel.aa = (archAngel.game_state = '?');
         }
@@ -195,6 +196,7 @@ public class DrawGamePlay {
         int i1 = paramInt2;
         // paramGraphics.setColor(9605802);
         // paramGraphics.fillRect(0, 119, 240, 181);
+        fillRect(paramGraphics, 0, 119, 240, 191, 4);
         if (paramInt1 == 11)
         {
             // Bottom background or brief (these index 17-20 is reused
@@ -401,6 +403,7 @@ public class DrawGamePlay {
                     archAngel.readMedia.drawStringGraphic(paramGraphics, 135, 27, "", 0);
                     // paramGraphics.setColor(16711680);
                     // paramGraphics.fillRect(80, 194, 80, 10);
+                    fillRect(paramGraphics, 80, 194, 80, 10, 0);
                     archAngel.readMedia.drawStringGraphic(paramGraphics, 86, 197, "NO MISSILE", 0);
                 }
                 if (archAngel.ab != 25)
@@ -411,8 +414,8 @@ public class DrawGamePlay {
                     archAngel.game_state = 5;
                 }
                 archAngel.drawImage(paramGraphics);
-                archAngel.a(paramGraphics, "OPTIONS", false);
-                archAngel.a(paramGraphics, "PAUSE", true);
+                archAngel.draw_string_y305(paramGraphics, "OPTIONS", false);
+                archAngel.draw_string_y305(paramGraphics, "PAUSE", true);
                 break;
             case 5:
                 // paramGraphics.setClip(0, 0, 240, 300);
@@ -462,16 +465,18 @@ public class DrawGamePlay {
 
     public void draw_rect_clip_helper(SpriteBatch paramGraphics, int paramInt, ArchAngelME archAngel)
     {
-//        paramGraphics.setColor(0);
-//        paramGraphics.fillRect(0, 0, 240, 320);
+        // paramGraphics.setColor(0); // black ?
+        // paramGraphics.fillRect(0, 0, 240, 320);
         archAngel.readMedia.drawImageAnchor20(paramGraphics, 24, 90, 169);
-//        paramGraphics.setClip(100, 180, 12, 11);
+        // paramGraphics.setClip(100, 180, 12, 11);
         archAngel.readMedia.drawImageAnchor20(paramGraphics, 33, 100, 180 - 11 * (paramInt % 2));
-//        paramGraphics.setClip(128, 180, 12, 11);
+        // paramGraphics.setClip(128, 180, 12, 11);
         archAngel.readMedia.drawImageAnchor20(paramGraphics, 34, 128, 180 - 11 * (paramInt % 2));
-//        paramGraphics.setColor(16711680);
-//        paramGraphics.setClip(87, 200, 66, 14);
-//        paramGraphics.fillRect(87, 217 - paramInt * 3, 66, paramInt * 3);
+        // paramGraphics.setColor(16711680);
+        // paramGraphics.setClip(87, 200, 66, 14);
+        // paramGraphics.fillRect(87, 217 - paramInt * 3, 66, paramInt * 3);
+        fillRect(paramGraphics, 87, 217 - paramInt * 3, 66, paramInt * 3, 0);
+
         archAngel.readMedia.drawImageAnchor20(paramGraphics, 111, 87, 200);
     }
 
@@ -552,19 +557,20 @@ public class DrawGamePlay {
                 archAngel.readMedia.drawStringGraphic(paramGraphics, 82, 18, "HP:", 0);
                 // paramGraphics.setColor(9605802); // gray
                 // paramGraphics.fillRect(102, 17, 42, 7);
+                fillRect(paramGraphics, 102, 17, 42, 7, 4);
                 // paramGraphics.setColor(14408703);
                 // paramGraphics.drawRect(102, 17, 41, 6);
                 // paramGraphics.setColor(16776960);
                 // paramGraphics.fillRect(103, 18, archAngel.ae, 5);
+                fillRect(paramGraphics, 103, 18, archAngel.ae, 5, 2);
                 break;
         }
         int i1 = 40 * archAngel.gameSetting.fighter_hp >> 9;
-        // 1000 >> 9 ~ 1; 40,000 >> 9 ~ 78; fighter_hp * 40 lost 50 value each time colidate cliff
+        // 1000 >> 9 ~ 1; 40,000 >> 9 ~ 78; fighter_hp * 40 lost 50 value each time collidate with cliff
         // equal ab 4 Fighter HP each collision
         // paramGraphics.setColor(255);
         // Fighter hp ?
         fillRect(paramGraphics, 192+20, 5+2, i1 / 2, 4, 1);
-        // Gdx.app.log("DEBUG", "Fighter HP: " + archAngel.gameSetting.fighter_hp + " >> 9 i1 = "+ i1);
         if (archAngel.mainGameScreen.gamestage1 == 3)
         {
             if (archAngel.mainGameScreen.bool_bh == true)
@@ -616,15 +622,17 @@ public class DrawGamePlay {
         int i2 = paramInt1 / 100 - 1;
         int i1 = paramInt1 % 100;
         archAngel.drawImage(paramGraphics);
-        archAngel.a(paramGraphics, "OK", false);
-//        paramGraphics.setColor(7171414);
-//        paramGraphics.fillRect(6, 127, 226, 147);
-//        paramGraphics.setColor(9605802);
-//        paramGraphics.drawRect(6, 127, 225, 146);
-//        paramGraphics.setColor(9605717);
-//        paramGraphics.fillRect(15, 140, 72, 42);
-//        paramGraphics.setColor(16777130);
-//        paramGraphics.drawRect(15, 139, 72, 43);
+        archAngel.draw_string_y305(paramGraphics, "OK", false);
+        // paramGraphics.setColor(7171414);
+        // paramGraphics.fillRect(6, 127, 226, 147);
+        fillRect(paramGraphics, 6, 127, 226, 147, 2);
+        // paramGraphics.setColor(9605802);
+        // paramGraphics.drawRect(6, 127, 225, 146);
+        // paramGraphics.setColor(9605717);
+        // paramGraphics.fillRect(15, 140, 72, 42);
+        fillRect(paramGraphics, 15, 140, 72, 42, 4);
+        // paramGraphics.setColor(16777130);
+        // paramGraphics.drawRect(15, 139, 72, 43);
         archAngel.readMedia.drawImageSwitch(paramGraphics, 18, 141, 60, 40, i1 - 1, paramInt2);
         switch (paramInt2)
         {
@@ -732,7 +740,7 @@ public class DrawGamePlay {
         }
         setup2(paramGraphics, archAngel.game_state, 217, o, p, q, t, x, str_arr_w, archAngel, readText, helper);
         archAngel.drawImage(paramGraphics);
-        archAngel.a(paramGraphics, "OK", false);
+        archAngel.draw_string_y305(paramGraphics, "OK", false);
     }
 
     public void setup2(SpriteBatch paramGraphics, int paramInt1, int paramInt2, int o, int p, int q, int t, int x,
@@ -756,8 +764,8 @@ public class DrawGamePlay {
                     archAngel.readText.readTextFromStream("system");
                 }
                 archAngel.drawImage(paramGraphics);
-                archAngel.a(paramGraphics, "PLAY", true);
-                archAngel.a(paramGraphics, "OK", false);
+                archAngel.draw_string_y305(paramGraphics, "PLAY", true);
+                archAngel.draw_string_y305(paramGraphics, "OK", false);
                 helper.simple_helper(paramGraphics, archAngel);
                 return;
             case 1:
@@ -870,19 +878,19 @@ public class DrawGamePlay {
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 16, 198, 60 - archAngel.gameSetting.boss_level * 20);
                 // paramGraphics.setClip(0, 0, 240, 280);
                 // paramGraphics.setColor(0);
-                 fillRect(paramGraphics, 0, 80, 240, 200, 4); // black
-                 // paramGraphics.setColor(4802901);
-                 fillRect(paramGraphics, 0, 119, 240, 30, 4); // dark-gray
-                 fillRect(paramGraphics, 0, 171, 240, 10, 4);
-                 fillRect(paramGraphics, 0, 205, 240, 30, 4);
+                fillRect(paramGraphics, 0, 80, 240, 200, 4); // black
+                // paramGraphics.setColor(4802901);
+                fillRect(paramGraphics, 0, 119, 240, 30, 4); // dark-gray
+                fillRect(paramGraphics, 0, 171, 240, 10, 4);
+                fillRect(paramGraphics, 0, 205, 240, 30, 4);
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 14, 17, 89 + l * 33);
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 13, 60, 90);
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 3, 0, 280);
                 break;
         }
         archAngel.drawImage(paramGraphics);
-        archAngel.a(paramGraphics, "PLAY", true);
-        archAngel.a(paramGraphics, "OK", false);
+        archAngel.draw_string_y305(paramGraphics, "PLAY", true);
+        archAngel.draw_string_y305(paramGraphics, "OK", false);
     }
 
     public void draw_font_result(SpriteBatch paramGraphics, ArchAngelME archAngel, DrawShopAndBrief helper)
@@ -900,7 +908,7 @@ public class DrawGamePlay {
                     archAngel.readMedia.reloadImageArr(1, 1);
                     archAngel.readMedia.closeInputStream();
                     archAngel.drawImage(paramGraphics);
-                    archAngel.a(paramGraphics, "OK", false);
+                    archAngel.draw_string_y305(paramGraphics, "OK", false);
                     archAngel.bool_s = false;
                     archAngel.bool_m = false;
                 }
@@ -1023,6 +1031,7 @@ public class DrawGamePlay {
                 {
                     // paramGraphics.setColor( intToFloatColor(16777215) );
                     // paramGraphics.fillRect(0, 0, 240, 320);
+                    fillRect(paramGraphics, 0, 0, 240, 320, 5);
                     archAngel.readMedia.drawStringImage("logo", 0, paramGraphics, 48, 80); // Int3 80
                     archAngel.readMedia.drawStringImage("logo", 1, paramGraphics, 46, 161);
                     archAngel.readMedia.readMediaStream("intro");
@@ -1042,14 +1051,16 @@ public class DrawGamePlay {
                 if (archAngel.x == 0)
                 {
                     archAngel.playSound("m_front", 0);
-//                    paramGraphics.setColor(0);
-//                    paramGraphics.fillRect(0, 0, 240, 320);
+                    // paramGraphics.setColor(0);
+                    // paramGraphics.fillRect(0, 0, 240, 320);
                     fillRect(paramGraphics, 0, 0, 240, 320, 0);
-//                    paramGraphics.setColor(4802901);
-//                    paramGraphics.fillRect(0, 0, 240, 40);
-//                    paramGraphics.drawLine(0, 42, 240, 42);
-//                    paramGraphics.drawLine(0, 45, 240, 45);
-//                    paramGraphics.fillRect(0, 50, 240, 6);
+                    // paramGraphics.setColor(4802901);
+                    // paramGraphics.fillRect(0, 0, 240, 40);
+                    fillRect(paramGraphics, 0, 0, 240, 40, 4);
+                    // paramGraphics.drawLine(0, 42, 240, 42);
+                    // paramGraphics.drawLine(0, 45, 240, 45);
+                    // paramGraphics.fillRect(0, 50, 240, 6);
+                    fillRect(paramGraphics, 0, 50, 240, 6, 4);
                     fillRect(paramGraphics, 0, 119, 240, 30, 0);
                     fillRect(paramGraphics, 0, 171, 240, 10, 0);
                     fillRect(paramGraphics, 0, 205, 240, 30, 0);
@@ -1069,13 +1080,13 @@ public class DrawGamePlay {
                 archAngel.mainGameScreen.bd = 0;
                 if (archAngel.x < 21)
                 {
-//                    paramGraphics.setColor(0);
-//                    paramGraphics.fillRect(0, 60, 240, 240);
+                    // paramGraphics.setColor(0);
+                    // paramGraphics.fillRect(0, 60, 240, 240);
                     fillRect( paramGraphics,0, 60, 240, 240, 0);
-//                    paramGraphics.setColor(4802901);
-                    fillRect( paramGraphics, 0, 119, 240, 30, 0);
-                    fillRect( paramGraphics, 0, 171, 240, 10, 0);
-                    fillRect( paramGraphics, 0, 205, 240, 30, 0);
+                    // paramGraphics.setColor(4802901);
+                    fillRect( paramGraphics, 0, 119, 240, 30, 4);
+                    fillRect( paramGraphics, 0, 171, 240, 10, 4);
+                    fillRect( paramGraphics, 0, 205, 240, 30, 4);
                     // TODO 3 drawClip in enemy_distance_1 row
                     // paramGraphics.setClip(0, 80 + 5 * archAngel.x, 240, 200 - 10 * archAngel.x);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 30, 0, 80);
@@ -1093,8 +1104,8 @@ public class DrawGamePlay {
     }
 
     /**
-     * #0 for red
-     * #1 for light blue, #3 light blue 2 6DCFF6
+     * @color #0 for red
+     * @color #1 for light blue, #3 light blue 2 6DCFF6
      * #2 for light yellow, #4 gray 93959A #5 for white
      * Fills the specified rectangle with the current color. => Need reset or manage color
      * TODO draw filled rectangle with float color instead of color image. Fix ratio.
