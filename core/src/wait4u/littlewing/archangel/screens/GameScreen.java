@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import wait4u.littlewing.archangel.ArchAngelME;
@@ -99,8 +100,6 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
     private static final int KEY_RIGHT_MENU = -7; // action = 0
     private static final int KEY_LEFT_MENU = -6;  // action = 0
     private static final int KEY_OK = -5;
-    private static final int KEY_NUM_3 = 0; // for item mode
-    private static final int KEY_SHARP = 0;
 
     Vector3 touchPoint;
     TouchStatus touchStatus = TouchStatus.NONE;
@@ -142,11 +141,12 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
      *    key code = 49 game action = 9 KEY_2 = UP ?
      *    key code = 51 game action = 10 KEY_3 (use item)
      *    key code = -7 game action = 0 RIGHT_MENU
+     *    SBF use (only?) game_action and if-else condition. This use key_code and switch-case.
      */
     public void keyPressed()
     {
         int paramInt = this.key_code;
-        int i1 = getGameAction(paramInt);
+        int i1 = getGameAction2(paramInt);
         if (this.archAngel.bool_h) {
             return;
         }
@@ -157,7 +157,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                     this.archAngel.game_state += 1;
                 }
                 break;
-            case 3:
+            case 3: // Game menu screen from new game to easy mode
                 if (this.archAngel.game_state == 2) {
                     switch (paramInt)
                     {
@@ -299,7 +299,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                         this.archAngel.mainGameScreen.play_s_plasma(false);
                         this.archAngel.stopSound();
                     }
-                    if ((paramInt == 53) || (paramInt == -5))
+                    if ((paramInt == 53) || (paramInt == -5)) // firing
                     {
                         keyReleased(50);
                         this.archAngel.mainGameScreen.setup3();
@@ -388,7 +388,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                                         this.archAngel.screen = 14;
                                     }
                                     break;
-                                case -5:
+                                case -5: // firing
                                     if ((this.archAngel.mainGameScreen.gamestage1 == 1) && (this.archAngel.bool_m == true)) {
                                         this.archAngel.mainGameScreen.play_s_gun(true);
                                     }
@@ -593,7 +593,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                     this.archAngel.game_state += 1;
                 }
                 break;
-            case 14:
+            case 14: // pause screen
                 if ((paramInt == -7) || (paramInt == -5) || (paramInt == 35))
                 {
                     this.archAngel.game_state += 1;
@@ -705,8 +705,6 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
 
     public void keyReleased(int paramInt)
     {
-        // this.key_code = 0;
-        touchStatus = TouchStatus.NONE; // debug
         switch (this.archAngel.screen)
         {
             case 25:
@@ -1111,16 +1109,15 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        this.key_code = 0;
         batch.begin();
         // TODO use boundingBox and touchAreas; pass touchPoint instead of global
-        // BoundingBox can be use Rectangle as alternative ?
+        // Pointers are the number of touches on the screen
         // TODO study libgdx-mario-bros key handle mechanism
         touchPoint.set(Gdx.input.getX(),Gdx.input.getY(), 0);
 
-        // Gdx.app.log("DEBUG", "touch " + touchPoint.x + " destroy_n_e "+ (SCREEN_HEIGHT-touchPoint.destroy_n_e) + " key_code "+ this.key_code);
-        //if(touchStatus == TouchStatus.NONE) {
-        touchStatus = TouchStatus.TOUCH_DOWN;
-        //game_action = getGameAction(); // seem take no effect
+        Gdx.app.log("DEBUG", "touch " + touchPoint.x + " y "+ (SCREEN_HEIGHT-touchPoint.y) + " key_code "+ this.key_code);
+        game_action = getGameAction(pointer); // seem take no effect
 
         if (isTouchedMenuLeft()) { // smaller value, shorter sleep
             this.key_code = KEY_LEFT_MENU;
@@ -1128,7 +1125,11 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         } else if (isTouchedMenuRight()) {
             this.key_code = KEY_RIGHT_MENU;
             Gdx.input.vibrate(5);
-        } else if (isTouchedOK()) {
+        } else if (isTouchedNum3()) {
+            this.key_code = 57;
+        }
+        /**
+        else if (isTouchedOK()) {
             this.key_code = KEY_OK;
         } else if (isTouchedUp()) {
             Gdx.input.vibrate(5);
@@ -1142,14 +1143,11 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         } else if (isTouchedRight()) {
             Gdx.input.vibrate(5);
             this.key_code = -4;
-        } else if (isTouchedNum3()) {
-            this.key_code = 57;
-        } else {
+        }  else {
              this.key_code = 0;
         }
+         */
 
-        // Use rectangle instead of collisionRay. TODO fix collisionRay null and multiplex many Gdx.input
-        // TODO May be use OverlapTester Class for these task
         keyPressed();
         batch.end();
 
@@ -1158,17 +1156,15 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        // TODO handle key released, touch and hold
-
-        //if(touchStatus == TouchStatus.TOUCH_DOWN) {
+        /**
         touchStatus = TouchStatus.TOUCH_UP;
         if(isTouchedMenuLeft() || isTouchedMenuRight() || isTouchedOK() || isTouchedUp() || isTouchedDown() || isTouchedLeft() || isTouchedRight()) {
             // seem only effect key-code can overide keep turning effect
-            this.key_code = KEY_OK; // debug KEY_OK -> turn ok but dupli fire; 51 ok but keep turn right; 35 no effect.
+            // this.key_code = KEY_OK; // debug KEY_OK -> turn ok but dupli fire; 51 ok but keep turn right; 35 no effect.
             this.game_action = 0;
             keyPressed();
         }
-
+        */
         return false;
     }
 
@@ -1223,38 +1219,37 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
      * Simulate J2ME keyCode
      * https://docs.oracle.com/javame/config/cldc/ref-impl/midp2.0/jsr118/constant-values.html#javax.microedition.lcdui.Canvas.UP
      * */
-    public int getGameAction(int keyCode) {
+    public int getGameAction2(int keyCode) {
         return game_action;
     }
 
-    public int getGameAction() {
-        // TODO handle key_code and key released, multi touch
-        if(OverlapTester.pointInRectangle(upBtnRect, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) )) {
+    public int getGameAction(int pointer) {
+        if(isTouchedUp()) {
             this.key_code = -1;
             return GAME_ACTION_UP;
         }
-        if(OverlapTester.pointInRectangle(downBtnRect, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) )) {
-            if(item_mode == 0) { // FIXME remove this, it only in SBF
-            }
+        if(isTouchedDown()) { // Careful with game state, ie. item_mode = 0
             this.key_code = -2;
             return GAME_ACTION_DOWN;
         }
-        if(OverlapTester.pointInRectangle(leftBtnRect, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) )) {
-            Gdx.input.vibrate(5);
-            return GAME_ACTION_LEFT;
+        if(isTouchedLeft()) {
+            if(pointer != 0) { // Guessing first is 0, might be 1
+                this.key_code = -3;
+                Gdx.input.vibrate(5);
+                return GAME_ACTION_LEFT;
+            } else {
+                // TODO touch 1 -> small turn then back to straight fly; touch n hold -> turn
+            }
         }
-        if(OverlapTester.pointInRectangle(rightBtnRect, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) )) {
+        if(isTouchedRight()) {
+            this.key_code = -4;
             Gdx.input.vibrate(5);
             return GAME_ACTION_RIGHT;
         }
-        if(OverlapTester.pointInRectangle(optionBtnRect, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) )) {
-            return KEY_RIGHT_MENU; // FIXME remove
-        }
-        if(OverlapTester.pointInRectangle(leftMenuBtn, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) )) {
-            return KEY_LEFT_MENU;
-        }
-        if(OverlapTester.pointInRectangle(rightMenuBtn, touchPoint.x, (SCREEN_HEIGHT-touchPoint.y) )) {
-            return KEY_RIGHT_MENU;
+
+        if(isTouchedOK()) {
+            this.key_code = KEY_OK; // -5
+            return GAME_ACTION_OK;
         }
 
         return 0;
@@ -1287,10 +1282,11 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         float aspectRatio = (float) SCREEN_WIDTH / (float) SCREEN_HEIGHT;
 
         camera = new OrthographicCamera();
-        int VIEWPORT_WIDTH = 1080;
-        int VIEWPORT_HEIGHT = 1920;
+        // This seem take no effect on 16:9 multi-screen size 1280; 1920; or 2560px But on not 16:9, ie. 4:3 iPad this may take effect.
+        int VP_WIDTH = 1080;
+        int VP_HEIGHT = 1920;
         camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
-        viewport = new FillViewport(SCREEN_WIDTH, SCREEN_HEIGHT, camera);
+        viewport = new FitViewport(VP_WIDTH, VP_HEIGHT, camera);
         viewport.apply();
 
         camera.position.x = SCREEN_WIDTH/2;

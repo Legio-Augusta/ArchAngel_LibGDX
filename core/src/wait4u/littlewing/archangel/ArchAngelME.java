@@ -23,11 +23,11 @@ public class ArchAngelME
     public boolean bool_g = false;
     public boolean bool_h = false;
     public boolean bool_i;
-    public boolean bool_j = false;
+    public boolean no_missile = false; // no missile
     public boolean bool_k = false;
     public boolean bool_l = false;
-    public boolean bool_m = false;
-    public boolean bool_n = false;
+    public boolean bool_m = false; // fighting scene (if true) && game_state = 4
+    public boolean bool_n = false; // fighting with boss
     public Random rnd = new Random();
     public int p = 0;
     public boolean bool_q;
@@ -37,7 +37,7 @@ public class ArchAngelME
     public boolean bool_u = false;
     public boolean bool_v = true;
     public boolean bool_w = true;
-    public int x = 0; // fighter ammunation, x, destroy_n_e and z seem related to game state, boss hp...
+    public int x = 0; // fighter ammunation, x, y and z seem related to game state, boss hp...; Or missile run out flag
     public int y = -1;
     public int game_state = 0;
     public int aa = -1;

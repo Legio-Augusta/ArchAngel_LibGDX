@@ -301,7 +301,7 @@ public class MainGameScreen {
                     paramGameCnf.c = 0;
                     return;
                 }
-                if (this.gameSetting.o > 0) {
+                if (this.gameSetting.missile_left > 0) {
                     config2(paramGameCnf, enemyArr[i1].enemy_distance_1, enemyArr[i1].enemy_distance_2);
                 }
                 if (Math.abs(paramGameCnf.enemy_distance_1 - enemyArr[i1].enemy_distance_1) + Math.abs(paramGameCnf.enemy_distance_2 - enemyArr[i1].enemy_distance_2) < 300)
@@ -711,10 +711,10 @@ public class MainGameScreen {
 
     public void play_missile_sound()
     {
-        if (this.gameSetting.o <= 0)
+        if (this.gameSetting.missile_left <= 0)
         {
             this.AA.x = 1;
-            this.AA.bool_j = true;
+            this.AA.no_missile = true;
         }
         else
         {
@@ -971,7 +971,7 @@ public class MainGameScreen {
         }
         if (this.bool_a0)
         {
-            if (this.gameSetting.o > 0)
+            if (this.gameSetting.missile_left > 0)
             {
                 i1 = this.aj;
                 if ((this.aj < 0) || (this.ak > 0)) {
@@ -979,8 +979,8 @@ public class MainGameScreen {
                 }
                 if (updateEnemyArr(1, i1))
                 {
-                    this.gameSetting.o += -1;
-                    if (this.gameSetting.o <= 0) {
+                    this.gameSetting.missile_left += -1;
+                    if (this.gameSetting.missile_left <= 0) {
                         this.bool_a0 = false;
                     }
                     this.a3 = 20;

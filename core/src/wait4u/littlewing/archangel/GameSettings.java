@@ -19,7 +19,7 @@ public class GameSettings
     public int l;
     public int m;
     public int n;
-    public int o;
+    public int missile_left; // missile number
     public String str_p;
     public int q;
     public int r; // level or stage, mode of hero fighter/game settings
@@ -31,7 +31,7 @@ public class GameSettings
     public void initGame1()
     {
         this.fighter_hp = this.g;
-        this.o = this.m;
+        this.missile_left = this.m;
         this.t = this.r;
     }
 

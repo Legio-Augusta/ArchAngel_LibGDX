@@ -393,12 +393,12 @@ public class DrawGamePlay {
                     ReturnHelper settingReturn = setting2(paramGraphics, archAngel);
                     myReturn = mergeReturnValue(myReturn, settingReturn);
 
-                    archAngel.bool_j = false;
+                    archAngel.no_missile = false;
                 }
                 // paramGraphics.setClip(0, 0, 240, 320);
                 archAngel.mainGameScreen.main_paint(paramGraphics);
                 draw_fighting(paramGraphics, archAngel);
-                if ((archAngel.x < 10) && (archAngel.bool_j == true))
+                if ((archAngel.x < 10) && (archAngel.no_missile == true))
                 {
                     archAngel.readMedia.drawStringGraphic(paramGraphics, 135, 27, "", 0);
                     // paramGraphics.setColor(16711680);
@@ -601,7 +601,7 @@ public class DrawGamePlay {
         else if (archAngel.mainGameScreen.gamestage1 == 1)
         {
             if(archAngel.gameSetting.m != 0) {
-                i1 = archAngel.gameSetting.o * 40 / archAngel.gameSetting.m;
+                i1 = archAngel.gameSetting.missile_left * 40 / archAngel.gameSetting.m;
             } else {
                 i1 = 40; // dungnv
             }
