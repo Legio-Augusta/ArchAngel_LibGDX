@@ -389,7 +389,7 @@ public class DrawShopAndBrief {
                     archAngel.readMedia.destroyImage(6 + i1);
                 }
                 archAngel.bool_k = true;
-                archAngel.d();
+                archAngel.updateRecordStore();
                 archAngel.gameSetting.initSetting();
                 archAngel.screen = 9;
                 l = 0;
@@ -574,7 +574,7 @@ public class DrawShopAndBrief {
             case 21:
                 if (archAngel.e())
                 {
-                    archAngel.d();
+                    archAngel.updateRecordStore();
                     archAngel.readText.readTextFromStream("system");
                     archAngel.game_state = 22;
                 }

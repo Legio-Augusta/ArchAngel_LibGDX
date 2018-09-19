@@ -2,7 +2,9 @@ package wait4u.littlewing.archangel;
 
 //import com.samsung.util.AudioClip;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.Random;
@@ -59,6 +61,12 @@ public class ArchAngelME
     //public AudioClip aq = null;
     private Music music = null; // aq
 
+    /* WARNING Using AssetManager in a static way can cause issues, especially on Android.
+	Instead you may want to pass around Assetmanager to those the classes that need it.
+	We will use it in the static context to save time for now. */
+    public static AssetManager manager;
+    private String current_music = "";
+
     public void addScore1()
     {
         // AARecordStore localh = new AARecordStore();
@@ -84,6 +92,21 @@ public class ArchAngelME
     public ArchAngelME()
     {
         addScore1();
+
+        manager = new AssetManager();
+        // TODO edit sound for louder; investigate sound vs music
+        manager.load("audio/m_briefing.wav", Music.class);
+        manager.load("audio/m_explo.wav", Sound.class);
+        manager.load("audio/m_front.wav", Sound.class);
+        manager.load("audio/m_win.wav", Sound.class);
+        manager.load("audio/s_explo.wav", Sound.class);
+        manager.load("audio/s_gun.wav", Sound.class);
+        manager.load("audio/s_menu_move.wav", Sound.class);
+        manager.load("audio/s_missile.wav", Sound.class);
+        manager.load("audio/s_plasma.wav", Sound.class);
+        manager.load("audio/s_reload.wav", Sound.class);
+
+        manager.finishLoading();
     }
 
     public void pauseApp()
@@ -98,6 +121,8 @@ public class ArchAngelME
           this.music.stop();
           this.music = null;
         }
+        // It seem only music can stop, sound only play one ?
+        // this.manager.get("audio/"+ this.current_music + ".wav", Sound.class).play();
     }
 
     public void draw_string_y305(SpriteBatch paramGraphics, String paramString, boolean paramBoolean)
@@ -110,7 +135,7 @@ public class ArchAngelME
         }
     }
 
-    public boolean d()
+    public boolean updateRecordStore()
     {
         AARecordStore localh = new AARecordStore();
         if (localh.readRecordStore("Angel", false))
@@ -127,13 +152,15 @@ public class ArchAngelME
     // TODO make plasma, missile sound louder use tool like Audacity. But low volume my be processText good effect simulate explosion far away
     public void playSound(String paramString, int paramInt)
     {
+        this.current_music = paramString; // Use for stop sound
+
         if (this.af == 0) {
             return;
         }
         if (this.music != null)
         {
-            this.music.stop();
-            this.music = null;
+            // this.music.stop();
+            // this.music = null;
         }
         try
         {
@@ -142,18 +169,21 @@ public class ArchAngelME
             this.aq = new AudioClip(3, str);
             this.aq.play(paramInt, 3);*/
             if(this.music != null){
-                this.music.dispose();
+                // this.music.dispose();
             }
 
             this.music = null;
-            this.music = Gdx.audio.newMusic(Gdx.files.internal("audio/"+ paramString + ".wav"));
-            // this.music.setVolume(0.5f);
+            // this.music = Gdx.audio.newMusic(Gdx.files.internal("audio/"+ paramString + ".wav"));
+            this.manager.get("audio/"+ paramString + ".wav", Sound.class).play();
+
+            /// this.music.setVolume(0.5f);
+            /**
             if(this.music != null) {
                 if (! this.music.isPlaying()) {
                     this.music.play();
                     this.music.setLooping(false);
                 }
-            }
+            }*/
         }
         catch (Exception localException)
         {

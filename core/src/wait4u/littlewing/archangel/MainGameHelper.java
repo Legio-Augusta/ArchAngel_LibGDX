@@ -580,13 +580,14 @@ public class MainGameHelper {
     // public void complex_draw_helper(SpriteBatch paramGraphics, Enemy paramg)
     // These int params is original from this (MainGameScreen)
     // Be careful with param pass by reference ie. aa_bool_n here is not change value, only used for condition
-    public ReturnHelper complex_draw_helper(SpriteBatch paramGraphics, Enemy paramg, ReadMedia readMedia, int af,
-                                            int b0, int b1, int b2, int b3, int bb, int bc, int be, int bf,
-                                            int bi, int bj, int bk, int by, int bz, boolean aa_bool_n, Random rnd)
+    // Draw game play fence, enemies and boss
+    public ReturnHelper draw_enemy_and_fence(SpriteBatch paramGraphics, Enemy paramg, ReadMedia readMedia, int af,
+                                             int b0, int b1, int b2, int b3, int bb, int bc, int be, int bf,
+                                             int bi, int bj, int bk, int by, int bz, boolean aa_bool_n, Random rnd)
     {
         ReturnHelper complexReturn = new ReturnHelper();
 
-        int i1 = paramg.c;
+        int i1 = paramg.c; // seem like game state
         int i2 = paramg.f;
         int i3 = paramg.g;
         int i4 = paramg.d;
@@ -597,15 +598,18 @@ public class MainGameHelper {
                 break;
             case 10:
                 if (i4 < 8) {
+                    // Fence
                     readMedia.drawImageInArr(paramGraphics, 44 + i4, i2 + 88 + 32, 163 + i3);
                 }
                 break;
             case 13:
                 if (i4 < 8) {
+                    // Enemies
                     readMedia.drawImageInArr(paramGraphics, 53 + i4, i2 + 88 + 32, 158 - i3);
                 }
                 break;
             case 14:
+                // Boss
                 readMedia.drawImageInArr(paramGraphics, 63 + i4, i2 + 88 + 32, 158 - i3);
                 break;
             case 12:

@@ -97,7 +97,7 @@ public class MainGameScreen {
     public int[][] int_arr_bu = new int[3][2];
     public int bv; // bg related
     public int bw; // aim related
-    public int bx;
+    public int bx; // aim lock
     public int by;
     public int bz;
     public int b0;
@@ -397,7 +397,7 @@ public class MainGameScreen {
         this.AA.bool_l = true; // gameStart, gameOn ?
         draw_background(paramGraphics);
         draw_lower_bg(paramGraphics);
-        clip_color_arr_helper(paramGraphics);
+        draw_ui_and_enemy(paramGraphics);
         draw_aim_lock(paramGraphics);
         sound_explode(paramGraphics);
     }
@@ -488,6 +488,7 @@ public class MainGameScreen {
         this.bv += 1;
         int i2 = this.bv / (5 - this.a8) % 3;
         int[][] arrayOfInt = { new int[3], { 1, 2, 3 }, { 2, 3, 4 } };
+        // Do not use this loop for custom 3 bg layer
         for (int i1 = 0; i1 < 3; i1++)
         {
             // Backgrounds many bg in same line (row) for turn viewport.
@@ -810,14 +811,15 @@ public class MainGameScreen {
         this.ar = -20;
     }
 
-    public void clip_color_arr_helper(SpriteBatch paramGraphics)
+    public void draw_ui_and_enemy(SpriteBatch paramGraphics)
     {
+        // UI 0
         this.readMedia.drawImageAnchor20(paramGraphics, 21, 0, 0);
         for (int i1 = 0; i1 < 18; i1++) {
             if (enemyArr[i1].c != 0) {
                 ReturnHelper arrReturn =
                 this.gameHelper.draw_radar_dot(paramGraphics, enemyArr[i1], this.al, this.am, this.av, this.bo, this.bp, this.bq, this.br, this.gamestage1, this.AA.boss_sprite_level, stt_byte_arr_bs);
-                Gdx.app.log("ERROR", ""+this.gamestage1);
+
                 this.bo = (arrReturn.one > arrReturn.MIN_INT) ? arrReturn.one : this.bo;
                 this.bp = (arrReturn.two > arrReturn.MIN_INT) ? arrReturn.two : this.bp;
                 this.bq = (arrReturn.three > arrReturn.MIN_INT) ? arrReturn.three : this.bq;
@@ -830,7 +832,7 @@ public class MainGameScreen {
                 if ((enemyArr[i2].c != 0) && (enemyArr[i2].d == i1)) {
                     // complex_draw_helper(paramGraphics, enemyArr[i2]);
                     ReturnHelper returnComplexDrawHelper =
-                        this.gameHelper.complex_draw_helper(paramGraphics, enemyArr[i2], this.readMedia, this.af, this.b0, this.b1, this.b2,
+                        this.gameHelper.draw_enemy_and_fence(paramGraphics, enemyArr[i2], this.readMedia, this.af, this.b0, this.b1, this.b2,
                             this.b3, this.fighter_x, this.fighter_y, this.be, this.bf, this.gamestage1, this.bj, this.bk, this.by, this.bz, this.AA.bool_n, this.rnd);
 
                     // If this.l value has changed

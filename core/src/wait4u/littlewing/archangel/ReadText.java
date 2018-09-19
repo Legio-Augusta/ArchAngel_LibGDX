@@ -1,7 +1,5 @@
 package wait4u.littlewing.archangel;
 
-import com.badlogic.gdx.Gdx;
-
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;

@@ -4,8 +4,8 @@ public class Enemy
 {
     public int enemy_distance_1 = this.enemy_distance_2 = this.c = this.d = this.e = this.f = this.g = this.h = this.i = this.j = this.k = this.l = this.m = 0;
     public int enemy_distance_2;
-    public int c; // related to boss distance calc
-    public int d;
+    public int c; // related to boss distance calc and/or game state
+    public int d; // Related to draw/appear enemies, fence
     public int e; // related to fly ai
     public int f;
     public int g;
