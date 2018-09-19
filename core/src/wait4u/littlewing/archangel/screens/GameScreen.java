@@ -12,6 +12,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import wait4u.littlewing.archangel.ArchAngelME;
 import wait4u.littlewing.archangel.OverlapTester;
@@ -126,6 +128,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
     private Texture touch_pad_knob;
     BitmapFont font;
     private Music music;
+    Viewport viewport;
 
     /*
      *    https://docs.oracle.com/javame/config/cldc/ref-impl/midp2.0/jsr118/constant-values.html#javax.microedition.lcdui.Canvas.UP
@@ -1109,10 +1112,8 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         batch.begin();
-        // TODO use boundingBox and touchAreas
-        // TODO pass touchPoint instead of global
+        // TODO use boundingBox and touchAreas; pass touchPoint instead of global
         // BoundingBox can be use Rectangle as alternative ?
-        // convert touch event to key event (getGameAction)
         // TODO study libgdx-mario-bros key handle mechanism
         touchPoint.set(Gdx.input.getX(),Gdx.input.getY(), 0);
 
@@ -1268,14 +1269,15 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
     }
 
     protected void drawUI() {
+        // It seem single image can have it's own event Listener such as: touchDown/Up; See bellow
+        // https://github.com/BrentAureli/ControllerDemo/blob/master/core/src/com/brentaureli/overlaydemo/Controller.java
+        // TODO use custom IMAGE addEventListener for more UI refine. Can image used as Texture ?
         batch.draw(fireBtnTexture, SCREEN_WIDTH-50-fireBtnTexture.getWidth(), 50, fireBtnTexture.getWidth(), fireBtnTexture.getHeight());
         batch.draw(imgKeyNum3, SCREEN_WIDTH-50-fireBtnTexture.getWidth()-fireBtnTexture.getWidth()/2 - imgKeyNum3.getWidth(), BOTTOM_SPACE-imgKeyNum3.getHeight(), imgKeyNum3.getWidth(), imgKeyNum3.getHeight());
         batch.draw(imgSpeedUp, SCREEN_WIDTH-50-fireBtnTexture.getWidth()-fireBtnTexture.getWidth()/2 - imgSpeedUp.getWidth(), 20, imgSpeedUp.getWidth(), imgSpeedUp.getHeight());
         batch.draw(imgSpeedDown, SCREEN_WIDTH-50-fireBtnTexture.getWidth()-fireBtnTexture.getWidth()/2 - 2*imgSpeedDown.getWidth(), 20, imgSpeedDown.getWidth(), imgSpeedDown.getHeight());
         batch.draw(touch_pad, 20, 20);
         batch.draw(touch_pad_knob, 20+touch_pad.getWidth()/2-touch_pad_knob.getWidth()/2, 20+touch_pad.getHeight()/2-touch_pad_knob.getHeight()/2);
-
-//        fillRect(40, BOTTOM_SPACE+ui.getHeight()-(12 - 12 * hero.hp / hero.max_hp)*SGH_SCALE_RATIO-24, 81+5, (12 - 12 * hero.hp / hero.max_hp)*SGH_SCALE_RATIO, 4);
     }
 
     public void create () {
@@ -1283,9 +1285,17 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
 
         //Create camera
         float aspectRatio = (float) SCREEN_WIDTH / (float) SCREEN_HEIGHT;
+
         camera = new OrthographicCamera();
+        int VIEWPORT_WIDTH = 1080;
+        int VIEWPORT_HEIGHT = 1920;
+        camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
+        viewport = new FillViewport(SCREEN_WIDTH, SCREEN_HEIGHT, camera);
+        viewport.apply();
+
         camera.position.x = SCREEN_WIDTH/2;
         camera.position.y = SCREEN_HEIGHT/2;
+        camera.position.set(camera.viewportWidth/2,camera.viewportHeight/2,0);
         camera.update();
 
         Gdx.input.setInputProcessor(this); // TODO use an InputProcessor object
@@ -1296,6 +1306,11 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         font = new BitmapFont();
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         font.getData().setScale(6);
+    }
+
+    public void resize(int width, int height) {
+        viewport.update(width,height);
+        camera.position.set(camera.viewportWidth/2,camera.viewportHeight/2,0);
     }
 
     private void loadTextures() {
