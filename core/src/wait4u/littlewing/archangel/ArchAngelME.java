@@ -198,7 +198,9 @@ public class ArchAngelME
         this.mainGameScreen.boss_distance_r = this.readText.int_arr_m[0]; // f.r =
         this.mainGameScreen.boss_distance_s = this.readText.int_arr_m[1];
         this.mainGameScreen.destroy_n_e = (this.readText.int_arr_m[2] > 0) ? this.readText.int_arr_m[2] : 5;
-        this.readText.processTxt(2);
+        if(this.boss_sprite_level <= 7) {
+            this.mainGameScreen.destroy_n_e = 5 + this.boss_sprite_level*2;
+        }
 
         this.mainGameScreen.enemy_fighter = this.readText.buildString(); // Data mixed in txt file, this case may be number of enermy
         this.mainGameScreen.enemy_fighter = (this.mainGameScreen.enemy_fighter == null) ? "AZ-1": this.mainGameScreen.enemy_fighter;

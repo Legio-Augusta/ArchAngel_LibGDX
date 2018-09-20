@@ -58,7 +58,7 @@ public class MainGameScreen {
     public int as = 0; // aim target related
     public int at;
     public int au = 0;
-    public int av = 90; // ie. 146; related to boss finder
+    public int figter_angle = 90; // related to boss finder; angle 90 360 ...
     public int gamespeed = 20;
     public int ax = 0;
     public boolean bool_ay = false;
@@ -146,9 +146,9 @@ public class MainGameScreen {
                         paramGameCnf.i = 0;
                         this.bool_a1 = false;
                     }
-                    // this.f = turn_calc(angle_helper(paramGameCnf.enemy_distance_1, paramGameCnf.screen), this.av);
+                    // this.f = turn_calc(angle_helper(paramGameCnf.enemy_distance_1, paramGameCnf.screen), this.figter_angle);
                     // turn speed
-                    this.f = this.gameHelper.turn_calc(this.gameHelper.angle_helper(paramGameCnf.enemy_distance_1, paramGameCnf.enemy_distance_2, stt_byte_arr_bt), this.av);
+                    this.f = this.gameHelper.turn_calc(this.gameHelper.angle_helper(paramGameCnf.enemy_distance_1, paramGameCnf.enemy_distance_2, stt_byte_arr_bt), this.figter_angle);
                     // Magnificent
                     // distance_2 = -2122697960; distance_1 = -1137360710;
                     // 2122697960 + 1137360710 = -1034908626 (out of range treated like this)
@@ -362,7 +362,7 @@ public class MainGameScreen {
         this.AA.ae = 40;
         this.f = (this.ax = this.al = this.am = this.as = this.aq = this.gamespeed_step = this.an = this.ao = 0);
         this.gamespeed = 20;
-        this.av = 90;
+        this.figter_angle = 90;
         this.ap = 0;
         this.au = 0;
         this.hecman_step = 0;
@@ -469,7 +469,7 @@ public class MainGameScreen {
     // Draw sky background (far and high bg)
     public void draw_background(SpriteBatch paramGraphics)
     {
-        int i1 = -this.av * 4 + 360;
+        int i1 = -this.figter_angle * 4 + 360;
         int i2 = this.at >> 14; // 262143 >> 14 = 15
         if (i2 < 0) { // fix me why unused code here
             i2 = 0;
@@ -818,7 +818,7 @@ public class MainGameScreen {
         for (int i1 = 0; i1 < 18; i1++) {
             if (enemyArr[i1].c != 0) {
                 ReturnHelper arrReturn =
-                this.gameHelper.draw_radar_dot(paramGraphics, enemyArr[i1], this.al, this.am, this.av, this.bo, this.bp, this.bq, this.br, this.gamestage1, this.AA.boss_sprite_level, stt_byte_arr_bs);
+                this.gameHelper.draw_radar_dot(paramGraphics, enemyArr[i1], this.al, this.am, this.figter_angle, this.bo, this.bp, this.bq, this.br, this.gamestage1, this.AA.boss_sprite_level, stt_byte_arr_bs);
 
                 this.bo = (arrReturn.one > arrReturn.MIN_INT) ? arrReturn.one : this.bo;
                 this.bp = (arrReturn.two > arrReturn.MIN_INT) ? arrReturn.two : this.bp;
@@ -930,15 +930,15 @@ public class MainGameScreen {
         if (this.as < -4) {
             this.as = -4;
         }
-        this.av -= this.as;
-        if (this.av < 0) {
-            this.av += 360;
+        this.figter_angle -= this.as;
+        if (this.figter_angle < 0) {
+            this.figter_angle += 360;
         }
-        if (this.av >= 360) {
-            this.av -= 360;
+        if (this.figter_angle >= 360) {
+            this.figter_angle -= 360;
         }
-        this.al = ((enemy_ai_1(this.av) * this.gamespeed >> 6) + this.an);
-        this.am = ((enemy_ai_2(this.av) * this.gamespeed >> 6) + this.ao);
+        this.al = ((enemy_ai_1(this.figter_angle) * this.gamespeed >> 6) + this.an);
+        this.am = ((enemy_ai_2(this.figter_angle) * this.gamespeed >> 6) + this.ao);
         this.at -= this.am;
         this.gamespeed += this.gamespeed_step; // change game speed
         if (this.gamespeed > 140) { // 140
@@ -1083,21 +1083,21 @@ public class MainGameScreen {
                 paramg.m = 50;
                 i1 = (this.rnd.nextInt() & 0x1F) - 15; // AND bit
                 int i2 = (this.rnd.nextInt() & 0x7) + 63; // AND bit
-                paramg.enemy_distance_1 = (i2 * enemy_ai_1(i1 + this.av));
-                paramg.enemy_distance_2 = (i2 * enemy_ai_2(i1 + this.av));
+                paramg.enemy_distance_1 = (i2 * enemy_ai_1(i1 + this.figter_angle));
+                paramg.enemy_distance_2 = (i2 * enemy_ai_2(i1 + this.figter_angle));
                 paramg.h = (paramg.i = 0);
                 paramg.e = i1;
                 this.ah += 1;
                 break;
             case 14:
                 paramg.m = this.n;
-                this.av = 90;
+                this.figter_angle = 90;
                 i1 = 0;
-                paramg.enemy_distance_1 = (60 * enemy_ai_1(i1 + this.av));
-                paramg.enemy_distance_2 = (60 * enemy_ai_2(i1 + this.av));
+                paramg.enemy_distance_1 = (60 * enemy_ai_1(i1 + this.figter_angle));
+                paramg.enemy_distance_2 = (60 * enemy_ai_2(i1 + this.figter_angle));
                 paramg.e = i1;
                 paramg.h = (paramg.i = 0);
-                paramg.j = this.av;
+                paramg.j = this.figter_angle;
                 paramg.l = 2;
                 this.v += 1;
                 paramg.d = 0;
@@ -1106,11 +1106,11 @@ public class MainGameScreen {
             case 13:
                 paramg.m = this.j;
                 i1 = (this.rnd.nextInt() & 0x7F) - 63;
-                paramg.enemy_distance_1 = (60 * enemy_ai_1(i1 + this.av));
-                paramg.enemy_distance_2 = (60 * enemy_ai_2(i1 + this.av));
+                paramg.enemy_distance_1 = (60 * enemy_ai_1(i1 + this.figter_angle));
+                paramg.enemy_distance_2 = (60 * enemy_ai_2(i1 + this.figter_angle));
                 paramg.e = i1;
                 paramg.h = (paramg.i = 0);
-                paramg.j = ((this.av + 180) % 360);
+                paramg.j = ((this.figter_angle + 180) % 360);
                 paramg.l = 2;
                 this.w += 1;
                 this.ag += 1;
@@ -1131,33 +1131,33 @@ public class MainGameScreen {
                 this.af += 1;
                 break;
             case 11:
-                i1 = paramg.j = this.av;
+                i1 = paramg.j = this.figter_angle;
                 paramg.h = (6 * enemy_ai_1(i1));
                 paramg.i = (6 * enemy_ai_2(i1));
-                paramg.enemy_distance_1 = (enemy_ai_1(this.av - 90) + paramg.h);
-                paramg.enemy_distance_2 = (enemy_ai_2(this.av - 90) + paramg.i);
+                paramg.enemy_distance_1 = (enemy_ai_1(this.figter_angle - 90) + paramg.h);
+                paramg.enemy_distance_2 = (enemy_ai_2(this.figter_angle - 90) + paramg.i);
                 paramg.e = 64;
                 paramg.k = paramInt2;
                 paramg.l = 30;
                 paramg.m = this.gameSetting.s;
                 break;
             case 1:
-                i1 = paramg.j = this.av;
+                i1 = paramg.j = this.figter_angle;
                 paramg.h = (6 * enemy_ai_1(i1));
                 paramg.i = (6 * enemy_ai_2(i1));
-                paramg.enemy_distance_1 = (enemy_ai_1(this.av - 90) + paramg.h);
-                paramg.enemy_distance_2 = (enemy_ai_2(this.av - 90) + paramg.i);
+                paramg.enemy_distance_1 = (enemy_ai_1(this.figter_angle - 90) + paramg.h);
+                paramg.enemy_distance_2 = (enemy_ai_2(this.figter_angle - 90) + paramg.i);
                 paramg.e = 64;
                 paramg.k = paramInt2;
                 paramg.l = 30;
                 paramg.m = this.gameSetting.n;
                 break;
             case 6:
-                i1 = paramg.j = this.av;
+                i1 = paramg.j = this.figter_angle;
                 paramg.h = (6 * enemy_ai_1(i1));
                 paramg.i = (6 * enemy_ai_2(i1));
-                paramg.enemy_distance_1 = (enemy_ai_1(this.av + 90) + paramg.h);
-                paramg.enemy_distance_2 = (enemy_ai_2(this.av + 90) + paramg.i);
+                paramg.enemy_distance_1 = (enemy_ai_1(this.figter_angle + 90) + paramg.h);
+                paramg.enemy_distance_2 = (enemy_ai_2(this.figter_angle + 90) + paramg.i);
                 paramg.e = 64;
                 paramg.l = (10 + this.cc);
                 this.cc = (1 - this.cc);
@@ -1172,8 +1172,8 @@ public class MainGameScreen {
         if (!this.bool_bg)
         {
             int i1 = paramBoolean ? 90 : -90;
-            this.an = (2 * enemy_ai_1(this.av + i1));
-            this.ao = (2 * enemy_ai_2(this.av + i1));
+            this.an = (2 * enemy_ai_1(this.figter_angle + i1));
+            this.ao = (2 * enemy_ai_2(this.figter_angle + i1));
         }
     }
 

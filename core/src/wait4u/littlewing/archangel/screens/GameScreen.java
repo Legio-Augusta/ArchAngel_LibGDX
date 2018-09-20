@@ -1147,13 +1147,28 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         // if(isTouchedMenuLeft() || isTouchedMenuRight() || isTouchedOK() || isTouchedUp() || isTouchedDown() || isTouchedLeft() || isTouchedRight()) {
-        if(isTouchedUp() || isTouchedDown() || isTouchedLeft() || isTouchedRight()) {
+        if(isTouchedLeft() || isTouchedRight()) {
             // Only apply tricky way on fighting scene
             if(this.archAngel.screen == 25) {
-                // Use key_code 53 (NUM5 ~ fire) for clear key_code, action LEFT
-                this.key_code = 53; // Fix me This is tricky way to implement touch & hold
-                keyPressed();
-                this.game_action = 0;
+                if (this.archAngel.mainGameScreen.gamestage1 == 1) {
+                    // normal play not boss scene
+                    // Use key_code 53 (NUM5 ~ fire) for clear key_code, action LEFT
+                    this.key_code = 53; // Fix me This is tricky way to implement touch & hold
+                    keyPressed();
+                    this.game_action = 0;
+                }
+            }
+        }
+
+        if(isTouchedUp() || isTouchedDown()) {
+            if(this.archAngel.mainGameScreen.gamespeed <= 140 && this.archAngel.mainGameScreen.gamespeed >= 20) {
+                if (this.archAngel.mainGameScreen.gamestage1 == 1) {
+                    // normal play not boss scene
+                    // Use key_code 53 (NUM5 ~ fire) for clear key_code, action LEFT
+                    this.key_code = 53; // Fix me This is tricky way to implement touch & hold
+                    keyPressed();
+                    this.game_action = 0;
+                }
             }
         }
 

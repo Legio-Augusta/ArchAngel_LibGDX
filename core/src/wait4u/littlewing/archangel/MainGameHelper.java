@@ -216,7 +216,7 @@ public class MainGameHelper {
         int i5 = paramg.c;
         int e_distance_radar_x = paramg.enemy_distance_1; // i3
         int e_distance_radar_y = paramg.enemy_distance_2; // i4
-        // int i1 = shift_byte_6(450 - av, i3, i4, bo, bp, bq, br, stt_byte_arr_bs);
+        // int i1 = shift_byte_6(450 - figter_angle, i3, i4, bo, bp, bq, br, stt_byte_arr_bs);
         ReturnHelper shiftReturn = shift_byte_6(450 - av, e_distance_radar_x, e_distance_radar_y, bo, bp, bq, br, stt_byte_arr_bs);
         int e_ai_distance_x = shiftReturn.five; // i1
         bo = (shiftReturn.one > shiftReturn.MIN_INT) ? shiftReturn.one : bo;
@@ -224,7 +224,7 @@ public class MainGameHelper {
         bq = (shiftReturn.three > shiftReturn.MIN_INT) ? shiftReturn.three : bq;
         br = (shiftReturn.four > shiftReturn.MIN_INT) ? shiftReturn.four : br;
 
-        // int i2 = return_turn_helper(450 - av, i3, i4, bo, bp, bq, br, stt_byte_arr_bs);
+        // int i2 = return_turn_helper(450 - figter_angle, i3, i4, bo, bp, bq, br, stt_byte_arr_bs);
         ReturnHelper returnHelper2 = return_turn_helper(450 - av, e_distance_radar_x, e_distance_radar_y, bo, bp, bq, br, stt_byte_arr_bs);
         int e_ai_distance_y = returnHelper2.five; // i2
         bo = (returnHelper2.one > returnHelper2.MIN_INT) ? returnHelper2.one : bo;
@@ -826,7 +826,7 @@ public class MainGameHelper {
         }
     }
 
-    // int; (450 - av, i3, i4... i3 = boss_dt_1, i4 = boss_dt_2 (ab few thousands)
+    // int; (450 - figter_angle, i3, i4... i3 = boss_dt_1, i4 = boss_dt_2 (ab few thousands)
     public ReturnHelper return_turn_helper(int paramInt1, int paramInt2, int paramInt3, int bo, int bp, int bq, int br, byte[] stt_byte_arr_bs)
     {
         ReturnHelper returnHelper = new ReturnHelper();

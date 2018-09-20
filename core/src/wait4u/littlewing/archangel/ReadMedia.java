@@ -402,7 +402,6 @@ public class ReadMedia
         // paramGraphics.draw(loadImage(paramInt1), paramInt2, paramInt3); //20
         int img_height = this.img_arr_a[paramInt1].getHeight();
         int position_y = (int) ((MOBI_H - paramInt3 +20)*MOBI_SCL-img_height + BOTTOM_SPACE); // anchor 20
-//        Gdx.app.log("DEBUG STRING IMAGE", "IMG: " + this.msr_media + "_" + paramInt1 + " JME destroy_n_e= "+paramInt3 + " position destroy_n_e="+position_y + " height="+img_height + " top bound="+(position_y+img_height));
         paramGraphics.draw(this.img_arr_a[paramInt1], (int)(paramInt2*MOBI_SCL), position_y); //20
     }
 
