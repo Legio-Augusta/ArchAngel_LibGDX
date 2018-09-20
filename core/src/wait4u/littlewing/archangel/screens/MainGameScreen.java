@@ -54,7 +54,7 @@ public class MainGameScreen {
     public int ao = 0;
     public int ap = 0; // Related to mission stage (ie. hecman transformer)
     public int aq = 0;
-    public int ar = 0; // related to fighter speed
+    public int gamespeed_step = 0; // related to fighter speed
     public int as = 0; // aim target related
     public int at;
     public int au = 0;
@@ -360,7 +360,7 @@ public class MainGameScreen {
         this.fighter_y = 169;
         this.int_arr_a5[1] = -82;
         this.AA.ae = 40;
-        this.f = (this.ax = this.al = this.am = this.as = this.aq = this.ar = this.an = this.ao = 0);
+        this.f = (this.ax = this.al = this.am = this.as = this.aq = this.gamespeed_step = this.an = this.ao = 0);
         this.gamespeed = 20;
         this.av = 90;
         this.ap = 0;
@@ -746,7 +746,7 @@ public class MainGameScreen {
     public void speed_up_down(boolean paramBoolean)
     {
         if (!this.bool_bg) {
-            this.ar = (paramBoolean ? 2 : -2); // +/- 20
+            this.gamespeed_step = (paramBoolean ? 2 : -2); // +/- 20
         }
     }
 
@@ -808,7 +808,7 @@ public class MainGameScreen {
         this.bool_a0 = false;
         this.AA.ab = 7;
         setup3();
-        this.ar = -20;
+        this.gamespeed_step = -20;
     }
 
     public void draw_ui_and_enemy(SpriteBatch paramGraphics)
@@ -865,7 +865,7 @@ public class MainGameScreen {
     public void setup3()
     {
         this.aq = 0;
-        this.ar = 0;
+        this.gamespeed_step = 0;
         this.an = (this.ao = 0);
     }
 
@@ -940,9 +940,9 @@ public class MainGameScreen {
         this.al = ((enemy_ai_1(this.av) * this.gamespeed >> 6) + this.an);
         this.am = ((enemy_ai_2(this.av) * this.gamespeed >> 6) + this.ao);
         this.at -= this.am;
-        this.gamespeed += this.ar; // change game speed
-        if (this.gamespeed > 60) { // 140
-            this.gamespeed = 60; // 140
+        this.gamespeed += this.gamespeed_step; // change game speed
+        if (this.gamespeed > 140) { // 140
+            this.gamespeed = 140; // 140
         }
         if (this.gamespeed < 20) {
             this.gamespeed = 20;
