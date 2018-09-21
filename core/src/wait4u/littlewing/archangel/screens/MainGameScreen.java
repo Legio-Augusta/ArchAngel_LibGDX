@@ -17,7 +17,7 @@ public class MainGameScreen {
     public GameSettings gameSetting;
     public Random rnd = new Random();
     public String str_e;
-    public int f; // Fighter HP related, for example Fighter lose 50 HP each time collidate cliff
+    public int direction_guide; // Fighter HP related, lose 50 HP each time collidate cliff; Or fighter turn guide
     public int g;
     public int h;
     public int i;
@@ -25,7 +25,7 @@ public class MainGameScreen {
     public int k;
     public int l = 0;
     public String enemy_fighter; // Enermy left
-    public int n;
+    public int n; // enemy damage related or enemy hp
     public int o;
     public int p = 0;
     public String str_q;
@@ -64,7 +64,7 @@ public class MainGameScreen {
     public boolean bool_ay = false;
     public boolean bool_az = false;
     public boolean bool_a0 = false;
-    public boolean bool_a1 = false;
+    public boolean bool_a1 = false; // n enemy destroyed, go to next stage
     public boolean bool_a2 = false;
     public int a3 = 0;
     public int a4 = 0;
@@ -146,9 +146,9 @@ public class MainGameScreen {
                         paramGameCnf.i = 0;
                         this.bool_a1 = false;
                     }
-                    // this.f = turn_calc(angle_helper(paramGameCnf.enemy_distance_1, paramGameCnf.screen), this.figter_angle);
+                    // this.direction_guide = turn_calc(angle_helper(paramGameCnf.enemy_distance_1, paramGameCnf.screen), this.figter_angle);
                     // turn speed
-                    this.f = this.gameHelper.turn_calc(this.gameHelper.angle_helper(paramGameCnf.enemy_distance_1, paramGameCnf.enemy_distance_2, stt_byte_arr_bt), this.figter_angle);
+                    this.direction_guide = this.gameHelper.turn_calc(this.gameHelper.angle_helper(paramGameCnf.enemy_distance_1, paramGameCnf.enemy_distance_2, stt_byte_arr_bt), this.figter_angle);
                     // Magnificent
                     // distance_2 = -2122697960; distance_1 = -1137360710;
                     // 2122697960 + 1137360710 = -1034908626 (out of range treated like this)
@@ -157,7 +157,9 @@ public class MainGameScreen {
                     this.boss_distance = (Math.abs(paramGameCnf.enemy_distance_1) + Math.abs(paramGameCnf.enemy_distance_2) - 200);
                 }
 
-                if ((this.boss_distance <= 0) && (this.mission_stage == 1))
+                // Boss AI calc distance seem quite complicated
+                // Temporary use destroy_n_e as number of enemies left and some other params for this condition
+                if (( (this.boss_distance <= 0) || (this.boss_distance <= 1933900000) ) && (this.mission_stage == 1)) // (destroy_n_e <= 0)
                 {
                     this.boss_distance = 0;
                     paramGameCnf.c = 0;
@@ -237,7 +239,7 @@ public class MainGameScreen {
                         paramGameCnf.c = 0;
                         this.af += -1;
                         this.au += 3;
-                        this.gameSetting.loseHP(paramGameCnf.m); // This seem to be reduce ammo round instead of hp
+                        this.gameSetting.loseHP(paramGameCnf.enemy_damage); // This seem to be reduce ammo round instead of hp
                         if (this.gameSetting.fighter_hp <= 0) {
                             setup2();
                         }
@@ -248,7 +250,7 @@ public class MainGameScreen {
                     paramGameCnf.c = 0;
                     this.af += -1;
                     this.au += 3;
-                    this.gameSetting.loseHP(paramGameCnf.m);
+                    this.gameSetting.loseHP(paramGameCnf.enemy_damage);
                     play_s_gun(false);
                     if (this.gameSetting.fighter_hp <= 0) { // ammo round reduce ?
                         setup2();
@@ -276,11 +278,11 @@ public class MainGameScreen {
                 {
                     paramGameCnf.c = 4;
                     paramGameCnf.l = 2;
-                    enemyArr[i1].m -= this.gameSetting.s; // decs_e_hp ? similar SBF decrease hp
+                    enemyArr[i1].enemy_damage -= this.gameSetting.s; // decs_e_hp ? similar SBF decrease hp
                     if(this.n != 0) {
-                        this.AA.ae = (40 * enemyArr[i1].m / this.n);
+                        this.AA.ae = (40 * enemyArr[i1].enemy_damage / this.n);
                     }
-                    if (enemyArr[i1].m <= 0)
+                    if (enemyArr[i1].enemy_damage <= 0)
                     {
                         enemyArr[i1].c = 7;
                         enemyArr[i1].l = 4;
@@ -308,8 +310,8 @@ public class MainGameScreen {
                 {
                     paramGameCnf.c = 4;
                     paramGameCnf.l = 2;
-                    enemyArr[i1].m -= this.gameSetting.n;
-                    if (enemyArr[i1].m <= 0)
+                    enemyArr[i1].enemy_damage -= this.gameSetting.n;
+                    if (enemyArr[i1].enemy_damage <= 0)
                     {
                         enemyArr[i1].c = 8;
                         enemyArr[i1].l = 4;
@@ -340,7 +342,7 @@ public class MainGameScreen {
                     this.ag += -1;
                     paramGameCnf.c = 0;
                     this.t += 1;
-                    this.AA.ab = 6;
+                    this.AA.temp_screen2 = 6;
                     this.g = (this.t * this.i + this.downed_e_count * this.h);
                 }
                 break;
@@ -360,7 +362,7 @@ public class MainGameScreen {
         this.fighter_y = 169;
         this.int_arr_a5[1] = -82;
         this.AA.ae = 40;
-        this.f = (this.ax = this.al = this.am = this.as = this.aq = this.gamespeed_step = this.an = this.ao = 0);
+        this.direction_guide = (this.ax = this.al = this.am = this.as = this.aq = this.gamespeed_step = this.an = this.ao = 0);
         this.gamespeed = 20;
         this.figter_angle = 90;
         this.ap = 0;
@@ -378,7 +380,7 @@ public class MainGameScreen {
         this.v = (this.w = 0);
         this.at = 262143;
         this.af = (this.ag = this.ah = 0);
-        this.AA.ab = 25;
+        this.AA.temp_screen2 = 25;
         this.bool_bl = false;
         this.bm = -1;
         this.bn = 0;
@@ -713,7 +715,7 @@ public class MainGameScreen {
     {
         if (this.gameSetting.missile_left <= 0)
         {
-            this.AA.x = 1;
+            this.AA.run_state2 = 1;
             this.AA.no_missile = true;
         }
         else
@@ -802,11 +804,11 @@ public class MainGameScreen {
     public void setup2()
     {
         this.au = 1000;
-        this.gameSetting.fighter_hp = 0;
+        this.gameSetting.fighter_hp = 0; // orig: 0 nickfarrow
         this.bool_ay = false;
         this.bool_az = false;
         this.bool_a0 = false;
-        this.AA.ab = 7;
+        this.AA.temp_screen2 = 7;
         setup3();
         this.gamespeed_step = -20;
     }
@@ -818,7 +820,7 @@ public class MainGameScreen {
         for (int i1 = 0; i1 < 18; i1++) {
             if (enemyArr[i1].c != 0) {
                 ReturnHelper arrReturn =
-                this.gameHelper.draw_radar_dot(paramGraphics, enemyArr[i1], this.al, this.am, this.figter_angle, this.bo, this.bp, this.bq, this.br, this.gamestage1, this.AA.boss_sprite_level, stt_byte_arr_bs);
+                this.gameHelper.draw_radar_dot(paramGraphics, enemyArr[i1], this.al, this.am, this.figter_angle, this.bo, this.bp, this.bq, this.br, this.gamestage1, this.AA.boss_sprite_level, this.mission_stage, stt_byte_arr_bs);
 
                 this.bo = (arrReturn.one > arrReturn.MIN_INT) ? arrReturn.one : this.bo;
                 this.bp = (arrReturn.two > arrReturn.MIN_INT) ? arrReturn.two : this.bp;
@@ -953,7 +955,7 @@ public class MainGameScreen {
             this.bn = 12;
         }
         int i1;
-        if ((this.bool_az) && (this.AA.x % 5 == 0) && (this.AA.bool_n == true) && (this.gameSetting.t > 0))
+        if ((this.bool_az) && (this.AA.run_state2 % 5 == 0) && (this.AA.bool_n == true) && (this.gameSetting.t > 0))
         {
             i1 = this.aj;
             if ((this.aj < 0) || (this.ak > 0)) {
@@ -1020,6 +1022,7 @@ public class MainGameScreen {
         int i1;
         if (paramg.e > 4000)
         {
+            // Boss
             i4 = this.gameHelper.angle_helper(-paramg.enemy_distance_1, -paramg.enemy_distance_2, stt_byte_arr_bt);
             i1 = 20;
         }
@@ -1068,7 +1071,7 @@ public class MainGameScreen {
 
     public void boss_distance_ai(Enemy paramg, int paramInt1, int paramInt2)
     {
-        paramg.m = 0;
+        paramg.enemy_damage = 0;
         int i1;
         switch (paramInt1)
         {
@@ -1080,7 +1083,7 @@ public class MainGameScreen {
                 paramg.i = 0;
                 break;
             case 10:
-                paramg.m = 50;
+                paramg.enemy_damage = 50;
                 i1 = (this.rnd.nextInt() & 0x1F) - 15; // AND bit
                 int i2 = (this.rnd.nextInt() & 0x7) + 63; // AND bit
                 paramg.enemy_distance_1 = (i2 * enemy_ai_1(i1 + this.figter_angle));
@@ -1090,7 +1093,7 @@ public class MainGameScreen {
                 this.ah += 1;
                 break;
             case 14:
-                paramg.m = this.n;
+                paramg.enemy_damage = this.n;
                 this.figter_angle = 90;
                 i1 = 0;
                 paramg.enemy_distance_1 = (60 * enemy_ai_1(i1 + this.figter_angle));
@@ -1104,7 +1107,7 @@ public class MainGameScreen {
                 this.AA.bool_n = true;
                 break;
             case 13:
-                paramg.m = this.j;
+                paramg.enemy_damage = this.j;
                 i1 = (this.rnd.nextInt() & 0x7F) - 63;
                 paramg.enemy_distance_1 = (60 * enemy_ai_1(i1 + this.figter_angle));
                 paramg.enemy_distance_2 = (60 * enemy_ai_2(i1 + this.figter_angle));
@@ -1127,7 +1130,7 @@ public class MainGameScreen {
                 paramg.h = (3 * enemy_ai_1(i1) + this.al);
                 paramg.i = (3 * enemy_ai_2(i1) + this.am);
                 paramg.l = 30;
-                paramg.m = (enemyArr[paramInt2].c == 14 ? this.o : this.k);
+                paramg.enemy_damage = (enemyArr[paramInt2].c == 14 ? this.o : this.k);
                 this.af += 1;
                 break;
             case 11:
@@ -1139,7 +1142,7 @@ public class MainGameScreen {
                 paramg.e = 64;
                 paramg.k = paramInt2;
                 paramg.l = 30;
-                paramg.m = this.gameSetting.s;
+                paramg.enemy_damage = this.gameSetting.s;
                 break;
             case 1:
                 i1 = paramg.j = this.figter_angle;
@@ -1150,7 +1153,7 @@ public class MainGameScreen {
                 paramg.e = 64;
                 paramg.k = paramInt2;
                 paramg.l = 30;
-                paramg.m = this.gameSetting.n;
+                paramg.enemy_damage = this.gameSetting.n;
                 break;
             case 6:
                 i1 = paramg.j = this.figter_angle;
@@ -1161,7 +1164,7 @@ public class MainGameScreen {
                 paramg.e = 64;
                 paramg.l = (10 + this.cc);
                 this.cc = (1 - this.cc);
-                paramg.m = (this.gameSetting.n / 10);
+                paramg.enemy_damage = (this.gameSetting.n / 10);
                 break;
         }
         paramg.c = paramInt1;

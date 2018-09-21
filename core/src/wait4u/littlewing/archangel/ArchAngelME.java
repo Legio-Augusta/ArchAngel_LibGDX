@@ -1,7 +1,6 @@
 package wait4u.littlewing.archangel;
 
 //import com.samsung.util.AudioClip;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -37,11 +36,11 @@ public class ArchAngelME
     public boolean bool_u = false;
     public boolean bool_v = true;
     public boolean bool_w = true;
-    public int x = 0; // fighter ammunation, x, y and z seem related to game state, boss hp...; Or missile run out flag
-    public int y = -1;
+    public int run_state2 = 0; // fighter ammunation, x, y and z seem related to game state, boss hp...; Or missile run out flag
+    public int temp_screen = -1; //
     public int game_state = 0;
-    public int aa = -1;
-    public int ab;
+    public int temp_state = -1;
+    public int temp_screen2;
     public int boss_sprite_level;
     public int ad;
     public int ae = 40;

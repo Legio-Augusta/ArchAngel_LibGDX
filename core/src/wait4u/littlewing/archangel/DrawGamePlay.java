@@ -48,13 +48,13 @@ public class DrawGamePlay {
                 case -4:
                 case -2:
                     archAngel.readText.a += 1;
-                    archAngel.x = -1;
+                    archAngel.run_state2 = -1;
                     archAngel.bool_g = true;
                     break;
                 case -3:
                 case -1:
                     archAngel.readText.a += -1;
-                    archAngel.x = -1;
+                    archAngel.run_state2 = -1;
                     archAngel.bool_g = true;
                     break;
                 default:
@@ -70,7 +70,7 @@ public class DrawGamePlay {
         if ((i1 > 0) && (archAngel.readText.int_arr_m[(i1 - 1)] > 0))
         {
             archAngel.game_state = archAngel.readText.int_arr_m[(i1 - 1)];
-            archAngel.x = 0;
+            archAngel.run_state2 = 0;
         }
     }
 
@@ -79,23 +79,23 @@ public class DrawGamePlay {
     {
         ReturnHelper startReturn = new ReturnHelper();
 
-        if ((archAngel.game_state > 0) && (archAngel.x > 0)) {
+        if ((archAngel.game_state > 0) && (archAngel.run_state2 > 0)) {
             return startReturn;
         }
         int i1;
         switch (archAngel.game_state)
         {
             case 0:
-                if (archAngel.x < 4)
+                if (archAngel.run_state2 < 4)
                 {
-                    if (archAngel.x == 0)
+                    if (archAngel.run_state2 == 0)
                     {
                         archAngel.playSound("m_briefing", 0);
                         archAngel.readMedia.readMediaStream("brief");
                     }
-                    archAngel.readMedia.reloadImageArr(archAngel.x, 17 + archAngel.x);
+                    archAngel.readMedia.reloadImageArr(archAngel.run_state2, 17 + archAngel.run_state2);
                 }
-                if (archAngel.x == 4)
+                if (archAngel.run_state2 == 4)
                 {
                     // archAngel.readMedia.closeInputStream();
                     archAngel.readMedia.readMediaStream("boss" + archAngel.gameSetting.boss_level);
@@ -171,7 +171,7 @@ public class DrawGamePlay {
                 archAngel.drawImage(paramGraphics);
                 archAngel.draw_string_y305(paramGraphics, "OPTIONS", false);
             }
-            archAngel.aa = (archAngel.game_state = '?');
+            archAngel.temp_state = (archAngel.game_state = '?');
         }
 
         startReturn.one = o;
@@ -296,7 +296,7 @@ public class DrawGamePlay {
                 archAngel.game_state += 1;
                 break;
             case 1:
-                switch (archAngel.x)
+                switch (archAngel.run_state2)
                 {
                     case 0:
                         archAngel.readMedia.readMediaStream("background" + archAngel.ad);
@@ -320,10 +320,10 @@ public class DrawGamePlay {
                         archAngel.game_state += 1;
                         break;
                 }
-                draw_rect_clip_helper(paramGraphics, archAngel.x, archAngel);
+                draw_rect_clip_helper(paramGraphics, archAngel.run_state2, archAngel);
                 break;
             case 2:
-                switch (archAngel.x)
+                switch (archAngel.run_state2)
                 {
                     case 0:
                         archAngel.readMedia.readMediaStream("ui");
@@ -342,11 +342,11 @@ public class DrawGamePlay {
                         archAngel.game_state += 1;
                         break;
                 }
-                draw_rect_clip_helper(paramGraphics, archAngel.x + 3, archAngel);
+                draw_rect_clip_helper(paramGraphics, archAngel.run_state2 + 3, archAngel);
                 break;
             case 3:
-                draw_rect_clip_helper(paramGraphics, archAngel.x + 5, archAngel);
-                switch (archAngel.x)
+                draw_rect_clip_helper(paramGraphics, archAngel.run_state2 + 5, archAngel);
+                switch (archAngel.run_state2)
                 {
                     case 0:
                         archAngel.readMedia.readMediaStream("aa");
@@ -384,7 +384,7 @@ public class DrawGamePlay {
                 }
                 break;
             case 4:
-                if (archAngel.x == 0)
+                if (archAngel.run_state2 == 0)
                 {
                     archAngel.readMedia.destroyImage(111);
                     int bool_b = 0; // false;
@@ -398,7 +398,7 @@ public class DrawGamePlay {
                 // paramGraphics.setClip(0, 0, 240, 320);
                 archAngel.mainGameScreen.main_paint(paramGraphics);
                 draw_fighting(paramGraphics, archAngel);
-                if ((archAngel.x < 10) && (archAngel.no_missile == true))
+                if ((archAngel.run_state2 < 10) && (archAngel.no_missile == true))
                 {
                     archAngel.readMedia.drawStringGraphic(paramGraphics, 135, 27, "", 0);
                     // paramGraphics.setColor(16711680);
@@ -406,7 +406,7 @@ public class DrawGamePlay {
                     fillRect(paramGraphics, 80, 194, 80, 10, 0);
                     archAngel.readMedia.drawStringGraphic(paramGraphics, 86, 197, "NO MISSILE", 0);
                 }
-                if (archAngel.ab != 25)
+                if (archAngel.temp_screen2 != 25)
                 {
                     archAngel.mainGameScreen.bool_bl = true;
                     int bool_b = 1; // boolean true;
@@ -426,7 +426,7 @@ public class DrawGamePlay {
             case 6:
                 archAngel.readMedia.destroyImage7_53();
                 archAngel.readMedia.destroyImage53_115();
-                archAngel.screen = archAngel.ab;
+                archAngel.screen = archAngel.temp_screen2;
                 break;
         }
 
@@ -522,21 +522,22 @@ public class DrawGamePlay {
                 // paramGraphics.setColor(14408703); // purple
                 // paramGraphics.drawString(archAngel.mainGameScreen.boss_distance + " m", 120, 3, 17);
                 archAngel.readMedia.drawStringGraphic(paramGraphics, 120, 3, archAngel.mainGameScreen.boss_distance + " m", 17);
-                int i1 = archAngel.mainGameScreen.f; // Related to Hero HP
-                int i2 = Math.abs(i1) / 60 + 1;
-                if ((i1 <= 5) && (i1 >= -5))
+                int direction = archAngel.mainGameScreen.direction_guide; // Related to Hero HP
+                int i2 = Math.abs(direction) / 60 + 1;
+                if ((direction <= 5) && (direction >= -5))
                 {
-                     fillRect(paramGraphics, 112, 20, 1, 7, 0); // TODO add purple color img
+                    // This seem slim vertical white line | indicate that fighter is following right direction
+                    fillRect(paramGraphics, 112, 20, 1, 7, 0); // TODO add purple color img
                 }
                 else
                 {
                     int i3;
-                    if (i1 > 5) {
+                    if (direction > 5) {
                         for (i3 = 0; i3 < i2; i3++) {
                             // ui_2 The direction marker indicates the direction.
                             archAngel.readMedia.drawImageAnchor20(paramGraphics, 23, 114 + i3 * 4, 20);
                         }
-                    } else if (i1 < -5) {
+                    } else if (direction < -5) {
                         // ui_1
                         for (i3 = 0; i3 < i2; i3++) {
                             archAngel.readMedia.drawImageAnchor20(paramGraphics, 22, 106 - i3 * 4, 20);
@@ -586,7 +587,7 @@ public class DrawGamePlay {
             {
                 archAngel.gameSetting.t = 3; // Try play flow
                 // paramGraphics.setColor(16711680);
-                if (archAngel.x / 2 % 2 == 0) // boss scene, out of amour
+                if (archAngel.run_state2 / 2 % 2 == 0) // boss scene, out of amour
                 {
                      fillRect(paramGraphics, 80, 194, 80, 19, 0);
                     // Boss screen
@@ -678,7 +679,7 @@ public class DrawGamePlay {
     public void goto_menu(SpriteBatch paramGraphics, int o, int p, int q, int t, int x, String[][] str_arr_w,
                           ArchAngelME archAngel, ReadText readText, DrawShopAndBrief helper)
     {
-        if (archAngel.x > 0) {
+        if (archAngel.run_state2 > 0) {
             return;
         }
         switch (archAngel.game_state)
@@ -704,10 +705,10 @@ public class DrawGamePlay {
                 break;
             case 40:
                 archAngel.addScore12();
-                archAngel.ab = 5;
+                archAngel.temp_screen2 = 5;
             case 10:
                 archAngel.addScore12();
-                archAngel.y = (archAngel.screen = 25);
+                archAngel.temp_screen = (archAngel.screen = 25);
                 archAngel.game_state = 4;
                 return;
             case 20:
@@ -754,13 +755,13 @@ public class DrawGamePlay {
 
     public void load_system_txt(SpriteBatch paramGraphics, int l, int o, int p, int q, int t, int x, int y, String[][] str_arr_w, ArchAngelME archAngel, ReadText readText, DrawShopAndBrief helper)
     {
-        if ((archAngel.game_state > 0) && (archAngel.x > 0)) {
+        if ((archAngel.game_state > 0) && (archAngel.run_state2 > 0)) {
             return;
         }
         switch (archAngel.game_state)
         {
             case 0:
-                if (archAngel.x == 0) {
+                if (archAngel.run_state2 == 0) {
                     archAngel.readText.readTextFromStream("system");
                 }
                 archAngel.drawImage(paramGraphics);
@@ -850,7 +851,7 @@ public class DrawGamePlay {
                 archAngel.game_state += 1;
                 break;
             case 2:
-                if (archAngel.x < 21)
+                if (archAngel.run_state2 < 21)
                 {
                     // paramGraphics.setColor(0);
                     fillRect(paramGraphics, 0, 80, 240, 200, 4);
@@ -858,13 +859,13 @@ public class DrawGamePlay {
                     fillRect(paramGraphics, 0, 119, 240, 30, 4);
                     fillRect(paramGraphics, 0, 171, 240, 10, 4);
                     fillRect(paramGraphics, 0, 205, 240, 30, 4);
-                    archAngel.readMedia.drawImageAnchor20(paramGraphics, 4, 0, 160 - 5 * archAngel.x);
-                    archAngel.readMedia.drawImageAnchor20(paramGraphics, 3, 0, 180 + 5 * archAngel.x);
+                    archAngel.readMedia.drawImageAnchor20(paramGraphics, 4, 0, 160 - 5 * archAngel.run_state2);
+                    archAngel.readMedia.drawImageAnchor20(paramGraphics, 3, 0, 180 + 5 * archAngel.run_state2);
                     // paramGraphics.setClip(0, 180 - 5 * archAngel.x, 240, 10 * archAngel.x);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 14, 17, 89 + l * 33);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 13, 60, 90);
                 }
-                if (archAngel.x == 20)
+                if (archAngel.run_state2 == 20)
                 {
                     archAngel.readMedia.closeInputStream();
                     archAngel.readMedia.readMediaStream("etc");
@@ -898,7 +899,7 @@ public class DrawGamePlay {
         switch (archAngel.game_state)
         {
             case 0:
-                if (archAngel.x == 0)
+                if (archAngel.run_state2 == 0)
                 {
                     for (int i1 = 11; i1 < 19; i1++) {
                         archAngel.readMedia.destroyImage(24 + i1);
@@ -934,20 +935,20 @@ public class DrawGamePlay {
                 }
                 break;
             case 4:
-                if (archAngel.x == 0) { // game stage or boss hp?
+                if (archAngel.run_state2 == 0) { // game stage or boss hp?
                     draw_victory(paramGraphics, archAngel);
                 }
                 break;
             case 2:
             case 3:
             default:
-                if (archAngel.x < 16)
+                if (archAngel.run_state2 < 16)
                 {
                     // paramGraphics.setColor(0);
-                    fillRect(paramGraphics, 0, 0, 240, archAngel.x * 10, 4); // TODO may be set color as CONSTANT
-                    fillRect(paramGraphics, 0, 300 - archAngel.x * 10, 240, archAngel.x * 10, 4);
+                    fillRect(paramGraphics, 0, 0, 240, archAngel.run_state2 * 10, 4); // TODO may be set color as CONSTANT
+                    fillRect(paramGraphics, 0, 300 - archAngel.run_state2 * 10, 240, archAngel.run_state2 * 10, 4);
                 }
-                if (archAngel.x == 16)
+                if (archAngel.run_state2 == 16)
                 {
                     archAngel.readMedia.destroyImage53_115();
                     // System.gc();
@@ -1027,7 +1028,7 @@ public class DrawGamePlay {
         switch (archAngel.game_state)
         {
             case 0:
-                if (archAngel.x == 0)
+                if (archAngel.run_state2 == 0)
                 {
                     // paramGraphics.setColor( intToFloatColor(16777215) );
                     // paramGraphics.fillRect(0, 0, 240, 320);
@@ -1043,12 +1044,12 @@ public class DrawGamePlay {
                     }
                     archAngel.readMedia.closeInputStream();
                 }
-                if (archAngel.x == 8) {
+                if (archAngel.run_state2 == 8) {
                     archAngel.game_state += 1;
                 }
                 break;
             case 1:
-                if (archAngel.x == 0)
+                if (archAngel.run_state2 == 0)
                 {
                     archAngel.playSound("m_front", 0);
                     // paramGraphics.setColor(0);
@@ -1070,7 +1071,7 @@ public class DrawGamePlay {
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 5, 27, 25);
                     archAngel.readMedia.drawStringImage("logo", 2, paramGraphics, 0, 300);
                 }
-                if (archAngel.x % 10 < 5) {
+                if (archAngel.run_state2 % 10 < 5) {
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 30, 0, 80);
                 } else {
                     archAngel.readMedia.drawGraphicStr40_122(paramGraphics, 62, 264, "Press Any Key");
@@ -1078,7 +1079,7 @@ public class DrawGamePlay {
                 break;
             case 2:
                 archAngel.mainGameScreen.bd = 0;
-                if (archAngel.x < 21)
+                if (archAngel.run_state2 < 21)
                 {
                     // paramGraphics.setColor(0);
                     // paramGraphics.fillRect(0, 60, 240, 240);
@@ -1091,10 +1092,10 @@ public class DrawGamePlay {
                     // paramGraphics.setClip(0, 80 + 5 * archAngel.x, 240, 200 - 10 * archAngel.x);
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 30, 0, 80);
                     // paramGraphics.setClip(0, 0, 240, 320);
-                    archAngel.readMedia.drawImageAnchor20(paramGraphics, 4, 0, 60 + 5 * archAngel.x);
-                    archAngel.readMedia.drawImageAnchor20(paramGraphics, 3, 0, 280 - 5 * archAngel.x);
+                    archAngel.readMedia.drawImageAnchor20(paramGraphics, 4, 0, 60 + 5 * archAngel.run_state2);
+                    archAngel.readMedia.drawImageAnchor20(paramGraphics, 3, 0, 280 - 5 * archAngel.run_state2);
                 }
-                if (archAngel.x == 20)
+                if (archAngel.run_state2 == 20)
                 {
                     archAngel.readMedia.destroyImage(30);
                     archAngel.screen = 3;

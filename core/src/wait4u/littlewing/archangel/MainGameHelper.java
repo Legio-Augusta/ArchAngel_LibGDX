@@ -111,9 +111,9 @@ public class MainGameHelper {
     {
         if (Math.abs(paramgcnf1.enemy_distance_1 - paramgcnf2.enemy_distance_1) + Math.abs(paramgcnf1.enemy_distance_2 - paramgcnf2.enemy_distance_2) < 200)
         {
-            paramgcnf2.m -= paramgcnf1.m;
+            paramgcnf2.enemy_damage -= paramgcnf1.enemy_damage;
             paramgcnf2.l += 5;
-            if (paramgcnf2.m <= 0) {
+            if (paramgcnf2.enemy_damage <= 0) {
                 if (paramgcnf2.c == 14)
                 {
                     paramgcnf2.c = 7;
@@ -207,7 +207,7 @@ public class MainGameHelper {
     }
 
     // void; seem AI function
-    public ReturnHelper draw_radar_dot(SpriteBatch paramGraphics, Enemy paramg, int al, int am, int av, int bo, int bp, int bq, int br, int gamestage1, int aa_sprite_level, byte[] stt_byte_arr_bs)
+    public ReturnHelper draw_radar_dot(SpriteBatch paramGraphics, Enemy paramg, int al, int am, int av, int bo, int bp, int bq, int br, int gamestage1, int aa_sprite_level, int mission_stage, byte[] stt_byte_arr_bs)
     {
         ReturnHelper arrReturn = new ReturnHelper();
 
@@ -267,7 +267,7 @@ public class MainGameHelper {
 
         // Distance should be decreased, but on debug it show that distance should be exceed over 1.9B
         // TODO use temp var to avoid affect two enemy position
-        if ( false ) { // aa_sprite_level >= 1) { // gamestage1 == 2
+        if ( false && mission_stage == 1 ) { // aa_sprite_level >= 1) { // gamestage1 == 2
             Gdx.app.log("ERROR", " Level " + aa_sprite_level + " stage "+ gamestage1);
             if(paramg.enemy_distance_2 < 0) {
                 if(am > 0 ) {

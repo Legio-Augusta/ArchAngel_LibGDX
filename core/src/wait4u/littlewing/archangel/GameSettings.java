@@ -65,7 +65,7 @@ public class GameSettings
 
     public void loseHP(int paramInt)
     {
-        this.fighter_hp -= (paramInt - this.h < 1 ? 1 : paramInt - this.h);
+        this.fighter_hp -= 1; // ( (paramInt - this.h < 1) ? 1 : paramInt - this.h); // nickfarrow
     }
 
     public void loadConfig2(ReadText readText)
