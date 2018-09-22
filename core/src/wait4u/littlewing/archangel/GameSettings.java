@@ -18,7 +18,7 @@ public class GameSettings
     public String str_k;
     public int l;
     public int m;
-    public int n;
+    public int n; // seem missile damage
     public int missile_left; // missile number
     public String str_p;
     public int q;
@@ -48,7 +48,8 @@ public class GameSettings
     {
         readText.processTxt(this.d);
         this.n = readText.int_arr_m[0];
-        this.m = readText.int_arr_m[1];
+        this.m = readText.int_arr_m[1]; // missile
+        this.m = (this.m > 0) ? this.m : 8; // Read txt as byte temorary not work well, so init 8 missile as default.
         this.q = readText.int_arr_m[2];
         this.str_p = readText.buildString();
     }

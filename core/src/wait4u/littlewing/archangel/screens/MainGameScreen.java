@@ -43,7 +43,7 @@ public class MainGameScreen {
     public final byte byte_ad = 2;
     public static Enemy[] enemyArr = new Enemy[18];
     public int af = 0;
-    public int ag = 0;
+    public int downed_e_count2 = 0; // count enemy left or enemy destroyed in single shot
     public int ah = 0;
     public int ai;  // aim related
     public int aj = -1;
@@ -57,11 +57,11 @@ public class MainGameScreen {
     public int gamespeed_step = 0; // related to fighter speed
     public int as = 0; // aim target related
     public int at;
-    public int au = 0;
+    public int hp = 0;
     public int figter_angle = 90; // related to boss finder; angle 90 360 ...
     public int gamespeed = 20;
     public int ax = 0;
-    public boolean bool_ay = false;
+    public boolean bool_ay = false; // related to player/fighter HP, dead
     public boolean bool_az = false;
     public boolean bool_a0 = false;
     public boolean bool_a1 = false; // n enemy destroyed, go to next stage
@@ -116,21 +116,22 @@ public class MainGameScreen {
 
     public MainGameHelper gameHelper = new MainGameHelper(); // new MainGameHelper(this.readMedia)
 
-    public void init_game(Enemy paramGameCnf, int paramInt, Enemy[] enemyArr)
+    public void game_play(Enemy paramEnemy, int paramInt, Enemy[] enemyArr)
     {
         int i2;
-        if ((i2 = paramGameCnf.c) == 0) {
+        if ((i2 = paramEnemy.gameplay_ctl) == 0) {
             return;
         }
-        paramGameCnf.l += -1;
-        if ((i2 <= 6) && (paramGameCnf.l <= 0))
+        paramEnemy.l += -1;
+        if ((i2 <= 6) && (paramEnemy.l <= 0))
         {
-            paramGameCnf.c = 0;
+            paramEnemy.gameplay_ctl = 0;
             return;
         }
-        paramGameCnf.enemy_distance_1 += paramGameCnf.h;
-        paramGameCnf.enemy_distance_2 += paramGameCnf.i;
-        int i3;
+        paramEnemy.enemy_distance_1 += paramEnemy.enemy_step;
+        paramEnemy.enemy_distance_2 += paramEnemy.enemy_step2;
+
+        int i3; // loop 18 enemy objects
         int i1;
         switch (i2)
         {
@@ -139,30 +140,31 @@ public class MainGameScreen {
                 {
                     if (this.bool_a1 == true)
                     {
-                        paramGameCnf.enemy_distance_1 = this.boss_distance_r;
-                        paramGameCnf.enemy_distance_2 = this.boss_distance_s;
-                        paramGameCnf.e = 99999;
-                        paramGameCnf.h = 0;
-                        paramGameCnf.i = 0;
+                        paramEnemy.enemy_distance_1 = this.boss_distance_r;
+                        paramEnemy.enemy_distance_2 = this.boss_distance_s;
+                        paramEnemy.e = 99999;
+                        paramEnemy.enemy_step = 0;
+                        paramEnemy.enemy_step2 = 0;
                         this.bool_a1 = false;
                     }
                     // this.direction_guide = turn_calc(angle_helper(paramGameCnf.enemy_distance_1, paramGameCnf.screen), this.figter_angle);
                     // turn speed
-                    this.direction_guide = this.gameHelper.turn_calc(this.gameHelper.angle_helper(paramGameCnf.enemy_distance_1, paramGameCnf.enemy_distance_2, stt_byte_arr_bt), this.figter_angle);
+                    this.direction_guide = this.gameHelper.turn_calc(this.gameHelper.angle_helper(paramEnemy.enemy_distance_1, paramEnemy.enemy_distance_2, stt_byte_arr_bt), this.figter_angle);
                     // Magnificent
                     // distance_2 = -2122697960; distance_1 = -1137360710;
                     // 2122697960 + 1137360710 = -1034908626 (out of range treated like this)
                     // MIN_INT = -2147483648
 
-                    this.boss_distance = (Math.abs(paramGameCnf.enemy_distance_1) + Math.abs(paramGameCnf.enemy_distance_2) - 200);
+                    this.boss_distance = (Math.abs(paramEnemy.enemy_distance_1) + Math.abs(paramEnemy.enemy_distance_2) - 200); // nickfarrow
                 }
 
                 // Boss AI calc distance seem quite complicated
                 // Temporary use destroy_n_e as number of enemies left and some other params for this condition
+                // || (this.boss_distance <= 1933900000)
                 if (( (this.boss_distance <= 0) || (this.boss_distance <= 1933900000) ) && (this.mission_stage == 1)) // (destroy_n_e <= 0)
                 {
                     this.boss_distance = 0;
-                    paramGameCnf.c = 0;
+                    paramEnemy.gameplay_ctl = 0;
                     this.readMedia.readMediaStream("etc");
                     this.readMedia.reloadImageArr(1, 112);
                     this.readMedia.closeInputStream();
@@ -178,40 +180,40 @@ public class MainGameScreen {
                 }
                 break;
             case 10:
-                if (paramGameCnf.d == 8)
+                if (paramEnemy.d == 8)
                 {
-                    paramGameCnf.c = 0;
+                    paramEnemy.gameplay_ctl = 0;
                     this.ah += -1;
                     return;
                 }
-                if ((paramGameCnf.d >= 7) && (paramGameCnf.f > -20) && (paramGameCnf.f < 20))
+                if ((paramEnemy.d >= 7) && (paramEnemy.f > -20) && (paramEnemy.f < 20))
                 {
-                    this.au += 2;
-                    paramGameCnf.c = 0;
+                    this.hp += 2;
+                    paramEnemy.gameplay_ctl = 0;
                     this.ah += -1;
                     // May be boss hp, fighter seme have inital only 78hp
                     this.gameSetting.fighter_hp -= 50; // ammunition reduce ? 1000 round available; or Fighter hp
                     play_s_gun(false);
                     if (this.gameSetting.fighter_hp <= 0) {
-                        setup2();
+                        you_lose();
                     }
                 }
                 if (this.gamestage1 == 2)
                 {
-                    paramGameCnf.c = 0;
+                    paramEnemy.gameplay_ctl = 0;
                     this.ah = 2;
                 }
                 break;
             case 14:
-                if (paramGameCnf.l <= 0) {
-                    paramGameCnf.l = complex_helper2(paramGameCnf, paramInt);
+                if (paramEnemy.l <= 0) {
+                    paramEnemy.l = complex_helper2(paramEnemy, paramInt);
                 }
                 break;
             case 13:
-                if (paramGameCnf.l <= 0) {
+                if (paramEnemy.l <= 0) {
                     // paramGameCnf.l = e_turn_ai2(paramGameCnf, paramInt);
                     // ReturnHelper randomReturn = this.gameHelper
-                    e_turn_ai2(paramGameCnf, paramInt);
+                    e_turn_ai2(paramEnemy, paramInt);
                     // paramGameCnf.l = (randomReturn.five > randomReturn.MIN_INT) ? randomReturn.five : paramGameCnf.l;
                     // this.bo = (randomReturn.one > randomReturn.MIN_INT) ? randomReturn.one : this.bo;
                     // this.bp = (randomReturn.two > randomReturn.MIN_INT) ? randomReturn.two : this.bp;
@@ -220,127 +222,128 @@ public class MainGameScreen {
                 }
                 if (this.gamestage1 == 2)
                 {
-                    this.ag = 2;
-                    paramGameCnf.c = 0;
+                    this.downed_e_count2 = 2;
+                    paramEnemy.gameplay_ctl = 0;
                 }
                 break;
             case 12:
-                if (paramGameCnf.l <= 0)
+                if (paramEnemy.l <= 0)
                 {
-                    paramGameCnf.c = 0;
+                    paramEnemy.gameplay_ctl = 0;
                     this.af += -1;
                     return;
                 }
                 if ((this.gamestage1 == 3) && (this.AA.bool_n == true))
                 {
-                    if (paramGameCnf.bool_n == true)
+                    if (paramEnemy.bool_n == true)
                     {
-                        paramGameCnf.bool_n = false;
-                        paramGameCnf.c = 0;
+                        paramEnemy.bool_n = false;
+                        paramEnemy.gameplay_ctl = 0;
                         this.af += -1;
-                        this.au += 3;
-                        this.gameSetting.loseHP(paramGameCnf.enemy_damage); // This seem to be reduce ammo round instead of hp
+                        this.hp += 3;
+                        this.gameSetting.loseHP(paramEnemy.enemy_damage); // This seem to be reduce ammo round instead of hp
                         if (this.gameSetting.fighter_hp <= 0) {
-                            setup2();
+                            you_lose();
                         }
                     }
                 }
-                else if (paramGameCnf.e < 150)
+                else if (paramEnemy.e < 150)
                 {
-                    paramGameCnf.c = 0;
+                    paramEnemy.gameplay_ctl = 0;
                     this.af += -1;
-                    this.au += 3;
-                    this.gameSetting.loseHP(paramGameCnf.enemy_damage);
+                    this.hp += 3;
+                    this.gameSetting.loseHP(paramEnemy.enemy_damage);
                     play_s_gun(false);
                     if (this.gameSetting.fighter_hp <= 0) { // ammo round reduce ?
-                        setup2();
+                        you_lose();
                     }
                 }
                 break;
             case 11:
-                if (paramGameCnf.l <= 0)
+                if (paramEnemy.l <= 0)
                 {
-                    paramGameCnf.c = 0;
+                    paramEnemy.gameplay_ctl = 0;
                     return;
                 }
-                if ((i1 = paramGameCnf.k) == -1) {
+                if ((i1 = paramEnemy.k) == -1) {
                     return;
                 }
-                if (enemyArr[i1].c == 0)
+                if (enemyArr[i1].gameplay_ctl == 0)
                 {
-                    paramGameCnf.c = 0;
+                    paramEnemy.gameplay_ctl = 0;
                     return;
                 }
-                // draw_string_y305 = 0011 1100
+                // = 0011 1100
                 // b = 0000 1101
-                // draw_string_y305 & b = 0000 1100 (12 Dec)
-                if (((paramGameCnf.l & 0x1) == 0) && (Math.abs(paramGameCnf.enemy_distance_1 - enemyArr[i1].enemy_distance_1) + Math.abs(paramGameCnf.enemy_distance_2 - enemyArr[i1].enemy_distance_2) < 300))
+                // & b = 0000 1100 (12 Dec)
+                // ~ Boss destroyed; show damage and maintenance fee...
+                if (((paramEnemy.l & 0x1) == 0) && (Math.abs(paramEnemy.enemy_distance_1 - enemyArr[i1].enemy_distance_1) + Math.abs(paramEnemy.enemy_distance_2 - enemyArr[i1].enemy_distance_2) < 300))
                 {
-                    paramGameCnf.c = 4;
-                    paramGameCnf.l = 2;
+                    paramEnemy.gameplay_ctl = 4;
+                    paramEnemy.l = 2;
                     enemyArr[i1].enemy_damage -= this.gameSetting.s; // decs_e_hp ? similar SBF decrease hp
                     if(this.n != 0) {
                         this.AA.ae = (40 * enemyArr[i1].enemy_damage / this.n);
                     }
-                    if (enemyArr[i1].enemy_damage <= 0)
+                    if (enemyArr[i1].enemy_damage <= 0) // look like boss hp
                     {
-                        enemyArr[i1].c = 7;
+                        enemyArr[i1].gameplay_ctl = 7; // This seem Victory
                         enemyArr[i1].l = 4;
                     }
                 }
                 break;
             case 1:
-                if (paramGameCnf.l <= 0)
+                if (paramEnemy.l <= 0)
                 {
-                    paramGameCnf.c = 0;
+                    paramEnemy.gameplay_ctl = 0;
                     return;
                 }
-                if ((i1 = paramGameCnf.k) == -1) {
+                if ((i1 = paramEnemy.k) == -1) {
                     return;
                 }
-                if (enemyArr[i1].c == 0)
+                if (enemyArr[i1].gameplay_ctl == 0)
                 {
-                    paramGameCnf.c = 0;
+                    paramEnemy.gameplay_ctl = 0;
                     return;
                 }
                 if (this.gameSetting.missile_left > 0) {
-                    config2(paramGameCnf, enemyArr[i1].enemy_distance_1, enemyArr[i1].enemy_distance_2);
+                    config2(paramEnemy, enemyArr[i1].enemy_distance_1, enemyArr[i1].enemy_distance_2);
                 }
-                if (Math.abs(paramGameCnf.enemy_distance_1 - enemyArr[i1].enemy_distance_1) + Math.abs(paramGameCnf.enemy_distance_2 - enemyArr[i1].enemy_distance_2) < 300)
+                if (Math.abs(paramEnemy.enemy_distance_1 - enemyArr[i1].enemy_distance_1) + Math.abs(paramEnemy.enemy_distance_2 - enemyArr[i1].enemy_distance_2) < 300)
                 {
-                    paramGameCnf.c = 4;
-                    paramGameCnf.l = 2;
-                    enemyArr[i1].enemy_damage -= this.gameSetting.n;
+                    paramEnemy.gameplay_ctl = 4;
+                    paramEnemy.l = 2;
+                    enemyArr[i1].enemy_damage -= this.gameSetting.n; // may be missile damage
                     if (enemyArr[i1].enemy_damage <= 0)
                     {
-                        enemyArr[i1].c = 8;
+                        enemyArr[i1].gameplay_ctl = 8;
                         enemyArr[i1].l = 4;
                     }
                 }
                 break;
             case 6:
                 for (i3 = 0; i3 < 18; i3++) {
-                    if ((enemyArr[i3].c >= 13) && (this.gameHelper.config_helper(paramGameCnf, enemyArr[i3])))
+                    if ((enemyArr[i3].gameplay_ctl >= 13) && (this.gameHelper.desc_e_hp(paramEnemy, enemyArr[i3])))
                     {
-                        paramGameCnf.c = 5;
-                        paramGameCnf.l = 2;
+                        paramEnemy.gameplay_ctl = 5;
+                        paramEnemy.l = 2;
                         return;
                     }
                 }
                 break;
-            case 8:
-                if (paramGameCnf.l <= 0)
+            case 8: // an enemy destroyed
+                if (paramEnemy.l <= 0)
                 {
-                    this.ag += -1;
-                    paramGameCnf.c = 0;
+                    this.downed_e_count2 += -1;
+                    paramEnemy.gameplay_ctl = 0;
                     this.downed_e_count += 1;
                 }
                 break;
             case 7:
-                if (paramGameCnf.l <= 0)
+                if (paramEnemy.l <= 0)
                 {
-                    this.ag += -1;
-                    paramGameCnf.c = 0;
+                    this.downed_e_count2 += -1;
+                    paramEnemy.gameplay_ctl = 0;
                     this.t += 1;
                     this.AA.temp_screen2 = 6;
                     this.g = (this.t * this.i + this.downed_e_count * this.h);
@@ -366,7 +369,7 @@ public class MainGameScreen {
         this.gamespeed = 20;
         this.figter_angle = 90;
         this.ap = 0;
-        this.au = 0;
+        this.hp = 0;
         this.hecman_step = 0;
         this.a8 = 0;
         this.bd = 0;
@@ -379,13 +382,13 @@ public class MainGameScreen {
         this.downed_e_count = 0;
         this.v = (this.w = 0);
         this.at = 262143;
-        this.af = (this.ag = this.ah = 0);
+        this.af = (this.downed_e_count2 = this.ah = 0);
         this.AA.temp_screen2 = 25;
         this.bool_bl = false;
         this.bm = -1;
         this.bn = 0;
         for (int i1 = 0; i1 < 18; i1++) {
-            enemyArr[i1].c = 0;
+            enemyArr[i1].gameplay_ctl = 0;
         }
         this.gameHelper.init_600(this.int_arr_bu);
         this.gamestage1 = 1;
@@ -410,14 +413,14 @@ public class MainGameScreen {
         int i6 = 0;
         // setColor(65280);
         this.ai = (85 + this.as * 7);
-        if ((this.aj >= 0) && (enemyArr[this.aj].c == 0)) {
+        if ((this.aj >= 0) && (enemyArr[this.aj].gameplay_ctl == 0)) {
             this.aj = -1;
         }
         int i1;
         int i2;
         for (int i7 = 0; i7 < 18; i7++)
         {
-            int i4 = enemyArr[i7].c;
+            int i4 = enemyArr[i7].gameplay_ctl;
             int i5 = enemyArr[i7].d;
             if ((i4 >= 13) && (i5 >= 1) && (i5 < 6))
             {
@@ -691,7 +694,7 @@ public class MainGameScreen {
     {
         draw_archangel_and_related(paramGraphics);
 
-        if (this.au > 0)
+        if (this.hp > 0)
         {
             this.b8 = (61 - this.fighter_x);
             this.other_fighter_y = (94 - this.fighter_y);
@@ -704,8 +707,8 @@ public class MainGameScreen {
             if ((this.gamestage1 == 3) && (!this.bool_az)) {
                 this.AA.playSound("s_explo", 1);
             }
-            this.au += -1;
-            if ((this.AA.bool_n == true) && (this.au == 2) && (this.bool_az == true)) {
+            this.hp += -1;
+            if ((this.AA.bool_n == true) && (this.hp == 2) && (this.bool_az == true)) {
                 play_s_plasma(false);
             }
         }
@@ -786,8 +789,8 @@ public class MainGameScreen {
     {
         int i1 = paramg.enemy_distance_1;
         int i2 = paramg.enemy_distance_2;
-        int i3 = paramg.h;
-        int i4 = paramg.i;
+        int i3 = paramg.enemy_step;
+        int i4 = paramg.enemy_step2;
         int i5 = paramg.j;
         int i6 = 10;
         int i7 = i3 * (paramInt2 - i2) - i4 * (paramInt1 - i1);
@@ -795,21 +798,21 @@ public class MainGameScreen {
             i6 = -i6;
         }
         i5 += i6;
-        paramg.h = (6 * enemy_ai_1(i5));
-        paramg.i = (6 * enemy_ai_2(i5));
+        paramg.enemy_step = (6 * enemy_ai_1(i5));
+        paramg.enemy_step2 = (6 * enemy_ai_2(i5));
         paramg.j = i5;
     }
 
     // This seem to ammunation machine gun round available (1000 ?)
-    public void setup2()
+    public void you_lose()
     {
-        this.au = 1000;
+        this.hp = 1000;
         this.gameSetting.fighter_hp = 0; // orig: 0 nickfarrow
         this.bool_ay = false;
         this.bool_az = false;
         this.bool_a0 = false;
         this.AA.temp_screen2 = 7;
-        setup3();
+        failed_mission();
         this.gamespeed_step = -20;
     }
 
@@ -818,7 +821,7 @@ public class MainGameScreen {
         // UI 0
         this.readMedia.drawImageAnchor20(paramGraphics, 21, 0, 0);
         for (int i1 = 0; i1 < 18; i1++) {
-            if (enemyArr[i1].c != 0) {
+            if (enemyArr[i1].gameplay_ctl != 0) {
                 ReturnHelper arrReturn =
                 this.gameHelper.draw_radar_dot(paramGraphics, enemyArr[i1], this.al, this.am, this.figter_angle, this.bo, this.bp, this.bq, this.br, this.gamestage1, this.AA.boss_sprite_level, this.mission_stage, stt_byte_arr_bs);
 
@@ -831,7 +834,7 @@ public class MainGameScreen {
         // paramGraphics.setClip(0, 50, 240, 250);
         for (int i1 = 0; i1 < 9; i1++) {
             for (int i2 = 0; i2 < 18; i2++) {
-                if ((enemyArr[i2].c != 0) && (enemyArr[i2].d == i1)) {
+                if ((enemyArr[i2].gameplay_ctl != 0) && (enemyArr[i2].d == i1)) {
                     // complex_draw_helper(paramGraphics, enemyArr[i2]);
                     ReturnHelper returnComplexDrawHelper =
                         this.gameHelper.draw_enemy_and_fence(paramGraphics, enemyArr[i2], this.readMedia, this.af, this.b0, this.b1, this.b2,
@@ -864,20 +867,20 @@ public class MainGameScreen {
         }
     }
 
-    public void setup3()
+    public void failed_mission()
     {
         this.aq = 0;
         this.gamespeed_step = 0;
         this.an = (this.ao = 0);
     }
 
-    public void config2()
+    public void draw_fighting()
     {
         int i2 = 0;
         this.ap += 1;
         this.bn += -1;
         for (int i3 = 0; i3 < 18; i3++) {
-            init_game(enemyArr[i3], i3, enemyArr);
+            game_play(enemyArr[i3], i3, enemyArr);
         }
         if ((this.ap & 0x3) == 0)
         {
@@ -888,7 +891,7 @@ public class MainGameScreen {
                     updateEnemyArr(i2, 0);
                 }
             }
-            if ((this.ag < 2) && (this.gamestage1 == 1))
+            if ((this.downed_e_count2 < 2) && (this.gamestage1 == 1))
             {
                 i2 = 13;
                 if (i2 > 0) {
@@ -943,8 +946,8 @@ public class MainGameScreen {
         this.am = ((enemy_ai_2(this.figter_angle) * this.gamespeed >> 6) + this.ao);
         this.at -= this.am;
         this.gamespeed += this.gamespeed_step; // change game speed
-        if (this.gamespeed > 140) { // 140
-            this.gamespeed = 140; // 140
+        if (this.gamespeed > 1400) { // 140
+            this.gamespeed = 1400; // 140
         }
         if (this.gamespeed < 20) {
             this.gamespeed = 20;
@@ -1047,127 +1050,139 @@ public class MainGameScreen {
                 i4 = 100;
             }
         }
-        paramg.h = (this.al - this.an + enemy_ai_1(i4) * 2);
-        paramg.i = (this.am - this.ao + enemy_ai_2(i4) * 2);
+        paramg.enemy_step = (this.al - this.an + enemy_ai_1(i4) * 2);
+        paramg.enemy_step2 = (this.am - this.ao + enemy_ai_2(i4) * 2);
         paramg.j = i4;
         return i1;
     }
 
-    public boolean updateEnemyArr(int paramInt1, int paramInt2)
+    /**
+     *
+     * @param e_game_control = Enemy game_control
+     * @param paramInt2
+     * @return
+     */
+    public boolean updateEnemyArr(int e_game_control, int paramInt2)
     {
         int i1;
         for (i1 = 0; i1 < 18; i1++) {
-            if (enemyArr[i1].c == 0) {
+            if (enemyArr[i1].gameplay_ctl == 0) {
                 break;
             }
         }
         if (i1 == 18) {
             return false;
         }
-        boss_distance_ai(enemyArr[i1], paramInt1, paramInt2);
+        boss_distance_ai(enemyArr[i1], e_game_control, paramInt2);
 
         return true;
     }
 
-    public void boss_distance_ai(Enemy paramg, int paramInt1, int paramInt2)
+    /**
+     *
+     * @param parame
+     * @param paramInt1 e game control
+     * @param paramInt2
+     */
+    public void boss_distance_ai(Enemy parame, int paramInt1, int paramInt2)
     {
-        paramg.enemy_damage = 0;
+        parame.enemy_damage = 0;
         int i1;
         switch (paramInt1)
         {
             case 9:
-                paramg.enemy_distance_1 = this.boss_distance_r;
-                paramg.enemy_distance_2 = this.boss_distance_s;
-                paramg.e = 99999;
-                paramg.h = 0;
-                paramg.i = 0;
+                parame.enemy_distance_1 = this.boss_distance_r;
+                parame.enemy_distance_2 = this.boss_distance_s;
+                parame.e = 99999;
+                parame.enemy_step = 0;
+                parame.enemy_step2 = 0;
                 break;
             case 10:
-                paramg.enemy_damage = 50;
+                parame.enemy_damage = 50;
                 i1 = (this.rnd.nextInt() & 0x1F) - 15; // AND bit
                 int i2 = (this.rnd.nextInt() & 0x7) + 63; // AND bit
-                paramg.enemy_distance_1 = (i2 * enemy_ai_1(i1 + this.figter_angle));
-                paramg.enemy_distance_2 = (i2 * enemy_ai_2(i1 + this.figter_angle));
-                paramg.h = (paramg.i = 0);
-                paramg.e = i1;
+                parame.enemy_distance_1 = (i2 * enemy_ai_1(i1 + this.figter_angle));
+                parame.enemy_distance_2 = (i2 * enemy_ai_2(i1 + this.figter_angle));
+                parame.enemy_step = (parame.enemy_step2 = 0);
+                parame.e = i1;
                 this.ah += 1;
                 break;
             case 14:
-                paramg.enemy_damage = this.n;
+                parame.enemy_damage = this.n;
                 this.figter_angle = 90;
                 i1 = 0;
-                paramg.enemy_distance_1 = (60 * enemy_ai_1(i1 + this.figter_angle));
-                paramg.enemy_distance_2 = (60 * enemy_ai_2(i1 + this.figter_angle));
-                paramg.e = i1;
-                paramg.h = (paramg.i = 0);
-                paramg.j = this.figter_angle;
-                paramg.l = 2;
+                parame.enemy_distance_1 = (60 * enemy_ai_1(i1 + this.figter_angle));
+                parame.enemy_distance_2 = (60 * enemy_ai_2(i1 + this.figter_angle));
+                parame.e = i1;
+                parame.enemy_step = (parame.enemy_step2 = 0);
+                parame.j = this.figter_angle;
+                parame.l = 2;
                 this.v += 1;
-                paramg.d = 0;
+                parame.d = 0;
                 this.AA.bool_n = true;
                 break;
             case 13:
-                paramg.enemy_damage = this.j;
+                parame.enemy_damage = this.j;
                 i1 = (this.rnd.nextInt() & 0x7F) - 63;
-                paramg.enemy_distance_1 = (60 * enemy_ai_1(i1 + this.figter_angle));
-                paramg.enemy_distance_2 = (60 * enemy_ai_2(i1 + this.figter_angle));
-                paramg.e = i1;
-                paramg.h = (paramg.i = 0);
-                paramg.j = ((this.figter_angle + 180) % 360);
-                paramg.l = 2;
+                parame.enemy_distance_1 = (60 * enemy_ai_1(i1 + this.figter_angle));
+                parame.enemy_distance_2 = (60 * enemy_ai_2(i1 + this.figter_angle));
+                parame.e = i1;
+                parame.enemy_step = (parame.enemy_step2 = 0);
+                parame.j = ((this.figter_angle + 180) % 360);
+                parame.l = 2;
                 this.w += 1;
-                this.ag += 1;
+                this.downed_e_count2 += 1;
                 break;
             case 12:
-                paramg.enemy_distance_1 = enemyArr[paramInt2].enemy_distance_1;
-                paramg.enemy_distance_2 = enemyArr[paramInt2].enemy_distance_2;
+                parame.enemy_distance_1 = enemyArr[paramInt2].enemy_distance_1;
+                parame.enemy_distance_2 = enemyArr[paramInt2].enemy_distance_2;
 
-                ReturnHelper shift3 = this.gameHelper.shift_3(paramg.enemy_distance_1, paramg.enemy_distance_2);
-                paramg.e = (shift3.three > shift3.MIN_INT) ? shift3.three : paramg.e;
+                ReturnHelper shift3 = this.gameHelper.shift_3(parame.enemy_distance_1, parame.enemy_distance_2);
+                parame.e = (shift3.three > shift3.MIN_INT) ? shift3.three : parame.e;
 
                 // i1 = paramg.fighter_hp = angle_helper(-paramg.enemy_distance_1 + this.al, -paramg.screen + this.am);
-                i1 = paramg.j = this.gameHelper.angle_helper(-paramg.enemy_distance_1 + this.al, -paramg.enemy_distance_2 + this.am, stt_byte_arr_bt);
-                paramg.h = (3 * enemy_ai_1(i1) + this.al);
-                paramg.i = (3 * enemy_ai_2(i1) + this.am);
-                paramg.l = 30;
-                paramg.enemy_damage = (enemyArr[paramInt2].c == 14 ? this.o : this.k);
+                i1 = parame.j = this.gameHelper.angle_helper(-parame.enemy_distance_1 + this.al, -parame.enemy_distance_2 + this.am, stt_byte_arr_bt);
+                parame.enemy_step = (3 * enemy_ai_1(i1) + this.al);
+                parame.enemy_step2 = (3 * enemy_ai_2(i1) + this.am);
+                parame.l = 30;
+                parame.enemy_damage = (enemyArr[paramInt2].gameplay_ctl == 14 ? this.o : this.k);
                 this.af += 1;
                 break;
             case 11:
-                i1 = paramg.j = this.figter_angle;
-                paramg.h = (6 * enemy_ai_1(i1));
-                paramg.i = (6 * enemy_ai_2(i1));
-                paramg.enemy_distance_1 = (enemy_ai_1(this.figter_angle - 90) + paramg.h);
-                paramg.enemy_distance_2 = (enemy_ai_2(this.figter_angle - 90) + paramg.i);
-                paramg.e = 64;
-                paramg.k = paramInt2;
-                paramg.l = 30;
-                paramg.enemy_damage = this.gameSetting.s;
+                i1 = parame.j = this.figter_angle;
+                parame.enemy_step = (6 * enemy_ai_1(i1));
+                parame.enemy_step2 = (6 * enemy_ai_2(i1));
+                parame.enemy_distance_1 = (enemy_ai_1(this.figter_angle - 90) + parame.enemy_step);
+                parame.enemy_distance_2 = (enemy_ai_2(this.figter_angle - 90) + parame.enemy_step2);
+                parame.e = 64;
+                parame.k = paramInt2;
+                parame.l = 30;
+                parame.enemy_damage = this.gameSetting.s;
                 break;
             case 1:
-                i1 = paramg.j = this.figter_angle;
-                paramg.h = (6 * enemy_ai_1(i1));
-                paramg.i = (6 * enemy_ai_2(i1));
-                paramg.enemy_distance_1 = (enemy_ai_1(this.figter_angle - 90) + paramg.h);
-                paramg.enemy_distance_2 = (enemy_ai_2(this.figter_angle - 90) + paramg.i);
-                paramg.e = 64;
-                paramg.k = paramInt2;
-                paramg.l = 30;
-                paramg.enemy_damage = this.gameSetting.n;
+                i1 = parame.j = this.figter_angle;
+                parame.enemy_step = (6 * enemy_ai_1(i1));
+                parame.enemy_step2 = (6 * enemy_ai_2(i1));
+                parame.enemy_distance_1 = (enemy_ai_1(this.figter_angle - 90) + parame.enemy_step);
+                parame.enemy_distance_2 = (enemy_ai_2(this.figter_angle - 90) + parame.enemy_step2);
+                parame.e = 64;
+                parame.k = paramInt2;
+                parame.l = 30;
+                parame.enemy_damage = this.gameSetting.n;
                 break;
             case 6:
-                i1 = paramg.j = this.figter_angle;
-                paramg.h = (6 * enemy_ai_1(i1));
-                paramg.i = (6 * enemy_ai_2(i1));
-                paramg.enemy_distance_1 = (enemy_ai_1(this.figter_angle + 90) + paramg.h);
-                paramg.enemy_distance_2 = (enemy_ai_2(this.figter_angle + 90) + paramg.i);
-                paramg.e = 64;
-                paramg.l = (10 + this.cc);
+                i1 = parame.j = this.figter_angle;
+                parame.enemy_step = (6 * enemy_ai_1(i1));
+                parame.enemy_step2 = (6 * enemy_ai_2(i1));
+                parame.enemy_distance_1 = (enemy_ai_1(this.figter_angle + 90) + parame.enemy_step);
+                parame.enemy_distance_2 = (enemy_ai_2(this.figter_angle + 90) + parame.enemy_step2);
+                parame.e = 64;
+                parame.l = (10 + this.cc);
                 this.cc = (1 - this.cc);
-                paramg.enemy_damage = (this.gameSetting.n / 10);
+                parame.enemy_damage = (this.gameSetting.n / 10);
                 break;
         }
-        paramg.c = paramInt1;
+        parame.gameplay_ctl = paramInt1;
     }
 
     public void simple_90(boolean paramBoolean)
@@ -1213,8 +1228,8 @@ public class MainGameScreen {
                 i4 -= 360;
             }
         }
-        paramg.h = (this.al - this.an + turn_helper(i4) * 2);
-        paramg.i = (this.am - this.ao + turn_helper2(i4) * 2);
+        paramg.enemy_step = (this.al - this.an + turn_helper(i4) * 2);
+        paramg.enemy_step2 = (this.am - this.ao + turn_helper2(i4) * 2);
         paramg.j = i4;
 
         return i1;

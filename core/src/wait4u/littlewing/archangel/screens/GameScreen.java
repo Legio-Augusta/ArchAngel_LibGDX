@@ -62,7 +62,9 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
     public DrawShopAndBrief helper = new DrawShopAndBrief();
     public DrawGamePlay secondHelper = new DrawGamePlay();
 
-    private static int SMALL_GAP = 32; // 32px for gap
+    private static int MOBI_SCL = (int)Gdx.graphics.getWidth()/240; // FIXME 4.5 is not integer
+    private static int MOBI_H = 360;  // JavaME height = 320px
+    private static int MOBI_W = 240; // Original Java Phone resolution.
 
     OrthographicCamera camera;
     SpriteBatch batch;
@@ -312,7 +314,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                     if ((keyCode == 53) || (keyCode == -5)) // firing
                     {
                         keyReleased(50);
-                        this.archAngel.mainGameScreen.setup3();
+                        this.archAngel.mainGameScreen.failed_mission();
                         this.archAngel.mainGameScreen.hecman_step = 0; // may be used to stop turning
                         this.archAngel.mainGameScreen.hecman_y_step = 0;
                         this.archAngel.mainGameScreen.bd = 0;
@@ -589,7 +591,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                     }
                     if ((this.archAngel.readText.a == 1) && ((keyCode == -7) || (keyCode == -5) || (keyCode == 49)))
                     {
-                        this.archAngel.mainGameScreen.setup3();
+                        this.archAngel.mainGameScreen.failed_mission();
                         this.archAngel.mainGameScreen.hecman_step = 0;
                         this.archAngel.mainGameScreen.hecman_y_step = 0;
                         this.archAngel.mainGameScreen.bd = 0;
@@ -608,7 +610,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                     if (this.archAngel.mainGameScreen.bool_az == true) {
                         this.archAngel.playSound("s_plasma", 0);
                     }
-                    this.archAngel.mainGameScreen.setup3();
+                    this.archAngel.mainGameScreen.failed_mission();
                     this.archAngel.mainGameScreen.hecman_step = 0;
                     this.archAngel.mainGameScreen.hecman_y_step = 0;
                     this.archAngel.mainGameScreen.bd = 0;
@@ -706,7 +708,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
 
         touchPoint = new Vector3();
         // game_speed = getGameSpeed();
-        // init_game(stage);
+        // game_play(stage);
     }
 
     public void void_empty() {}
@@ -731,7 +733,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                 }
                 if ((paramInt == 49) || (paramInt == 50) || (paramInt == 51) || (paramInt == 52) || (paramInt == 54) || (paramInt == 57) || (paramInt == -1) || (paramInt == -2) || (paramInt == -4) || (paramInt == -3))
                 {
-                    this.archAngel.mainGameScreen.setup3();
+                    this.archAngel.mainGameScreen.failed_mission();
                     this.archAngel.mainGameScreen.hecman_step = 0;
                     this.archAngel.mainGameScreen.hecman_y_step = 0;
                     this.archAngel.mainGameScreen.bd = 0;
@@ -746,7 +748,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         this.archAngel.run_state2 = -1;
         if (this.archAngel.screen == 25)
         {
-            this.archAngel.mainGameScreen.setup3();
+            this.archAngel.mainGameScreen.failed_mission();
             this.archAngel.mainGameScreen.hecman_step = 0;
             this.archAngel.mainGameScreen.hecman_y_step = 0;
             this.archAngel.mainGameScreen.bd = 0;
@@ -962,7 +964,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         if ((this.archAngel.screen == 25) && (this.archAngel.game_state == 4))
         {
             this.archAngel.mainGameScreen.boss_finder_ai();
-            this.archAngel.mainGameScreen.config2();
+            this.archAngel.mainGameScreen.draw_fighting();
         }
 
         if (this.gameOff) { // like GameOff, true then stop paint
@@ -1065,7 +1067,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
             case 6:
                 this.secondHelper.draw_font_result(batch, this.archAngel, this.helper);
                 break;
-            case 27:
+            case 27: // Final mission complete
                 this.helper.loadBrief1(batch, this.o, this.p, this.archAngel);
                 break;
         }
@@ -1245,10 +1247,13 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
 
     public void fillRect(SpriteBatch paramGraphics, int x, int y, int width, int height, int color) {
         // Hard code default width x height of color img: 12x12 px
-        int scaleY = height / 12;
-        int scaleX = width / 12;
+        float scaleY = (float) (height*MOBI_SCL / 12);
+        float scaleX = (float) (width*MOBI_SCL / 12);
         // (Texture, float x, float destroy_n_e, float originX, float originY, float width, float height, float scaleX, float scaleY, float rotation, int srcX, int srcY, int srcWidth, int srcHeight, boolean flipX, boolean flipY)
-        paramGraphics.draw(imgColor[color], x, y, 0, 0, imgColor[color].getWidth(), imgColor[color].getHeight(), scaleX, scaleY, 0, 0, 0, imgColor[color].getWidth()*scaleX, imgColor[color].getHeight()*scaleY, false, false);
+        int pos_x = (int) (MOBI_SCL*x);
+        int pos_y = (int) ((MOBI_H - y+20)*MOBI_SCL - imgColor[color].getHeight()*scaleY + BOTTOM_SPACE);
+
+        paramGraphics.draw(imgColor[color], pos_x, pos_y, 0, 0, imgColor[color].getWidth(), imgColor[color].getHeight(), scaleX, scaleY, 0, 0, 0, (int)(imgColor[color].getWidth()*scaleX), (int)(imgColor[color].getHeight()*scaleY), false, false);
     }
 
     protected void drawUI() {

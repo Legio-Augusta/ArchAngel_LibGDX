@@ -9,8 +9,9 @@ public class DrawGamePlay {
     private static int SCREEN_HEIGHT = Gdx.graphics.getHeight();
 
     // 120x160 or 128x128px from original J2ME resolution (in some game). This case screen_width is 240px
-    private static int MOBI_SCL = (int)Gdx.graphics.getWidth()/240; // FIXME 4.5 is not integer
-    private static int MOBI_H = 360;  // JavaME height = 320px
+    private static float MOBI_SCL = (float)Gdx.graphics.getWidth()/240; // FIXME 4.5 is not integer
+    private static int MOBI_H = 320;  // JavaME height = 320px
+    private static int MOBI_W = 240; // Original Java Phone resolution.
 
     private static int VIEW_PORT_HEIGHT = (int)SCREEN_HEIGHT*3/4;
     private static int TOP_BOUND = VIEW_PORT_HEIGHT + (int)SCREEN_HEIGHT/8;
@@ -404,7 +405,8 @@ public class DrawGamePlay {
                     // paramGraphics.setColor(16711680);
                     // paramGraphics.fillRect(80, 194, 80, 10);
                     fillRect(paramGraphics, 80, 194, 80, 10, 0);
-                    archAngel.readMedia.drawStringGraphic(paramGraphics, 86, 197, "NO MISSILE", 0);
+                    // orig: 86; +10 BS font slim
+                    archAngel.readMedia.drawStringGraphic(paramGraphics, 96, 197, "NO MISSILE", 0);
                 }
                 if (archAngel.temp_screen2 != 25)
                 {
@@ -420,7 +422,7 @@ public class DrawGamePlay {
             case 5:
                 // paramGraphics.setClip(0, 0, 240, 300);
                 archAngel.mainGameScreen.main_paint(paramGraphics);
-                archAngel.mainGameScreen.config2();
+                archAngel.mainGameScreen.draw_fighting();
                 archAngel.game_state = 6;
                 break;
             case 6:
@@ -921,8 +923,8 @@ public class DrawGamePlay {
                 archAngel.readMedia.drawLoadImage(2, paramGraphics, 45, 93);
                 archAngel.readMedia.drawLoadImage(1, paramGraphics, 62, 98);
                 archAngel.readMedia.closeInputStream();
-                paramGraphics.setColor(new Color(Color.WHITE)); // 16777215); #FFFFFF
-                fillRect( paramGraphics, 45, 126, 150, 107, 0);
+                // paramGraphics.setColor(new Color(Color.WHITE)); // 16777215); #FFFFFF
+                fillRect( paramGraphics, 45, 126, 150, 107, 5);
                 if (archAngel.gameSetting.boss_level == 7)
                 {
                     // paramGraphics.setColor(0);
@@ -1113,13 +1115,13 @@ public class DrawGamePlay {
      */
     public void fillRect(SpriteBatch batch, int x, int y, int width, int height, int color) {
         // Hard code default width x height of color img: 12x12 px
-        int scaleY = height*MOBI_SCL / 12;
-        int scaleX = width*MOBI_SCL / 12;
+        float scaleY = (float) (height*MOBI_SCL / 12);
+        float scaleX = (float) (width*MOBI_SCL / 12);
         // (Texture, float x, float destroy_n_e, float originX, float originY, float width, float height, float scaleX, float scaleY, float rotation, int srcX, int srcY, int srcWidth, int srcHeight, boolean flipX, boolean flipY)
         int pos_x = (int) (MOBI_SCL*x);
         int pos_y = (int) ((MOBI_H - y+20)*MOBI_SCL - imgColor[color].getHeight()*scaleY + BOTTOM_SPACE);
 
-        batch.draw(imgColor[color], pos_x, pos_y, 0, 0, imgColor[color].getWidth(), imgColor[color].getHeight(), scaleX, scaleY, 0, 0, 0, imgColor[color].getWidth()*scaleX, imgColor[color].getHeight()*scaleY, false, false);
+        batch.draw(imgColor[color], pos_x, pos_y, 0, 0, imgColor[color].getWidth(), imgColor[color].getHeight(), scaleX, scaleY, 0, 0, 0, (int)(imgColor[color].getWidth()*scaleX), (int)(imgColor[color].getHeight()*scaleY), false, false);
     }
 
     /*
