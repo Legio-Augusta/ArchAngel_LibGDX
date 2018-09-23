@@ -14,8 +14,7 @@ public class DrawGamePlay {
     private static int MOBI_W = 240; // Original Java Phone resolution.
 
     private static int VIEW_PORT_HEIGHT = (int)SCREEN_HEIGHT*3/4;
-    private static int TOP_BOUND = VIEW_PORT_HEIGHT + (int)SCREEN_HEIGHT/8;
-    private static int BOTTOM_SPACE = (int)SCREEN_HEIGHT/8; // May be change for fit touch button
+    private static int BOTTOM_SPACE = (int)(SCREEN_HEIGHT/8 + 20*MOBI_SCL); // 20 as Java phone reserved top bar shift y
 
     private Texture[] imgColor; // For fillRect with color; TODO color constant and add remain color png
     public DrawGamePlay() {
@@ -529,7 +528,8 @@ public class DrawGamePlay {
                 if ((direction <= 5) && (direction >= -5))
                 {
                     // This seem slim vertical white line | indicate that fighter is following right direction
-                    fillRect(paramGraphics, 112, 20, 1, 7, 0); // TODO add purple color img
+                    // Position y may be shifted a bit caused by setClip
+                    fillRect(paramGraphics, 112, 20, 1, 7, 4); // TODO add purple color img
                 }
                 else
                 {
@@ -573,7 +573,7 @@ public class DrawGamePlay {
         // equal ab 4 Fighter HP each collision
         // paramGraphics.setColor(255);
         // Fighter hp ?
-        fillRect(paramGraphics, 192+20, 5+2, i1 / 2, 4, 1);
+        fillRect(paramGraphics, 192, 5, i1 / 2, 4, 1); // anchor 20
         if (archAngel.mainGameScreen.gamestage1 == 3)
         {
             if (archAngel.mainGameScreen.bool_bh == true)
@@ -603,8 +603,8 @@ public class DrawGamePlay {
         }
         else if (archAngel.mainGameScreen.gamestage1 == 1)
         {
-            if(archAngel.gameSetting.m != 0) {
-                i1 = archAngel.gameSetting.missile_left * 40 / archAngel.gameSetting.m;
+            if(archAngel.gameSetting.caried_missile != 0) {
+                i1 = archAngel.gameSetting.missile_left * 40 / archAngel.gameSetting.caried_missile;
             } else {
                 i1 = 40; // dungnv
             }
@@ -614,7 +614,8 @@ public class DrawGamePlay {
             i1 = 40;
         }
         // paramGraphics.setColor(16711680);
-        fillRect(paramGraphics, 192+20, 17+4, i1-20, 4, 0); // nick_farrow adjust
+        // Missile left and/or plasma gun mana
+        fillRect(paramGraphics, 192, 17, i1, 4, 0); // anchor 20
     }
 
     public void draw_weapon_shop(SpriteBatch paramGraphics, int paramInt1, boolean paramBoolean, int paramInt2, int t, int u, String[][] str_arr_w, ArchAngelME archAngel, ReadText readText)
@@ -1076,7 +1077,7 @@ public class DrawGamePlay {
                 if (archAngel.run_state2 % 10 < 5) {
                     archAngel.readMedia.drawImageAnchor20(paramGraphics, 30, 0, 80);
                 } else {
-                    archAngel.readMedia.drawGraphicStr40_122(paramGraphics, 62, 264, "Press Any Key");
+                    archAngel.readMedia.drawGraphicStr40_122(paramGraphics, 92, 264, "Press Any Key"); // orig: x=62
                 }
                 break;
             case 2:
@@ -1119,7 +1120,7 @@ public class DrawGamePlay {
         float scaleX = (float) (width*MOBI_SCL / 12);
         // (Texture, float x, float destroy_n_e, float originX, float originY, float width, float height, float scaleX, float scaleY, float rotation, int srcX, int srcY, int srcWidth, int srcHeight, boolean flipX, boolean flipY)
         int pos_x = (int) (MOBI_SCL*x);
-        int pos_y = (int) ((MOBI_H - y+20)*MOBI_SCL - imgColor[color].getHeight()*scaleY + BOTTOM_SPACE);
+        int pos_y = (int) ((MOBI_H - y - 20)*MOBI_SCL - imgColor[color].getHeight()*scaleY + BOTTOM_SPACE); // anchor 20
 
         batch.draw(imgColor[color], pos_x, pos_y, 0, 0, imgColor[color].getWidth(), imgColor[color].getHeight(), scaleX, scaleY, 0, 0, 0, (int)(imgColor[color].getWidth()*scaleX), (int)(imgColor[color].getHeight()*scaleY), false, false);
     }

@@ -455,9 +455,9 @@ public class MainGameScreen {
                 if (this.gamestage1 == 1) {
                     if (enemyArr[this.aj].d < 4) {
                         // nickfarrow +3
-                        this.readMedia.drawImageAnchor20(paramGraphics, 82, i1 - 10 +3, i2 - 6 + 14); // nickfarrow +14
+                        this.readMedia.drawImageAnchor20(paramGraphics, 82, i1 - 10 +3, i2 - 6-24);
                     } else {
-                        this.readMedia.drawImageAnchor20(paramGraphics, 81, i1 - 17 +3, i2 - 12 + 14); // nickfarrow +14
+                        this.readMedia.drawImageAnchor20(paramGraphics, 81, i1 - 17 +5, i2 - 12-24); // nickfarrow -14
                     }
                 }
             }
@@ -466,7 +466,7 @@ public class MainGameScreen {
         {
             this.aj = -1;
             if (this.gamestage1 == 1) { // effect 12 (aim target)
-                this.readMedia.drawImageAnchor20(paramGraphics, 83, this.ai+5, 136); // nickfarrow+15
+                this.readMedia.drawImageAnchor20(paramGraphics, 83, this.ai+5, 136-14); // nickfarrow -8
             }
         }
     }
@@ -484,7 +484,7 @@ public class MainGameScreen {
         this.readMedia.drawImageAnchor20(paramGraphics, 7, this.int_arr_a5[0], 27);
         this.readMedia.drawImageAnchor20(paramGraphics, 7, this.int_arr_a5[0] + (this.bool_arr_a7[0] != false ? -240 : 240), 27); // != 0
         // Bg 1 Table mount Hara Berezaiti ﺐﻠﻧﺩ
-        this.readMedia.drawImageAnchor36(paramGraphics, 8, this.int_arr_a5[1], 166+24); // orig:166
+        this.readMedia.drawImageAnchor36(paramGraphics, 8, this.int_arr_a5[1], 166+25); // orig:166; anchor36 is temporary hard code
     }
 
     // Draw bottom (land and near) background bellow bg 0 and bg 1; Original low bg seem have same height as high one
@@ -502,7 +502,7 @@ public class MainGameScreen {
             // this.readMedia.drawImageAnchor36(paramGraphics, 9 + i1 * 3 + i2, this.int_arr_a5[(i1 + 2)] + ((this.bool_arr_a7[(i1 + 1)] != false) ? -240 : 240), this.int_arr_a6[i1] - arrayOfInt[i1][i2] + 25);
         }
         // Custom draw lower bg position. Careful with x position so many layer of bg match view.
-        this.readMedia.drawImageAnchor36(paramGraphics, 9 + 0 * 3 + i2, this.int_arr_a5[(0 + 2)], this.int_arr_a6[0] - arrayOfInt[0][i2] + 25); // nickfarrow +25
+        this.readMedia.drawImageAnchor36(paramGraphics, 9 + 0 * 3 + i2, this.int_arr_a5[(0 + 2)], this.int_arr_a6[0] - arrayOfInt[0][i2] + 25); // nickfarrow +25; +/- 36 as anchor
         // 240 +2 in x position to smoother edge caused by rounding calculation
         this.readMedia.drawImageAnchor36(paramGraphics, 9 + 0 * 3 + i2, this.int_arr_a5[(0 + 2)] + ((this.bool_arr_a7[(0 + 1)] != false) ? -240 : 240), this.int_arr_a6[0] - arrayOfInt[0][i2] + 25);
 
@@ -662,19 +662,19 @@ public class MainGameScreen {
                 {
                     //paramGraphics.setClip(this.fighter_x + 14, this.bc + 21, 19, 14);
                     // this.readMedia.drawImageAnchor20(paramGraphics, 42, this.fighter_x + 14, this.fighter_y + 7);
-                    this.readMedia.myDrawClipRegion(paramGraphics, 6, this.fighter_x + 14, this.fighter_y + 7);
+                    this.readMedia.myDrawClipRegion(paramGraphics, 6, this.fighter_x + 14, this.fighter_y + 27);
                 }
                 else if (this.hecman_step == 2)
                 {
                     //paramGraphics.setClip(this.fighter_x + 20, this.bc + 21, 19, 14);
                     // this.readMedia.drawImageAnchor20(paramGraphics, 42, this.fighter_x + 20, this.fighter_y + 21);
-                    this.readMedia.myDrawClipRegion(paramGraphics, 7, this.fighter_x + 20, this.fighter_y + 21);
+                    this.readMedia.myDrawClipRegion(paramGraphics, 7, this.fighter_x + 20, this.fighter_y + 41);
                 }
                 else
                 {
                     //paramGraphics.setClip(this.fighter_x + 16, this.bc + 21, 22, 14);
                     // this.readMedia.drawImageAnchor20(paramGraphics, 41, this.fighter_x + 16, this.fighter_y + 21 - 15 * (i1 / 3 % 2));
-                    this.readMedia.myDrawClipRegion(paramGraphics, 4, this.fighter_x + 16, this.fighter_y + 21 - 15 * (i1 / 3 % 2));
+                    this.readMedia.myDrawClipRegion(paramGraphics, 4, this.fighter_x + 16, this.fighter_y + 21 - 15 * (i1 / 3 % 2) + 36); // nickfarrow
                 }
                 //paramGraphics.setClip(0, 0, 240, 300);
                 break;
@@ -946,8 +946,8 @@ public class MainGameScreen {
         this.am = ((enemy_ai_2(this.figter_angle) * this.gamespeed >> 6) + this.ao);
         this.at -= this.am;
         this.gamespeed += this.gamespeed_step; // change game speed
-        if (this.gamespeed > 1400) { // 140
-            this.gamespeed = 1400; // 140
+        if (this.gamespeed > 140) { // 140
+            this.gamespeed = 140; // 140
         }
         if (this.gamespeed < 20) {
             this.gamespeed = 20;

@@ -17,7 +17,7 @@ public class GameSettings
     public int fighter_hp; // Fighter hp ?
     public String str_k;
     public int l;
-    public int m;
+    public int caried_missile;
     public int n; // seem missile damage
     public int missile_left; // missile number
     public String str_p;
@@ -31,7 +31,7 @@ public class GameSettings
     public void initGame1()
     {
         this.fighter_hp = this.g;
-        this.missile_left = this.m;
+        this.missile_left = this.caried_missile;
         this.t = this.r;
     }
 
@@ -48,8 +48,8 @@ public class GameSettings
     {
         readText.processTxt(this.d);
         this.n = readText.int_arr_m[0];
-        this.m = readText.int_arr_m[1]; // missile
-        this.m = (this.m > 0) ? this.m : 8; // Read txt as byte temorary not work well, so init 8 missile as default.
+        this.caried_missile = readText.int_arr_m[1]; // missile
+        this.caried_missile = (this.caried_missile > 0) ? this.caried_missile : 8; // Read txt as byte temorary not work well, so init 8 missile as default.
         this.q = readText.int_arr_m[2];
         this.str_p = readText.buildString();
     }

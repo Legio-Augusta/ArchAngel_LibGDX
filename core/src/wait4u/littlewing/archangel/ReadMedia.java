@@ -24,12 +24,10 @@ public class ReadMedia
     private static int SCREEN_HEIGHT = Gdx.graphics.getHeight();
 
     // 120x160 or 128x128px from original J2ME resolution (in some game). This case screen_width is 240px
-    private static double MOBI_SCL = Gdx.graphics.getWidth()/240; // FIXME 4.5 is not integer
-    private static int MOBI_H = 360;  // JavaME height = 320px FIXME
+    private static float MOBI_SCL = (float)Gdx.graphics.getWidth()/240; // FIXME 4.5 is not integer
+    private static int MOBI_H = 320;  // JavaME height = 320px FIXME
 
-    private static int VIEW_PORT_HEIGHT = (int)SCREEN_HEIGHT*3/4;
-    private static int TOP_BOUND = VIEW_PORT_HEIGHT + (int)SCREEN_HEIGHT/8;
-    private static int BOTTOM_SPACE = (int)SCREEN_HEIGHT/8; // May be change for fit touch button
+    private static int BOTTOM_SPACE = (int)(SCREEN_HEIGHT/8 + 20*MOBI_SCL); // 20 as Java phone reserved top bar shift y
     BitmapFont font;
 
     // For clipped sprite manual draw (try to use sprite region on clip later)
@@ -111,7 +109,7 @@ public class ReadMedia
      * @param spriteIdx image sprite index
      * @param pos_x positon x (240x320 J2ME geometry)
      * @param pos_y positon y
-     * 20 => anchor point
+     * 20 => anchor point; It seem this gap is reserved for phone top bar: signal strength, datetime ...
      */
     public void drawImageAnchor20(SpriteBatch paramGraphics, int spriteIdx, int pos_x, int pos_y)
     {
@@ -128,14 +126,11 @@ public class ReadMedia
 
         // 53 as BOTTOM_SPACE (~ 240 = 480/2) 240/4.5 ~= 53 (tile cell)
         int img_height = this.img_arr_a[spriteIdx].getHeight();
-        int position_y = (int) ((MOBI_H - pos_y+20)*MOBI_SCL - img_height + BOTTOM_SPACE); // anchor 20
+        int position_y = (int) ((MOBI_H - pos_y-20)*MOBI_SCL - img_height + BOTTOM_SPACE); // anchor 20
 
         // Fix me hard code position
-        if(spriteIdx == 3) { // && (paramInt1 == 3) // this.msr_media.equals("font")
-             paramGraphics.draw(this.img_arr_a[spriteIdx], (int)(pos_x*MOBI_SCL), position_y -240); // 20 anchor
-        } else {
-            paramGraphics.draw(this.img_arr_a[spriteIdx], (int)(pos_x*MOBI_SCL), position_y); // 20 anchor
-        }
+        // if(spriteIdx == 3) {} // && (paramInt1 == 3) // this.msr_media.equals("font")
+        paramGraphics.draw(this.img_arr_a[spriteIdx], (int)(pos_x*MOBI_SCL), position_y); // 20 anchor
     }
 
     public ReadMedia()
@@ -180,9 +175,9 @@ public class ReadMedia
     public void drawImageAnchor36(SpriteBatch paramGraphics, int spriteIdx, int pos_x, int pos_y)
     {
         int img_height = this.img_arr_a[spriteIdx].getHeight();
-        int position_y = (int) ((MOBI_H-pos_y+36)*MOBI_SCL-img_height/2 + BOTTOM_SPACE); // 36
+        int position_y = (int) ((MOBI_H-pos_y+36)*MOBI_SCL-img_height/2 + BOTTOM_SPACE); // -36 fixme height/2
 
-        paramGraphics.draw(this.img_arr_a[spriteIdx], (int)(pos_x*MOBI_SCL), position_y); // 36
+        paramGraphics.draw(this.img_arr_a[spriteIdx], (int)(pos_x*MOBI_SCL), position_y);
     }
 
     // TODO debug trace J2ME read text data. May be some default data stored here.
@@ -192,7 +187,7 @@ public class ReadMedia
             return;
         }
 
-        int position_y = (int) ((MOBI_H-paramInt2)*MOBI_SCL + BOTTOM_SPACE);
+        int position_y = (int) ((MOBI_H-paramInt2-20)*MOBI_SCL + BOTTOM_SPACE); // anchor 20
         switch(paramInt3) {
             case 1:
                 font.setColor(1, 0, 0, 1); // red

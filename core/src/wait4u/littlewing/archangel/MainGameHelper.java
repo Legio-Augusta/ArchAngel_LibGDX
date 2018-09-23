@@ -12,11 +12,10 @@ public class MainGameHelper {
     private static int SCREEN_HEIGHT = Gdx.graphics.getHeight();
     // 120x160 or 128x128px from original J2ME resolution (in some game). This case screen_width is 240px
     private static float MOBI_SCL = (float)Gdx.graphics.getWidth()/240; // FIXME 4.5 is not integer
-    private static int MOBI_H = 360;  // JavaME height = 320px
+    private static int MOBI_H = 320;  // JavaME height = 320px
 
     private static int VIEW_PORT_HEIGHT = (int)SCREEN_HEIGHT*3/4;
-    private static int TOP_BOUND = VIEW_PORT_HEIGHT + (int)SCREEN_HEIGHT/8;
-    private static int BOTTOM_SPACE = (int)SCREEN_HEIGHT/8; // May be change for fit touch button
+    private static int BOTTOM_SPACE = (int)(SCREEN_HEIGHT/8 + 20*MOBI_SCL); // 20 as Java phone reserved top bar shift y
 
     public MainGameHelper() {
         loadTextures();
@@ -265,7 +264,11 @@ public class MainGameHelper {
             // Enermy dot yellow for fighter, red for missile
             // i5 = 12 -> (i5-11) = 1 -> color = red (missile); i5 = 13, 14 is two enemies position at same time
             // Enemies are marked as yellow points, their missiles are marked red.
-            fillRect(paramGraphics, 28 + e_distance_radar_x, 21 - e_distance_radar_y, 3, 3, 2);
+            if((i5-11) == 1) { // color[1] ~ red; code = 0 in custom fillRect
+                fillRect(paramGraphics, 28 + e_distance_radar_x, 21 - e_distance_radar_y, 3, 3, 0);
+            } else {
+                fillRect(paramGraphics, 28 + e_distance_radar_x, 21 - e_distance_radar_y, 3, 3, 2);
+            }
         }
         int i6 = e_ai_distance_y + 151;
         if (i6 > 0)
@@ -867,7 +870,7 @@ public class MainGameHelper {
         float scaleX = (float) (width*MOBI_SCL / 12);
         // (Texture, float x, float destroy_n_e, float originX, float originY, float width, float height, float scaleX, float scaleY, float rotation, int srcX, int srcY, int srcWidth, int srcHeight, boolean flipX, boolean flipY)
         int pos_x = (int) (MOBI_SCL*x);
-        int pos_y = (int) ((MOBI_H - y+20)*MOBI_SCL - imgColor[color].getHeight()*scaleY + BOTTOM_SPACE);
+        int pos_y = (int) ((MOBI_H - y - 20)*MOBI_SCL - imgColor[color].getHeight()*scaleY + BOTTOM_SPACE); // anchor 20
 
         batch.draw(imgColor[color], pos_x, pos_y, 0, 0, imgColor[color].getWidth(), imgColor[color].getHeight(), scaleX, scaleY, 0, 0, 0, (int)(imgColor[color].getWidth()*scaleX), (int)(imgColor[color].getHeight()*scaleY), false, false);
     }
