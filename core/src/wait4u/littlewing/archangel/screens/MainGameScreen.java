@@ -19,7 +19,7 @@ public class MainGameScreen {
     public String str_e;
     public int direction_guide; // Fighter HP related, lose 50 HP each time collidate cliff; Or fighter turn guide
     public int g;
-    public int h;
+    public int h; // number of enemy destroyed or money got for each destroyed
     public int i;
     public int j;
     public int k;
@@ -502,12 +502,12 @@ public class MainGameScreen {
             // this.readMedia.drawImageAnchor36(paramGraphics, 9 + i1 * 3 + i2, this.int_arr_a5[(i1 + 2)] + ((this.bool_arr_a7[(i1 + 1)] != false) ? -240 : 240), this.int_arr_a6[i1] - arrayOfInt[i1][i2] + 25);
         }
         // Custom draw lower bg position. Careful with x position so many layer of bg match view.
-        this.readMedia.drawImageAnchor36(paramGraphics, 9 + 0 * 3 + i2, this.int_arr_a5[(0 + 2)], this.int_arr_a6[0] - arrayOfInt[0][i2] + 25); // nickfarrow +25; +/- 36 as anchor
+        this.readMedia.drawImageAnchor36(paramGraphics, 9 + 0 * 3 + i2, this.int_arr_a5[(0 + 2)], this.int_arr_a6[0] - arrayOfInt[0][i2] + 26); // nickfarrow +25; +/- 36 as anchor
         // 240 +2 in x position to smoother edge caused by rounding calculation
-        this.readMedia.drawImageAnchor36(paramGraphics, 9 + 0 * 3 + i2, this.int_arr_a5[(0 + 2)] + ((this.bool_arr_a7[(0 + 1)] != false) ? -240 : 240), this.int_arr_a6[0] - arrayOfInt[0][i2] + 25);
+        this.readMedia.drawImageAnchor36(paramGraphics, 9 + 0 * 3 + i2, this.int_arr_a5[(0 + 2)] + ((this.bool_arr_a7[(0 + 1)] != false) ? -240 : 240), this.int_arr_a6[0] - arrayOfInt[0][i2] + 26);
 
-        this.readMedia.drawImageAnchor36(paramGraphics, 9 + 1 * 3 + i2, this.int_arr_a5[(1 + 2)], this.int_arr_a6[1] - arrayOfInt[1][i2] + 5);
-        this.readMedia.drawImageAnchor36(paramGraphics, 9 + 1 * 3 + i2, this.int_arr_a5[(1 + 2)] + ((this.bool_arr_a7[(1 + 1)] != false) ? -240 : 240), this.int_arr_a6[1] - arrayOfInt[1][i2] + 5);
+        this.readMedia.drawImageAnchor36(paramGraphics, 9 + 1 * 3 + i2, this.int_arr_a5[(1 + 2)], this.int_arr_a6[1] - arrayOfInt[1][i2] + 6);
+        this.readMedia.drawImageAnchor36(paramGraphics, 9 + 1 * 3 + i2, this.int_arr_a5[(1 + 2)] + ((this.bool_arr_a7[(1 + 1)] != false) ? -240 : 240), this.int_arr_a6[1] - arrayOfInt[1][i2] + 6);
 
         this.readMedia.drawImageAnchor36(paramGraphics, 9 + 2 * 3 + i2, this.int_arr_a5[(2 + 2)], this.int_arr_a6[2] - arrayOfInt[2][i2] - 5); // nickfarrow +30
         this.readMedia.drawImageAnchor36(paramGraphics, 9 + 2 * 3 + i2, this.int_arr_a5[(2 + 2)] + ((this.bool_arr_a7[(2 + 1)] != false) ? -240 : 240), this.int_arr_a6[2] - arrayOfInt[2][i2] - 5);

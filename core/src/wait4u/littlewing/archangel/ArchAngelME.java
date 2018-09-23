@@ -13,7 +13,7 @@ import wait4u.littlewing.archangel.screens.MainGameScreen;
 
 public class ArchAngelME
 {
-    public int a = 1;
+    public int a = 1; // related to machine shop menu
     public int screen = 0;
     public int c;
     public int d = 0;
@@ -34,8 +34,8 @@ public class ArchAngelME
     public boolean bool_s;
     public boolean bool_t;
     public boolean bool_u = false;
-    public boolean bool_v = true;
-    public boolean bool_w = true;
+    public boolean bool_v = true; // related to system settings
+    public boolean bool_w = true; // used in system settings
     public int run_state2 = 0; // fighter ammunation, x, y and z seem related to game state, boss hp...; Or missile run out flag
     public int temp_screen = -1; //
     public int game_state = 0;
@@ -210,7 +210,7 @@ public class ArchAngelME
         }
         this.mainGameScreen.k = this.readText.int_arr_m[1];
         this.mainGameScreen.l = this.readText.int_arr_m[2];
-        this.mainGameScreen.h = this.readText.int_arr_m[3];
+        this.mainGameScreen.h = this.readText.int_arr_m[3]; // enemy destroyed or money get per one kill
         this.readText.processTxt(3);
 
         this.mainGameScreen.str_q = this.readText.buildString();

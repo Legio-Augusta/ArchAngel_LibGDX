@@ -5,7 +5,7 @@ package wait4u.littlewing.archangel;
  */
 public class GameSettings
 {
-    public int a;
+    public int a; // Total fee repair aftermath
     public int boss_level;
     public int c;
     public int d;

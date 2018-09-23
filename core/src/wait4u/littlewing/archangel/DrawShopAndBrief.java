@@ -340,8 +340,8 @@ public class DrawShopAndBrief {
                 // Easy/Hard mode
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 12, 55, 211);
                 archAngel.drawImage(paramGraphics);
-                archAngel.draw_string_y305(paramGraphics, "OK", false);
                 archAngel.readMedia.drawImageAnchor20(paramGraphics, 3, 0, 280);
+                archAngel.draw_string_y305(paramGraphics, "OK", false); // notice the order of draw, item may be drawed in hidden layer
                 break;
             case 5: // game mode selected => close modal
                 if (archAngel.run_state2 < 21)

@@ -274,18 +274,22 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                 break;
             case 2:
                 break;
-            case 8:
+            case 8: // brief start
                 if (((keyCode == -7) || (keyCode == -5)) && (this.archAngel.game_state > 0)) {
                     this.archAngel.game_state += 1;
+                    // nickfarrow Temporary disable this condition to avoid blank screen
+                    this.archAngel.game_state = 999;
                 }
                 break;
-            case 9:
+            case 9: // brief start
                 if (this.archAngel.game_state >= 11) {
                     if ((keyCode == -7) || (keyCode == -5))
                     {
                         if (this.archAngel.game_state > 0) {
                             this.archAngel.game_state += 1;
                         }
+                        // nickfarrow Temporary disable this condition to avoid blank screen
+                        this.archAngel.game_state = 999;
                     }
                     else if (keyCode == -6) {
                         this.archAngel.game_state = 999;
@@ -387,7 +391,8 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                                     break;
                                 case -7:
                                     if (this.archAngel.bool_l) {
-                                        this.archAngel.screen = 13;
+                                        // this.archAngel.screen = 13; // Options menu while playing
+                                        // Temporary disable this function
                                     }
                                     break;
                                 case -6:
@@ -409,7 +414,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                     }
                 }
                 break; // end fighting screen
-            case 11:
+            case 11: // info screen
                 if (keyCode == -6)
                 {
                     if (this.archAngel.game_state < 10) {
@@ -468,9 +473,10 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                         this.archAngel.game_state = this.archAngel.readText.int_arr_m[(i2 - 1)];
                         this.archAngel.run_state2 = 0;
                     }
+                    this.archAngel.game_state = 999; // nickfarrow fix blank
                 }
                 break;
-            case 12:
+            case 12: // Machine shop
                 System.gc();
                 if (this.bool_v == true)
                 {
@@ -527,6 +533,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                         this.secondHelper.read_text_helper(keyCode, i1, this.archAngel);
                     }
                 }
+                this.archAngel.game_state = 999; // nickfarrow fix blank
                 break;
             case 7:
                 if ((keyCode == -1) || (keyCode == -2)) {
@@ -546,7 +553,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                 }
                 break;
             case 1:
-            case 10:
+            case 10: // System settings
                 if (this.archAngel.game_state == 1) {
                     this.archAngel.readText.bool_e = false;
                 }
@@ -570,6 +577,8 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                             this.archAngel.readText.bool_e = true;
                         }
                         this.archAngel.game_state = this.archAngel.p;
+                    } else {
+                        this.archAngel.game_state = 999; // nickfarrow fix blank screen
                     }
                 }
                 else if (this.archAngel.bool_v) {
@@ -593,7 +602,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                     }
                 }
                 break;
-            case 6:
+            case 6: // victory
                 if ((keyCode == -7) && ((this.archAngel.game_state == 2) || (this.archAngel.game_state == 4))) {
                     this.archAngel.game_state += 1;
                 }
@@ -639,6 +648,13 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
     public void draw_resume(SpriteBatch paramGraphics)
     {
         if (this.archAngel.run_state2 > 0) {
+            // nickfarrow added; run_state2 keep > 0 so "PAUSE" message not show continuously
+            fillRect(paramGraphics, 0, 150, 240, 16, 4);
+            int position_y = (int) ((MOBI_H-152)*MOBI_SCL + BOTTOM_SPACE);
+            font.setColor(1, 1, 1, 1);
+            font.draw(paramGraphics, "PAUSE", (int)(98 * MOBI_SCL), position_y);
+            this.archAngel.draw_string_y305(paramGraphics, "RESUME", false);
+
             return;
         }
         switch (this.archAngel.game_state)
@@ -647,7 +663,12 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                 this.archAngel.stopSound();
                 // paramGraphics.setColor(0);
                 fillRect(paramGraphics, 0, 150, 240, 15, 4);
-                this.archAngel.readMedia.drawGraphicStr40_122(paramGraphics, 98, 152, "PAUSE");
+
+                int position_y = (int) ((MOBI_H-152)*MOBI_SCL + BOTTOM_SPACE);
+                font.setColor(1, 1, 1, 1);
+                font.draw(paramGraphics, "PAUSE", (int)(98 * MOBI_SCL), position_y);
+                // this.archAngel.readMedia.drawGraphicStr40_122(paramGraphics, 98, 152, "PAUSE");
+
                 this.archAngel.drawImage(paramGraphics);
                 this.archAngel.draw_string_y305(paramGraphics, "RESUME", false);
                 break;
@@ -1020,7 +1041,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                 this.secondHelper.goto_menu(batch, this.o, this.p, this.q, this.t, this.x, this.str_arr_w, this.archAngel, this.readText, this.helper);
                 break;
             case 14:
-                draw_resume(batch);
+                this.draw_resume(batch);
                 break;
             case 9:
                 if (this.archAngel.gameSetting.c != this.archAngel.gameSetting.boss_level) {
@@ -1042,10 +1063,10 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                 this.helper.draw_system_setin(batch, this.l, this.o, this.p, this.q, this.t, this.x, this.y, this.str_arr_w, this.archAngel, this.readText);
                 break;
             case 11:
-                draw_shop_info_arm(batch);
+                this.draw_shop_info_arm(batch);
                 break;
             case 12:
-                draw_shop_arm2(batch);
+                this.draw_shop_arm2(batch);
                 break;
             case 4:
                 this.helper.briefAbout(batch, this.o, this.p, this.l, this.archAngel);
@@ -1054,12 +1075,12 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                 this.helper.briefOpen(batch, this.o, this.p, this.archAngel);
                 break;
             case 2:
-                simple_read_helper(batch);
+                this.simple_read_helper(batch);
                 break;
             case 7:
                 this.helper.displayGameOver(batch, this.archAngel); // gamestate = 1
                 break;
-            case 6:
+            case 6: // victory
                 this.secondHelper.draw_font_result(batch, this.archAngel, this.helper);
                 break;
             case 27: // Final mission complete
@@ -1105,7 +1126,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         // TODO study libgdx-mario-bros key handle mechanism
         touchPoint.set(Gdx.input.getX(),Gdx.input.getY(), 0);
 
-        Gdx.app.log("DEBUG", "touch " + touchPoint.x + " y "+ (SCREEN_HEIGHT-touchPoint.y) + " key_code "+ this.key_code);
+        // Gdx.app.log("DEBUG", "touch " + touchPoint.x + " y "+ (SCREEN_HEIGHT-touchPoint.y) + " key_code "+ this.key_code);
         game_action = getGameAction(pointer);
 
         if (isTouchedMenuLeft()) {
@@ -1234,6 +1255,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
 
         if(isTouchedOK()) {
             this.key_code = KEY_OK; // -5
+            Gdx.input.vibrate(5);
             return GAME_ACTION_OK;
         }
 

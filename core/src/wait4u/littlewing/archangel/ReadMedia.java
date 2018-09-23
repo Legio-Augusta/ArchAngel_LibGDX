@@ -210,7 +210,7 @@ public class ReadMedia
                 // TODO use GDX Title or text.
                 // drawImageAnchor20(paramGraphics, 0, paramInt1 + 6 * k - i * 5, paramInt2);
                 // ENERMY:null
-                myDrawClip(paramGraphics, i, paramInt2, 5, 5, 0, paramInt1 + 6 * k - i * 5, paramInt2, 20);
+                // myDrawClip(paramGraphics, i, paramInt2, 5, 5, 0, paramInt1 + 6 * k - i * 5, paramInt2, 20);
             }
         }
         // mySetClip(paramGraphics, 0, 0, 240, 320);
@@ -234,7 +234,7 @@ public class ReadMedia
                 // paramGraphics.setClip(paramInt1 + 9 * k, paramInt2, 9, 13); // JME 747 = 83 x 9px (83 character image)
                 // drawImageAnchor20(paramGraphics, 1, paramInt1 + 9 * k - i * 9, paramInt2);
                 // Press Any Key
-                myDrawClip(paramGraphics, i, paramInt2, 9, 13, 1, paramInt1 + 9 * k - i * 9, paramInt2, 20);
+                // myDrawClip(paramGraphics, i, paramInt2, 9, 13, 1, paramInt1 + 9 * k - i * 9, paramInt2, 20);
             }
         }
         // mySetClip(paramGraphics, 0, 0, 240, 320);

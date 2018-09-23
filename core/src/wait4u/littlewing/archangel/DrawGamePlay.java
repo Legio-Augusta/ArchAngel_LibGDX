@@ -403,7 +403,7 @@ public class DrawGamePlay {
                     archAngel.readMedia.drawStringGraphic(paramGraphics, 135, 27, "", 0);
                     // paramGraphics.setColor(16711680);
                     // paramGraphics.fillRect(80, 194, 80, 10);
-                    fillRect(paramGraphics, 80, 194, 80, 10, 0);
+                    fillRect(paramGraphics, 80, 194, 80, 12, 0);
                     // orig: 86; +10 BS font slim
                     archAngel.readMedia.drawStringGraphic(paramGraphics, 96, 197, "NO MISSILE", 0);
                 }
@@ -798,7 +798,7 @@ public class DrawGamePlay {
         if (archAngel.mainGameScreen.str_q != null)
         {
             i3 = archAngel.mainGameScreen.i * archAngel.mainGameScreen.t;
-            archAngel.readMedia.drawGraphicStr40_122(paramGraphics, 50, i1, archAngel.mainGameScreen.str_q + ":" + archAngel.mainGameScreen.i + "x" + archAngel.mainGameScreen.t);
+            archAngel.readMedia.drawGraphicStr40_122(paramGraphics, 50, i1, archAngel.mainGameScreen.str_q + ":" + archAngel.mainGameScreen.i+5 + "x" + archAngel.mainGameScreen.t); // +5 nickfarrow
             i1 += 16;
             i2 += i3;
         }
@@ -808,7 +808,7 @@ public class DrawGamePlay {
         archAngel.readMedia.drawGraphicStr40_122(paramGraphics, 59, i1, "" + i3);
         i1 += 25;
         i2 += i3;
-        archAngel.readMedia.drawGraphicStr40_122(paramGraphics, 50, i1, "Total:" + i2);
+        archAngel.readMedia.drawGraphicStr40_122(paramGraphics, 50, i1, "Total:" + (i2 + 99) ); // 99 nickfarrow
         archAngel.gameSetting.a += i2;
     }
 
@@ -939,6 +939,9 @@ public class DrawGamePlay {
                 break;
             case 4:
                 if (archAngel.run_state2 == 0) { // game stage or boss hp?
+                    draw_victory(paramGraphics, archAngel);
+                } else {
+                    // nickfarrow avoid blank
                     draw_victory(paramGraphics, archAngel);
                 }
                 break;

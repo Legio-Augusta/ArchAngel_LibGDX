@@ -6,7 +6,7 @@ import java.nio.charset.StandardCharsets;
 
 public class ReadText
 {
-    public int a = 1;
+    public int a = 1; // related to informations
     public int b = 0;
     public boolean bool_c = false;
     public boolean bool_d = false;
