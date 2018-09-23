@@ -29,7 +29,7 @@ public class ArchAngelME
     public boolean bool_n = false; // fighting with boss
     public Random rnd = new Random();
     public int p = 0;
-    public boolean bool_q;
+    public boolean bool_q; // opening brief
     public boolean bool_r;
     public boolean bool_s;
     public boolean bool_t;

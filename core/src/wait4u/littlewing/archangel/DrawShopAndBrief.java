@@ -158,6 +158,17 @@ public class DrawShopAndBrief {
                 if (archAngel.screen != 7) {
                     // paramGraphics.drawString(str, i2, i1, 20);
                     archAngel.readMedia.drawStringGraphic(paramGraphics, i2, i1, str, 0);
+                    if(archAngel.boss_sprite_level == 0) { // nickfarrow draw first opening brief.
+                        String opening = "The year 2028... A conflict between the Earth and \n"+
+                                "the other planets has led the worlds to the edge \n"+
+                                "of a final war which threatens man's very survival.\n" +
+                                "In a struggle to end the conflict, the confederation \n"+
+                                "has developed a revolutionary land-sea-air-space unit \n"+
+                                "in a top secret operation.\n" +
+                                "Due to the fact that this unit looks like a \n"+
+                                "fire-spitting angel its code name is 'Arch Angel'.";
+                        archAngel.readMedia.drawStringGraphic(paramGraphics, 7, 140, opening, 0);
+                    }
                 }
                 if ((archAngel.screen == 10) && (paramInt1 == 51) && ((archAngel.readText.a <= 2) || (archAngel.readText.a == 4))) {
                     // paramGraphics.setColor(0);

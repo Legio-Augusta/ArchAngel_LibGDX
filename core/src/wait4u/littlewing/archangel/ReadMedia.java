@@ -24,8 +24,9 @@ public class ReadMedia
     private static int SCREEN_HEIGHT = Gdx.graphics.getHeight();
 
     // 120x160 or 128x128px from original J2ME resolution (in some game). This case screen_width is 240px
-    private static float MOBI_SCL = (float)Gdx.graphics.getWidth()/240; // FIXME 4.5 is not integer
-    private static int MOBI_H = 320;  // JavaME height = 320px FIXME
+    private static float MOBI_SCL = (float)Gdx.graphics.getWidth()/240;
+    private static int MOBI_H = 320;  // JavaME height = 320px
+    float SCALE = (float)SCREEN_HEIGHT/1920;
 
     private static int BOTTOM_SPACE = (int)(SCREEN_HEIGHT/8 + 20*MOBI_SCL); // 20 as Java phone reserved top bar shift y
     BitmapFont font;
@@ -69,9 +70,9 @@ public class ReadMedia
                 this.img_arr_a[img_idx] = new Texture("archangel/font/font_1_" + char_idx + ".png");
             }
 
-            int img_height = this.img_arr_a[img_idx].getHeight();
+            int img_height = (int)(this.img_arr_a[img_idx].getHeight()*SCALE);
             int position_y = (int) ((MOBI_H - pos_y+anchor)*MOBI_SCL - img_height + BOTTOM_SPACE);
-            paramGraphics.draw(this.img_arr_a[img_idx], (int)(pos_x * MOBI_SCL), position_y);
+            paramGraphics.draw(this.img_arr_a[img_idx], (int)(pos_x * MOBI_SCL), position_y, this.img_arr_a[img_idx].getWidth()*SCALE, this.img_arr_a[img_idx].getHeight()*SCALE);
         }
     }
 
@@ -87,10 +88,10 @@ public class ReadMedia
      */
     public void myDrawClipRegion(SpriteBatch paramGraphics, int spriteIdx, int pos_x, int pos_y)
     {
-        int img_height = this.img_arr_clipped[spriteIdx].getHeight();
+        int img_height = (int)(this.img_arr_clipped[spriteIdx].getHeight()*SCALE);
         int position_y = (int) ((MOBI_H - pos_y)*MOBI_SCL - img_height + BOTTOM_SPACE);
         // Condition for custom position for each sprite image
-        paramGraphics.draw(this.img_arr_clipped[spriteIdx], (int)(pos_x*MOBI_SCL), position_y);
+        paramGraphics.draw(this.img_arr_clipped[spriteIdx], (int)(pos_x*MOBI_SCL), position_y, this.img_arr_clipped[spriteIdx].getWidth()*SCALE, this.img_arr_clipped[spriteIdx].getHeight()*SCALE);
     }
 
     public void destroyImage53_115()
@@ -125,12 +126,12 @@ public class ReadMedia
         }
 
         // 53 as BOTTOM_SPACE (~ 240 = 480/2) 240/4.5 ~= 53 (tile cell)
-        int img_height = this.img_arr_a[spriteIdx].getHeight();
+        int img_height = (int)(this.img_arr_a[spriteIdx].getHeight()*SCALE);
         int position_y = (int) ((MOBI_H - pos_y-20)*MOBI_SCL - img_height + BOTTOM_SPACE); // anchor 20
 
         // Fix me hard code position
         // if(spriteIdx == 3) {} // && (paramInt1 == 3) // this.msr_media.equals("font")
-        paramGraphics.draw(this.img_arr_a[spriteIdx], (int)(pos_x*MOBI_SCL), position_y); // 20 anchor
+        paramGraphics.draw(this.img_arr_a[spriteIdx], (int)(pos_x*MOBI_SCL), position_y, this.img_arr_a[spriteIdx].getWidth()*SCALE, this.img_arr_a[spriteIdx].getHeight()*SCALE); // 20 anchor
     }
 
     public ReadMedia()
@@ -146,6 +147,9 @@ public class ReadMedia
         font = new BitmapFont();
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         font.getData().setScale(3);
+        if(SCREEN_HEIGHT <= 1280) {
+            font.getData().setScale(2);
+        }
 
         this.loadClippedTexture();
     }
@@ -177,7 +181,7 @@ public class ReadMedia
         int img_height = this.img_arr_a[spriteIdx].getHeight();
         int position_y = (int) ((MOBI_H-pos_y+36)*MOBI_SCL-img_height/2 + BOTTOM_SPACE); // -36 fixme height/2
 
-        paramGraphics.draw(this.img_arr_a[spriteIdx], (int)(pos_x*MOBI_SCL), position_y);
+        paramGraphics.draw(this.img_arr_a[spriteIdx], (int)(pos_x*MOBI_SCL), position_y, this.img_arr_a[spriteIdx].getWidth()*SCALE, this.img_arr_a[spriteIdx].getHeight()*SCALE);
     }
 
     // TODO debug trace J2ME read text data. May be some default data stored here.
@@ -234,7 +238,7 @@ public class ReadMedia
                 // paramGraphics.setClip(paramInt1 + 9 * k, paramInt2, 9, 13); // JME 747 = 83 x 9px (83 character image)
                 // drawImageAnchor20(paramGraphics, 1, paramInt1 + 9 * k - i * 9, paramInt2);
                 // Press Any Key
-                // myDrawClip(paramGraphics, i, paramInt2, 9, 13, 1, paramInt1 + 9 * k - i * 9, paramInt2, 20);
+                myDrawClip(paramGraphics, i, paramInt2, 9, 13, 1, paramInt1 + 9 * k - i * 9, paramInt2, 20);
             }
         }
         // mySetClip(paramGraphics, 0, 0, 240, 320);
@@ -372,10 +376,10 @@ public class ReadMedia
             Gdx.app.log("ERROR", "load Media Arr: " + this.msr_media + " idx "+ spriteIdx);
             this.img_arr_a[spriteIdx] = new Texture("archangel/plasma_15.png");
         }
-        int img_height = this.img_arr_a[spriteIdx].getHeight();
+        int img_height = (int)(this.img_arr_a[spriteIdx].getHeight()*SCALE);
         int position_y = (int) ((MOBI_H-pos_y+3)*MOBI_SCL-img_height + BOTTOM_SPACE);
         // Gdx.app.log("DEBUG INARR", "IMG: " + this.msr_media + "_" + paramInt1 + " JME destroy_n_e= "+paramInt3 + " position destroy_n_e="+position_y + " height="+img_height + " top bound="+(position_y+img_height));
-        paramGraphics.draw(this.img_arr_a[spriteIdx], (int)(pos_x*MOBI_SCL), position_y); // 3
+        paramGraphics.draw(this.img_arr_a[spriteIdx], (int)(pos_x*MOBI_SCL), position_y, this.img_arr_a[spriteIdx].getWidth()*SCALE, this.img_arr_a[spriteIdx].getHeight()*SCALE); // 3
     }
 
     public int readBinaryData()
@@ -395,17 +399,17 @@ public class ReadMedia
     {
         readMediaStream(paramString);
         // paramGraphics.draw(loadImage(paramInt1), paramInt2, paramInt3); //20
-        int img_height = this.img_arr_a[paramInt1].getHeight();
+        int img_height = (int)(this.img_arr_a[paramInt1].getHeight()*SCALE);
         int position_y = (int) ((MOBI_H - paramInt3 +20)*MOBI_SCL-img_height + BOTTOM_SPACE); // anchor 20
-        paramGraphics.draw(this.img_arr_a[paramInt1], (int)(paramInt2*MOBI_SCL), position_y); //20
+        paramGraphics.draw(this.img_arr_a[paramInt1], (int)(paramInt2*MOBI_SCL), position_y, this.img_arr_a[paramInt1].getWidth()*SCALE, this.img_arr_a[paramInt1].getHeight()*SCALE); //20
     }
 
     public void drawLoadImage(int paramInt1, SpriteBatch paramGraphics, int paramInt2, int paramInt3)
     {
         Texture temp = loadImage(paramInt1);
-        int position_y = (int) ((MOBI_H - paramInt3 + 20)*MOBI_SCL-temp.getHeight() + BOTTOM_SPACE); // anchor 20
+        int position_y = (int) ((MOBI_H - paramInt3 + 20)*MOBI_SCL-temp.getHeight()*SCALE + BOTTOM_SPACE); // anchor 20
         // Gdx.app.log("DEBUG Load IMG", "IMG: " + this.msr_media + "_" + paramInt1 + " JME destroy_n_e= "+paramInt3 + " position destroy_n_e="+position_y + " height="+temp.getHeight() + " top bound="+(position_y+temp.getHeight()));
-        paramGraphics.draw(temp, (int)(paramInt2*MOBI_SCL), position_y); // 20
+        paramGraphics.draw(temp, (int)(paramInt2*MOBI_SCL), position_y, temp.getWidth()*SCALE, temp.getHeight()*SCALE); // 20
     }
 
     public void closeInputStream()

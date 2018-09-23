@@ -65,6 +65,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
     private static float MOBI_SCL = (float)Gdx.graphics.getWidth()/240; // FIXME 4.5 is not integer
     private static int MOBI_H = 320;  // JavaME height = 320px
     private static int MOBI_W = 240; // Original Java Phone resolution.
+    float SCALE = (float)SCREEN_HEIGHT/1920;
 
     OrthographicCamera camera;
     SpriteBatch batch;
@@ -78,13 +79,13 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
     private static int BOTTOM_SPACE = (int)(SCREEN_HEIGHT/8 + 20*MOBI_SCL); // May be change for fit touch button
 
     // Use rectangle until figure out how to work with BoundingBox multi input.
-    Rectangle upBtnRect = new Rectangle(20+(200/3), 20+(400/3), 72, 70);
-    Rectangle downBtnRect = new Rectangle(20+(200/3), 20, 72, 70);
-    Rectangle leftBtnRect = new Rectangle(20, 20+(200/6), 70, 140);
-    Rectangle rightBtnRect = new Rectangle(20+(400/3), 20+(200/6), 2*70, 140);
-    Rectangle optionBtnRect = new Rectangle(SCREEN_WIDTH/2+150, SCREEN_HEIGHT/8, SCREEN_WIDTH/2-180, 70);
-    Rectangle leftMenuBtn = new Rectangle(SCREEN_WIDTH-275-400, 20, 200, 100);
-    Rectangle rightMenuBtn = new Rectangle(SCREEN_WIDTH-275-200, 20, 200, 100);
+    Rectangle upBtnRect = new Rectangle((20+(200/3))*SCALE, (20+(400/3))*SCALE, 72*SCALE, 70*SCALE);
+    Rectangle downBtnRect = new Rectangle((20+(200/3))*SCALE, 20*SCALE, 72*SCALE, 70*SCALE);
+    Rectangle leftBtnRect = new Rectangle(20*SCALE, (20+(200/6))*SCALE, 70*SCALE, 140*SCALE);
+    Rectangle rightBtnRect = new Rectangle((20+(400/3))*SCALE, (20+(200/6))*SCALE, 2*70*SCALE, 140*SCALE);
+    Rectangle optionBtnRect = new Rectangle(SCREEN_WIDTH/2+150*SCALE, SCREEN_HEIGHT/8, SCREEN_WIDTH/2-180*SCALE, 70*SCALE);
+    Rectangle leftMenuBtn = new Rectangle(SCREEN_WIDTH-(275+400)*SCALE, 20*SCALE, 200*SCALE, 100*SCALE);
+    Rectangle rightMenuBtn = new Rectangle(SCREEN_WIDTH-(275+200)*SCALE, 20*SCALE, 200*SCALE, 100*SCALE);
 
     private int game_action = 0;
     private int key_code = 0;
@@ -222,7 +223,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                 }
                 this.archAngel.bool_q = true;
                 break;
-            case 26:
+            case 26: // open brief next screen (after the year 2028...)
                 if ((this.archAngel.game_state > 1) && (this.archAngel.game_state < 18)) {
                     switch (keyCode)
                     {
@@ -235,7 +236,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                     }
                 }
                 break;
-            case 5:
+            case 5: //
                 if (this.archAngel.game_state == 3) {
                     switch (keyCode)
                     {
@@ -547,7 +548,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                     }
                 }
                 break;
-            case 4:
+            case 4: // open brief screen (The year 2028...)
                 if ((this.archAngel.game_state == 1) && (keyCode == -6)) {
                     this.archAngel.screen = 5;
                 }
@@ -1277,12 +1278,12 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
         // It seem single image can have it's own event Listener such as: touchDown/Up; See bellow
         // https://github.com/BrentAureli/ControllerDemo/blob/master/core/src/com/brentaureli/overlaydemo/Controller.java
         // TODO use custom IMAGE addEventListener for more UI refine. Can image used as Texture ?
-        batch.draw(fireBtnTexture, SCREEN_WIDTH-50-fireBtnTexture.getWidth(), 50, fireBtnTexture.getWidth(), fireBtnTexture.getHeight());
-        batch.draw(imgKeyNum3, SCREEN_WIDTH-50-fireBtnTexture.getWidth()-fireBtnTexture.getWidth()/2 - imgKeyNum3.getWidth(), 40 + imgSpeedUp.getHeight(), imgKeyNum3.getWidth(), imgKeyNum3.getHeight());
-        batch.draw(imgSpeedUp, SCREEN_WIDTH-50-fireBtnTexture.getWidth()-fireBtnTexture.getWidth()/2 - imgSpeedUp.getWidth(), 20, imgSpeedUp.getWidth(), imgSpeedUp.getHeight());
-        batch.draw(imgSpeedDown, SCREEN_WIDTH-50-fireBtnTexture.getWidth()-fireBtnTexture.getWidth()/2 - 2*imgSpeedDown.getWidth(), 20, imgSpeedDown.getWidth(), imgSpeedDown.getHeight());
-        batch.draw(touch_pad, 20, 20);
-        batch.draw(touch_pad_knob, 20+touch_pad.getWidth()/2-touch_pad_knob.getWidth()/2, 20+touch_pad.getHeight()/2-touch_pad_knob.getHeight()/2);
+        batch.draw(fireBtnTexture, SCREEN_WIDTH-(50+fireBtnTexture.getWidth())*SCALE, (int)(50*SCALE), fireBtnTexture.getWidth()*SCALE, fireBtnTexture.getHeight()*SCALE);
+        batch.draw(imgKeyNum3, SCREEN_WIDTH-(50+fireBtnTexture.getWidth()+fireBtnTexture.getWidth()/2 + imgKeyNum3.getWidth())*SCALE, (40 + imgSpeedUp.getHeight())*SCALE, imgKeyNum3.getWidth()*SCALE, imgKeyNum3.getHeight()*SCALE);
+        batch.draw(imgSpeedUp, SCREEN_WIDTH-(50+fireBtnTexture.getWidth()+fireBtnTexture.getWidth()/2 + imgSpeedUp.getWidth())*SCALE, 20*SCALE, imgSpeedUp.getWidth()*SCALE, imgSpeedUp.getHeight()*SCALE);
+        batch.draw(imgSpeedDown, SCREEN_WIDTH-(50+fireBtnTexture.getWidth()+fireBtnTexture.getWidth()/2 + 2*imgSpeedDown.getWidth())*SCALE, 20*SCALE, imgSpeedDown.getWidth()*SCALE, imgSpeedDown.getHeight()*SCALE);
+        batch.draw(touch_pad, 20*SCALE, 20*SCALE, touch_pad.getWidth()*SCALE, touch_pad.getHeight()*SCALE);
+        batch.draw(touch_pad_knob, (20+touch_pad.getWidth()/2-touch_pad_knob.getWidth()/2)*SCALE, (20+touch_pad.getHeight()/2-touch_pad_knob.getHeight()/2)*SCALE, touch_pad_knob.getWidth()*SCALE, touch_pad_knob.getHeight()*SCALE);
     }
 
     public void create () {
@@ -1360,11 +1361,11 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
     }
     protected boolean isTouchedOK() {
         // this.key_code = KEY_OK;
-        Rectangle textureBounds = new Rectangle(SCREEN_WIDTH-fireBtnTexture.getWidth()-50, SCREEN_HEIGHT-50-fireBtnTexture.getHeight(), fireBtnTexture.getWidth(),fireBtnTexture.getHeight());
+        Rectangle textureBounds = new Rectangle(SCREEN_WIDTH-(fireBtnTexture.getWidth()+50)*SCALE, SCREEN_HEIGHT-(50+fireBtnTexture.getHeight())*SCALE, fireBtnTexture.getWidth()*SCALE,fireBtnTexture.getHeight()*SCALE);
         return textureBounds.contains(touchPoint.x, touchPoint.y);
     }
     protected boolean isTouchedNum3() {
-        Rectangle textureBounds=new Rectangle(SCREEN_WIDTH-fireBtnTexture.getWidth()-50-imgKeyNum3.getWidth()-(int)fireBtnTexture.getWidth()/2, SCREEN_HEIGHT-(40+imgSpeedUp.getHeight()+imgKeyNum3.getHeight()), imgKeyNum3.getWidth(),imgKeyNum3.getHeight());
+        Rectangle textureBounds=new Rectangle(SCREEN_WIDTH-(fireBtnTexture.getWidth()+50+imgKeyNum3.getWidth()+(int)fireBtnTexture.getWidth()/2)*SCALE, SCREEN_HEIGHT-(40+imgSpeedUp.getHeight()+imgKeyNum3.getHeight())*SCALE, imgKeyNum3.getWidth()*SCALE,imgKeyNum3.getHeight()*SCALE);
         return textureBounds.contains(touchPoint.x, touchPoint.y);
     }
     protected boolean isTouchedMenuLeft() {
