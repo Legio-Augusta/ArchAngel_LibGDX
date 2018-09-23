@@ -11,6 +11,7 @@ import wait4u.littlewing.archangel.MainGameHelper;
 import wait4u.littlewing.archangel.ReadMedia;
 import wait4u.littlewing.archangel.ReturnHelper;
 
+// TODO enemy move too fast; use missile; boss disappear; machine shop; saved game; center align aim lock...
 public class MainGameScreen {
     public ArchAngelME AA;
     public ReadMedia readMedia;
@@ -18,7 +19,7 @@ public class MainGameScreen {
     public Random rnd = new Random();
     public String str_e;
     public int direction_guide; // Fighter HP related, lose 50 HP each time collidate cliff; Or fighter turn guide
-    public int g;
+    public int g; // related downed enemy count
     public int h; // number of enemy destroyed or money got for each destroyed
     public int i;
     public int j;
@@ -31,7 +32,7 @@ public class MainGameScreen {
     public String str_q;
     public int boss_distance_r;
     public int boss_distance_s;
-    public int t;
+    public int t; // related downed enemy
     public int downed_e_count; // Number of enemy fighter destroyed in draw_string_y305 mission.
     public int v;
     public int w;
@@ -42,9 +43,9 @@ public class MainGameScreen {
     public final byte byte_ac = 1;
     public final byte byte_ad = 2;
     public static Enemy[] enemyArr = new Enemy[18];
-    public int af = 0;
+    public int af = 0; // related to enemy downed count
     public int downed_e_count2 = 0; // count enemy left or enemy destroyed in single shot
-    public int ah = 0;
+    public int ah = 0; // related to enemy downed
     public int ai;  // aim related
     public int aj = -1;
     public int ak = 0;
@@ -87,8 +88,8 @@ public class MainGameScreen {
     public boolean bool_bl = false;
     public int bm = -1;
     public int bn = 0;
-    public int bo = 0;
-    public int bp = 64;
+    public int bo = 0; // related to turn angle and/or enemy step
+    public int bp = 64; // related to turn + e_step
     public int bq = 0; // boss finder
     public int br = 0; // boss finder
     // These 2 arrays bellow seem to be used as AI pattern for enemies fly path.
@@ -118,12 +119,12 @@ public class MainGameScreen {
 
     public void game_play(Enemy paramEnemy, int paramInt, Enemy[] enemyArr)
     {
-        int i2;
-        if ((i2 = paramEnemy.gameplay_ctl) == 0) {
+        int e_game_ctl;
+        if ((e_game_ctl = paramEnemy.gameplay_ctl) == 0) {
             return;
         }
         paramEnemy.l += -1;
-        if ((i2 <= 6) && (paramEnemy.l <= 0))
+        if ((e_game_ctl <= 6) && (paramEnemy.l <= 0))
         {
             paramEnemy.gameplay_ctl = 0;
             return;
@@ -133,7 +134,7 @@ public class MainGameScreen {
 
         int i3; // loop 18 enemy objects
         int i1;
-        switch (i2)
+        switch (e_game_ctl)
         {
             case 9:
                 if (this.mission_stage == 1)
@@ -161,7 +162,7 @@ public class MainGameScreen {
                 // Boss AI calc distance seem quite complicated
                 // Temporary use destroy_n_e as number of enemies left and some other params for this condition
                 // || (this.boss_distance <= 1933900000)
-                if (( (this.boss_distance <= 0) || (this.boss_distance <= 1933900000) ) && (this.mission_stage == 1)) // (destroy_n_e <= 0)
+                if (( (this.boss_distance <= 0) || (this.boss_distance <= 1933900000) || (this.AA.boss_sprite_level == 6 && this.boss_distance <= 2076500000) ) && (this.mission_stage == 1)) // (destroy_n_e <= 0)
                 {
                     this.boss_distance = 0;
                     paramEnemy.gameplay_ctl = 0;
@@ -222,7 +223,7 @@ public class MainGameScreen {
                 }
                 if (this.gamestage1 == 2)
                 {
-                    this.downed_e_count2 = 2;
+                    this.downed_e_count2 = 2; // it seem boss area reach
                     paramEnemy.gameplay_ctl = 0;
                 }
                 break;
@@ -323,7 +324,7 @@ public class MainGameScreen {
                 break;
             case 6:
                 for (i3 = 0; i3 < 18; i3++) {
-                    if ((enemyArr[i3].gameplay_ctl >= 13) && (this.gameHelper.desc_e_hp(paramEnemy, enemyArr[i3])))
+                    if ((enemyArr[i3].gameplay_ctl >= 13) && (this.gameHelper.desc_e_hp(paramEnemy, enemyArr[i3], this.AA.boss_sprite_level)))
                     {
                         paramEnemy.gameplay_ctl = 5;
                         paramEnemy.l = 2;
@@ -342,7 +343,7 @@ public class MainGameScreen {
             case 7:
                 if (paramEnemy.l <= 0)
                 {
-                    this.downed_e_count2 += -1;
+                    this.downed_e_count2 += -1; // boss count ?
                     paramEnemy.gameplay_ctl = 0;
                     this.t += 1;
                     this.AA.temp_screen2 = 6;
@@ -512,7 +513,7 @@ public class MainGameScreen {
         this.readMedia.drawImageAnchor36(paramGraphics, 9 + 2 * 3 + i2, this.int_arr_a5[(2 + 2)], this.int_arr_a6[2] - arrayOfInt[2][i2] - 5); // nickfarrow +30
         this.readMedia.drawImageAnchor36(paramGraphics, 9 + 2 * 3 + i2, this.int_arr_a5[(2 + 2)] + ((this.bool_arr_a7[(2 + 1)] != false) ? -240 : 240), this.int_arr_a6[2] - arrayOfInt[2][i2] - 5);
 
-        if ((this.AA.ad == 2) || (this.AA.screen == 0)) {
+        if ((this.AA.land_sea_air == 2) || (this.AA.screen == 0)) {
             return;
         }
         // Briefs; screen = 0 seem to be force show brief on first mission
@@ -557,11 +558,11 @@ public class MainGameScreen {
 
                     // 33 ~ 24 + 9 ~ Fighter thrust normal mode
                     // this.readMedia.drawImageAnchor20(paramGraphics, 33, this.fighter_x + 10 + arrayOfByte2[this.z][0], this.fighter_y + 11 + arrayOfByte2[this.z][1] - 11 * (this.ap % 2));
-                    this.readMedia.myDrawClipRegion(paramGraphics, 0, this.fighter_x + 10 + arrayOfByte2[this.fighter_turn][0]+13, this.fighter_y + 11 + arrayOfByte2[this.fighter_turn][1] - 11 * (this.ap % 2) +20); // nickfarrow x+15; y+42
+                    this.readMedia.myDrawClipRegion(paramGraphics, 0, this.fighter_x + 10 + arrayOfByte2[this.fighter_turn][0]+10, this.fighter_y + 11 + arrayOfByte2[this.fighter_turn][1] - 11 * (this.ap % 2) +20); // nickfarrow x+15; y+42
 
                     //paramGraphics.setClip(this.fighter_x + 38 - arrayOfByte2[this.game_state][0], this.bc + 11 - arrayOfByte2[this.game_state][1], 12, 11);
                     // this.readMedia.drawImageAnchor20(paramGraphics, 34, this.fighter_x + 38 - arrayOfByte2[this.z][0], this.fighter_y + 11 - arrayOfByte2[this.z][1] - 11 * (this.ap % 2));
-                    this.readMedia.myDrawClipRegion(paramGraphics, 2, this.fighter_x + 38 - arrayOfByte2[this.fighter_turn][0]+13, this.fighter_y + 11 - arrayOfByte2[this.fighter_turn][1] - 11 * (this.ap % 2) +20);
+                    this.readMedia.myDrawClipRegion(paramGraphics, 2, this.fighter_x + 38 - arrayOfByte2[this.fighter_turn][0]+10, this.fighter_y + 11 - arrayOfByte2[this.fighter_turn][1] - 11 * (this.ap % 2) +20);
                     // paramGraphics.setClip(0, 0, 240, 300);
                 }
                 this.AA.bool_m = true;
@@ -1081,14 +1082,14 @@ public class MainGameScreen {
     /**
      *
      * @param parame
-     * @param paramInt1 e game control
+     * @param e_game_ctl e game control
      * @param paramInt2
      */
-    public void boss_distance_ai(Enemy parame, int paramInt1, int paramInt2)
+    public void boss_distance_ai(Enemy parame, int e_game_ctl, int paramInt2)
     {
         parame.enemy_damage = 0;
         int i1;
-        switch (paramInt1)
+        switch (e_game_ctl)
         {
             case 9:
                 parame.enemy_distance_1 = this.boss_distance_r;
@@ -1182,7 +1183,7 @@ public class MainGameScreen {
                 parame.enemy_damage = (this.gameSetting.n / 10);
                 break;
         }
-        parame.gameplay_ctl = paramInt1;
+        parame.gameplay_ctl = e_game_ctl;
     }
 
     public void simple_90(boolean paramBoolean)

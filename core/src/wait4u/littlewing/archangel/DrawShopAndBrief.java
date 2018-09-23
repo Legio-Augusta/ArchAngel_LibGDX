@@ -168,6 +168,14 @@ public class DrawShopAndBrief {
                                 "Due to the fact that this unit looks like a \n"+
                                 "fire-spitting angel its code name is 'Arch Angel'.";
                         archAngel.readMedia.drawStringGraphic(paramGraphics, 7, 140, opening, 0);
+                    } else if(archAngel.boss_sprite_level == 7) {
+                        // Last battle
+                        String opening = "The year 2029... the prototype of 'Arch Angel'\n" +
+                                "proofed to be the key to peace.\n" +
+                                "Since then it has entered mass production and 3700\n" +
+                                "units are securing world peace in the\n" +
+                                "name of the confederated forces.";
+                        archAngel.readMedia.drawStringGraphic(paramGraphics, 7, 140, opening, 0);
                     }
                 }
                 if ((archAngel.screen == 10) && (paramInt1 == 51) && ((archAngel.readText.a <= 2) || (archAngel.readText.a == 4))) {

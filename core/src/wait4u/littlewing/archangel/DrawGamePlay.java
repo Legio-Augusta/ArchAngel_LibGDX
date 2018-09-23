@@ -261,11 +261,11 @@ public class DrawGamePlay {
         archAngel.boss_sprite_level = archAngel.gameSetting.boss_level;
         archAngel.mainGameScreen.fighter_turn = 0;
         if (archAngel.boss_sprite_level < 3) {
-            archAngel.ad = 0;
+            archAngel.land_sea_air = 0;
         } else if ((archAngel.boss_sprite_level == 3) || (archAngel.boss_sprite_level == 4)) {
-            archAngel.ad = 1;
+            archAngel.land_sea_air = 1;
         } else if (archAngel.boss_sprite_level > 4) {
-            archAngel.ad = 2;
+            archAngel.land_sea_air = 2;
         }
         // archAngel.mainGameScreen.bj = 16749568;
         // archAngel.mainGameScreen.bk = 16768512;
@@ -299,7 +299,7 @@ public class DrawGamePlay {
                 switch (archAngel.run_state2)
                 {
                     case 0:
-                        archAngel.readMedia.readMediaStream("background" + archAngel.ad);
+                        archAngel.readMedia.readMediaStream("background" + archAngel.land_sea_air);
                         for (i1 = 0; i1 < 2; i1++) {
                             archAngel.readMedia.reloadImageArr(i1, 7 + i1);
                         }
@@ -308,7 +308,7 @@ public class DrawGamePlay {
                         for (i1 = 0; i1 < 9; i1++) {
                             archAngel.readMedia.reloadImageArr(i1 + 2, 9 + i1);
                         }
-                        if (archAngel.ad == 2) {
+                        if (archAngel.land_sea_air == 2) {
                             for (i1 = 0; i1 < 3; i1++) {
                                 archAngel.readMedia.reloadImageArr(i1 + 11, 18 + i1);
                             }
@@ -367,7 +367,7 @@ public class DrawGamePlay {
                         archAngel.readMedia.closeInputStream();
                         break;
                     case 2:
-                        archAngel.readMedia.readMediaStream("fence" + archAngel.ad);
+                        archAngel.readMedia.readMediaStream("fence" + archAngel.land_sea_air);
                         for (i1 = 0; i1 < 8; i1++) {
                             archAngel.readMedia.reloadImageArr(i1, 44 + i1);
                         }

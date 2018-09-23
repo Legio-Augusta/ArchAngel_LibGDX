@@ -42,7 +42,7 @@ public class ArchAngelME
     public int temp_state = -1;
     public int temp_screen2;
     public int boss_sprite_level;
-    public int ad;
+    public int land_sea_air; // big level (background change 0 1 2)
     public int ae = 40;
     public int af = 1;
     public int ag = 0;

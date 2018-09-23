@@ -106,11 +106,16 @@ public class MainGameHelper {
         return i4;
     }
 
-    public boolean desc_e_hp(Enemy paramEnemy, Enemy paramEnemy2)
+    public boolean desc_e_hp(Enemy paramEnemy, Enemy paramEnemy2, int bot_level)
     {
         if (Math.abs(paramEnemy.enemy_distance_1 - paramEnemy2.enemy_distance_1) + Math.abs(paramEnemy.enemy_distance_2 - paramEnemy2.enemy_distance_2) < 200)
         {
             paramEnemy2.enemy_damage -= paramEnemy.enemy_damage;
+            // TODO figure out why enemy at level 3 have so much hp (ab 250m) while damage only ab 1m
+            if(bot_level >= 2) {
+                paramEnemy2.enemy_damage -= paramEnemy2.enemy_damage;
+            }
+
             paramEnemy2.l += 5;
             if (paramEnemy2.enemy_damage <= 0) { // may be e_hp
                 if (paramEnemy2.gameplay_ctl == 14)
