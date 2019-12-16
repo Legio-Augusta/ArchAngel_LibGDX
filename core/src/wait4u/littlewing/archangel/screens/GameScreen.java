@@ -943,9 +943,9 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
                             this.archAngel.game_state = 310;
                             break;
                     }
-                    paramGraphics.setColor(0);
+                    paramGraphics.setColor(0, 0, 0, 1); // 0
                     this.archAngel.bool_s = true;
-                    paramGraphics.setColor(65280);
+                    paramGraphics.setColor(0, 1, 0, 1); // 65280 = 00 ff 00 15*256*16 + 15*256
                     String str = "";
                     if (this.t - this.archAngel.gameSetting.a > this.u) {
                         str = "[+";
