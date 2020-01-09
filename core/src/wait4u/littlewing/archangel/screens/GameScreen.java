@@ -22,6 +22,20 @@ import wait4u.littlewing.archangel.DrawShopAndBrief;
 import wait4u.littlewing.archangel.DrawGamePlay;
 import wait4u.littlewing.archangel.ReturnHelper;
 
+/** TODO
+ * Biggest issues: game gesture, user input;
+ * - migrate old physical keyboard meme to new touch screen
+ * - new screen size
+ * - long time issue with button area, hint/hight light for easy of use
+ * - iOS
+ * - Ads and/or payment
+ */
+
+/**
+ * Responsive design pain in the ass. fixxed position of button.
+ * The original version is for fixxed size screen.
+ * only way for handle million device is if/else ?
+ */
 public class GameScreen extends DefaultScreen implements InputProcessor {
     public int a;
     public boolean bool_b;
