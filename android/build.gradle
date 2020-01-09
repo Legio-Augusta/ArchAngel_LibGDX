@@ -52,11 +52,6 @@ task copyAndroidNatives() {
     }
 }
 
-task run(type: Exec) {
-    def adb = "$System.env.ANDROID_HOME/platform-tools/adb"
-    commandLine "$adb", 'shell', 'am', 'start', '-n', 'de.swagner.paxbritannica.android/AndroidLauncher'
-}
-
 // sets up the Android Idea project, using the old Ant based build.
 idea {
     module {
